@@ -4,39 +4,63 @@
 #include <string>
 #include <stdlib.h>
 #include <vector>
+#include "state.h"
+#include "position.h"
+#include "history.h"
 
 
 using namespace std;
 
 void run_loop(){
-	int prev_x, prev_y;
-	int max_x, max_y;
-	getmaxyx(stdscr, max_y, max_x);
+	Position position;
+	History history;
+	StateMachine state;
+	auto [max_y, max_x] = position.get_max_coords(); 
+
 	while(1){
-		getyx(stdscr, prev_y, prev_x);
+		position.update_curr_pos();
 		int key = getch();
 		switch(key){
 			case KEY_UP:
-				--prev_y;
-				move(prev_y, prev_x);
+				position.decy();
+				move(position.gety(), position.getx());
 				continue;
 			case KEY_DOWN:
-				++prev_y;            
-				move(prev_y, prev_x);		
+				position.incy();            
+				move(position.gety(), position.getx());		
+				continue;
+			case KEY_LEFT:
+				position.decx();
+				move(position.gety(), position.getx());
+				continue;
+			case KEY_RIGHT:
+				position.incx();
+				move(position.gety(), position.getx());
 				continue;
 			case 127:
-				mvdelch(prev_y, prev_x-1);
-				move(prev_y, prev_x-1);
-				--prev_x;
+				if (state.get_state() == COMMAND && position.getx()-1 == 0){
+					state.set_state(INSERT);
+					auto [prev_y, prev_x] = history.get_prev_yx();
+					mvdelch(position.gety(), position.getx()-1);
+					move(prev_y, prev_x);
+					continue;
+				};	
+				mvdelch(position.gety(), position.getx()-1);
+				move(position.gety(), position.getx()-1);
+				position.decx();
 				continue;
 			case 10:
-				++prev_y;
-				prev_x = 0;
-				move(prev_y, prev_x);
+				position.incy();
+				position.resetx();
+				move(position.gety(), position.getx());
 				continue;
 			case 58:
-				mvdelch(prev_y, prev_x);
-				mvaddch(max_y-1, 0, key);
+				if (state.get_state() != COMMAND){
+					history.set_prev_yx(position.gety(), position.getx());
+					mvaddch(max_y-1, 0, key);
+					state.set_state(COMMAND);
+				}
+				continue;
 		}
 		printw("%c", key);
 	}
