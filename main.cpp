@@ -1,6 +1,6 @@
 #include "init/init.h"
 
-int main(void){
+int main(){
 	init();
 	return 0;
 }

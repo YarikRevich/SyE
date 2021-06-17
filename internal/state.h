@@ -1,5 +1,6 @@
 #include "position.h"
 #include "history.h"
+#include "commands.h"
 
 namespace s_machine
 {
@@ -62,16 +63,20 @@ namespace s_handler
 		case 127:
 			return;
 		case 10:
+		{
 			p::incy();
 			p::resetx();
 			move(p::gety(), p::getx());
 			return;
+		}
 		case 58:
+		{
 			h::set_prev_yx(p::gety(), p::getx());
 			auto [max_y, max_x] = p::get_max_coords();
 			mvaddch(max_y - 1, 0, key);
 			s_machine::set_state(s_machine::COMMAND);
 			return;
+		}
 		}
 
 		printw("%c", key);
@@ -81,17 +86,37 @@ namespace s_handler
 	{
 		switch (key)
 		{
+		case 10:
+		{
+			c::apply_command(c::get_command());
+
+			auto [prev_y, prev_x] = h::get_prev_yx();
+			do
+			{
+				mvdelch(p::gety(), p::getx() - 1);
+				p::decx();
+			} while (p::getx() != 0);
+			move(prev_y, prev_x);
+			s_machine::set_state(s_machine::INSERT);
+			c::reset_command();
+			return;
+		}
 		case 127:
+		{
 			if (p::getx() - 1 == 0)
 			{
 				auto [prev_y, prev_x] = h::get_prev_yx();
 				mvdelch(p::gety(), p::getx() - 1);
 				move(prev_y, prev_x);
 				s_machine::set_state(s_machine::INSERT);
+				c::reset_command();
 				setCommonHandledByOthers(true);
 			};
+			c::pop_symbol_from_command();
 			return;
 		}
+		}
+		c::set_command(key);
 		printw("%c", key);
 	}
 };
