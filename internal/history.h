@@ -2,16 +2,18 @@
 
 using namespace std;
 
-class History{
-	private:
-		int prev_y, prev_x; 
-	public:
-		tuple<int, int> get_prev_yx(){
-			return {this->prev_y, this->prev_x};
-		}; 
+namespace h
+{
+	int prev_y, prev_x;
 
-		void set_prev_yx(int y, int x){
-			this->prev_y = y;
-			this->prev_x = x;
-		};
+	tuple<int, int> get_prev_yx()
+	{
+		return {prev_y, prev_x};
+	};
+
+	void set_prev_yx(int y, int x)
+	{
+		prev_y = y;
+		prev_x = x;
+	};
 };

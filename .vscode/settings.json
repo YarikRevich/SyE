@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "Makefile": "makefile",
+        "__node_handle": "cpp"
+    }
+}

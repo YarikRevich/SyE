@@ -2,47 +2,58 @@
 #include <tuple>
 
 using namespace std;
-class Position{
-	private:
-		int curr_y, curr_x;	
-		int max_y, max_x;
-	public:
-		Position(){	
-			getmaxyx(stdscr, this->max_y, this->max_x);
-		};
 
-		tuple<int, int> get_max_coords(){	
-			//Returns max coords of the window
+namespace p
+{
+	//It's a namespace for positioning
 
-			return {this->max_y, this->max_x};
-		};	
-	
-		int getx(){	
-			return this->curr_x;
-		};
+	int curr_y, curr_x;
+	int max_y, max_x;
 
-		void resetx(){
-			this->curr_x = 0;
-		}
+	tuple<int, int> get_max_coords()
+	{
+		return {max_y, max_x};
+	};
 
-		int gety(){	
-			return this->curr_y;
-		};	
-	
-		void update_curr_pos(){
-			getyx(stdscr, this->curr_y, this->curr_x);
-		};
+	int getx()
+	{
+		return curr_x;
+	};
 
-		void decx(){
-			--this->curr_x;
-		};
-		void decy(){
-			--this->curr_y;
-		};
-		void incx(){
-			++this->curr_x;
-		};
-		void incy(){
-			++this->curr_y;
-		};
+	void resetx()
+	{
+		curr_x = 0;
+	}
+
+	int gety()
+	{
+		return curr_y;
+	};
+
+	void set_max_coords()
+	{
+		getmaxyx(stdscr, max_y, max_x);
+	};
+
+	void update_curr_pos()
+	{
+		getyx(stdscr, curr_y, curr_x);
+	};
+
+	void decx()
+	{
+		--curr_x;
+	};
+	void decy()
+	{
+		--curr_y;
+	};
+	void incx()
+	{
+		++curr_x;
+	};
+	void incy()
+	{
+		++curr_y;
+	};
 };
