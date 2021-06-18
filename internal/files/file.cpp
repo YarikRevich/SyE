@@ -3,20 +3,16 @@
 #include <vector>
 #include <ncurses.h>
 #include <stdio.h>
+#include "file.hpp"
 
-typedef struct
+class File
 {
-    int symbol;
-    int y;
-    int x;
-} buf_cell;
-
-namespace f
-{
+private:
     std::vector<buf_cell> buf;
-    bool opened;
+    bool OPEN;
     FILE *file;
 
+public:
     void prepare_file(int argc, char **argv)
     {
         if (argc >= 2)
@@ -24,7 +20,7 @@ namespace f
             file = fopen(argv[1], "w");
             if (file != NULL)
             {
-                opened = true;
+                OPEN = true;
             };
         }
     };
@@ -47,7 +43,7 @@ namespace f
 
     void write_to_file()
     {
-        if (opened)
+        if (OPEN)
         {
             for (const auto i : buf)
             {
@@ -58,9 +54,9 @@ namespace f
 
     void close_file()
     {
-        if (opened)
+        if (OPEN)
         {
             fclose(file);
         }
-    }
-}
+    };
+};

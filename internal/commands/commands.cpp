@@ -3,38 +3,39 @@
 #include <vector>
 #include "colors.h"
 
-using namespace std;
-namespace c
+std::vector<char> commands;
+class CommandTools
 {
-    vector<char> _command;
 
     void set_command(char s)
     {
-        _command.push_back(s);
+        commands.push_back(s);
     };
 
-    string get_command()
+    std::string get_command()
     {
-        return string(_command.data());
+        return std::string(commands.data());
     };
 
-    void reset_command()
+    void delete_command()
     {
-        _command.clear();
+        commands.clear();
     };
 
     void pop_symbol_from_command()
     {
-        _command.pop_back();
+        commands.pop_back();
     };
 
-    void apply_command(string c)
+    void apply_command(std::string c)
     {
         if (c == "set color blue")
         {
             set_color(BLUE);
             refresh();
-        } else if (c == "w"){
+        }
+        else if (c == "w")
+        {
             f::write_to_file();
         };
     };

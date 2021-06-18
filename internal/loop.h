@@ -4,7 +4,7 @@
 #include <string>
 #include <stdlib.h>
 #include <vector>
-#include "state.h"
+#include "states/states.hpp"
 
 using namespace std;
 void run_loop()
@@ -12,11 +12,10 @@ void run_loop()
 	p::set_max_coords();
 	while (1)
 	{
-		s_handler::prepare_handlers();
-
-		int key = getch();
+		int ch = getch();
 		p::update_curr_pos();
-		switch (key)
+
+		switch (ch)
 		{
 		case KEY_UP:
 
@@ -37,16 +36,17 @@ void run_loop()
 			continue;
 		}
 
+		hnd::HandlerPool handler_pool;
 		switch (s_machine::get_state())
 		{
 		case s_machine::INSERT:
-			s_handler::handle_insert_state(key);
+			handler_pool.handle(new hnd::InsertHandler<>, ch)
 			break;
 		case s_machine::COMMAND:
-			s_handler::handle_command_state(key);
+			handler_pool.handle(new hnd::CommandHandler<>, ch)
 		}
 
-		if (!s_handler::getCommonHandledByOthers() && s_handler::handle_common(key))
+		if (!s_handler::getCommonHandledByOthers() && s_handler::handle_common(ch))
 		{
 			continue;
 		}
