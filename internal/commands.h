@@ -34,6 +34,8 @@ namespace c
         {
             set_color(BLUE);
             refresh();
+        } else if (c == "w"){
+            f::write_to_file();
         };
     };
 };

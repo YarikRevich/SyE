@@ -7,11 +7,11 @@ typedef struct
 {
 	int y;
 	int x;
-} cell;
+} history_cell;
 
 namespace h
 {
-	vector<cell> _pressed;
+	vector<history_cell> _pressed;
 	int prev_y, prev_x;
 
 	tuple<int, int> get_prev_yx()
@@ -32,7 +32,7 @@ namespace h
 
 	void delete_from_pressed(int y, int x)
 	{
-		vector<cell> n;
+		vector<history_cell> n;
 		for (int i = 0; i < _pressed.size(); i++)
 		{
 			if (_pressed[i].x != x && _pressed[i].y != y)
@@ -45,7 +45,7 @@ namespace h
 
 	int get_new_pointer_pos_x(int y)
 	{
-		vector<cell> ch;
+		vector<history_cell> ch;
 		for (int i = 0; i < _pressed.size(); i++)
 		{
 			if (_pressed[i].y == y)

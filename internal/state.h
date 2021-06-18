@@ -49,6 +49,7 @@ namespace s_handler
 		{
 		case 127:
 			h::delete_from_pressed(p::gety(), p::getx() - 1);
+			f::delete_from_buffer(p::gety(), p::getx() - 1);
 			mvdelch(p::gety(), p::getx() - 1);
 			move(p::gety(), p::getx() - 1);
 			p::decx();
@@ -81,6 +82,7 @@ namespace s_handler
 		}
 
 		h::set_pressed(p::gety(), p::getx());
+		f::save_to_buffer(key, p::gety(), p::getx());
 		printw("%c", key);
 	}
 
