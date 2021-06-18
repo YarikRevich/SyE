@@ -33,6 +33,7 @@ namespace c
         if (c == "set color blue")
         {
             set_color(BLUE);
+            refresh();
         };
     };
 };
