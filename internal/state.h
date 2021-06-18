@@ -48,6 +48,7 @@ namespace s_handler
 		switch (key)
 		{
 		case 127:
+			h::delete_from_pressed(p::gety(), p::getx() - 1);
 			mvdelch(p::gety(), p::getx() - 1);
 			move(p::gety(), p::getx() - 1);
 			p::decx();
@@ -79,6 +80,7 @@ namespace s_handler
 		}
 		}
 
+		h::set_pressed(p::gety(), p::getx());
 		printw("%c", key);
 	}
 

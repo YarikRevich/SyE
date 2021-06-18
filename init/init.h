@@ -7,7 +7,6 @@ void init()
 	keypad(stdscr, TRUE);
 	noecho();
 	init_colors();
-	printw("Hello, you are in Yaroslav's editor\n");
 	run_loop();
 	endwin();
 }

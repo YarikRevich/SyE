@@ -19,12 +19,13 @@ void run_loop()
 		switch (key)
 		{
 		case KEY_UP:
+
 			p::decy();
-			move(p::gety(), p::getx());
+			move(p::gety(), h::get_new_pointer_pos_x(p::gety()));
 			continue;
 		case KEY_DOWN:
 			p::incy();
-			move(p::gety(), p::getx());
+			move(p::gety(), h::get_new_pointer_pos_x(p::gety()));
 			continue;
 		case KEY_LEFT:
 			p::decx();
