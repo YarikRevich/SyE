@@ -1,4 +1,4 @@
 class W_Command
 {
-    void execute();
+    void execute(){};
 };

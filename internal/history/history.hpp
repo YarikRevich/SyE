@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <tuple>
 
@@ -31,5 +33,5 @@ public:
 
     //Due to the history it choses the best x to move the pointer
     //during the moving up and down
-    int get_best_x();
+    int get_best_x(int y);
 };

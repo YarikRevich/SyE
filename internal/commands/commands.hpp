@@ -1,11 +1,20 @@
+#pragma once
+
 #include <vector>
 #include <string>
 
-class CommandInterface{
+class CommandInterface
+{
     virtual void execute();
 };
 
-class CommandTools{
+class CommandTools
+{
+private:
+    std::vector<char> commands;
+
+public:
+
     void set_command(char s);
 
     std::string get_command();

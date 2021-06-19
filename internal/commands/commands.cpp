@@ -1,42 +1,39 @@
 #include <ncurses.h>
 #include <string>
 #include <vector>
-#include "colors.h"
+#include "./../colors/colors.hpp"
+#include "./../context/context.hpp"
+#include "commands.hpp"
 
-std::vector<char> commands;
-class CommandTools
+void CommandTools::set_command(char s)
 {
+    commands.push_back(s);
+};
 
-    void set_command(char s)
-    {
-        commands.push_back(s);
-    };
+std::string CommandTools::get_command()
+{
+    return std::string(commands.data());
+};
 
-    std::string get_command()
-    {
-        return std::string(commands.data());
-    };
+void CommandTools::delete_command()
+{
+    commands.clear();
+};
 
-    void delete_command()
-    {
-        commands.clear();
-    };
+void CommandTools::pop_symbol_from_command()
+{
+    commands.pop_back();
+};
 
-    void pop_symbol_from_command()
+void CommandTools::apply_command(std::string c)
+{
+    if (c == "set color blue")
     {
-        commands.pop_back();
-    };
-
-    void apply_command(std::string c)
+        set_color(BLUE);
+        refresh();
+    }
+    else if (c == "w")
     {
-        if (c == "set color blue")
-        {
-            set_color(BLUE);
-            refresh();
-        }
-        else if (c == "w")
-        {
-            f::write_to_file();
-        };
+        Context::file.write_to_file();
     };
 };

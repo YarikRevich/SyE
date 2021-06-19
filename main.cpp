@@ -1,5 +1,6 @@
 #include <iostream>
-#include "internal/file.h"
+#include "internal/context/context.hpp"
+#include "internal/colors/colors.hpp"
 #include <ncurses.h>
 #include "internal/loop.h"
 
@@ -9,9 +10,9 @@ int main(int argc, char **argv)
 	keypad(stdscr, TRUE);
 	noecho();
 	init_colors();
-	f::prepare_file(argc, argv);
+	Context::file.prepare_file(argc, argv);
 	run_loop();
-	f::close_file();
+	Context::file.close_file();
 	endwin();
 
 	return 0;

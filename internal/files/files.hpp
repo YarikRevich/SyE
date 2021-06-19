@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdio.h>
 #include <vector>
 
@@ -10,7 +12,6 @@ typedef struct
 
 class File
 {
-
 private:
     std::vector<buf_cell> buf;
     bool OPEN;

@@ -1,4 +1,5 @@
 #include <map>
+#include "./../commands/commands.hpp"
 
 #define INSERT 0
 #define COMMAND 1
@@ -9,7 +10,7 @@
 
 namespace sm
 {
-    int _CURR_STATE = INSERT;
+    extern int _CURR_STATE;
 
     void set_state(int state);
 
@@ -20,7 +21,7 @@ namespace sm
 
 namespace hnd
 {
-    std::map<int, bool> handler_status;
+    extern std::map<int, bool> handler_status;
 
     void set_handled_status(int id, bool status);
 
@@ -29,33 +30,31 @@ namespace hnd
     //Contains all the handlers
     class Handler
     {
-        //Interface for handlers
-
     public:
-        virtual void handle(int ch);
+        virtual void handle(int ch) = 0;
     };
 
     class CommonHandler : public Handler
     {
     public:
-        void handle(int ch);
+        virtual void handle(int ch);
     };
 
     class InsertHandler : public Handler
     {
     public:
-        void handle(int ch);
+        virtual void handle(int ch);
     };
 
     class CommandHandler : public Handler
     {
     public:
-        void handle(int ch);
+        virtual void handle(int ch);
     };
 
     class HandlerPool
     {
     public:
-        void handle(Handler h, int ch);
+        void handle(Handler *h, int ch);
     };
 };
