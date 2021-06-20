@@ -14,7 +14,6 @@ private:
     std::vector<char> commands;
 
 public:
-
     void set_command(char s);
 
     std::string get_command();

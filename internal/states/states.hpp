@@ -27,6 +27,8 @@ namespace hnd
 
     bool get_handled_status(int id);
 
+    void reset_handled_status();
+
     //Contains all the handlers
     class Handler
     {

@@ -34,11 +34,23 @@ bool hnd::get_handled_status(int id)
 	return handler_status[id];
 };
 
+void hnd::reset_handled_status()
+{
+	for (auto const &[key, _] : handler_status)
+	{
+		handler_status[key] = false;
+	};
+}
+
 void hnd::CommonHandler::handle(int ch)
 {
 	switch (ch)
 	{
 	case 127:
+		if (hnd::get_handled_status(BACKSPACE))
+		{
+			return;
+		}
 		Context::pressed_history.delete_pressed(Position::gety(), Position::getx() - 1);
 		Context::file.delete_from_buffer(Position::gety(), Position::getx() - 1);
 		mvdelch(Position::gety(), Position::getx() - 1);
@@ -81,6 +93,7 @@ void hnd::CommandHandler::handle(int ch)
 	{
 	case 10:
 	{
+		Context::dev_log.write_to_file(Context::command_tools.get_command().c_str());
 		Context::command_tools.apply_command(Context::command_tools.get_command());
 
 		auto [prev_y, prev_x] = Context::prev_history.get_prev_yx();
@@ -96,14 +109,22 @@ void hnd::CommandHandler::handle(int ch)
 	}
 	case 127:
 	{
+
 		if (Position::getx() - 1 == 0)
 		{
+			Context::dev_log.write_to_file("BEFORE BACKSPACE\n");
 			auto [prev_y, prev_x] = Context::prev_history.get_prev_yx();
+			Context::dev_log.write_to_file("BEFORE DELETING SYMBOL\n");
 			mvdelch(Position::gety(), Position::getx() - 1);
+			Context::dev_log.write_to_file("BEFORE MOVING\n");
 			move(prev_y, prev_x);
+			Context::dev_log.write_to_file("BEFORE SETTINGS INSERT STATUS\n");
 			sm::set_state(INSERT);
+			Context::dev_log.write_to_file("BEFORE DELETING COMMAND\n");
 			Context::command_tools.delete_command();
+			Context::dev_log.write_to_file("BEFORE SETTING STATUS\n");
 			set_handled_status(BACKSPACE, true);
+			Context::dev_log.write_to_file("AFTER BACKSPACE\n");
 		};
 		Context::command_tools.pop_symbol_from_command();
 		return;

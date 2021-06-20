@@ -13,11 +13,11 @@ void PrevHistory::set_prev_yx(int y, int x)
 	prev_x = x;
 };
 
-
 void PressedHistory::set_pressed(int y, int x)
 {
 	pressed.push_back({y, x});
 };
+
 void PressedHistory::delete_pressed(int y, int x)
 {
 	std::vector<p_cell> n;

@@ -11,6 +11,7 @@
 using namespace std;
 void run_loop()
 {
+
 	Position::set_max_coords();
 	while (1)
 	{
@@ -20,7 +21,6 @@ void run_loop()
 		switch (ch)
 		{
 		case KEY_UP:
-
 			Position::decy();
 			move(Position::gety(), Context::pressed_history.get_best_x(Position::gety()));
 			continue;
@@ -49,5 +49,7 @@ void run_loop()
 		}
 
 		handler_pool.handle(new hnd::CommonHandler, ch);
+
+		hnd::reset_handled_status();
 	}
 }

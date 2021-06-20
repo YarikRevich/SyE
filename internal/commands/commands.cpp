@@ -12,7 +12,12 @@ void CommandTools::set_command(char s)
 
 std::string CommandTools::get_command()
 {
-    return std::string(commands.data());
+    char res[commands.size()];
+    for (int i = 0; i < commands.size(); i++)
+    {
+        res[i] = commands[i];
+    }
+    return res;
 };
 
 void CommandTools::delete_command()
@@ -22,14 +27,23 @@ void CommandTools::delete_command()
 
 void CommandTools::pop_symbol_from_command()
 {
-    commands.pop_back();
+    if (commands.size() != 0)
+    {
+        commands.pop_back();
+    }
 };
 
 void CommandTools::apply_command(std::string c)
 {
+
     if (c == "set color blue")
     {
         set_color(BLUE);
+        refresh();
+    }
+    else if (c == "set color default")
+    {
+        set_color(DEFAULT);
         refresh();
     }
     else if (c == "w")
