@@ -15,3 +15,9 @@
 - Implement saving of new added text
 Bonus+ (Implement search architecture over the app)
 ```
+
+21.06.21
+
+```
+- Implement write to file handling
+```

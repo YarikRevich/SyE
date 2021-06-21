@@ -11,10 +11,11 @@
 using namespace std;
 void run_loop()
 {
-
-	Position::set_max_coords();
+	waddstr(stdscr, Context::file.read_from_file().c_str());
 	while (1)
 	{
+		Position::set_max_coords();
+
 		int ch = getch();
 		Position::update_curr_pos();
 

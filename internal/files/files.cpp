@@ -1,21 +1,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <list>
 #include <ncurses.h>
 #include <stdio.h>
 #include "files.hpp"
 
-
-void File::prepare_file(int argc, char **argv)
+void File::prepare_file(char n[])
 {
-    if (argc >= 2)
-    {
-        file = fopen(argv[1], "w");
-        if (file != NULL)
-        {
-            OPEN = true;
-        };
-    }
+    file = fopen(n, "rw");
 };
 
 void File::delete_from_buffer(int y, int x)
@@ -34,12 +27,27 @@ void File::save_to_buffer(int s, int y, int x)
     buf.push_back({s, y, x});
 }
 
+std::string File::read_from_file()
+{
+    std::string res;
+    if (file != NULL)
+    {
+        fseek(file, 0, SEEK_END);
+        size_t size = ftell(file);
+        res.resize(size);
+        rewind(file);
+        fread(&res[0], 1, size, file);
+    }
+    return res;
+}
+
 void File::write_to_file()
 {
-    if (OPEN)
+    if (file != NULL)
     {
         for (const auto i : buf)
         {
+            printw("%c\n", i.symbol);
             fprintf(file, "%c", i.symbol);
         };
     }
@@ -47,7 +55,7 @@ void File::write_to_file()
 
 void File::close_file()
 {
-    if (OPEN)
+    if (file != NULL)
     {
         fclose(file);
     }

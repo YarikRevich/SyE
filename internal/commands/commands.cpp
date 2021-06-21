@@ -35,7 +35,6 @@ void CommandTools::pop_symbol_from_command()
 
 void CommandTools::apply_command(std::string c)
 {
-
     if (c == "set color blue")
     {
         set_color(BLUE);
