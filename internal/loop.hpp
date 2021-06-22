@@ -11,7 +11,27 @@
 using namespace std;
 void run_loop()
 {
-	waddstr(stdscr, Context::file.read_from_file().c_str());
+	std::string source_text = Context::file.read_from_file();
+	for (int i = 0; i < source_text.size()-1; i++)
+	{
+		Position::incx();
+		switch (source_text[i])
+		{
+		case 10:
+			Position::incy();
+			Position::resetx();
+		};
+
+		Context::pressed_history.set_pressed(Position::gety(), Position::getx());
+		Context::file.save_to_buffer(source_text[i], Position::gety(), Position::getx());
+		printw("%c", source_text[i]);
+	}
+	const auto pressed = Context::pressed_history.get_pressed();
+	for (int i = 0; i < pressed.size(); i++)
+	{
+		Context::dev_log.write_to_file(std::to_string(pressed[i].x).append(" - ").append(std::to_string(pressed[i].y)).append("\n").c_str());
+	}
+
 	while (1)
 	{
 		Position::set_max_coords();

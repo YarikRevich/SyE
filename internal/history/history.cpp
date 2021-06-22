@@ -18,6 +18,11 @@ void PressedHistory::set_pressed(int y, int x)
 	pressed.push_back({y, x});
 };
 
+std::vector<p_cell> PressedHistory::get_pressed()
+{
+	return pressed;
+};
+
 void PressedHistory::delete_pressed(int y, int x)
 {
 	std::vector<p_cell> n;

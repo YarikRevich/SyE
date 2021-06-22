@@ -29,6 +29,7 @@ private:
 
 public:
     void set_pressed(int y, int x);
+    std::vector<p_cell> get_pressed();
     void delete_pressed(int y, int x);
 
     //Due to the history it choses the best x to move the pointer
