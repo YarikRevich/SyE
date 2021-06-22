@@ -1,7 +1,8 @@
 #include <string>
+#include <cstring>
 #include "term_flags.hpp"
 #include <iostream>
-#include <filesystem>
+#include <experimental/filesystem>
 #include "./../context/context.hpp"
 
 TermFlags::TermFlags(int argc, char **argv)
@@ -17,10 +18,10 @@ bool TermFlags::check_single_flag(std::string flag)
     {
         for (int q = 0; i <= single_flags.size(); i++)
         {
-            if (std::string::compare(this->argv[i], single_flags[q].c_str()) == 0)
+            if (std::strcmp(this->argv[i], single_flags[q].c_str()) == 0)
             {
                 return true;
-            };
+           };
         }
     }
     return false;
@@ -30,7 +31,7 @@ bool TermFlags::last_is_flag()
 {
     for (int i = 0; i < single_flags.size(); i++)
     {
-        if (std::string::compare(argv[argc - 1], single_flags[i].c_str()) == 0)
+        if (std::strcmp(argv[argc - 1], single_flags[i].c_str()) == 0)
         {
             return true;
         }
@@ -50,7 +51,7 @@ void TermFlags::check_executive_flag()
         exit(0);
     }
 
-    if (!std::filesystem::exists(argv[argc - 1]))
+    if (!std::experimental::filesystem::exists(argv[argc - 1]))
     {
         fclose(fopen(argv[argc - 1], "w"));
     };
