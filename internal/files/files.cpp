@@ -2,13 +2,14 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <charconv>
 #include <ncurses.h>
 #include <stdio.h>
 #include "files.hpp"
 
 void File::prepare_file(char n[])
 {
-    file = fopen(n, "rw");
+    file = fopen(n, "a+");
 };
 
 void File::delete_from_buffer(int y, int x)
@@ -47,7 +48,6 @@ void File::write_to_file()
     {
         for (const auto i : buf)
         {
-            printw("%c\n", i.symbol);
             fprintf(file, "%c", i.symbol);
         };
     }

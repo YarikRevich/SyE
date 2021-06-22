@@ -29,10 +29,7 @@ void TermFlags::check_executive_flag()
 
     if (argc == 1 || !std::filesystem::exists(argv[argc - 1]))
     {
-        std::cout << "\033[31m"
-                  << "You gotta write the executive file"
-                  << "\033[0m" << std::endl;
-        exit(0);
+        fclose(fopen(argv[argc - 1], "w"));
     };
 
     Context::file.prepare_file(argv[argc - 1]);

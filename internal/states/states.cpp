@@ -70,6 +70,7 @@ void hnd::InsertHandler::handle(int ch)
 		Position::incy();
 		Position::resetx();
 		move(Position::gety(), Position::getx());
+		Context::file.save_to_buffer(ch, Position::gety(), Position::getx());
 		return;
 	}
 	case 58:
@@ -112,19 +113,12 @@ void hnd::CommandHandler::handle(int ch)
 
 		if (Position::getx() - 1 == 0)
 		{
-			Context::dev_log.write_to_file("BEFORE BACKSPACE\n");
 			auto [prev_y, prev_x] = Context::prev_history.get_prev_yx();
-			Context::dev_log.write_to_file("BEFORE DELETING SYMBOL\n");
 			mvdelch(Position::gety(), Position::getx() - 1);
-			Context::dev_log.write_to_file("BEFORE MOVING\n");
 			move(prev_y, prev_x);
-			Context::dev_log.write_to_file("BEFORE SETTINGS INSERT STATUS\n");
 			sm::set_state(INSERT);
-			Context::dev_log.write_to_file("BEFORE DELETING COMMAND\n");
 			Context::command_tools.delete_command();
-			Context::dev_log.write_to_file("BEFORE SETTING STATUS\n");
 			set_handled_status(BACKSPACE, true);
-			Context::dev_log.write_to_file("AFTER BACKSPACE\n");
 		};
 		Context::command_tools.pop_symbol_from_command();
 		return;

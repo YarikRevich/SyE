@@ -2,7 +2,7 @@
 #include <csignal>
 #include "internal/context/context.hpp"
 #include "internal/colors/colors.hpp"
-#include "internal/loop.h"
+#include "internal/loop.hpp"
 #include "init/init.hpp"
 #include "internal/term_flags/term_flags.hpp"
 
