@@ -102,7 +102,6 @@ void hnd::CommandHandler::handle(int ch)
 	{
 	case 10:
 	{
-		Context::dev_log.write_to_file(Context::command_tools.get_command().c_str());
 		Context::command_tools.apply_command(Context::command_tools.get_command());
 
 		auto [prev_y, prev_x] = Context::prev_history.get_prev_yx();

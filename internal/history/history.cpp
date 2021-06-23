@@ -49,7 +49,5 @@ int PressedHistory::get_best_x(int y)
 			ch.push_back(pressed[i]);
 		}
 	}
-	Context::dev_log.write_to_file(std::to_string(ch.size()).append("\n").c_str());
-
 	return ch.size();
 };

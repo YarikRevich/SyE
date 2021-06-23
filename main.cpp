@@ -11,6 +11,7 @@ void handle_sigint(int signum)
 	//Handles sigint signal to close all
 	//files and disable ncurses mode
 
+	Context::file.save_default();
 	Context::file.close_file();
 	Context::dev_log.close_file();
 	endwin();

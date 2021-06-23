@@ -19,11 +19,19 @@ void DevLog::prepare_file()
     setbuf(file, NULL);
 }
 
-void DevLog::write_to_file(const char s[])
+void DevLog::write_to_file_str(std::string s)
 {
     if (file != NULL)
     {
-        fprintf(file, "%s", s);
+        fprintf(file, "%s", s.c_str());
+    }
+};
+
+void DevLog::write_to_file_chr(char s)
+{
+    if (file != NULL)
+    {
+        fprintf(file, "%c\n", s);
     }
 };
 

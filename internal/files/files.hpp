@@ -15,7 +15,9 @@ typedef struct
 class File
 {
 private:
+    bool changed;
     std::vector<buf_cell> buf;
+    std::string file_name;
     FILE *file;
 
 public:
@@ -25,9 +27,13 @@ public:
 
     void save_to_buffer(int s, int y, int x);
 
+    void save_to_buffer_default(int s, int y, int x);
+
     std::string read_from_file();
 
     void write_to_file();
 
     void close_file();
+
+    void save_default();
 };
