@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <string>
+#include <cstring>
 #include <vector>
 #include "./../colors/colors.hpp"
 #include "./../context/context.hpp"
@@ -7,29 +8,43 @@
 
 void CommandTools::set_command(char s)
 {
-    commands.push_back(s);
+    Context::dev_log.write_to_file_chr(s);
+    command.push_back(s);
 };
 
 std::string CommandTools::get_command()
 {
-    char res[commands.size()];
-    for (int i = 0; i < commands.size(); i++)
-    {
-        res[i] = commands[i];
-    }
-    return res;
+    // if (!command.empty())
+    // {
+    //     char res[std::strlen(command.c_str())];
+    //     for (int i = 0; i < command.size(); i++)
+    //     {
+    //         Context::dev_log.write_to_file_chr(command[i]);
+    //     }
+    //     Context::dev_log.write_to_file_str(std::to_string(std::strlen(res)).c_str());
+    //     //Context::dev_log.write_to_file_str(std::to_string(res.size()).c_str());
+    //     return res;
+    // }
+    // return "";
+    return command;
 };
 
 void CommandTools::delete_command()
 {
-    commands.clear();
+    if (!command.empty())
+    {
+        command.clear();
+    }
 };
 
 void CommandTools::pop_symbol_from_command()
 {
-    if (commands.size() != 0)
+    if (!command.empty())
     {
-        commands.pop_back();
+        if (command.size() != 0)
+        {
+            command.pop_back();
+        }
     }
 };
 

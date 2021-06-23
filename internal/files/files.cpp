@@ -60,11 +60,13 @@ std::string File::read_from_file()
 
 void File::write_to_file()
 {
+    //Context::dev_log.write_to_file_str(std::to_string(file != NULL));
     if (file != NULL)
     {
         for (int i = 0; i <= buf.size(); i++)
         {
-            Context::dev_log.write_to_file_chr(buf[i].symbol);
+            Context::dev_log.write_to_file_chr(buf[i].symbol)
+            \;
             fprintf(file, "%c", buf[i].symbol);
         };
     }

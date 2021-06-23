@@ -11,7 +11,7 @@ class CommandInterface
 class CommandTools
 {
 private:
-    std::vector<char> commands;
+    std::string command;
 
 public:
     void set_command(char s);

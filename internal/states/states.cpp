@@ -3,6 +3,12 @@
 #include <map>
 #include "states.hpp"
 
+#ifdef __APPLE__
+	#define OS_BACKSPACE 127
+#elif defined(linux)
+	#define OS_BACKSPACE 263
+#endif
+
 int sm::_CURR_STATE = INSERT;
 
 void sm::set_state(int state)
@@ -46,7 +52,7 @@ void hnd::CommonHandler::handle(int ch)
 {
 	switch (ch)
 	{
-	case 127:
+	case OS_BACKSPACE:
 		if (hnd::get_handled_status(BACKSPACE))
 		{
 			return;
@@ -71,7 +77,7 @@ void hnd::InsertHandler::handle(int ch)
 {
 	switch (ch)
 	{
-	case 127:
+	case OS_BACKSPACE:
 		return;
 	case 10:
 	{
@@ -115,7 +121,7 @@ void hnd::CommandHandler::handle(int ch)
 		Context::command_tools.delete_command();
 		return;
 	}
-	case 127:
+	case OS_BACKSPACE:
 	{
 
 		if (Position::getx() - 1 == 0)
