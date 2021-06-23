@@ -2,8 +2,15 @@
 #include <cstring>
 #include "term_flags.hpp"
 #include <iostream>
-#include <experimental/filesystem>
 #include "./../context/context.hpp"
+
+#ifdef __APPLE__
+#include <filesystem>
+namespace fs = std::filesystem;
+#elif defined(linux)
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 TermFlags::TermFlags(int argc, char **argv)
 {
@@ -21,7 +28,7 @@ bool TermFlags::check_single_flag(std::string flag)
             if (std::strcmp(this->argv[i], single_flags[q].c_str()) == 0)
             {
                 return true;
-           };
+            };
         }
     }
     return false;
@@ -51,7 +58,7 @@ void TermFlags::check_executive_flag()
         exit(0);
     }
 
-    if (!std::experimental::filesystem::exists(argv[argc - 1]))
+    if (!fs::exists(argv[argc - 1]))
     {
         fclose(fopen(argv[argc - 1], "w"));
     };

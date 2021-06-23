@@ -1,6 +1,7 @@
 #include <tuple>
 #include <vector>
 #include "history.hpp"
+#include "./../context/context.hpp"
 
 std::tuple<int, int> PrevHistory::get_prev_yx()
 {
@@ -28,7 +29,7 @@ void PressedHistory::delete_pressed(int y, int x)
 	std::vector<p_cell> n;
 	for (int i = 0; i < pressed.size(); i++)
 	{
-		if (pressed[i].x != x && pressed[i].y != y)
+		if (!((pressed[i].x == x) && (pressed[i].y == y)))
 		{
 			n.push_back(pressed[i]);
 		};
@@ -48,6 +49,7 @@ int PressedHistory::get_best_x(int y)
 			ch.push_back(pressed[i]);
 		}
 	}
+	Context::dev_log.write_to_file(std::to_string(ch.size()).append("\n").c_str());
 
 	return ch.size();
 };

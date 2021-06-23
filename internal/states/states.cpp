@@ -55,16 +55,16 @@ void hnd::CommonHandler::handle(int ch)
 		Context::file.delete_from_buffer(Position::gety(), Position::getx() - 1);
 		mvdelch(Position::gety(), Position::getx() - 1);
 		move(Position::gety(), Position::getx() - 1);
-		// if ((Position::getx() - 1) == 0)
-		// {
-		// 	Position::decy();
-		// 	// move(Position::gety(), Context::pressed_history.get_best_x(Position::gety()));
-		// }
-		// else
-		// {
-		Position::decx();
-		//}
-	}
+		if (Position::getx() == 0)
+		{
+			Position::decy();
+			move(Position::gety(), Context::pressed_history.get_best_x(Position::gety()));
+		}
+		else
+		{
+			Position::decx();
+		};
+	};
 };
 
 void hnd::InsertHandler::handle(int ch)
