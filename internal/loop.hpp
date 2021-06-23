@@ -20,14 +20,14 @@ void run_loop()
 			case 10:
 				Position::incy();
 				Position::resetx();
-				Context::file.save_to_buffer_default(source_text[i], Position::gety(), Position::getx());
+				Context::file.save_to_buffer(source_text[i], Position::gety(), Position::getx());
 				printw("%c", source_text[i]);
 				continue;
 			};
 
 			Context::pressed_history.set_pressed(Position::gety(), Position::getx());
+			Context::file.save_to_buffer(source_text[i], Position::gety(), Position::getx());
 			Position::incx();
-			Context::file.save_to_buffer_default(source_text[i], Position::gety(), Position::getx());
 			printw("%c", source_text[i]);
 		};
 	};
@@ -85,6 +85,8 @@ void run_loop()
 		}
 
 		handler_pool.handle(new hnd::CommonHandler, ch);
+
+		//Context::dev_log.write_to_file_str(std::to_string(Context::file.));
 
 		hnd::reset_handled_status();
 	}

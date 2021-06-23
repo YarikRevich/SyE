@@ -28,14 +28,8 @@ void File::delete_from_buffer(int y, int x)
 
 void File::save_to_buffer(int s, int y, int x)
 {
-    changed = true;
     buf.push_back({s, y, x});
 }
-
-void File::save_to_buffer_default(int s, int y, int x)
-{
-    buf.push_back({s, y, x});
-};
 
 std::string File::read_from_file()
 {
@@ -49,6 +43,11 @@ std::string File::read_from_file()
         fread(&res[0], 1, size, file);
     };
 
+    for (int i = 0; i < res.size() - 1; i++)
+    {
+        default_to_save.push_back(res[i]);
+    }
+
     fclose(file);
 
     std::ofstream q(file_name, std::ofstream::out | std::ofstream::trunc);
@@ -60,13 +59,10 @@ std::string File::read_from_file()
 
 void File::write_to_file()
 {
-    //Context::dev_log.write_to_file_str(std::to_string(file != NULL));
     if (file != NULL)
     {
         for (int i = 0; i <= buf.size(); i++)
         {
-            Context::dev_log.write_to_file_chr(buf[i].symbol)
-            \;
             fprintf(file, "%c", buf[i].symbol);
         };
     }
@@ -80,11 +76,31 @@ void File::close_file()
     }
 };
 
+bool File::is_buf_equal_to_default()
+{
+    if (!buf.empty() && !default_to_save.empty() && buf.size() == default_to_save.size())
+    {
+        for (int i = 0; i < default_to_save.size() - 1; i++)
+        {
+            if (buf[i].symbol != default_to_save[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+};
+
 void File::save_default()
 {
-    if (!changed && !buf.empty())
+    Context::dev_log.write_to_file_str(std::to_string(buf.size()).append(" - ").append(std::to_string(default_to_save.size())).append("\n"));
+
+    if (is_buf_equal_to_default())
+    {
         for (int i = 0; i <= buf.size(); i++)
         {
             fprintf(file, "%c", buf[i].symbol);
         }
+    }
 };

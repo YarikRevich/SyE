@@ -15,7 +15,7 @@ typedef struct
 class File
 {
 private:
-    bool changed;
+    std::vector<char> default_to_save;
     std::vector<buf_cell> buf;
     std::string file_name;
     FILE *file;
@@ -27,9 +27,9 @@ public:
 
     void save_to_buffer(int s, int y, int x);
 
-    void save_to_buffer_default(int s, int y, int x);
-
     std::string read_from_file();
+
+    bool is_buf_equal_to_default();
 
     void write_to_file();
 
