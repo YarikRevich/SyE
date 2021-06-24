@@ -21,3 +21,9 @@ Bonus+ (Implement search architecture over the app)
 ```
 - Implement write to file handling
 ```
+
+23.06.21
+
+```
+- Implement scroll 
+```

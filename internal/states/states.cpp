@@ -1,12 +1,13 @@
 #include "./../position/position.hpp"
 #include "./../context/context.hpp"
+#include "./../colors/colors.hpp"
 #include <map>
 #include "states.hpp"
 
 #ifdef __APPLE__
-	#define OS_BACKSPACE 127
+#define OS_BACKSPACE 127
 #elif defined(linux)
-	#define OS_BACKSPACE 263
+#define OS_BACKSPACE 263
 #endif
 
 int sm::_CURR_STATE = INSERT;
@@ -60,11 +61,11 @@ void hnd::CommonHandler::handle(int ch)
 		Context::pressed_history.delete_pressed(Position::gety(), Position::getx() - 1);
 		Context::file.delete_from_buffer(Position::gety(), Position::getx() - 1);
 		mvdelch(Position::gety(), Position::getx() - 1);
-		move(Position::gety(), Position::getx() - 1);
+		wmove(stdscr, Position::gety(), Position::getx() - 1);
 		if (Position::getx() == 0)
 		{
 			Position::decy();
-			move(Position::gety(), Context::pressed_history.get_best_x(Position::gety()));
+			wmove(stdscr, Position::gety(), Context::pressed_history.get_best_x(Position::gety()));
 		}
 		else
 		{
@@ -83,23 +84,31 @@ void hnd::InsertHandler::handle(int ch)
 	{
 		Position::incy();
 		Position::resetx();
-		move(Position::gety(), Position::getx());
-		Context::file.save_to_buffer(ch, Position::gety(), Position::getx());
-		return;
+		break;
 	}
 	case 58:
 	{
 		Context::prev_history.set_prev_yx(Position::gety(), Position::getx());
 		auto [max_y, max_x] = Position::get_max_coords();
-		mvaddch(max_y - 1, 0, ch);
+		turn_on_command_theme();
+
+		int i = 0;
+		while (i != max_x - 1)
+		{
+			mvwprintw(stdscr, max_y - 1, i, "%c", 32);
+			i++;
+		}
+		mvwprintw(stdscr, max_y - 1, 0, "%c", ch);
 		sm::set_state(COMMAND);
 		return;
 	}
 	}
-
-	Context::pressed_history.set_pressed(Position::gety(), Position::getx());
+	if (ch != 10)
+	{
+		Context::pressed_history.set_pressed(Position::gety(), Position::getx());
+	}
 	Context::file.save_to_buffer(ch, Position::gety(), Position::getx());
-	printw("%c", ch);
+	wprintw(stdscr, "%c", ch);
 };
 
 void hnd::CommandHandler::handle(int ch)
@@ -111,13 +120,17 @@ void hnd::CommandHandler::handle(int ch)
 		Context::command_tools.apply_command(Context::command_tools.get_command());
 
 		auto [prev_y, prev_x] = Context::prev_history.get_prev_yx();
+		auto [max_y, max_x] = Position::get_max_coords();
+		int i = 0;
 		do
 		{
-			mvdelch(Position::gety(), Position::getx() - 1);
+			mvdelch(Position::gety(), max_x - i);
 			Position::decx();
-		} while (Position::getx() != 0);
-		move(prev_y, prev_x);
+			i++;
+		} while (i != max_x + 1);
+		wmove(stdscr, prev_y, prev_x);
 		sm::set_state(INSERT);
+		turn_off_command_theme();
 		Context::command_tools.delete_command();
 		return;
 	}
@@ -128,17 +141,34 @@ void hnd::CommandHandler::handle(int ch)
 		{
 			auto [prev_y, prev_x] = Context::prev_history.get_prev_yx();
 			mvdelch(Position::gety(), Position::getx() - 1);
-			move(prev_y, prev_x);
+			wmove(stdscr, prev_y, prev_x);
 			sm::set_state(INSERT);
+			turn_off_command_theme();
+			auto [max_y, max_x] = Position::get_max_coords();
+			int i = 0;
+			do
+			{
+				mvdelch(Position::gety(), max_x - i);
+				i++;
+			} while (i != max_x + 1);
 			Context::command_tools.delete_command();
 			set_handled_status(BACKSPACE, true);
 		};
+
 		Context::command_tools.pop_symbol_from_command();
+		auto [max_y, max_x] = Position::get_max_coords();
+
+		int i = 0;
+		while (i != max_x - 1)
+		{
+			mvwprintw(stdscr, max_y - 1, i, "%c", 32);
+			i++;
+		}
 		return;
 	}
 	}
 	Context::command_tools.set_command(ch);
-	printw("%c", ch);
+	wprintw(stdscr, "%c", ch);
 };
 
 void hnd::HandlerPool::handle(hnd::Handler *h, int ch)

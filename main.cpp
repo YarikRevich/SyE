@@ -30,6 +30,9 @@ int main(int argc, char **argv)
 	//Disables echo mode in ncurses
 	noecho();
 
+	//Turn off scroll
+	scrollok(stdscr, TRUE);
+
 	//Enables the opportunity to use key pad
 	keypad(stdscr, true);
 

@@ -46,6 +46,10 @@ std::string File::read_from_file()
     for (int i = 0; i < res.size() - 1; i++)
     {
         default_to_save.push_back(res[i]);
+        if (!res.size())
+        {
+            break;
+        }
     }
 
     fclose(file);
@@ -94,8 +98,6 @@ bool File::is_buf_equal_to_default()
 
 void File::save_default()
 {
-    Context::dev_log.write_to_file_str(std::to_string(buf.size()).append(" - ").append(std::to_string(default_to_save.size())).append("\n"));
-
     if (is_buf_equal_to_default())
     {
         for (int i = 0; i <= buf.size(); i++)
