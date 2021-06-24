@@ -47,7 +47,7 @@ void hnd::reset_handled_status()
 	{
 		handler_status[key] = false;
 	};
-}
+};
 
 void hnd::CommonHandler::handle(int ch)
 {

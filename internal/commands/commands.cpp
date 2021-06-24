@@ -35,20 +35,21 @@ void CommandTools::pop_symbol_from_command()
     }
 };
 
-void CommandTools::apply_command(std::string c)
+void CommandTools::apply_command(CommandInterface *c)
 {
-    if (c == "set color blue")
-    {
-        set_color(BLUE);
-        refresh();
-    }
-    else if (c == "set color default")
-    {
-        set_color(DEFAULT);
-        refresh();
-    }
-    else if (c == "w")
-    {
-        Context::file.write_to_file();
-    };
+    c->execute();
+    // if (c == "set color blue")
+    // {
+    //     set_color(BLUE);
+    //     refresh();
+    // }
+    // else if (c == "set color default")
+    // {
+    //     set_color(DEFAULT);
+    //     refresh();
+    // }
+    // else if (c == "w")
+    // {
+    //     Context::file.write_to_file();
+    // };
 };

@@ -5,6 +5,7 @@
 
 class CommandInterface
 {
+public:
     virtual void execute();
 };
 
@@ -22,5 +23,5 @@ public:
 
     void pop_symbol_from_command();
 
-    void apply_command(std::string c);
+    void apply_command(CommandInterface *c);
 };
