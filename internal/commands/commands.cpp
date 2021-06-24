@@ -8,24 +8,11 @@
 
 void CommandTools::set_command(char s)
 {
-    Context::dev_log.write_to_file_chr(s);
     command.push_back(s);
 };
 
 std::string CommandTools::get_command()
 {
-    // if (!command.empty())
-    // {
-    //     char res[std::strlen(command.c_str())];
-    //     for (int i = 0; i < command.size(); i++)
-    //     {
-    //         Context::dev_log.write_to_file_chr(command[i]);
-    //     }
-    //     Context::dev_log.write_to_file_str(std::to_string(std::strlen(res)).c_str());
-    //     //Context::dev_log.write_to_file_str(std::to_string(res.size()).c_str());
-    //     return res;
-    // }
-    // return "";
     return command;
 };
 

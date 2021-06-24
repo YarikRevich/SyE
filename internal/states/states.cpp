@@ -76,6 +76,9 @@ void hnd::CommonHandler::handle(int ch)
 
 void hnd::InsertHandler::handle(int ch)
 {
+
+	auto [max_y, max_x] = Position::get_max_coords();
+
 	switch (ch)
 	{
 	case OS_BACKSPACE:
@@ -89,7 +92,6 @@ void hnd::InsertHandler::handle(int ch)
 	case 58:
 	{
 		Context::prev_history.set_prev_yx(Position::gety(), Position::getx());
-		auto [max_y, max_x] = Position::get_max_coords();
 		turn_on_command_theme();
 
 		int i = 0;
@@ -103,12 +105,20 @@ void hnd::InsertHandler::handle(int ch)
 		return;
 	}
 	}
-	if (ch != 10)
+	if (ch != 10 && ch != 58)
 	{
 		Context::pressed_history.set_pressed(Position::gety(), Position::getx());
 	}
 	Context::file.save_to_buffer(ch, Position::gety(), Position::getx());
-	wprintw(stdscr, "%c", ch);
+	if (ch == 10 && Position::gety() == (max_y-1))
+	{
+		wprintw(stdscr, "\n\n");
+		wmove(stdscr, Position::gety()-1, Position::getx());
+	}
+	else
+	{
+		wprintw(stdscr, "%c", ch);
+	}
 };
 
 void hnd::CommandHandler::handle(int ch)
@@ -140,10 +150,6 @@ void hnd::CommandHandler::handle(int ch)
 		if (Position::getx() - 1 == 0)
 		{
 			auto [prev_y, prev_x] = Context::prev_history.get_prev_yx();
-			mvdelch(Position::gety(), Position::getx() - 1);
-			wmove(stdscr, prev_y, prev_x);
-			sm::set_state(INSERT);
-			turn_off_command_theme();
 			auto [max_y, max_x] = Position::get_max_coords();
 			int i = 0;
 			do
@@ -151,19 +157,25 @@ void hnd::CommandHandler::handle(int ch)
 				mvdelch(Position::gety(), max_x - i);
 				i++;
 			} while (i != max_x + 1);
+			wmove(stdscr, prev_y, prev_x);
+			sm::set_state(INSERT);
+			turn_off_command_theme();
+
 			Context::command_tools.delete_command();
 			set_handled_status(BACKSPACE, true);
+			return;
 		};
 
-		Context::command_tools.pop_symbol_from_command();
 		auto [max_y, max_x] = Position::get_max_coords();
-
-		int i = 0;
-		while (i != max_x - 1)
+		int b = 0;
+		while (b != max_x - 1)
 		{
-			mvwprintw(stdscr, max_y - 1, i, "%c", 32);
-			i++;
+			mvwprintw(stdscr, max_y - 1, b, "%c", 32);
+			b++;
 		}
+		Context::command_tools.pop_symbol_from_command();
+		mvwprintw(stdscr, max_y - 1, 0, ":%s", Context::command_tools.get_command().c_str());
+		set_handled_status(BACKSPACE, true);
 		return;
 	}
 	}
