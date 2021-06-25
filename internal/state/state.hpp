@@ -1,6 +1,9 @@
+#pragma once
+
 //Available states
 #define INSERT 0
 #define COMMAND 1
+#define SEARCH 2
 
 class State
 {

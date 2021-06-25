@@ -8,10 +8,12 @@
 #include "states/common/common.hpp"
 #include "states/insert/insert.hpp"
 #include "states/pool/pool.hpp"
+#include "states/search/search.hpp"
 #include "state/state.hpp"
 #include "file/file.hpp"
 #include "history/history.hpp"
 #include "position/position.hpp"
+#include "log/dev/dev.hpp"
 
 using namespace std;
 void run_loop()
@@ -80,6 +82,7 @@ void run_loop()
 		}
 
 		HandlerPool handler_pool;
+		_DEV_LOG.write_to_file_str(std::to_string(_STATE.get_state()));
 		switch (_STATE.get_state())
 		{
 		case INSERT:
@@ -87,6 +90,9 @@ void run_loop()
 			break;
 		case COMMAND:
 			handler_pool.handle(new CommandHandler, ch);
+			break;
+		case SEARCH:
+			handler_pool.handle(new SearchHandler, ch);
 		}
 		handler_pool.handle(new CommonHandler, ch);
 

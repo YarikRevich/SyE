@@ -6,7 +6,7 @@
 #include "./../../position/position.hpp"
 #include "./../../history/history.hpp"
 #include "./../common/common.hpp"
-#include "commands/commands.hpp"
+#include "./commands/commands.hpp"
 
 void CommandHandler::handle(int ch)
 {
@@ -18,7 +18,6 @@ void CommandHandler::handle(int ch)
     {
     case K_ENTER:
     {
-        _COMMAND_TOOL.apply_command(_COMMAND_TOOL.get_command());
         int i = 0;
         do
         {
@@ -28,9 +27,12 @@ void CommandHandler::handle(int ch)
         } while (i != max_x + 1);
 
         wmove(stdscr, prev_y, prev_x);
-        _STATE.set_state(INSERT);
 
         _COLORS.turn_off_command_theme();
+
+        _STATE.set_state(INSERT);
+
+        _COMMAND_TOOL.apply_command(_COMMAND_TOOL.get_command());
         _COMMAND_TOOL.delete_command();
         break;
     }
