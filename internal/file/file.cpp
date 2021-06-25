@@ -7,6 +7,7 @@
 #include <ncurses.h>
 #include <stdio.h>
 #include "file.hpp"
+#include "../log/dev/dev.hpp"
 
 void File::prepare_file(char n[])
 {

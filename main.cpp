@@ -6,7 +6,7 @@
 #include "internal/loop.hpp"
 #include "internal/term_flags/term_flags.hpp"
 
-void handle_exit()
+void handle_exit(int signum)
 {
 	//Handles sigint signal to close all
 	//files and disable ncurses mode
@@ -17,8 +17,6 @@ void handle_exit()
 	endwin();
 	exit(0);
 };
-
-#pragma exit handle_exit;
 
 int main(int argc, char **argv)
 {
@@ -40,6 +38,9 @@ int main(int argc, char **argv)
 
 	//Inits color sets
 	_COLORS.init_colors();
+
+	//Handles sigint signal
+	signal(SIGINT, handle_exit);
 
 	run_loop();
 

@@ -28,7 +28,7 @@ void run_loop()
 			case 10:
 				_POSITION.incy();
 				_POSITION.resetx();
-				continue;
+				break;
 			default:
 				_PRESSED_HISTORY.set_pressed(curr_y, curr_x);
 				_POSITION.incx();
