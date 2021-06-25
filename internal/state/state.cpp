@@ -18,4 +18,14 @@ int State::get_state()
     return _CURR_STATE;
 };
 
+void State::set_checkpoint_before_command()
+{
+    _STATE_BEFORE_COMMAND = State::get_state();
+};
+
+int State::get_checkpoint_before_command()
+{
+    return _STATE_BEFORE_COMMAND;
+}
+
 State _STATE;

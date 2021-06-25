@@ -27,11 +27,8 @@ void CommandHandler::handle(int ch)
         } while (i != *max_x + 1);
 
         wmove(stdscr, prev_y, prev_x);
-
         _COLORS.turn_off_command_theme();
-
-        _STATE.set_state(INSERT);
-
+        _STATE.set_state(_STATE.get_checkpoint_before_command());
         _COMMAND_TOOL.apply_command(_COMMAND_TOOL.get_command());
         _COMMAND_TOOL.delete_command();
         break;
@@ -47,9 +44,8 @@ void CommandHandler::handle(int ch)
                 i++;
             } while (i != *max_x + 1);
             wmove(stdscr, prev_y, prev_x);
-            _STATE.set_state(INSERT);
+            _STATE.set_state(_STATE.get_checkpoint_before_command());
             _COLORS.turn_off_command_theme();
-
             _COMMAND_TOOL.delete_command();
             set_handled_status(BACKSPACE, true);
             break;

@@ -1,6 +1,8 @@
 #include "common.hpp"
 #include "./../../keys/keys.hpp"
 #include "./../../file/file.hpp"
+#include "./../../state/state.hpp"
+#include "./../../colors/colors.hpp"
 #include "./../../position/position.hpp"
 #include "./../../history/history.hpp"
 
@@ -28,6 +30,7 @@ void reset_handled_status()
 
 void CommonHandler::handle(int ch)
 {
+    auto [max_y, max_x] = _POSITION.get_max_coords();
     auto [curr_y, curr_x] = _POSITION.get_curr_coords();
 
     switch (ch)
@@ -49,6 +52,23 @@ void CommonHandler::handle(int ch)
         {
             _POSITION.decx();
         };
+        break;
+    case K_COLON:
+    {
+        _PREV_HISTORY.set_prev_yx(*curr_y, *curr_x);
+        _COLORS.turn_on_command_theme();
+
+        int i = 0;
+        while (i != *max_x - 1)
+        {
+            mvwprintw(stdscr, *max_y - 1, i, "%c", 32);
+            i++;
+        }
+        mvwprintw(stdscr, *max_y - 1, 0, "%c", ch);
+        _STATE.set_checkpoint_before_command();
+        _STATE.set_state(COMMAND);
+        return;
+    }
     };
 
     reset_handled_status();

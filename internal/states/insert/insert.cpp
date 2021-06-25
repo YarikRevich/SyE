@@ -15,6 +15,8 @@ void InsertHandler::handle(int ch)
     {
     case K_BACKSPACE:
         return;
+    case K_COLON:
+        return;
     case K_ENTER:
     {
         if (*curr_y == (*max_y - 1))
@@ -26,21 +28,6 @@ void InsertHandler::handle(int ch)
         _POSITION.incy();
         _POSITION.resetx();
         break;
-    }
-    case K_COLON:
-    {
-        _PREV_HISTORY.set_prev_yx(*curr_y, *curr_x);
-        _COLORS.turn_on_command_theme();
-
-        int i = 0;
-        while (i != *max_x - 1)
-        {
-            mvwprintw(stdscr, *max_y - 1, i, "%c", 32);
-            i++;
-        }
-        mvwprintw(stdscr, *max_y - 1, 0, "%c", ch);
-        _STATE.set_state(COMMAND);
-        return;
     }
     default:
         _PRESSED_HISTORY.set_pressed(*curr_y, *curr_x);
