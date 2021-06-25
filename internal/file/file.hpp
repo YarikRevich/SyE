@@ -37,3 +37,5 @@ public:
 
     void save_default();
 };
+
+extern File _FILE;

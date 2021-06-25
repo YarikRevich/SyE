@@ -1,24 +1,18 @@
 #include <ncurses.h>
 #include <tuple>
 
-namespace Position
+class Position
 {
-    //It's a namespace for positioning
+private:
+    int curr_y, curr_x;
+    int max_y, max_x;
 
-    extern int curr_y, curr_x;
-    extern int max_y, max_x;
-
+public:
     std::tuple<int, int> get_max_coords();
 
-    int getx();
+    std::tuple<int, int> get_curr_coords();
 
     void resetx();
-
-    int gety();
-
-    void set_max_coords();
-
-    void update_curr_pos();
 
     void decx();
 
@@ -28,3 +22,5 @@ namespace Position
 
     void incy();
 };
+
+extern Position _POSITION;

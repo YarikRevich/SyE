@@ -4,13 +4,21 @@
 #include <string>
 #include <stdlib.h>
 #include <vector>
+#include "states/command/command.hpp"
+#include "states/common/common.hpp"
+#include "states/insert/insert.hpp"
+#include "states/pool/pool.hpp"
+#include "state/state.hpp"
+#include "file/file.hpp"
+#include "history/history.hpp"
 #include "position/position.hpp"
-#include "states/states.hpp"
 
 using namespace std;
 void run_loop()
 {
-	std::string source_text = Context::file.read_from_file();
+	auto [curr_y, curr_x] = _POSITION.get_curr_coords();
+
+	std::string source_text = _FILE.read_from_file();
 	if (!source_text.empty())
 	{
 		for (int i = 0; i < source_text.size() - 1; i++)
@@ -18,76 +26,70 @@ void run_loop()
 			switch (source_text[i])
 			{
 			case 10:
-				Position::incy();
-				Position::resetx();
-				Context::file.save_to_buffer(source_text[i], Position::gety(), Position::getx());
-				wprintw(stdscr, "%c", source_text[i]);
+				_POSITION.incy();
+				_POSITION.resetx();
 				continue;
+			default:
+				_PRESSED_HISTORY.set_pressed(curr_y, curr_x);
+				_POSITION.incx();
 			};
-
-			Context::pressed_history.set_pressed(Position::gety(), Position::getx());
-			Context::file.save_to_buffer(source_text[i], Position::gety(), Position::getx());
-			Position::incx();
+			_FILE.save_to_buffer(source_text[i], curr_y, curr_x);
 			wprintw(stdscr, "%c", source_text[i]);
 		};
 	};
 
 	while (1)
 	{
-		Position::set_max_coords();
-
 		int ch = getch();
-		Position::update_curr_pos();
+
+		auto [max_y, max_x] = _POSITION.get_max_coords();
+		auto [curr_y, curr_x] = _POSITION.get_curr_coords();
 
 		switch (ch)
 		{
 		case KEY_UP:
 		{
-			if (Position::gety() == 0)
+			if (curr_y == 0)
 			{
 				beep();
 				continue;
 			};
-			Position::decy();
-			wmove(stdscr, Position::gety(), Context::pressed_history.get_best_x(Position::gety()));
+			_POSITION.decy();
+			wmove(stdscr, curr_y, _PRESSED_HISTORY.get_best_x(curr_y));
 			continue;
 		}
 		case KEY_DOWN:
 		{
-			auto [max_y, _] = Position::get_max_coords();
-			if (Position::gety() == (max_y - 1))
+			if (curr_y == (max_y - 1))
 			{
 				beep();
 				continue;
 			};
-			Position::incy();
-			wmove(stdscr, Position::gety(), Context::pressed_history.get_best_x(Position::gety()));
+			_POSITION.incy();
+			wmove(stdscr, curr_y, _PRESSED_HISTORY.get_best_x(curr_y));
 			continue;
 		}
 		case KEY_LEFT:
-			Position::decx();
-			wmove(stdscr, Position::gety(), Position::getx());
+			_POSITION.decx();
+			wmove(stdscr, curr_y, curr_x);
 			continue;
 		case KEY_RIGHT:
-			Position::incx();
-			wmove(stdscr, Position::gety(), Position::getx());
+			_POSITION.incx();
+			wmove(stdscr, curr_y, curr_x);
 			continue;
 		}
 
-		hnd::HandlerPool handler_pool;
-		switch (sm::get_state())
+		HandlerPool handler_pool;
+		switch (_STATE.get_state())
 		{
 		case INSERT:
-			handler_pool.handle(new hnd::InsertHandler, ch);
+			handler_pool.handle(new InsertHandler, ch);
 			break;
 		case COMMAND:
-			handler_pool.handle(new hnd::CommandHandler, ch);
+			handler_pool.handle(new CommandHandler, ch);
 		}
-
-		handler_pool.handle(new hnd::CommonHandler, ch);
+		handler_pool.handle(new CommonHandler, ch);
 
 		wrefresh(stdscr);
-
-		hnd::reset_handled_status();
 	}
 }

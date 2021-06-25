@@ -2,8 +2,9 @@
 #include <string>
 #include <cstring>
 #include <vector>
-#include "./../colors/colors.hpp"
-#include "./../context/context.hpp"
+#include "w/w.hpp"
+// #include "./../colors/colors.hpp"
+// #include "./../context/context.hpp"
 #include "commands.hpp"
 
 void CommandTools::set_command(char s)
@@ -35,9 +36,16 @@ void CommandTools::pop_symbol_from_command()
     }
 };
 
-void CommandTools::apply_command(CommandInterface *c)
+void CommandTools::apply_command(std::string c)
 {
-    c->execute();
+    std::transform(c.begin(), c.end(), c.begin(), [](char t)
+                   { return tolower(t); });
+
+    if (c == "w")
+    {
+        W_Command w_com;
+        w_com.execute();
+    };
     // if (c == "set color blue")
     // {
     //     set_color(BLUE);
@@ -53,3 +61,5 @@ void CommandTools::apply_command(CommandInterface *c)
     //     Context::file.write_to_file();
     // };
 };
+
+CommandTools _COMMAND_TOOL;

@@ -1,7 +1,6 @@
 #include <tuple>
 #include <vector>
 #include "history.hpp"
-#include "./../context/context.hpp"
 
 std::tuple<int, int> PrevHistory::get_prev_yx()
 {
@@ -13,6 +12,8 @@ void PrevHistory::set_prev_yx(int y, int x)
 	prev_y = y;
 	prev_x = x;
 };
+
+PrevHistory _PREV_HISTORY;
 
 void PressedHistory::set_pressed(int y, int x)
 {
@@ -51,3 +52,5 @@ int PressedHistory::get_best_x(int y)
 	}
 	return ch.size();
 };
+
+PressedHistory _PRESSED_HISTORY;

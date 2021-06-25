@@ -2,7 +2,8 @@
 #include <cstring>
 #include "term_flags.hpp"
 #include <iostream>
-#include "./../context/context.hpp"
+#include "./../log/dev/dev.hpp"
+#include "./../file/file.hpp"
 
 #ifdef __APPLE__
 #include <filesystem>
@@ -63,7 +64,7 @@ void TermFlags::check_executive_flag()
         fclose(fopen(argv[argc - 1], "w"));
     };
 
-    Context::file.prepare_file(argv[argc - 1]);
+    _FILE.prepare_file(argv[argc - 1]);
 };
 
 void TermFlags::check_dev_flag()
@@ -72,6 +73,6 @@ void TermFlags::check_dev_flag()
 
     if (check_single_flag("--dev"))
     {
-        Context::dev_log.prepare_file();
+        _DEV_LOG.prepare_file();
     };
 };

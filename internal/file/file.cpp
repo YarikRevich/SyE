@@ -6,8 +6,7 @@
 #include <charconv>
 #include <ncurses.h>
 #include <stdio.h>
-#include "files.hpp"
-#include "./../context/context.hpp"
+#include "file.hpp"
 
 void File::prepare_file(char n[])
 {
@@ -106,3 +105,5 @@ void File::save_default()
         }
     }
 };
+
+File _FILE;

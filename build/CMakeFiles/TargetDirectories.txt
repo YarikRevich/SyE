@@ -1,0 +1,3 @@
+/Volumes/Files/c/editor/build/CMakeFiles/rebuild_cache.dir
+/Volumes/Files/c/editor/build/CMakeFiles/edit_cache.dir
+/Volumes/Files/c/editor/build/CMakeFiles/main.dir

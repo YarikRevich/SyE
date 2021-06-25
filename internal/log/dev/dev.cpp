@@ -47,3 +47,5 @@ void DevLog::close_file()
         fclose(file);
     }
 };
+
+DevLog _DEV_LOG;

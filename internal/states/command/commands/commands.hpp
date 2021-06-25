@@ -23,5 +23,7 @@ public:
 
     void pop_symbol_from_command();
 
-    void apply_command(CommandInterface *c);
+    void apply_command(std::string c);
 };
+
+extern CommandTools _COMMAND_TOOL;

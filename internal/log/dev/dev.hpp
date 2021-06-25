@@ -18,3 +18,5 @@ public:
 
     void close_file();
 };
+
+extern DevLog _DEV_LOG;

@@ -1,22 +1,24 @@
 #include <iostream>
 #include <csignal>
-#include "internal/context/context.hpp"
+#include "internal/file/file.hpp"
+#include "internal/log/dev/dev.hpp"
 #include "internal/colors/colors.hpp"
 #include "internal/loop.hpp"
-#include "init/init.hpp"
 #include "internal/term_flags/term_flags.hpp"
 
-void handle_sigint(int signum)
+void handle_exit()
 {
 	//Handles sigint signal to close all
 	//files and disable ncurses mode
 
-	Context::file.save_default();
-	Context::file.close_file();
-	Context::dev_log.close_file();
+	_FILE.save_default();
+	_FILE.close_file();
+	_DEV_LOG.close_file();
 	endwin();
 	exit(0);
 };
+
+#pragma exit handle_exit;
 
 int main(int argc, char **argv)
 {
@@ -37,10 +39,7 @@ int main(int argc, char **argv)
 	keypad(stdscr, true);
 
 	//Inits color sets
-	init_colors();
-
-	//Handles sigint to close all opened files and disable ncurses mode
-	signal(SIGINT, handle_sigint);
+	_COLORS.init_colors();
 
 	run_loop();
 

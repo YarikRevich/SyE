@@ -22,6 +22,8 @@ public:
     void set_prev_yx(int y, int x);
 };
 
+extern PrevHistory _PREV_HISTORY;
+
 class PressedHistory
 {
 private:
@@ -36,3 +38,5 @@ public:
     //during the moving up and down
     int get_best_x(int y);
 };
+
+extern PressedHistory _PRESSED_HISTORY;
