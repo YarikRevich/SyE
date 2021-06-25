@@ -27,6 +27,8 @@ public:
 
     void save_to_buffer(int s, int y, int x);
 
+    std::vector<buf_cell> get_buf();
+
     std::string read_from_file();
 
     bool is_buf_equal_to_default();

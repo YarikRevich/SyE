@@ -2,16 +2,16 @@
 #include <tuple>
 #include "position.hpp"
 
-std::tuple<int, int> Position::get_max_coords()
+std::tuple<int*, int*> Position::get_max_coords()
 {
 	getmaxyx(stdscr, max_y, max_x);
-	return {max_y, max_x};
+	return {&max_y, &max_x};
 };
 
-std::tuple<int, int> Position::get_curr_coords()
+std::tuple<int*, int*> Position::get_curr_coords()
 {
 	getyx(stdscr, curr_y, curr_x);
-	return {curr_y, curr_x};
+	return {&curr_y, &curr_x};
 };
 
 void Position::resetx()

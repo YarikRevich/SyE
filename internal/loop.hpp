@@ -32,10 +32,10 @@ void run_loop()
 				_POSITION.resetx();
 				break;
 			default:
-				_PRESSED_HISTORY.set_pressed(curr_y, curr_x);
+				_PRESSED_HISTORY.set_pressed(*curr_y, *curr_x);
 				_POSITION.incx();
 			};
-			_FILE.save_to_buffer(source_text[i], curr_y, curr_x);
+			_FILE.save_to_buffer(source_text[i], *curr_y, *curr_x);
 			wprintw(stdscr, "%c", source_text[i]);
 		};
 	};
@@ -51,33 +51,33 @@ void run_loop()
 		{
 		case KEY_UP:
 		{
-			if (curr_y == 0)
+			if (*curr_y == 0)
 			{
 				beep();
 				continue;
 			};
 			_POSITION.decy();
-			wmove(stdscr, curr_y, _PRESSED_HISTORY.get_best_x(curr_y));
+			wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
 			continue;
 		}
 		case KEY_DOWN:
 		{
-			if (curr_y == (max_y - 1))
+			if (*curr_y == (*max_y - 1))
 			{
 				beep();
 				continue;
 			};
 			_POSITION.incy();
-			wmove(stdscr, curr_y, _PRESSED_HISTORY.get_best_x(curr_y));
+			wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
 			continue;
 		}
 		case KEY_LEFT:
 			_POSITION.decx();
-			wmove(stdscr, curr_y, curr_x);
+			wmove(stdscr, *curr_y, *curr_x);
 			continue;
 		case KEY_RIGHT:
 			_POSITION.incx();
-			wmove(stdscr, curr_y, curr_x);
+			wmove(stdscr, *curr_y, *curr_x);
 			continue;
 		}
 

@@ -8,9 +8,9 @@ private:
     int max_y, max_x;
 
 public:
-    std::tuple<int, int> get_max_coords();
+    std::tuple<int*, int*> get_max_coords();
 
-    std::tuple<int, int> get_curr_coords();
+    std::tuple<int*, int*> get_curr_coords();
 
     void resetx();
 

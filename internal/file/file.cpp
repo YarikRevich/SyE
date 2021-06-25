@@ -31,6 +31,11 @@ void File::save_to_buffer(int s, int y, int x)
     buf.push_back({s, y, x});
 }
 
+std::vector<buf_cell> File::get_buf()
+{
+    return buf;
+};
+
 std::string File::read_from_file()
 {
     std::string res;

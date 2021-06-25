@@ -1,6 +1,6 @@
 project(editor)
 set(CMAKE_CXX_FLAGS "-std=gnu++2a")
-add_executable(main main.cpp internal/colors/colors.cpp internal/states/command/command.cpp internal/states/command/commands/commands.cpp internal/states/command/commands/w/w.cpp internal/states/common/common.cpp internal/states/insert/insert.cpp internal/states/pool/pool.cpp internal/states/search/search.cpp internal/history/history.cpp internal/position/position.cpp internal/term_flags/term_flags.cpp internal/file/file.cpp internal/state/state.cpp internal/log/dev/dev.cpp)
+add_executable(main main.cpp internal/colors/colors.cpp internal/states/command/command.cpp internal/states/command/commands/commands.cpp internal/states/command/commands/w/w.cpp internal/states/command/commands/search/search.cpp internal/states/common/common.cpp internal/states/insert/insert.cpp internal/states/pool/pool.cpp internal/states/search/search.cpp internal/history/history.cpp internal/position/position.cpp internal/term_flags/term_flags.cpp internal/file/file.cpp internal/state/state.cpp internal/log/dev/dev.cpp)
 if(NOT APPLE)
 	target_link_libraries(main ncurses stdc++fs)
 else()

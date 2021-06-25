@@ -21,10 +21,10 @@ void CommandHandler::handle(int ch)
         int i = 0;
         do
         {
-            mvdelch(curr_y, max_x - i);
+            mvdelch(*curr_y, *max_x - i);
             _POSITION.decx();
             i++;
-        } while (i != max_x + 1);
+        } while (i != *max_x + 1);
 
         wmove(stdscr, prev_y, prev_x);
 
@@ -38,14 +38,14 @@ void CommandHandler::handle(int ch)
     }
     case K_BACKSPACE:
     {
-        if (curr_x - 1 == 0)
+        if (*curr_x - 1 == 0)
         {
             int i = 0;
             do
             {
-                mvdelch(curr_y, max_x - i);
+                mvdelch(*curr_y, *max_x - i);
                 i++;
-            } while (i != max_x + 1);
+            } while (i != *max_x + 1);
             wmove(stdscr, prev_y, prev_x);
             _STATE.set_state(INSERT);
             _COLORS.turn_off_command_theme();
@@ -55,13 +55,13 @@ void CommandHandler::handle(int ch)
             break;
         };
         int b = 0;
-        while (b != max_x - 1)
+        while (b != *max_x - 1)
         {
-            mvwprintw(stdscr, max_y - 1, b, "%c", 32);
+            mvwprintw(stdscr, *max_y - 1, b, "%c", 32);
             b++;
         }
         _COMMAND_TOOL.pop_symbol_from_command();
-        mvwprintw(stdscr, max_y - 1, 0, ":%s", _COMMAND_TOOL.get_command().c_str());
+        mvwprintw(stdscr, *max_y - 1, 0, ":%s", _COMMAND_TOOL.get_command().c_str());
         set_handled_status(BACKSPACE, true);
         break;
     }

@@ -17,10 +17,10 @@ void InsertHandler::handle(int ch)
         return;
     case K_ENTER:
     {
-        if (curr_y == (max_y - 1))
+        if (*curr_y == (*max_y - 1))
         {
             wprintw(stdscr, "\n\n");
-            wmove(stdscr, curr_y - 1, curr_x);
+            wmove(stdscr, *curr_y - 1, *curr_x);
         }
 
         _POSITION.incy();
@@ -29,22 +29,23 @@ void InsertHandler::handle(int ch)
     }
     case K_COLON:
     {
-        _PREV_HISTORY.set_prev_yx(curr_y, curr_x);
+        _PREV_HISTORY.set_prev_yx(*curr_y, *curr_x);
         _COLORS.turn_on_command_theme();
 
         int i = 0;
-        while (i != max_x - 1)
+        while (i != *max_x - 1)
         {
-            mvwprintw(stdscr, max_y - 1, i, "%c", 32);
+            mvwprintw(stdscr, *max_y - 1, i, "%c", 32);
             i++;
         }
-        mvwprintw(stdscr, max_y - 1, 0, "%c", ch);
+        mvwprintw(stdscr, *max_y - 1, 0, "%c", ch);
         _STATE.set_state(COMMAND);
         return;
     }
+    default:
+        _PRESSED_HISTORY.set_pressed(*curr_y, *curr_x);
     }
 
-    _PRESSED_HISTORY.set_pressed(curr_y, curr_x);
-    _FILE.save_to_buffer(ch, curr_y, curr_x);
+    _FILE.save_to_buffer(ch, *curr_y, *curr_x);
     wprintw(stdscr, "%c", ch);
 };
