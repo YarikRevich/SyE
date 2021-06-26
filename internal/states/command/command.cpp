@@ -47,7 +47,7 @@ void CommandHandler::handle(int ch)
             _STATE.set_state(_STATE.get_checkpoint_before_command());
             _COLORS.turn_off_command_theme();
             _COMMAND_TOOL.delete_command();
-            set_handled_status(BACKSPACE, true);
+            set_handled_status(K_BACKSPACE);
             break;
         };
         int b = 0;
@@ -58,7 +58,7 @@ void CommandHandler::handle(int ch)
         }
         _COMMAND_TOOL.pop_symbol_from_command();
         mvwprintw(stdscr, *max_y - 1, 0, ":%s", _COMMAND_TOOL.get_command().c_str());
-        set_handled_status(BACKSPACE, true);
+        set_handled_status(K_BACKSPACE);
         break;
     }
     default:

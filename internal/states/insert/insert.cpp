@@ -13,6 +13,14 @@ void InsertHandler::handle(int ch)
 
     switch (ch)
     {
+    case KEY_UP:
+        return;
+    case KEY_DOWN:
+        return;
+    case KEY_LEFT:
+        return;
+    case KEY_RIGHT:
+        return;
     case K_BACKSPACE:
         return;
     case K_COLON:

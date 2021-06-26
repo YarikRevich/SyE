@@ -3,7 +3,7 @@
 #include <vector>
 #include <tuple>
 #include "./../../../../state/state.hpp"
-#include "./../../../../log/dev/dev.hpp"
+#include "./../../../../search_buf/search_buf.hpp"
 #include "./../../../../file/file.hpp"
 #include "./../commands.hpp"
 
@@ -36,14 +36,13 @@ void Search_Command::execute()
             curr_index = 0;
         }
     };
-    if (found.size() == 1)
-    {
-        auto [y, x] = found[0];
-        wmove(stdscr, y, x);
-    }
-    else if (found.size() > 1)
-    {
+    auto [y, x] = found[found.size() - 1];
+    wmove(stdscr, y, x+1);
 
+    if (found.size() > 1)
+    {
         _STATE.set_state(SEARCH);
     }
+
+    _SEARCH_BUF.set_buf(found);
 }

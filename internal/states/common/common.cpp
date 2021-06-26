@@ -7,12 +7,17 @@
 #include "./../../history/history.hpp"
 
 std::map<int, bool> handler_status = {
-    {BACKSPACE, false},
+    {K_BACKSPACE, false},
+    {K_COLON, false},
+    {KEY_UP, false},
+    {KEY_DOWN, false},
+    {KEY_LEFT, false},
+    {KEY_RIGHT, false},
 };
 
-void set_handled_status(int id, bool status)
+void set_handled_status(int id)
 {
-    handler_status[id] = status;
+    handler_status[id] = true;
 };
 
 bool is_handled(int id)
@@ -35,9 +40,56 @@ void CommonHandler::handle(int ch)
 
     switch (ch)
     {
+    case KEY_UP:
+    {
+        if (is_handled(KEY_UP))
+            break;
+
+        if (*curr_y == 0)
+        {
+            beep();
+            break;
+        };
+        _POSITION.decy();
+        wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
+        break;
+    }
+    case KEY_DOWN:
+    {
+        if (is_handled(KEY_DOWN))
+            break;
+
+        if (*curr_y == (*max_y - 1))
+        {
+            beep();
+            break;
+        };
+        _POSITION.incy();
+        wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
+        break;
+    }
+    case KEY_LEFT:
+    {
+        if (is_handled(KEY_LEFT))
+            break;
+
+        _POSITION.decx();
+        wmove(stdscr, *curr_y, *curr_x);
+        break;
+    }
+    case KEY_RIGHT:
+    {
+        if (is_handled(KEY_RIGHT))
+            break;
+
+        _POSITION.incx();
+        wmove(stdscr, *curr_y, *curr_x);
+        break;
+    }
     case K_BACKSPACE:
-        if (is_handled(BACKSPACE))
-            return;
+    {
+        if (is_handled(K_BACKSPACE))
+            break;
 
         _PRESSED_HISTORY.delete_pressed(*curr_y, *curr_x - 1);
         _FILE.delete_from_buffer(*curr_y, *curr_x - 1);
@@ -53,8 +105,12 @@ void CommonHandler::handle(int ch)
             _POSITION.decx();
         };
         break;
+    }
     case K_COLON:
     {
+        if (is_handled(K_COLON))
+            break;
+
         _PREV_HISTORY.set_prev_yx(*curr_y, *curr_x);
         _COLORS.turn_on_command_theme();
 
@@ -67,7 +123,7 @@ void CommonHandler::handle(int ch)
         mvwprintw(stdscr, *max_y - 1, 0, "%c", ch);
         _STATE.set_checkpoint_before_command();
         _STATE.set_state(COMMAND);
-        return;
+        break;
     }
     };
 

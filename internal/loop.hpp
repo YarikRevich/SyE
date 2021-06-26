@@ -44,45 +44,7 @@ void run_loop()
 	{
 		int ch = getch();
 
-		auto [max_y, max_x] = _POSITION.get_max_coords();
-		auto [curr_y, curr_x] = _POSITION.get_curr_coords();
-
-		switch (ch)
-		{
-		case KEY_UP:
-		{
-			if (*curr_y == 0)
-			{
-				beep();
-				continue;
-			};
-			_POSITION.decy();
-			wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
-			continue;
-		}
-		case KEY_DOWN:
-		{
-			if (*curr_y == (*max_y - 1))
-			{
-				beep();
-				continue;
-			};
-			_POSITION.incy();
-			wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
-			continue;
-		}
-		case KEY_LEFT:
-			_POSITION.decx();
-			wmove(stdscr, *curr_y, *curr_x);
-			continue;
-		case KEY_RIGHT:
-			_POSITION.incx();
-			wmove(stdscr, *curr_y, *curr_x);
-			continue;
-		}
-
 		HandlerPool handler_pool;
-		_DEV_LOG.write_to_file_str(std::to_string(_STATE.get_state()));
 		switch (_STATE.get_state())
 		{
 		case INSERT:
