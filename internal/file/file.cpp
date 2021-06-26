@@ -70,6 +70,7 @@ void File::write_to_file()
 {
     if (file != NULL)
     {
+        modified = true;
         for (int i = 0; i <= buf.size(); i++)
         {
             fprintf(file, "%c", buf[i].symbol);
@@ -103,11 +104,11 @@ bool File::is_buf_equal_to_default()
 
 void File::save_default()
 {
-    if (is_buf_equal_to_default())
+    if (is_buf_equal_to_default() || !modified)
     {
-        for (int i = 0; i <= buf.size(); i++)
+        for (int i = 0; i <= default_to_save.size(); i++)
         {
-            fprintf(file, "%c", buf[i].symbol);
+            fprintf(file, "%c", default_to_save[i]);
         }
     }
 };

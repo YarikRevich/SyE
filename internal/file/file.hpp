@@ -18,6 +18,7 @@ private:
     std::vector<char> default_to_save;
     std::vector<buf_cell> buf;
     std::string file_name;
+    bool modified;
     FILE *file;
 
 public:
