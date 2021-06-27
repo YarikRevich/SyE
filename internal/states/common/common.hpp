@@ -9,6 +9,8 @@ bool is_handled(int id);
 
 void reset_handled_status();
 
+bool is_handler(int ch);
+
 class CommonHandler : public Handler
 {
 public:

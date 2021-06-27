@@ -82,7 +82,6 @@ void File::write_to_file()
         {
             for (int i = 0; i < buf.size(); i++)
             {
-                _DEV_LOG.write_to_file_str(std::to_string(buf[i].symbol) + "\n");
                 fprintf(file, "%c", buf[i].symbol);
             };
             fprintf(file, "%s", "\n");

@@ -34,6 +34,15 @@ void reset_handled_status()
     };
 };
 
+bool is_handler(int ch){
+    for (auto const &[key, val]: handler_status){
+        if (key == ch){
+            return true;
+        }
+    }
+    return false;
+};
+
 void CommonHandler::handle(int ch)
 {
     auto [max_y, max_x] = _POSITION.get_max_coords();

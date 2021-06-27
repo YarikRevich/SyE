@@ -38,4 +38,6 @@ Bonus+ (Implement search architecture over the app)
 
 ```
 - Fully refactore backspace handler
+- Implement after-pull git hook
+- Implement normal writing between symbols
 ```

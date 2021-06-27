@@ -11,6 +11,13 @@ void Colors::init_colors()
 	attron(COLOR_PAIR(DEFAULT));
 };
 
+void Colors::set_color_by_compatible_theme(std::string color_pair){
+	if (compatible_themes.count(color_pair)){
+		auto [f, b] = themes[compatible_themes[color_pair]];
+		init_pair(1, f, b);
+	}
+}; 
+
 void Colors::set_color(int color_pair)
 {
 	auto [f, b] = themes[color_pair];
@@ -25,7 +32,7 @@ void Colors::turn_on_command_theme()
 void Colors::turn_off_command_theme()
 {
 	attroff(COLOR_PAIR(COMMAND_THEME));
-	attron(COLOR_PAIR(1));
+	attron(COLOR_PAIR(DEFAULT));
 };
 
 Colors _COLORS;

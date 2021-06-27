@@ -5,6 +5,7 @@
 #include "./../../state/state.hpp"
 #include "./../../position/position.hpp"
 #include "./../../keys/keys.hpp"
+#include "./../common/common.hpp"
 
 void InsertHandler::handle(int ch)
 {
@@ -13,18 +14,6 @@ void InsertHandler::handle(int ch)
 
     switch (ch)
     {
-    case KEY_UP:
-        return;
-    case KEY_DOWN:
-        return;
-    case KEY_LEFT:
-        return;
-    case KEY_RIGHT:
-        return;
-    case K_BACKSPACE:
-        return;
-    case K_COLON:
-        return;
     case K_ENTER:
     {
         if (*curr_y == (*max_y - 1))
@@ -38,8 +27,10 @@ void InsertHandler::handle(int ch)
         break;
     }
     }
-
-    _PRESSED_HISTORY.set_pressed(*curr_y, *curr_x);
-    _FILE.save_to_buffer(ch, *curr_y, *curr_x);
-    wprintw(stdscr, "%c", ch);
+    if (!is_handler(ch))
+    {
+        _PRESSED_HISTORY.set_pressed(*curr_y, *curr_x);
+        _FILE.save_to_buffer(ch, *curr_y, *curr_x);
+        wprintw(stdscr, "%c", ch);
+    }
 };

@@ -6,7 +6,12 @@
 class CommandInterface
 {
 public:
-    virtual void execute();
+
+    //Virtual method
+    void execute();
+
+    //Virtual method
+    void execute_with_params(std::vector<std::string> params);
 };
 
 class CommandTools
