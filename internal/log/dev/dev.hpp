@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <stdio.h>
+#include <list>
 
 class DevLog
 {
@@ -12,7 +13,7 @@ private:
 public:
     void prepare_file();
 
-    void write_to_file_str(std::string);
+    void write_to_file_str(std::list<std::string>);
 
     void write_to_file_chr(char);
 

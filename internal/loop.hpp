@@ -23,10 +23,12 @@ void run_loop()
 	std::string source_text = _FILE.read_from_file();
 	if (!source_text.empty())
 	{
-		for (int i = 0; i < source_text.size() - 1; i++)
+		for (int i = 0; i < source_text.size()-1; i++)
 		{
 			switch (source_text[i])
 			{
+			case 0:
+				continue;
 			case 10:
 				_POSITION.incy();
 				_POSITION.resetx();

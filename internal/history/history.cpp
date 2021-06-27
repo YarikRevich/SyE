@@ -50,6 +50,7 @@ int PressedHistory::get_best_x(int y)
 			ch.push_back(pressed[i]);
 		}
 	}
+	
 	return ch.size();
 };
 

@@ -27,3 +27,15 @@ Bonus+ (Implement search architecture over the app)
 ```
 - Implement scroll 
 ```
+
+26.06.21
+
+```
+- Solve trouble about saving in binary format
+- Solve trouble about adding new symbols between others
+```
+27.06.21
+
+```
+- Fully refactore backspace handler
+```

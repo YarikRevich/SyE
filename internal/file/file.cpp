@@ -17,12 +17,19 @@ void File::prepare_file(char n[])
 
 void File::delete_from_buffer(int y, int x)
 {
-    for (int i = 0; i < buf.size(); i++)
+    if (buf.size() > 1)
     {
-        if (buf[i].x == x && buf[i].y == y)
+        for (int i = 0; i < buf.size(); i++)
         {
-            buf.erase(buf.begin() + i);
+            if (buf[i].x == x && buf[i].y == y)
+            {
+                buf.erase(buf.begin() + i);
+            }
         }
+    }
+    else if (buf.size() != 0)
+    {
+        buf.erase(buf.begin());
     }
 }
 
@@ -48,13 +55,13 @@ std::string File::read_from_file()
         fread(&res[0], 1, size, file);
     };
 
-    for (int i = 0; i < res.size() - 1; i++)
+    for (int i = 0; i < res.size(); i++)
     {
-        default_to_save.push_back(res[i]);
         if (!res.size())
         {
             break;
         }
+        default_to_save.push_back(res[i]);
     }
 
     fclose(file);
@@ -71,10 +78,15 @@ void File::write_to_file()
     if (file != NULL)
     {
         modified = true;
-        for (int i = 0; i <= buf.size(); i++)
+        if (!buf.empty())
         {
-            fprintf(file, "%c", buf[i].symbol);
-        };
+            for (int i = 0; i < buf.size(); i++)
+            {
+                _DEV_LOG.write_to_file_str(std::to_string(buf[i].symbol) + "\n");
+                fprintf(file, "%c", buf[i].symbol);
+            };
+            fprintf(file, "%s", "\n");
+        }
     }
 };
 
@@ -88,7 +100,7 @@ void File::close_file()
 
 bool File::is_buf_equal_to_default()
 {
-    if (!buf.empty() && !default_to_save.empty() && buf.size() == default_to_save.size())
+    if ((!buf.empty() && !default_to_save.empty()) && (buf.size() == default_to_save.size()))
     {
         for (int i = 0; i < default_to_save.size() - 1; i++)
         {
@@ -106,10 +118,10 @@ void File::save_default()
 {
     if (is_buf_equal_to_default() || !modified)
     {
-        for (int i = 0; i <= default_to_save.size(); i++)
+        for (int i = 0; i < default_to_save.size(); i++)
         {
             fprintf(file, "%c", default_to_save[i]);
-        }
+        };
     }
 };
 

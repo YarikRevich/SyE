@@ -1,4 +1,5 @@
 project(editor)
+set(CMAKE_CXX_COMPILER /usr/bin/g++)
 set(CMAKE_CXX_FLAGS "-std=gnu++2a")
 add_executable(main main.cpp internal/colors/colors.cpp internal/states/command/command.cpp internal/states/command/commands/commands.cpp internal/states/command/commands/w/w.cpp internal/search_buf/search_buf.cpp internal/states/command/commands/search/search.cpp internal/states/common/common.cpp internal/states/insert/insert.cpp internal/states/pool/pool.cpp internal/states/search/search.cpp internal/history/history.cpp internal/position/position.cpp internal/term_flags/term_flags.cpp internal/file/file.cpp internal/state/state.cpp internal/log/dev/dev.cpp)
 if(NOT APPLE)

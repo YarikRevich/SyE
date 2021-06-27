@@ -37,10 +37,9 @@ void InsertHandler::handle(int ch)
         _POSITION.resetx();
         break;
     }
-    default:
-        _PRESSED_HISTORY.set_pressed(*curr_y, *curr_x);
     }
 
+    _PRESSED_HISTORY.set_pressed(*curr_y, *curr_x);
     _FILE.save_to_buffer(ch, *curr_y, *curr_x);
     wprintw(stdscr, "%c", ch);
 };

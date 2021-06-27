@@ -19,11 +19,14 @@ void DevLog::prepare_file()
     setbuf(file, NULL);
 }
 
-void DevLog::write_to_file_str(std::string s)
+void DevLog::write_to_file_str(std::list<std::string> s)
 {
     if (file != NULL)
     {
-        fprintf(file, "%s", s.c_str());
+        for (auto i : s)
+        {
+            fprintf(file, "%s", i.c_str());
+        }
     }
 };
 
