@@ -40,7 +40,8 @@ void CommandTools::pop_symbol_from_command()
 
 void CommandTools::apply_command(std::string c)
 {
-    std::transform(c.begin(), c.end(), c.begin(), [](char t) { return tolower(t); });
+    std::transform(c.begin(), c.end(), c.begin(), [](char t)
+                   { return tolower(t); });
 
     if (c == "w")
     {
@@ -59,14 +60,11 @@ void CommandTools::apply_command(std::string c)
         while ((pos = c.find(" ")) != std::string::npos)
         {
             std::string token = c.substr(0, pos);
-            
             found.push_back(token);
-            c.erase(0, pos + token.length());
+            c.erase(0, pos + 1);
         }
 
         found.push_back(c);
-
-        _DEV_LOG.write_to_file_str({found[found.size() - 1] +"\n"});
 
         Set_Color_Command set_color_com;
         set_color_com.execute_with_params({found[found.size() - 1]});
