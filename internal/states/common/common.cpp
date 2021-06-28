@@ -64,8 +64,9 @@ void CommonHandler::handle(int ch)
         if (*curr_y == 0)
         {
             wscrl(stdscr, -1);
+            _PRESSED_HISTORY.translocation_up();
+            wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
             break;
-            // beep();
         };
         _POSITION.decy();
         wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
@@ -76,12 +77,14 @@ void CommonHandler::handle(int ch)
         if (is_handled(KEY_DOWN))
             break;
 
-        if (*curr_y == (*max_y - 1))
+        if ((*curr_y+1) == (*max_y - 1))
         {
             scroll(stdscr);
+            _PRESSED_HISTORY.translocation_down();
             break;
         };
         _POSITION.incy();
+
         wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
         break;
     }
