@@ -6,6 +6,7 @@
 #include "./../../position/position.hpp"
 #include "./../../history/history.hpp"
 #include "./../../log/dev/dev.hpp"
+#include "./../../margin/margin.hpp"
 
 std::map<int, bool> handler_status = {
     {K_BACKSPACE, false},
@@ -34,9 +35,12 @@ void reset_handled_status()
     };
 };
 
-bool is_handler(int ch){
-    for (auto const &[key, val]: handler_status){
-        if (key == ch){
+bool is_handler(int ch)
+{
+    for (auto const &[key, val] : handler_status)
+    {
+        if (key == ch)
+        {
             return true;
         }
     }
@@ -48,6 +52,8 @@ void CommonHandler::handle(int ch)
     auto [max_y, max_x] = _POSITION.get_max_coords();
     auto [curr_y, curr_x] = _POSITION.get_curr_coords();
 
+    // CharInserter char_inseter;
+
     switch (ch)
     {
     case KEY_UP:
@@ -57,8 +63,9 @@ void CommonHandler::handle(int ch)
 
         if (*curr_y == 0)
         {
-            beep();
+            wscrl(stdscr, -1);
             break;
+            // beep();
         };
         _POSITION.decy();
         wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
@@ -71,7 +78,7 @@ void CommonHandler::handle(int ch)
 
         if (*curr_y == (*max_y - 1))
         {
-            beep();
+            scroll(stdscr);
             break;
         };
         _POSITION.incy();
