@@ -19,16 +19,20 @@ void InsertHandler::handle(int ch)
     {
         if (*curr_y == (*max_y - 2))
         {
-            wprintw(stdscr, "\n\n");
+            // _FILE.add('\n', *curr_y, *curr_x);
+            // _FILE.add('\n', *curr_y+1, *curr_x);
+            //wprintw(stdscr, "\n\n");
             _POSITION.resetx();
             wmove(stdscr, *curr_y, *curr_x);
             _PRESSED_HISTORY.translocation_down();
             return;
         }
 
-        _POSITION.incy();
+        _FILE.add('\n', *curr_y, *curr_x);
         _POSITION.resetx();
-        break;
+        _POSITION.incy();
+
+        return;
     }
     default:
         if (!is_handler(ch))
@@ -38,7 +42,6 @@ void InsertHandler::handle(int ch)
     }
     if (!is_handler(ch))
     {
-        _FILE.save_to_buffer(ch, *curr_y, *curr_x);
-        wprintw(stdscr, "%c", ch);
+        _FILE.add(ch, *curr_y, *curr_x);
     }
 };

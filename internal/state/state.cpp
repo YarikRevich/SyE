@@ -1,6 +1,3 @@
-#include "./../position/position.hpp"
-#include "./../colors/colors.hpp"
-#include <map>
 #include "state.hpp"
 
 void State::set_state(int state)

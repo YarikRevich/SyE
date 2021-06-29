@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <tuple>
 #include "position.hpp"
+#include "./../log/dev/dev.hpp"
 
 std::tuple<int *, int *> Position::get_max_coords()
 {
@@ -13,6 +14,25 @@ std::tuple<int *, int *> Position::get_curr_coords()
 	getyx(stdscr, curr_y, curr_x);
 	return {&curr_y, &curr_x};
 };
+
+void PositionMove::set_move(int y, int x)
+{
+	if (this->empty)
+	{
+		this->empty = FALSE;
+	}
+	this->move = {y, x};
+};
+
+std::tuple<int, int> PositionMove::get_move()
+{
+	return this->move;
+}
+
+bool PositionMove::is_empty()
+{
+	return this->empty;
+}
 
 void Position::resetx()
 {

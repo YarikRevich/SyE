@@ -9,7 +9,7 @@
 
 void Search_Command::execute()
 {
-    auto buf = _FILE.get_buf();
+    auto buf = _FILE.get();
     auto command = _COMMAND_TOOL.get_command();
     command.erase(command.begin());
 

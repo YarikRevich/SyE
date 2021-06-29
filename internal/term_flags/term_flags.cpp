@@ -64,7 +64,7 @@ void TermFlags::check_executive_flag()
         fclose(fopen(argv[argc - 1], "w"));
     };
 
-    _FILE.prepare_file(argv[argc - 1]);
+    _FILE.open(argv[argc - 1]);
 };
 
 void TermFlags::check_dev_flag()

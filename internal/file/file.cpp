@@ -7,15 +7,43 @@
 #include <ncurses.h>
 #include <stdio.h>
 #include "file.hpp"
-#include "../log/dev/dev.hpp"
+#include "./../log/dev/dev.hpp"
 
-void File::prepare_file(char n[])
+bool FileHelper::is_buf_equal_to_default()
 {
-    file_name = n;
-    file = fopen(n, "r+");
+    if ((!buf.empty() && !default_buf.empty()) && (buf.size() == default_buf.size()))
+    {
+        for (int i = 0; i < default_buf.size() - 1; i++)
+        {
+            if (buf[i].symbol != default_buf[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
 };
 
-void File::delete_from_buffer(int y, int x)
+bool FileHelper::exist_in_buf(int y)
+{
+    for (int i = 0; i < buf.size(); i++)
+    {
+        if (buf[i].y <= y)
+        {
+            return true;
+        }
+    }
+    return false;
+};
+
+void FileBase::open(char n[])
+{
+    this->file_name = n;
+    this->file = fopen(n, "r+");
+};
+
+void FileBuffer::erase(int y, int x)
 {
     if (buf.size() > 1)
     {
@@ -33,17 +61,17 @@ void File::delete_from_buffer(int y, int x)
     }
 }
 
-void File::save_to_buffer(int s, int y, int x)
+void FileBuffer::add(int s, int y, int x)
 {
-    buf.push_back({s, y, x});
+    this->buf.push_back({s, y, x});
 }
 
-std::vector<buf_cell> File::get_buf()
+std::vector<buf_cell> FileBuffer::get()
 {
-    return buf;
+    return this->buf;
 };
 
-std::string File::read_from_file()
+std::string FileBase::read()
 {
     std::string res;
     if (file != NULL)
@@ -61,7 +89,7 @@ std::string File::read_from_file()
         {
             break;
         }
-        default_to_save.push_back(res[i]);
+        default_buf.push_back(res[i]);
     }
 
     fclose(file);
@@ -73,7 +101,7 @@ std::string File::read_from_file()
     return res;
 }
 
-void File::write_to_file()
+void FileBase::save()
 {
     if (file != NULL)
     {
@@ -89,7 +117,7 @@ void File::write_to_file()
     }
 };
 
-void File::close_file()
+void FileBase::close()
 {
     if (file != NULL)
     {
@@ -97,31 +125,15 @@ void File::close_file()
     }
 };
 
-bool File::is_buf_equal_to_default()
-{
-    if ((!buf.empty() && !default_to_save.empty()) && (buf.size() == default_to_save.size()))
-    {
-        for (int i = 0; i < default_to_save.size() - 1; i++)
-        {
-            if (buf[i].symbol != default_to_save[i])
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    return false;
-};
-
-void File::save_default()
+void FileBase::auto_save()
 {
     if (is_buf_equal_to_default() || !modified)
     {
-        for (int i = 0; i < default_to_save.size(); i++)
+        for (int i = 0; i < default_buf.size(); i++)
         {
-            fprintf(file, "%c", default_to_save[i]);
+            fprintf(file, "%c", default_buf[i]);
         };
     }
 };
 
-File _FILE;
+FileBase _FILE;

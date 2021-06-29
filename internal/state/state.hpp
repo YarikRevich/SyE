@@ -1,5 +1,13 @@
+/*
+Contains logic to process status of editor
+like 'insert' or 'command'
+*/
+
 #pragma once
 
+#include "./../position/position.hpp"
+#include "./../colors/colors.hpp"
+#include <map>
 #include <vector>
 #include <set>
 

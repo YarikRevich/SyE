@@ -1,44 +1,53 @@
 #pragma once
 
+#include "./../types/types.hpp"
 #include <stdio.h>
 #include <vector>
 #include <list>
 #include <string>
 
-typedef struct
+class FileBuffer
 {
-    int symbol;
-    int y;
-    int x;
-} buf_cell;
-
-class File
-{
-private:
-    std::vector<char> default_to_save;
+protected:
+    std::vector<char> default_buf;
     std::vector<buf_cell> buf;
-    std::string file_name;
+
+    //Indicates if file is modified
     bool modified;
+
+public:
+    void erase(int y, int x);
+
+    void add(int s, int y, int x);
+
+    std::vector<buf_cell> get();
+};
+
+class FileHelper : public FileBuffer
+{
+
+protected:
+    bool is_buf_equal_to_default();
+
+    bool exist_in_buf(int y);
+};
+
+class FileBase : public FileHelper
+{
+protected:
+    std::string file_name;
     FILE *file;
 
 public:
-    void prepare_file(char n[]);
+    void open(char n[]);
 
-    void delete_from_buffer(int y, int x);
+    std::string read();
 
-    void save_to_buffer(int s, int y, int x);
+    void save();
 
-    std::vector<buf_cell> get_buf();
+    void auto_save();
 
-    std::string read_from_file();
-
-    bool is_buf_equal_to_default();
-
-    void write_to_file();
-
-    void close_file();
-
-    void save_default();
+    void close();
 };
 
-extern File _FILE;
+extern FileBase _FILE;

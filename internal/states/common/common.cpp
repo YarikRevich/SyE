@@ -52,12 +52,15 @@ void CommonHandler::handle(int ch)
     auto [max_y, max_x] = _POSITION.get_max_coords();
     auto [curr_y, curr_x] = _POSITION.get_curr_coords();
 
+    _DEV_LOG.write_to_file_str({std::to_string(*curr_y) + "\n"});
+
     // CharInserter char_inseter;
 
     switch (ch)
     {
     case KEY_UP:
     {
+        // || !_FILE.exist_in_buf(*curr_y - 1)
         if (is_handled(KEY_UP))
             break;
 
@@ -65,11 +68,12 @@ void CommonHandler::handle(int ch)
         {
             wscrl(stdscr, -1);
             _PRESSED_HISTORY.translocation_up();
-            wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
+            _POSITION.set_move(*curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
             break;
         };
+
         _POSITION.decy();
-        wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
+        _POSITION.set_move(*curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
         break;
     }
     case KEY_DOWN:
@@ -77,15 +81,15 @@ void CommonHandler::handle(int ch)
         if (is_handled(KEY_DOWN))
             break;
 
-        if ((*curr_y+1) == (*max_y - 1))
+        if ((*curr_y + 1) == (*max_y - 1))
         {
             scroll(stdscr);
             _PRESSED_HISTORY.translocation_down();
             break;
         };
-        _POSITION.incy();
 
-        wmove(stdscr, *curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
+        _POSITION.incy();
+        _POSITION.set_move(*curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
         break;
     }
     case KEY_LEFT:
@@ -94,7 +98,7 @@ void CommonHandler::handle(int ch)
             break;
 
         _POSITION.decx();
-        wmove(stdscr, *curr_y, *curr_x);
+        _POSITION.set_move(*curr_y, *curr_x);
         break;
     }
     case KEY_RIGHT:
@@ -103,7 +107,7 @@ void CommonHandler::handle(int ch)
             break;
 
         _POSITION.incx();
-        wmove(stdscr, *curr_y, *curr_x);
+        _POSITION.set_move(*curr_y, *curr_x);
         break;
     }
     case K_BACKSPACE:
@@ -114,7 +118,7 @@ void CommonHandler::handle(int ch)
         if (*curr_x == 0)
         {
             _PRESSED_HISTORY.delete_pressed(*curr_y, *curr_x);
-            _FILE.delete_from_buffer(*curr_y, *curr_x);
+            _FILE.erase(*curr_y, *curr_x);
             _POSITION.decy();
             _POSITION.setx(_PRESSED_HISTORY.get_best_x(*curr_y));
         }
@@ -123,7 +127,7 @@ void CommonHandler::handle(int ch)
             _POSITION.decx();
         }
         _PRESSED_HISTORY.delete_pressed(*curr_y, *curr_x);
-        _FILE.delete_from_buffer(*curr_y, *curr_x);
+        _FILE.erase(*curr_y, *curr_x);
         mvdelch(*curr_y, *curr_x);
         wmove(stdscr, *curr_y, *curr_x);
         break;
@@ -139,10 +143,10 @@ void CommonHandler::handle(int ch)
         int i = 0;
         while (i != *max_x - 1)
         {
-            mvwprintw(stdscr, *max_y - 1, i, "%c", 32);
+            _FILE.add(32, *max_y - 1, i);
             i++;
         }
-        mvwprintw(stdscr, *max_y - 1, 0, "%c", ch);
+        _FILE.add(ch, *max_y - 1, 0);
         _STATE.set_checkpoint_before_command();
         _STATE.set_state(COMMAND);
         break;

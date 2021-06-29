@@ -11,8 +11,8 @@ void handle_exit(int signum)
 	//Handles sigint signal to close all
 	//files and disable ncurses mode
 
-	_FILE.save_default();
-	_FILE.close_file();
+	_FILE.auto_save();
+	_FILE.close();
 	_DEV_LOG.close_file();
 	endwin();
 	exit(0);

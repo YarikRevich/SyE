@@ -3,5 +3,5 @@
 
 void W_Command::execute()
 {
-    _FILE.write_to_file();
+    _FILE.save();
 }

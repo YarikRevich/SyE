@@ -3,7 +3,21 @@
 #include <ncurses.h>
 #include <tuple>
 
-class Position
+class PositionMove
+{
+private:
+    std::tuple<int, int> move;
+    bool empty = true;
+
+public:
+    void set_move(int y, int x);
+
+    std::tuple<int, int> get_move();
+
+    bool is_empty();
+};
+
+class Position : public PositionMove
 {
 private:
     int curr_y, curr_x;
