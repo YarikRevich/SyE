@@ -30,13 +30,13 @@ void Colors::set_color(int color_pair)
 
 void Colors::turn_on_command_theme()
 {
-	attron(COLOR_PAIR(COMMAND_THEME));
+	wattron(stdscr, COLOR_PAIR(COMMAND_THEME));
 };
 
 void Colors::turn_off_command_theme()
 {
-	attroff(COLOR_PAIR(COMMAND_THEME));
-	attron(COLOR_PAIR(1));
+	wattroff(stdscr, COLOR_PAIR(COMMAND_THEME));
+	wattron(stdscr, COLOR_PAIR(1));
 };
 
 Colors _COLORS;

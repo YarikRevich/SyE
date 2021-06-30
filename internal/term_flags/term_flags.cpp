@@ -1,9 +1,9 @@
 #include <string>
 #include <cstring>
-#include "term_flags.hpp"
 #include <iostream>
-#include "./../log/dev/dev.hpp"
-#include "./../file/file.hpp"
+#include "term_flags.hpp"
+#include "./../files/log/log.hpp"
+#include "./../files/exec/exec.hpp"
 
 #ifdef __APPLE__
 #include <filesystem>
@@ -17,6 +17,8 @@ TermFlags::TermFlags(int argc, char **argv)
 {
     this->argc = argc;
     this->argv = argv;
+    this->check_executive_flag();
+    this->check_dev_flag();
 };
 
 bool TermFlags::check_single_flag(std::string flag)

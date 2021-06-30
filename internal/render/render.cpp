@@ -3,16 +3,19 @@
 
 void Renderer::render(std::vector<buf_cell> buf)
 {
+    clear(); // Clears screen
     for (int i = 0; i < buf.size(); i++)
     {
         mvwaddch(stdscr, buf[i].y, buf[i].x, buf[i].symbol);
     }
     auto [move_y, move_x] = _POSITION.get_move();
-    if (!_POSITION.is_empty())
+    auto [curr_y, curr_x] = _POSITION.get_curr_coords();
+
+    if (!_POSITION.is_empty() && ((move_y != *curr_y) && (move_x != *curr_x)))
     {
-        _DEV_LOG.write_to_file_str({"HERE\n"});
         wmove(stdscr, move_y, move_x);
-    }
+    };
+    wrefresh(stdscr);
 };
 
 void Renderer::init_render(std::string buf)

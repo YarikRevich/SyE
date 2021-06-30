@@ -1,10 +1,10 @@
 #include "search.hpp"
 #include <ncurses.h>
-#include "./../../state/state.hpp"
+#include "./../../status/status.hpp"
 #include "./../common/common.hpp"
 #include "./../../keys/keys.hpp"
 #include "./../../position/position.hpp"
-#include "./../../search_buf/search_buf.hpp"
+#include "./../../bufs/search_buf/search_buf.hpp"
 
 void SearchHandler::handle(int ch)
 {

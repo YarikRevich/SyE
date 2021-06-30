@@ -34,6 +34,7 @@ Bonus+ (Implement search architecture over the app)
 - Solve trouble about saving in binary format
 - Solve trouble about adding new symbols between others
 ```
+
 27.06.21
 
 ```
@@ -41,3 +42,11 @@ Bonus+ (Implement search architecture over the app)
 - Implement after-pull git hook
 - Implement normal writing between symbols
 ```
+30.06.21
+
+```
+- Fix all problems with writing symbols
+- Fix errors with color placing
+- Fix error with scroll
+```
+

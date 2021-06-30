@@ -5,9 +5,9 @@
 #include "w/w.hpp"
 #include "search/search.hpp"
 #include "set_color/set_color.hpp"
-#include "./../../../state/state.hpp"
+#include "./../../../status/status.hpp"
 #include "./../../../log/dev/dev.hpp"
-#include "commands.hpp"
+#include "pool.hpp"
 
 void CommandTools::set_command(char s)
 {
@@ -70,19 +70,5 @@ void CommandTools::apply_command(std::string c)
         set_color_com.execute_with_params({found[found.size() - 1]});
     };
 };
-// if (c == "set color blue")
-// {
-//     set_color(BLUE);
-//     refresh();
-// }
-// else if (c == "set color default")
-// {
-//     set_color(DEFAULT);
-//     refresh();
-// }
-// else if (c == "w")
-// {
-//     Context::file.write_to_file();
-// };
 
 CommandTools _COMMAND_TOOL;

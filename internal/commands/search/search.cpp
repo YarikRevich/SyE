@@ -2,10 +2,10 @@
 #include <ncurses.h>
 #include <vector>
 #include <tuple>
-#include "./../../../../state/state.hpp"
-#include "./../../../../search_buf/search_buf.hpp"
+#include "./../../../../status/status.hpp"
+#include "./../../../../bufs/search_buf/search_buf.hpp"
 #include "./../../../../file/file.hpp"
-#include "./../commands.hpp"
+#include "./../pool.hpp"
 
 void Search_Command::execute()
 {

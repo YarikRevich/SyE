@@ -36,30 +36,30 @@ bool PositionMove::is_empty()
 
 void Position::resetx()
 {
-	curr_x = 0;
+	this->curr_x = 0;
 }
 
 void Position::decx()
 {
-	--curr_x;
+	--this->curr_x;
 };
 void Position::decy()
 {
-	--curr_y;
+	--this->curr_y;
 };
 void Position::incx()
 {
-	++curr_x;
+	++this->curr_x;
 };
 
 void Position::setx(int x)
 {
-	curr_x = x;
+	this->curr_x = x;
 }
 
 void Position::incy()
 {
-	++curr_y;
+	++this->curr_y;
 };
 
 Position _POSITION;

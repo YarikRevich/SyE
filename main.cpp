@@ -20,9 +20,7 @@ void handle_exit(int signum)
 
 int main(int argc, char **argv)
 {
-	TermFlags term_flags = TermFlags(argc, argv);
-	term_flags.check_executive_flag();
-	term_flags.check_dev_flag();
+	TermFlags(argc, argv);
 
 	//Inits ncurses
 	initscr();

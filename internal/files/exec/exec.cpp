@@ -6,36 +6,36 @@
 #include <charconv>
 #include <ncurses.h>
 #include <stdio.h>
-#include "file.hpp"
-#include "./../log/dev/dev.hpp"
+#include "exec.hpp"
+#include "./../log/log.hpp"
 
-bool FileHelper::is_buf_equal_to_default()
-{
-    if ((!buf.empty() && !default_buf.empty()) && (buf.size() == default_buf.size()))
-    {
-        for (int i = 0; i < default_buf.size() - 1; i++)
-        {
-            if (buf[i].symbol != default_buf[i])
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    return false;
-};
+// bool FileHelper::is_buf_equal_to_default()
+// {
+//     if ((!buf.empty() && !default_buf.empty()) && (buf.size() == default_buf.size()))
+//     {
+//         for (int i = 0; i < default_buf.size() - 1; i++)
+//         {
+//             if (buf[i].symbol != default_buf[i])
+//             {
+//                 return false;
+//             }
+//         }
+//         return true;
+//     }
+//     return false;
+// };
 
-bool FileHelper::exist_in_buf(int y)
-{
-    for (int i = 0; i < buf.size(); i++)
-    {
-        if (buf[i].y <= y)
-        {
-            return true;
-        }
-    }
-    return false;
-};
+// bool FileHelper::exist_in_buf(int y)
+// {
+//     for (int i = 0; i < buf.size(); i++)
+//     {
+//         if (buf[i].y <= y)
+//         {
+//             return true;
+//         }
+//     }
+//     return false;
+// };
 
 void FileBase::open(char n[])
 {
@@ -45,24 +45,35 @@ void FileBase::open(char n[])
 
 void FileBuffer::erase(int y, int x)
 {
-    if (buf.size() > 1)
+    // _DEV_LOG.write_to_file_str({"SIZE IS", std::to_string(buf.size()), "\n"});
+    if (this->buf.size() > 1)
     {
-        for (int i = 0; i < buf.size(); i++)
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            if (buf[i].x == x && buf[i].y == y)
+            // _DEV_LOG.write_to_file_str({std::to_string(this->buf[i].x), " X IS ", "\n"});
+            if (this->buf[i].x == x && this->buf[i].y == y)
             {
-                buf.erase(buf.begin() + i);
+
+                this->buf.erase(this->buf.begin() + i);
             }
         }
     }
-    else if (buf.size() != 0)
+    else if (this->buf.size() != 0)
     {
-        buf.erase(buf.begin());
+        this->buf.erase(buf.begin());
     }
+    // _DEV_LOG.write_to_file_str({"SIZE IS", std::to_string(buf.size()), "\n"});
 }
 
 void FileBuffer::add(int s, int y, int x)
 {
+    for (int i = 0; i < this->buf.size(); i++)
+    {
+        if (this->buf[i].x == x && this->buf[i].y == y)
+        {
+            this->erase(y, x);
+        }
+    }
     this->buf.push_back({s, y, x});
 }
 

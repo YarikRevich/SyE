@@ -1,12 +1,12 @@
 #include "command.hpp"
-#include "./../../state/state.hpp"
+#include "./../../status/status.hpp"
 #include "./../../keys/keys.hpp"
 #include "./../../file/file.hpp"
 #include "./../../colors/colors.hpp"
 #include "./../../position/position.hpp"
 #include "./../../history/history.hpp"
 #include "./../common/common.hpp"
-#include "./commands/commands.hpp"
+#include "./commands/pool.hpp"
 
 void CommandHandler::handle(int ch)
 {
@@ -19,14 +19,15 @@ void CommandHandler::handle(int ch)
     case K_ENTER:
     {
         int i = 0;
+        // _FILE.erase(*curr_y, 0);
         do
         {
-            mvdelch(*curr_y, *max_x - i);
+            _FILE.erase(*curr_y, *max_x - i);
             _POSITION.decx();
             i++;
-        } while (i != *max_x + 1);
+        } while (i != *max_x);
 
-        wmove(stdscr, prev_y, prev_x);
+        _POSITION.set_move(prev_y, prev_x);
         _COLORS.turn_off_command_theme();
         _STATE.set_state(_STATE.get_checkpoint_before_command());
         _COMMAND_TOOL.apply_command(_COMMAND_TOOL.get_command());
@@ -40,29 +41,38 @@ void CommandHandler::handle(int ch)
             int i = 0;
             do
             {
-                mvdelch(*curr_y, *max_x - i);
+                _FILE.erase(*curr_y, *max_x - i);
                 i++;
             } while (i != *max_x + 1);
-            wmove(stdscr, prev_y, prev_x);
+            _POSITION.set_move(prev_y, prev_x);
             _STATE.set_state(_STATE.get_checkpoint_before_command());
             _COLORS.turn_off_command_theme();
             _COMMAND_TOOL.delete_command();
             set_handled_status(K_BACKSPACE);
             break;
         };
+
         int b = 0;
         while (b != *max_x - 1)
         {
-            mvwprintw(stdscr, *max_y - 1, b, "%c", 32);
+            _FILE.add(32, *max_y - 1, b);
             b++;
         }
         _COMMAND_TOOL.pop_symbol_from_command();
-        mvwprintw(stdscr, *max_y - 1, 0, ":%s", _COMMAND_TOOL.get_command().c_str());
+
+        auto const c = _COMMAND_TOOL.get_command();
+        int increaser = 0;
+        _FILE.add(':', *max_y - 1, increaser);
+        for (int i = 0; i < c.size(); i++)
+        {
+            increaser++;
+            _FILE.add(c[i], *max_y - 1, increaser);
+        }
         set_handled_status(K_BACKSPACE);
         break;
     }
     default:
         _COMMAND_TOOL.set_command(ch);
-        wprintw(stdscr, "%c", ch);
+        _FILE.add(ch, *curr_y, *curr_x);
     }
 };
