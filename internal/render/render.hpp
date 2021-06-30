@@ -1,22 +1,22 @@
 /*
-Contains main renderer of chars
+    Contains main renderer of chars
 */
 
 #pragma once
 
-#include "./../types/types.hpp"
-#include "./../file/file.hpp"
+#include <vector>
+#include <string>
+#include <ncurses.h>
+#include "./../index.hpp"
+#include "./../bufs/bufs.hpp"
 #include "./../history/history.hpp"
 #include "./../position/position.hpp"
-#include <ncurses.h>
-#include <string>
-#include <vector>
 
 class Renderer
 {
 
 public:
-    void render(std::vector<buf_cell> buf);
+    void render(std::vector<buf_cell_C> buf);
 
     void init_render(std::string buf);
 };

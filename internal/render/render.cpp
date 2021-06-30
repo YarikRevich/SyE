@@ -1,9 +1,8 @@
 #include "render.hpp"
-#include "./../log/dev/dev.hpp"
 
-void Renderer::render(std::vector<buf_cell> buf)
+void Renderer::render(std::vector<buf_cell_C> buf)
 {
-    clear(); // Clears screen
+    clear();
     for (int i = 0; i < buf.size(); i++)
     {
         mvwaddch(stdscr, buf[i].y, buf[i].x, buf[i].symbol);
@@ -38,7 +37,7 @@ void Renderer::init_render(std::string buf)
                 _PRESSED_HISTORY.set_pressed(*curr_y, *curr_x);
                 _POSITION.incx();
             };
-            _FILE.add(buf[i], *curr_y, *curr_x);
+            _INSERT__BUF.add_C(buf[i], *curr_y, *curr_x);
             mvwaddch(stdscr, *curr_y, *curr_x, buf[i]);
         };
     };

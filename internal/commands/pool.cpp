@@ -1,12 +1,11 @@
-#include <ncurses.h>
+#include <vector>
 #include <string>
 #include <cstring>
-#include <vector>
+#include <ncurses.h>
 #include "w/w.hpp"
 #include "search/search.hpp"
 #include "set_color/set_color.hpp"
-#include "./../../../status/status.hpp"
-#include "./../../../log/dev/dev.hpp"
+#include "./../status/status.hpp"
 #include "pool.hpp"
 
 void CommandTools::set_command(char s)

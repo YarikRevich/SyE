@@ -5,11 +5,11 @@ like 'insert' or 'command'
 
 #pragma once
 
-#include "./../position/position.hpp"
-#include "./../colors/colors.hpp"
 #include <map>
-#include <vector>
 #include <set>
+#include <vector>
+#include "./../colors/colors.hpp"
+#include "./../position/position.hpp"
 
 //Available states
 #define INSERT 0

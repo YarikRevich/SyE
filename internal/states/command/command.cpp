@@ -1,12 +1,12 @@
 #include "command.hpp"
-#include "./../../status/status.hpp"
-#include "./../../keys/keys.hpp"
-#include "./../../file/file.hpp"
-#include "./../../colors/colors.hpp"
-#include "./../../position/position.hpp"
-#include "./../../history/history.hpp"
-#include "./../common/common.hpp"
 #include "./commands/pool.hpp"
+#include "./../../keys/keys.hpp"
+#include "./../common/common.hpp"
+#include "./../../status/status.hpp"
+#include "./../../colors/colors.hpp"
+#include "./../../files/exec/exec.hpp"
+#include "./../../history/history.hpp"
+#include "./../../position/position.hpp"
 
 void CommandHandler::handle(int ch)
 {
@@ -19,7 +19,6 @@ void CommandHandler::handle(int ch)
     case K_ENTER:
     {
         int i = 0;
-        // _FILE.erase(*curr_y, 0);
         do
         {
             _FILE.erase(*curr_y, *max_x - i);

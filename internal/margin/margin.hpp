@@ -1,5 +1,5 @@
+#include "./../bufs/bufs.hpp"
 #include "./../position/position.hpp"
-#include "./../file/file.hpp"
 
 class CharInserter
 {

@@ -1,16 +1,16 @@
 #include <ncurses.h>
-#include "states/command/command.hpp"
+#include "status/status.hpp"
+#include "files/exec/exec.hpp"
+#include "./render/render.hpp"
+#include "states/pool/pool.hpp"
 #include "states/common/common.hpp"
 #include "states/insert/insert.hpp"
-#include "states/pool/pool.hpp"
 #include "states/search/search.hpp"
-#include "status/status.hpp"
-#include "file/file.hpp"
-#include "./render/render.hpp"
+#include "states/command/command.hpp"
 
 void run_loop()
 {
-	_RENDERER.init_render(_FILE.read());
+	_RENDERER.init_render(_EXEC_FILE.read());
 
 	while (1)
 	{
@@ -35,6 +35,6 @@ void run_loop()
 		}
 		reset_handled_status();
 
-		_RENDERER.render(_FILE.get());
+		_RENDERER.render(_INSERT__BUF.get());
 	}
 }

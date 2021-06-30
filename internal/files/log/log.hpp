@@ -1,25 +1,42 @@
 #pragma once
 
-#include <iostream>
+#include <list>
 #include <string>
 #include <stdio.h>
-#include <list>
+#include <iostream>
+#include "./../../index.hpp"
 
-class DevLog
+class LogFile : public FileInterface
 {
-private:
+protected:
+    std::string file_name;
     FILE *file;
 
 public:
-    void prepare_file();
+    void open(char n[]);
 
-    void write_to_file_str(std::list<std::string>);
+    std::string read();
 
-    void write_to_file_chr(char);
+    void save();
 
-    FILE *get_file();
-
-    void close_file();
+    void close();
 };
 
-extern DevLog _DEV_LOG;
+// class LogFile : public FileInterface
+// {
+// private:
+//     FILE *file;
+
+// public:
+//     void prepare_file();
+
+//     void write_to_file_str(std::list<std::string>);
+
+//     void write_to_file_chr(char);
+
+//     FILE *get_file();
+
+//     void close_file();
+// };
+
+extern LogFile _LOG_FILE;

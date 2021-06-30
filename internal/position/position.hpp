@@ -14,6 +14,9 @@ public:
 
     std::tuple<int, int> get_move();
 
+    //Says if set move function was used
+    //Because if it didn't it can cause
+    //death loop of printing chars
     bool is_empty();
 };
 

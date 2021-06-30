@@ -1,7 +1,6 @@
 #include <ncurses.h>
 #include <tuple>
 #include "position.hpp"
-#include "./../log/dev/dev.hpp"
 
 std::tuple<int *, int *> Position::get_max_coords()
 {

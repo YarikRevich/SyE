@@ -1,5 +1,7 @@
-#include "dev.hpp"
+#include <stdio.h>
 #include "fstream"
+#include "log.hpp"
+#include "./../../bufs/bufs.hpp"
 
 #ifdef __APPLE__
 #include <filesystem>
@@ -9,7 +11,7 @@ namespace fs = std::filesystem;
 namespace fs = std::experimental::filesystem;
 #endif
 
-void DevLog::prepare_file()
+void LogFile::open(char *)
 {
     fs::create_directory("log");
     std::ofstream f("log/dev.log");
@@ -19,31 +21,30 @@ void DevLog::prepare_file()
     setbuf(file, NULL);
 }
 
-void DevLog::write_to_file_str(std::list<std::string> s)
+std::string LogFile::read()
 {
-    if (file != NULL)
+    std::string res;
+    if (this->file)
     {
-        for (auto i : s)
-        {
-            fprintf(file, "%s", i.c_str());
-        }
+        fseek(this->file, 0, SEEK_END);
+        size_t size = ftell(this->file);
+        res.resize(size);
+        rewind(this->file);
+        fread(&res[0], 1, size, this->file);
     }
-};
-
-void DevLog::write_to_file_chr(char s)
-{
-    if (file != NULL)
-    {
-        fprintf(file, "%c\n", s);
-    }
-};
-
-FILE *DevLog::get_file()
-{
-    return file;
+    return res;
 }
 
-void DevLog::close_file()
+void LogFile::save()
+{
+    auto const log_buf = _LOG__BUF.get();
+    for (int i = 0; i < log_buf.size(); i++)
+    {
+        fprintf(this->file, "%c", log_buf[i].symbol);
+    }
+};
+
+void LogFile::close()
 {
     if (file != NULL)
     {
@@ -51,4 +52,4 @@ void DevLog::close_file()
     }
 };
 
-DevLog _DEV_LOG;
+LogFile _LOG_FILE;

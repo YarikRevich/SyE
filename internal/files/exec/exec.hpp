@@ -1,29 +1,12 @@
 #pragma once
 
-#include "./../../index.hpp"
-#include <stdio.h>
-#include <vector>
 #include <list>
+#include <vector>
 #include <string>
+#include <stdio.h>
+#include "./../../index.hpp"
 
-// class FileBuffer
-// {
-// protected:
-//     std::vector<char> default_buf;
-//     std::vector<buf_cell> buf;
-
-//     //Indicates if file is modified
-//     bool modified;
-
-// public:
-//     void erase(int y, int x);
-
-//     void add(int s, int y, int x);
-
-//     std::vector<buf_cell> get();
-// };
-
-class FileBase
+class ExecFile : public FileInterface, AddonFileInterface
 {
 protected:
     std::string file_name;
@@ -41,4 +24,4 @@ public:
     void close();
 };
 
-extern FileBase _FILE;
+extern ExecFile _EXEC_FILE;

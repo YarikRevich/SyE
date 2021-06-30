@@ -1,29 +1,13 @@
-#include <iostream>
-#include <string>
-#include <vector>
 #include <list>
+#include <vector>
+#include <string>
+#include <stdio.h>
 #include <fstream>
+#include <iostream>
 #include <charconv>
 #include <ncurses.h>
-#include <stdio.h>
 #include "exec.hpp"
-#include "./../log/log.hpp"
-
-// bool FileHelper::is_buf_equal_to_default()
-// {
-//     if ((!buf.empty() && !default_buf.empty()) && (buf.size() == default_buf.size()))
-//     {
-//         for (int i = 0; i < default_buf.size() - 1; i++)
-//         {
-//             if (buf[i].symbol != default_buf[i])
-//             {
-//                 return false;
-//             }
-//         }
-//         return true;
-//     }
-//     return false;
-// };
+#include "./../../bufs/bufs.hpp"
 
 // bool FileHelper::exist_in_buf(int y)
 // {
@@ -37,52 +21,13 @@
 //     return false;
 // };
 
-void FileBase::open(char n[])
+void ExecFile::open(char n[])
 {
     this->file_name = n;
     this->file = fopen(n, "r+");
 };
 
-void FileBuffer::erase(int y, int x)
-{
-    // _DEV_LOG.write_to_file_str({"SIZE IS", std::to_string(buf.size()), "\n"});
-    if (this->buf.size() > 1)
-    {
-        for (int i = 0; i < this->buf.size(); i++)
-        {
-            // _DEV_LOG.write_to_file_str({std::to_string(this->buf[i].x), " X IS ", "\n"});
-            if (this->buf[i].x == x && this->buf[i].y == y)
-            {
-
-                this->buf.erase(this->buf.begin() + i);
-            }
-        }
-    }
-    else if (this->buf.size() != 0)
-    {
-        this->buf.erase(buf.begin());
-    }
-    // _DEV_LOG.write_to_file_str({"SIZE IS", std::to_string(buf.size()), "\n"});
-}
-
-void FileBuffer::add(int s, int y, int x)
-{
-    for (int i = 0; i < this->buf.size(); i++)
-    {
-        if (this->buf[i].x == x && this->buf[i].y == y)
-        {
-            this->erase(y, x);
-        }
-    }
-    this->buf.push_back({s, y, x});
-}
-
-std::vector<buf_cell> FileBuffer::get()
-{
-    return this->buf;
-};
-
-std::string FileBase::read()
+std::string ExecFile::read()
 {
     std::string res;
     if (file != NULL)
@@ -100,7 +45,7 @@ std::string FileBase::read()
         {
             break;
         }
-        default_buf.push_back(res[i]);
+        _DEFAULT__BUF.add_C(res[i], 0, 0);
     }
 
     fclose(file);
@@ -112,23 +57,36 @@ std::string FileBase::read()
     return res;
 }
 
-void FileBase::save()
+void ExecFile::save()
 {
     if (file != NULL)
     {
-        modified = true;
-        if (!buf.empty())
+        //modified = true;
+        auto const insert_buf = _INSERT__BUF.get();
+        if (!insert_buf.empty())
         {
-            for (int i = 0; i < buf.size(); i++)
+            for (int i = 0; i < insert_buf.size(); i++)
             {
-                fprintf(file, "%c", buf[i].symbol);
+                fprintf(file, "%c", insert_buf[i].symbol);
             };
             fprintf(file, "%s", "\n");
         }
     }
 };
 
-void FileBase::close()
+void ExecFile::auto_save()
+{
+    auto const default_buf = _DEFAULT__BUF.get();
+    if (_is_insert_buf_equal_to_default() || !_INSERT__BUF.is_modified())
+    {
+        for (int i = 0; i < default_buf.size(); i++)
+        {
+            fprintf(file, "%c", default_buf[i].symbol);
+        };
+    }
+};
+
+void ExecFile::close()
 {
     if (file != NULL)
     {
@@ -136,15 +94,4 @@ void FileBase::close()
     }
 };
 
-void FileBase::auto_save()
-{
-    if (is_buf_equal_to_default() || !modified)
-    {
-        for (int i = 0; i < default_buf.size(); i++)
-        {
-            fprintf(file, "%c", default_buf[i]);
-        };
-    }
-};
-
-FileBase _FILE;
+ExecFile _EXEC_FILE;
