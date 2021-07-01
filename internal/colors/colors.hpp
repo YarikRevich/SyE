@@ -37,11 +37,13 @@ public:
 
     void set_color(int color_pair);
 
+    void remove_color(int color_pair);
+
     void set_color_by_compatible_theme(std::string color_pair);
 
-    void turn_on_command_theme();
+    // void turn_on_command_theme();
 
-    void turn_off_command_theme();
+    // void turn_off_command_theme();
 };
 
 extern Colors _COLORS;

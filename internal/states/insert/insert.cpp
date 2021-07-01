@@ -28,7 +28,7 @@ void InsertHandler::handle(int ch)
     case K_COLON:
     {
         _PREV_HISTORY.set_prev_yx(*curr_y, *curr_x);
-        _COLORS.turn_on_command_theme();
+        // _COLORS.turn_on_command_theme();
 
         int i = 0;
         while (i != *max_x - 1)

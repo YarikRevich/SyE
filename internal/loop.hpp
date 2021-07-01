@@ -38,9 +38,9 @@ void run_loop()
 		reset_handled_status();
 
 		clear();
-		_RENDERER.render(_EFFECTS__BUF.get());
+		_RENDERER.render_with_color(_EFFECTS__BUF.get(), COMMAND_THEME);
 		_RENDERER.render(_INSERT__BUF.get());
-		_RENDERER.render(_COMMAND__BUF.get());
+		_RENDERER.render_with_color(_COMMAND__BUF.get(), COMMAND_THEME);
 		_LOG_FILE.save();
 	}
 }

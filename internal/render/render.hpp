@@ -14,7 +14,9 @@
 class Renderer
 {
 public:
-    void render(std::vector<buf_cell_C*> buf);
+    void render(std::vector<buf_cell_C *> buf);
+
+    void render_with_color(std::vector<buf_cell_C *> buf, int color_pair);
 
     void init_render(std::string buf);
 };

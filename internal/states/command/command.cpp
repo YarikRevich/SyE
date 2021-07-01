@@ -21,6 +21,8 @@ void CommandHandler::handle(int ch)
     {
         if (*curr_x - 1 == 0)
         {
+            _EFFECTS__BUF.clear();
+
             _INSERT__BUF.erase(*max_y - 1, 0);
 
             _COMMAND__BUF.clear();
@@ -28,8 +30,6 @@ void CommandHandler::handle(int ch)
             _STATE.set_state(_STATE.get_checkpoint_before_command());
 
             _POSITION.set_move(prev_y, prev_x);
-
-            _COLORS.turn_off_command_theme();
 
             set_handled_status(K_BACKSPACE);
             break;
@@ -50,6 +50,8 @@ void CommandHandler::handle(int ch)
     }
     case K_ENTER:
     {
+        _EFFECTS__BUF.clear();
+
         _INSERT__BUF.erase(*max_y - 1, 0);
 
         apply_command(_COMMAND__BUF.get_as_string());
@@ -59,8 +61,6 @@ void CommandHandler::handle(int ch)
         _STATE.set_state(_STATE.get_checkpoint_before_command());
 
         _POSITION.set_move(prev_y, prev_x);
-
-        _COLORS.turn_off_command_theme();
 
         set_handled_status(K_BACKSPACE);
         break;

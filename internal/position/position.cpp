@@ -46,25 +46,25 @@ void Position::resetx()
 
 void Position::decx()
 {
-	--this->curr_x;
+	this->curr_x--;
 };
 void Position::decy()
 {
-	--this->curr_y;
+	this->curr_y--;
 };
 void Position::incx()
 {
-	++this->curr_x;
+	this->curr_x++;
+};
+
+void Position::incy()
+{
+	this->curr_y++;
 };
 
 void Position::setx(int x)
 {
 	this->curr_x = x;
 }
-
-void Position::incy()
-{
-	++this->curr_y;
-};
 
 Position _POSITION;

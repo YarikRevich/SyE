@@ -79,7 +79,7 @@ void CommonHandler::handle(int ch)
         if ((*curr_y + 1) == (*max_y - 1))
         {
             scroll(stdscr);
-           // _PRESSED_HISTORY.translocation_down();
+            // _PRESSED_HISTORY.translocation_down();
             break;
         };
 
@@ -101,21 +101,7 @@ void CommonHandler::handle(int ch)
     }
     case K_BACKSPACE:
     {
-        // if (*curr_x == 0)
-        // {
-        //     _PRESSED_HISTORY.delete_pressed(*curr_y, *curr_x);
-        //     _FILE.erase(*curr_y, *curr_x);
-        //     _POSITION.decy();
-        //     _POSITION.setx(_PRESSED_HISTORY.get_best_x(*curr_y));
-        // }
-        // else
-        // {
-        //     _POSITION.decx();
-        // }
-        // _PRESSED_HISTORY.delete_pressed(*curr_y, *curr_x);
-        // _FILE.erase(*curr_y, *curr_x);
-        // mvdelch(*curr_y, *curr_x);
-        // wmove(stdscr, *curr_y, *curr_x);
+        _INSERT__BUF.pop();
         break;
     }
     };

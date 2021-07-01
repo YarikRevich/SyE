@@ -6,10 +6,11 @@ void Colors::init_colors()
 	start_color();
 	auto [f, b] = themes[DEFAULT];
 	init_pair(1, f, b);
-	auto [cf, cb] = themes[COMMAND_THEME];
-	init_pair(COMMAND_THEME, cf, cb);
 	attron(COLOR_PAIR(1));
 	wbkgd(stdscr, COLOR_PAIR(1));
+
+	// auto [cf, cb] = themes[COMMAND_THEME];
+	// init_pair(, cf, cb);
 };
 
 void Colors::set_color_by_compatible_theme(std::string color_pair)
@@ -24,18 +25,24 @@ void Colors::set_color_by_compatible_theme(std::string color_pair)
 void Colors::set_color(int color_pair)
 {
 	auto [f, b] = themes[color_pair];
-	init_pair(1, f, b);
+	init_pair(color_pair, f, b);
+	attron(COLOR_PAIR(color_pair));
 };
 
-void Colors::turn_on_command_theme()
+void Colors::remove_color(int color_pair)
 {
-	wattron(stdscr, COLOR_PAIR(COMMAND_THEME));
+	attroff(COLOR_PAIR(color_pair));
 };
 
-void Colors::turn_off_command_theme()
-{
-	wattroff(stdscr, COLOR_PAIR(COMMAND_THEME));
-	wattron(stdscr, COLOR_PAIR(1));
-};
+// void Colors::turn_on_command_theme()
+// {
+// 	attron(COLOR_PAIR(10));
+// };
+
+// void Colors::turn_off_command_theme()
+// {
+// 	attroff(COLOR_PAIR(10));
+// 	attron(COLOR_PAIR(1));
+// };
 
 Colors _COLORS;

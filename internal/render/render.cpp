@@ -1,5 +1,6 @@
 #include "render.hpp"
 #include "./../bufs/bufs.hpp"
+#include "./../colors/colors.hpp"
 
 void Renderer::render(std::vector<buf_cell_C *> buf)
 {
@@ -16,11 +17,19 @@ void Renderer::render(std::vector<buf_cell_C *> buf)
         if (!_POSITION.is_empty() && !((move_y == *curr_y) && (move_x == *curr_x)))
         {
             wmove(stdscr, move_y, move_x);
-            _POSITION.delete_move();
         };
+
+        _POSITION.delete_move();
 
         wrefresh(stdscr);
     }
+};
+
+void Renderer::render_with_color(std::vector<buf_cell_C *> buf, int color_pair)
+{
+    _COLORS.set_color(color_pair);
+    this->render(buf);
+    _COLORS.remove_color(color_pair);
 };
 
 void Renderer::init_render(std::string buf)
