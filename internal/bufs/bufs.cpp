@@ -19,6 +19,19 @@ bool _is_insert_buf_equal_to_default()
     return false;
 };
 
+template <typename T>
+bool BufferInterface<T>::is_start(int y)
+{
+    auto const first_cell = this->buf[0];
+    if constexpr (std::is_same_v<T, buf_cell_C>)
+    {
+        if (first_cell->y == y){
+            return true;
+        }
+    }
+    return false;
+};
+
 template <class T>
 void BufferInterface<T>::erase(int y, int x)
 {
@@ -100,6 +113,24 @@ std::string BufferInterface<T>::get_as_string()
     {
         res.push_back(this->buf[i]->symbol);
     }
+    return res;
+};
+
+template <typename T>
+int BufferInterface<T>::get_last_x(int y)
+{
+    int res = 0;
+    if constexpr (std::is_same_v<T, buf_cell_C>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->y == y && this->buf[i]->symbol != 10)
+            {
+                res++;
+            };
+        };
+    };
+
     return res;
 };
 

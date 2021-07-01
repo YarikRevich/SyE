@@ -33,6 +33,9 @@ protected:
     bool modified;
 
 public:
+    //Says if coords are the start of the file
+    bool is_start(int y);
+
     //Deletes equal cell in buffer
     void erase(int y, int x);
 
@@ -59,6 +62,9 @@ public:
 
     //Returns buffer as string
     std::string get_as_string();
+
+    //Returns the last x in the row
+    int get_last_x(int y);
 
     //Clears the whole buffer
     void clear();
