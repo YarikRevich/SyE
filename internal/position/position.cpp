@@ -28,6 +28,12 @@ std::tuple<int, int> PositionMove::get_move()
 	return this->move;
 }
 
+void PositionMove::delete_move()
+{
+	this->empty = TRUE;
+	this->move = {};
+};
+
 bool PositionMove::is_empty()
 {
 	return this->empty;

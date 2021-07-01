@@ -8,15 +8,13 @@
 #include <string>
 #include <ncurses.h>
 #include "./../index.hpp"
-#include "./../bufs/bufs.hpp"
 #include "./../history/history.hpp"
 #include "./../position/position.hpp"
 
 class Renderer
 {
-
 public:
-    void render(std::vector<buf_cell_C> buf);
+    void render(std::vector<buf_cell_C*> buf);
 
     void init_render(std::string buf);
 };

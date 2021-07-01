@@ -1,6 +1,5 @@
 #include <ncurses.h>
 #include "colors.hpp"
-#include "./../log/dev/dev.hpp"
 
 void Colors::init_colors()
 {

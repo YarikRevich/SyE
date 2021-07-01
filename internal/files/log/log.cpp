@@ -24,7 +24,7 @@ void LogFile::open(char *)
 std::string LogFile::read()
 {
     std::string res;
-    if (this->file)
+    if (this->file != NULL)
     {
         fseek(this->file, 0, SEEK_END);
         size_t size = ftell(this->file);
@@ -37,10 +37,14 @@ std::string LogFile::read()
 
 void LogFile::save()
 {
-    auto const log_buf = _LOG__BUF.get();
-    for (int i = 0; i < log_buf.size(); i++)
+    if (this->file != NULL)
     {
-        fprintf(this->file, "%c", log_buf[i].symbol);
+        auto const log_buf = _LOG__BUF.get();
+        for (int i = 0; i < log_buf.size(); i++)
+        {
+            fprintf(this->file, "%c", log_buf[i]->symbol);
+        }
+        _LOG__BUF.clear();
     }
 };
 

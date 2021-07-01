@@ -3,41 +3,12 @@
 #include <cstring>
 #include <ncurses.h>
 #include "w/w.hpp"
-#include "search/search.hpp"
-#include "set_color/set_color.hpp"
-#include "./../status/status.hpp"
 #include "pool.hpp"
+#include "search/search.hpp"
+#include "./../status/status.hpp"
+#include "set_color/set_color.hpp"
 
-void CommandTools::set_command(char s)
-{
-    command.push_back(s);
-};
-
-std::string CommandTools::get_command()
-{
-    return command;
-};
-
-void CommandTools::delete_command()
-{
-    if (!command.empty())
-    {
-        command.clear();
-    }
-};
-
-void CommandTools::pop_symbol_from_command()
-{
-    if (!command.empty())
-    {
-        if (command.size() != 0)
-        {
-            command.pop_back();
-        }
-    }
-};
-
-void CommandTools::apply_command(std::string c)
+void apply_command(std::string c)
 {
     std::transform(c.begin(), c.end(), c.begin(), [](char t)
                    { return tolower(t); });
@@ -52,7 +23,7 @@ void CommandTools::apply_command(std::string c)
         Search_Command search_com;
         search_com.execute();
     }
-    else if (c.find("set color") != std::string::npos || c.find("st") != std::string::npos)
+    else if (c.find("set color") != std::string::npos || c.find("sc") != std::string::npos)
     {
         int pos = 0;
         std::vector<std::string> found;
@@ -69,5 +40,3 @@ void CommandTools::apply_command(std::string c)
         set_color_com.execute_with_params({found[found.size() - 1]});
     };
 };
-
-CommandTools _COMMAND_TOOL;

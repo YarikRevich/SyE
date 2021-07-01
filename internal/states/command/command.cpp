@@ -1,9 +1,10 @@
 #include "command.hpp"
-#include "./commands/pool.hpp"
+#include "./../../bufs/bufs.hpp"
 #include "./../../keys/keys.hpp"
 #include "./../common/common.hpp"
 #include "./../../status/status.hpp"
 #include "./../../colors/colors.hpp"
+#include "./../../commands/pool.hpp"
 #include "./../../files/exec/exec.hpp"
 #include "./../../history/history.hpp"
 #include "./../../position/position.hpp"
@@ -16,62 +17,58 @@ void CommandHandler::handle(int ch)
 
     switch (ch)
     {
-    case K_ENTER:
-    {
-        int i = 0;
-        do
-        {
-            _FILE.erase(*curr_y, *max_x - i);
-            _POSITION.decx();
-            i++;
-        } while (i != *max_x);
-
-        _POSITION.set_move(prev_y, prev_x);
-        _COLORS.turn_off_command_theme();
-        _STATE.set_state(_STATE.get_checkpoint_before_command());
-        _COMMAND_TOOL.apply_command(_COMMAND_TOOL.get_command());
-        _COMMAND_TOOL.delete_command();
-        break;
-    }
     case K_BACKSPACE:
     {
         if (*curr_x - 1 == 0)
         {
-            int i = 0;
-            do
-            {
-                _FILE.erase(*curr_y, *max_x - i);
-                i++;
-            } while (i != *max_x + 1);
-            _POSITION.set_move(prev_y, prev_x);
+            _INSERT__BUF.erase(*max_y - 1, 0);
+
+            _COMMAND__BUF.clear();
+
             _STATE.set_state(_STATE.get_checkpoint_before_command());
+
+            _POSITION.set_move(prev_y, prev_x);
+
             _COLORS.turn_off_command_theme();
-            _COMMAND_TOOL.delete_command();
+
             set_handled_status(K_BACKSPACE);
             break;
         };
-
-        int b = 0;
+        int b = 1;
         while (b != *max_x - 1)
         {
-            _FILE.add(32, *max_y - 1, b);
+            _EFFECTS__BUF.add_C(32, *max_y - 1, b);
             b++;
         }
-        _COMMAND_TOOL.pop_symbol_from_command();
 
-        auto const c = _COMMAND_TOOL.get_command();
-        int increaser = 0;
-        _FILE.add(':', *max_y - 1, increaser);
-        for (int i = 0; i < c.size(); i++)
-        {
-            increaser++;
-            _FILE.add(c[i], *max_y - 1, increaser);
-        }
+        _POSITION.set_move(*max_y - 1, 1);
+
+        _COMMAND__BUF.pop();
+
         set_handled_status(K_BACKSPACE);
         break;
     }
+    case K_ENTER:
+    {
+        _INSERT__BUF.erase(*max_y - 1, 0);
+
+        apply_command(_COMMAND__BUF.get_as_string());
+
+        _COMMAND__BUF.clear();
+
+        _STATE.set_state(_STATE.get_checkpoint_before_command());
+
+        _POSITION.set_move(prev_y, prev_x);
+
+        _COLORS.turn_off_command_theme();
+
+        set_handled_status(K_BACKSPACE);
+        break;
+    };
     default:
-        _COMMAND_TOOL.set_command(ch);
-        _FILE.add(ch, *curr_y, *curr_x);
+        if (!is_common_handler(ch) && (*curr_x != (*max_x - 1)))
+        {
+            _COMMAND__BUF.add_C(ch, *curr_y, *curr_x);
+        }
     }
 };

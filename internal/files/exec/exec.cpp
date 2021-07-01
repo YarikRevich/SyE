@@ -67,7 +67,7 @@ void ExecFile::save()
         {
             for (int i = 0; i < insert_buf.size(); i++)
             {
-                fprintf(file, "%c", insert_buf[i].symbol);
+                fprintf(file, "%c", insert_buf[i]->symbol);
             };
             fprintf(file, "%s", "\n");
         }
@@ -81,7 +81,7 @@ void ExecFile::auto_save()
     {
         for (int i = 0; i < default_buf.size(); i++)
         {
-            fprintf(file, "%c", default_buf[i].symbol);
+            fprintf(file, "%c", default_buf[i]->symbol);
         };
     }
 };

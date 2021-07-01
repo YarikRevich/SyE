@@ -66,7 +66,7 @@ void TermFlags::check_executive_flag()
         fclose(fopen(argv[argc - 1], "w"));
     };
 
-    _FILE.open(argv[argc - 1]);
+    _EXEC_FILE.open(argv[argc - 1]);
 };
 
 void TermFlags::check_dev_flag()
@@ -75,6 +75,6 @@ void TermFlags::check_dev_flag()
 
     if (check_single_flag("--dev"))
     {
-        _DEV_LOG.prepare_file();
+        _LOG_FILE.open(NULL);
     };
 };

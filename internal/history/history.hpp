@@ -24,21 +24,21 @@ public:
 
 extern PrevHistory _PREV_HISTORY;
 
-class PressedHistory
-{
-private:
-    std::vector<p_cell *> pressed;
+// class PressedHistory
+// {
+// private:
+//     std::vector<p_cell *> pressed;
 
-public:
-    void set_pressed(int y, int x);
-    std::vector<p_cell *> get_pressed();
-    void delete_pressed(int y, int x);
-    void translocation_up();
-    void translocation_down();
+// public:
+//     void set_pressed(int y, int x);
+//     std::vector<p_cell *> get_pressed();
+//     void delete_pressed(int y, int x);
+//     void translocation_up();
+//     void translocation_down();
 
-    //Due to the history it choses the best x to move the pointer
-    //during the moving up and down
-    int get_best_x(int y);
-};
+//     //Due to the history it choses the best x to move the pointer
+//     //during the moving up and down
+//     int get_best_x(int y);
+// };
 
-extern PressedHistory _PRESSED_HISTORY;
+// extern PressedHistory _PRESSED_HISTORY;

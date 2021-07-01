@@ -1,3 +1,4 @@
+#include <type_traits>
 #include "bufs.hpp"
 
 bool _is_insert_buf_equal_to_default()
@@ -8,7 +9,7 @@ bool _is_insert_buf_equal_to_default()
     {
         for (int i = 0; i < default_buf.size() - 1; i++)
         {
-            if (insert_buf[i].symbol != default_buf[i].symbol)
+            if (insert_buf[i]->symbol != default_buf[i]->symbol)
             {
                 return false;
             }
@@ -21,68 +22,135 @@ bool _is_insert_buf_equal_to_default()
 template <class T>
 void BufferInterface<T>::erase(int y, int x)
 {
-    if (this->buf.size() > 1)
+    if constexpr (std::is_same_v<T, buf_cell_C>)
+    {
+        if (this->buf.size() > 1)
+        {
+            for (int i = 0; i < this->buf.size(); i++)
+            {
+
+                if (this->buf[i]->x == x && this->buf[i]->y == y)
+                {
+                    this->buf.erase(this->buf.begin() + i);
+                }
+            }
+        }
+        else if (this->buf.size() != 0)
+        {
+            this->buf.erase(buf.begin());
+        }
+    }
+}
+
+template <typename T>
+void BufferInterface<T>::pop()
+{
+    this->buf.erase(this->buf.end() - 1);
+};
+
+template <typename T>
+void BufferInterface<T>::add_C(int s, int y, int x)
+{
+    if constexpr (std::is_same_v<T, buf_cell_C>)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if (this->buf[i].x == x && this->buf[i].y == y)
-            {
 
-                this->buf.erase(this->buf.begin() + i);
+            if (this->buf[i]->x == x && this->buf[i]->y == y)
+            {
+                this->erase(y, x);
             }
         }
-    }
-    else if (this->buf.size() != 0)
-    {
-        this->buf.erase(buf.begin());
+        buf_cell_C *b = new buf_cell_C;
+        b->symbol = s;
+        b->y = y;
+        b->x = x;
+        this->buf.push_back(b);
     }
 }
 
-template <class T>
-void BufferInterface<T>::add_C(int s, int y, int x)
-{
-    for (int i = 0; i < this->buf.size(); i++)
-    {
-        if (this->buf[i].x == x && this->buf[i].y == y)
-        {
-            this->erase(y, x);
-        }
-    }
-    this->buf.push_back({s, y, x});
-}
-
-template <class T>
+template <typename T>
 void BufferInterface<T>::add(int s)
 {
-    this->buf.push_back({s});
+    if constexpr (std::is_same_v<T, buf_cell>)
+    {
+        buf_cell *b = new buf_cell;
+        b->symbol = s;
+        this->buf.push_back(b);
+    }
 }
 
-template <class T>
-void BufferInterface<T>::set(std::vector<T> b)
+template <typename T>
+void BufferInterface<T>::set(std::vector<T *> b)
 {
     this->buf = b;
 };
 
-template <class T>
-std::vector<T> BufferInterface<T>::get()
+template <typename T>
+std::vector<T *> BufferInterface<T>::get()
 {
     return this->buf;
 };
 
-template <class T>
+template <typename T>
+std::string BufferInterface<T>::get_as_string()
+{
+    std::string res;
+    for (int i = 0; i < this->buf.size(); i++)
+    {
+        res.push_back(this->buf[i]->symbol);
+    }
+    return res;
+};
+
+template <typename T>
 void BufferInterface<T>::set_modified(bool s)
 {
     this->modified = s;
 };
 
-template <class T>
+template <typename T>
 bool BufferInterface<T>::is_modified()
 {
     return this->modified;
 }
 
+template <typename T>
+void BufferInterface<T>::clear()
+{
+    this->buf.erase(this->buf.begin(), this->buf.end());
+};
+
+template <typename T>
+void BufferInterface<T>::translocation_up()
+{
+    if constexpr (std::is_same_v<T, buf_cell_C>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            this->buf[i]->y++;
+        }
+    }
+};
+
+template <typename T>
+void BufferInterface<T>::translocation_down()
+{
+    if constexpr (std::is_same_v<T, buf_cell_C>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            this->buf[i]->y--;
+        }
+    }
+};
+
+template class BufferInterface<buf_cell>;
+template class BufferInterface<buf_cell_C>;
+
 BufferInterface<buf_cell> _LOG__BUF;
 BufferInterface<buf_cell> _DEFAULT__BUF;
 BufferInterface<buf_cell_C> _INSERT__BUF;
 BufferInterface<buf_cell_C> _COMMAND__BUF;
+BufferInterface<buf_cell_C> _EFFECTS__BUF;
 BufferInterface<buf_cell_C> _SEARCH__BUF;

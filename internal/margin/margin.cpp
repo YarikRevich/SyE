@@ -13,14 +13,14 @@ bool CharInserter::is_between()
         bool left_x_found, right_x_found;
         for (int i = 0; i < buf.size(); i++)
         {
-            if (buf[i].x == (*curr_x - 1))
+            if (buf[i]->x == (*curr_x - 1))
             {
-                left_x = buf[i].x;
+                left_x = buf[i]->x;
                 left_x_found = true;
             }
-            else if (buf[i].x == (*curr_x + 1))
+            else if (buf[i]->x == (*curr_x + 1))
             {
-                right_x = buf[i].x;
+                right_x = buf[i]->x;
                 right_x_found = true;
             }
         }
@@ -32,12 +32,12 @@ bool CharInserter::is_between()
         bool left_x_found, curr_x_found;
         for (int i = 0; i < buf.size(); i++)
         {
-            if (buf[i].x == (*curr_x - 1))
+            if (buf[i]->x == (*curr_x - 1))
             {
-                left_x = buf[i].x;
+                left_x = buf[i]->x;
                 left_x_found = true;
             }
-            else if (buf[i].x == *curr_x)
+            else if (buf[i]->x == *curr_x)
             {
                 curr_x_found = true;
             }
@@ -50,12 +50,12 @@ bool CharInserter::is_between()
         bool right_x_found, curr_x_found;
         for (int i = 0; i < buf.size(); i++)
         {
-            if (buf[i].x == (*curr_x + 1))
+            if (buf[i]->x == (*curr_x + 1))
             {
-                right_x = buf[i].x;
+                right_x = buf[i]->x;
                 right_x_found = true;
             }
-            else if (buf[i].x == *curr_x)
+            else if (buf[i]->x == *curr_x)
             {
                 curr_x_found = true;
             }

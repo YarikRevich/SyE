@@ -1,11 +1,10 @@
 #include "common.hpp"
 #include "./../../keys/keys.hpp"
-#include "./../../file/file.hpp"
+#include "./../../files/exec/exec.hpp"
 #include "./../../status/status.hpp"
 #include "./../../colors/colors.hpp"
 #include "./../../position/position.hpp"
 #include "./../../history/history.hpp"
-#include "./../../log/dev/dev.hpp"
 #include "./../../margin/margin.hpp"
 
 std::map<int, bool> handler_status = {
@@ -22,7 +21,7 @@ void set_handled_status(int id)
     handler_status[id] = true;
 };
 
-bool is_handled(int id)
+bool is_common_handled(int id)
 {
     if (handler_status.count(id))
     {
@@ -39,7 +38,7 @@ void reset_handled_status()
     };
 };
 
-bool is_handler(int ch)
+bool is_common_handler(int ch)
 {
     for (auto const &[key, val] : handler_status)
     {
@@ -66,13 +65,13 @@ void CommonHandler::handle(int ch)
         if (*curr_y == 0)
         {
             wscrl(stdscr, -1);
-            _PRESSED_HISTORY.translocation_up();
-            _POSITION.set_move(*curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
+            // _PRESSED_HISTORY.translocation_up();
+            //_POSITION.set_move(*curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
             break;
         };
 
         _POSITION.decy();
-        _POSITION.set_move(*curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
+        //_POSITION.set_move(*curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
         break;
     }
     case KEY_DOWN:
@@ -80,12 +79,12 @@ void CommonHandler::handle(int ch)
         if ((*curr_y + 1) == (*max_y - 1))
         {
             scroll(stdscr);
-            _PRESSED_HISTORY.translocation_down();
+           // _PRESSED_HISTORY.translocation_down();
             break;
         };
 
         _POSITION.incy();
-        _POSITION.set_move(*curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
+        //_POSITION.set_move(*curr_y, _PRESSED_HISTORY.get_best_x(*curr_y));
         break;
     }
     case KEY_LEFT:

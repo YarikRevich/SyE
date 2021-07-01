@@ -1,6 +1,7 @@
+#include "./../../index.hpp"
 #include "./../pool/pool.hpp"
 
-class InsertHandler : public Handler
+class InsertHandler : public HandlerInterface
 {
 public:
     virtual void handle(int ch);

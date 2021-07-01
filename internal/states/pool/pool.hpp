@@ -1,7 +1,9 @@
 #pragma once
 
+#include "./../../index.hpp"
+
 class HandlerPool
 {
 public:
-    void handle(Handler *h, int ch);
+    void handle(HandlerInterface *h, int ch);
 };
