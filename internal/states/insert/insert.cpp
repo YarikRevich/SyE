@@ -24,8 +24,8 @@ void InsertHandler::handle(int ch)
             return;
         }
         _POSITION.set_start(false);
-        if (_INSERT__BUF.is_last_cell(*curr_y, *curr_x)){
-            _INSERT__BUF.translocation_down_from_y(*curr_y);
+        if (!_INSERT__BUF.is_last_cell(*curr_y, *curr_x)){
+            _INSERT__BUF.translocation_up_after_y(*curr_y);
         }
         break;
     }

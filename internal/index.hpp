@@ -72,11 +72,14 @@ public:
     //Translocates y coord up
     void translocation_up();
 
+    //Translocates y coord up from the equal y coord
+    void translocation_up_after_y(int y);
+
     //Translocates y coord down
     void translocation_down();
 
-    //Translocates y coord down from the equal y coord
-    void translocation_down_from_y(int y);
+    //Translocates y coord up from the equal y coord
+    void translocation_down_after_y(int y);
 
     bool is_last_cell(int y, int x);
 };

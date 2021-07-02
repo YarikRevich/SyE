@@ -53,7 +53,6 @@ void Renderer::init_render(std::string buf)
                 _POSITION.resetx();
                 break;
             default:
-                //_PRESSED_HISTORY.set_pressed(*curr_y, *curr_x);
                 _POSITION.incx();
             };
             _INSERT__BUF.add_C(buf[i], *curr_y, *curr_x);

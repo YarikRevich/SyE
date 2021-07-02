@@ -169,6 +169,21 @@ void BufferInterface<T>::translocation_up()
 };
 
 template <typename T>
+void BufferInterface<T>::translocation_up_after_y(int y)
+{
+    if constexpr (std::is_same_v<T, buf_cell_C>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->y > y)
+            {
+                this->buf[i]->y++;
+            }
+        }
+    }
+};
+
+template <typename T>
 void BufferInterface<T>::translocation_down()
 {
     if constexpr (std::is_same_v<T, buf_cell_C>)
@@ -181,7 +196,7 @@ void BufferInterface<T>::translocation_down()
 };
 
 template <typename T>
-void BufferInterface<T>::translocation_down_from_y(int y)
+void BufferInterface<T>::translocation_down_after_y(int y)
 {
     if constexpr (std::is_same_v<T, buf_cell_C>)
     {

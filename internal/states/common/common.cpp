@@ -55,8 +55,6 @@ void CommonHandler::handle(int ch)
     auto [max_y, max_x] = _POSITION.get_max_coords();
     auto [curr_y, curr_x] = _POSITION.get_curr_coords();
 
-    // CharInserter char_inseter;
-
     switch (ch)
     {
     case KEY_UP:
@@ -72,7 +70,9 @@ void CommonHandler::handle(int ch)
             };
             _POSITION.decy();
             _POSITION.set_move(*curr_y, _INSERT__BUF.get_last_x(*curr_y));
-        }else{
+        }
+        else
+        {
             _POSITION.set_start(true);
         };
         break;
@@ -92,8 +92,11 @@ void CommonHandler::handle(int ch)
     }
     case KEY_LEFT:
     {
-        _POSITION.decx();
-        _POSITION.set_move(*curr_y, *curr_x);
+        if (*curr_x != 0)
+        {
+            _POSITION.decx();
+            _POSITION.set_move(*curr_y, *curr_x);
+        }
         break;
     }
     case KEY_RIGHT:
@@ -104,7 +107,10 @@ void CommonHandler::handle(int ch)
     }
     case K_BACKSPACE:
     {
-        _INSERT__BUF.pop();
+        if (*curr_x != 0)
+        {
+            _INSERT__BUF.pop();
+        }
         break;
     }
     };
