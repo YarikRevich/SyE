@@ -23,6 +23,16 @@ void PositionMove::set_move(int y, int x)
 	this->move = {y, x};
 };
 
+void PositionMove::set_start(bool s)
+{
+	this->start = s;
+};
+
+bool PositionMove::is_start()
+{
+	return this->start;
+};
+
 std::tuple<int, int> PositionMove::get_move()
 {
 	return this->move;

@@ -23,12 +23,15 @@ void InsertHandler::handle(int ch)
             _INSERT__BUF.translocation_down();
             return;
         }
+        _POSITION.set_start(false);
+        if (_INSERT__BUF.is_last_cell(*curr_y, *curr_x)){
+            _INSERT__BUF.translocation_down_from_y(*curr_y);
+        }
         break;
     }
     case K_COLON:
     {
         _PREV_HISTORY.set_prev_yx(*curr_y, *curr_x);
-        // _COLORS.turn_on_command_theme();
 
         int i = 0;
         while (i != *max_x - 1)

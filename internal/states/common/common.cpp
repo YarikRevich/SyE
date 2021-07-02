@@ -61,21 +61,20 @@ void CommonHandler::handle(int ch)
     {
     case KEY_UP:
     {
-        // || !_FILE.exist_in_buf(*curr_y - 1)
-        if (*curr_y == 0 && !_INSERT__BUF.is_start(*curr_y))
+        if (!_INSERT__BUF.is_start(*curr_y))
         {
-            // wscrl(stdscr, -1);
-            // _INSERT__BUF.translocation_up();
-            // _POSITION.set_move(*curr_y, _INSERT__BUF.get_last_x(*curr_y));
+            if (*curr_y == 0)
+            {
+                wscrl(stdscr, -1);
+                _INSERT__BUF.translocation_up();
+                _POSITION.set_move(*curr_y, _INSERT__BUF.get_last_x(*curr_y));
+                return;
+            };
+            _POSITION.decy();
+            _POSITION.set_move(*curr_y, _INSERT__BUF.get_last_x(*curr_y));
+        }else{
+            _POSITION.set_start(true);
         };
-
-        // std::string s = std::to_string(*curr_y) + " IS CURR Y, " + std::to_string(*curr_x) + " IS CURR X, " + std::to_string(_INSERT__BUF.get_last_x(*curr_y)) + " LATEST X!\n";
-        // for (int i = 0; i < s.size(); i++)
-        // {
-        //     _LOG__BUF.add(s[i]);
-        // };
-        _POSITION.decy();
-        _POSITION.set_move(*curr_y, _INSERT__BUF.get_last_x(*curr_y));
         break;
     }
     case KEY_DOWN:
@@ -83,7 +82,7 @@ void CommonHandler::handle(int ch)
         if ((*curr_y + 1) == (*max_y - 1))
         {
             scroll(stdscr);
-            // _PRESSED_HISTORY.translocation_down();
+            _INSERT__BUF.translocation_down();
             break;
         };
 

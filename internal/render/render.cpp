@@ -14,7 +14,11 @@ void Renderer::render(std::vector<buf_cell_C *> buf)
         auto [move_y, move_x] = _POSITION.get_move();
         auto [curr_y, curr_x] = _POSITION.get_curr_coords();
 
-        if (!_POSITION.is_empty() && !((move_y == *curr_y) && (move_x == *curr_x)))
+        if (_POSITION.is_start())
+        {
+            wmove(stdscr, 0, _INSERT__BUF.get_last_x(0));
+        }
+        else if ((!_POSITION.is_empty() && !((move_y == *curr_y) && (move_x == *curr_x))))
         {
             wmove(stdscr, move_y, move_x);
         };

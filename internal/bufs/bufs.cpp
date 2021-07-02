@@ -25,7 +25,8 @@ bool BufferInterface<T>::is_start(int y)
     auto const first_cell = this->buf[0];
     if constexpr (std::is_same_v<T, buf_cell_C>)
     {
-        if (first_cell->y == y){
+        if (first_cell->y == y)
+        {
             return true;
         }
     }
@@ -58,7 +59,10 @@ void BufferInterface<T>::erase(int y, int x)
 template <typename T>
 void BufferInterface<T>::pop()
 {
-    this->buf.erase(this->buf.end() - 1);
+    if (!this->buf.empty())
+    {
+        this->buf.erase(this->buf.end() - 1);
+    }
 };
 
 template <typename T>
@@ -124,7 +128,7 @@ int BufferInterface<T>::get_last_x(int y)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if (this->buf[i]->y == y && this->buf[i]->symbol != 10)
+            if ((this->buf[i]->y == y) && (this->buf[i]->symbol != 10))
             {
                 res++;
             };
@@ -174,6 +178,31 @@ void BufferInterface<T>::translocation_down()
             this->buf[i]->y--;
         }
     }
+};
+
+template <typename T>
+void BufferInterface<T>::translocation_down_from_y(int y)
+{
+    if constexpr (std::is_same_v<T, buf_cell_C>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->y > y)
+            {
+                this->buf[i]->y--;
+            }
+        }
+    }
+};
+
+template <typename T>
+bool BufferInterface<T>::is_last_cell(int y, int x)
+{
+    if constexpr (std::is_same_v<T, buf_cell_C>)
+    {
+        return this->buf[this->buf.size() - 1]->y == y && this->buf[this->buf.size() - 1]->x == x;
+    }
+    return false;
 };
 
 template class BufferInterface<buf_cell>;
