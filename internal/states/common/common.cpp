@@ -95,6 +95,21 @@ void CommonHandler::handle(int ch)
         if (*curr_x != 0)
         {
             _POSITION.decx();
+
+            std::string q = "X is, ";
+            for (auto i : q)
+            {
+                _LOG__BUF.add_L(i, CHAR);
+            }
+            _LOG__BUF.add_L(*curr_x, INT);
+            _LOG__BUF.add_L(10, CHAR);
+
+            q = std::to_string(_INSERT__BUF.is_last_cell(*curr_y, *curr_x)) + "\n";
+            for (auto i : q)
+            {
+                _LOG__BUF.add_L(i, CHAR);
+            }
+
             _POSITION.set_move(*curr_y, *curr_x);
         }
         break;
@@ -107,10 +122,15 @@ void CommonHandler::handle(int ch)
     }
     case K_BACKSPACE:
     {
-        if (*curr_x != 0)
+        _INSERT__BUF.pop();
+
+        if (*curr_x == 0)
         {
-            _INSERT__BUF.pop();
+            _POSITION.decy();
+            _POSITION.set_move(*curr_y, _INSERT__BUF.get_last_x(*curr_y));
+            _INSERT__BUF.translocation_down_after_y(*curr_y);
         }
+        set_handled_status(K_BACKSPACE);
         break;
     }
     };

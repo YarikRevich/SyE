@@ -22,15 +22,31 @@ typedef struct
     int symbol;
 } buf_cell;
 
+enum L_symbol_type
+{
+    CHAR,
+    INT
+};
+
+//Used for units in log buffer
+typedef struct
+{
+    int symbol;
+    L_symbol_type type;
+} buf_cell_L;
+
 //Interface for all buffers
 template <typename T>
 class BufferInterface
 {
-protected:
+private:
     std::vector<T *> buf;
 
     //Says if buffer is modified
     bool modified;
+
+    //Sorts buffer by y and x coords
+    static bool sort(T *f, T *s);
 
 public:
     //Says if coords are the start of the file
@@ -44,6 +60,9 @@ public:
 
     //Appends cell to the end of the buffer with coords
     void add_C(int s, int y, int x);
+
+    //Appends cell to the buffer with symbol type
+    void add_L(int s, L_symbol_type st);
 
     //Appends cell to the end of the buffer
     void add(int s);

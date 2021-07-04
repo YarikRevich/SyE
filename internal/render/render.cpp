@@ -1,18 +1,26 @@
 #include "render.hpp"
 #include "./../bufs/bufs.hpp"
+#include "./../keys/keys.hpp"
 #include "./../colors/colors.hpp"
+#include "./../states/common/common.hpp"
 
 void Renderer::render(std::vector<buf_cell_C *> buf)
 {
     if (!buf.empty())
     {
+        auto [curr_y, curr_x] = _POSITION.get_curr_coords();
+
         for (int i = 0; i < buf.size(); i++)
         {
             mvwprintw(stdscr, buf[i]->y, buf[i]->x, "%c", buf[i]->symbol);
         }
 
+        if (!_INSERT__BUF.is_last_cell(*curr_y, *curr_x) && !is_common_handled(K_BACKSPACE))
+        {
+            wmove(stdscr, *curr_y, *curr_x+1);
+        }
+
         auto [move_y, move_x] = _POSITION.get_move();
-        auto [curr_y, curr_x] = _POSITION.get_curr_coords();
 
         if (_POSITION.is_start())
         {

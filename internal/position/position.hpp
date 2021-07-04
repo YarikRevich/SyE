@@ -38,6 +38,8 @@ public:
 
     std::tuple<int *, int *> get_curr_coords();
 
+    void update_curr_coords();
+
     void resetx();
 
     void decx();

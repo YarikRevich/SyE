@@ -10,8 +10,13 @@ std::tuple<int *, int *> Position::get_max_coords()
 
 std::tuple<int *, int *> Position::get_curr_coords()
 {
-	getyx(stdscr, curr_y, curr_x);
+	getsyx(curr_y, curr_x);
 	return {&curr_y, &curr_x};
+};
+
+void Position::update_curr_coords()
+{
+	getsyx(curr_y, curr_x);
 };
 
 void PositionMove::set_move(int y, int x)

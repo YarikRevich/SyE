@@ -42,7 +42,14 @@ void LogFile::save()
         auto const log_buf = _LOG__BUF.get();
         for (int i = 0; i < log_buf.size(); i++)
         {
-            fprintf(this->file, "%c", log_buf[i]->symbol);
+            switch (log_buf[i]->type)
+            {
+            case CHAR:
+                fprintf(this->file, "%c", log_buf[i]->symbol);
+                break;
+            case INT:
+                fprintf(this->file, "%d", log_buf[i]->symbol);
+            }
         }
         _LOG__BUF.clear();
     }
