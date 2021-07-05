@@ -11,14 +11,17 @@ void Renderer::render(BufferInterface<buf_cell_C> *buf)
     if (!b.empty())
     {
         auto [curr_y, curr_x] = _POSITION.get_curr_coords();
-         auto [max_y, max_x] = _POSITION.get_max_coords();
+        auto [max_y, max_x] = _POSITION.get_max_coords();
 
         for (int i = 0; i < b.size(); i++)
         {
             mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
         }
 
-        if (!buf->is_last_cell(*curr_y, *curr_x) && !is_common_handled(K_BACKSPACE) && _STATE.get_state() != COMMAND && *curr_y != (*max_y - 2))
+        // && !is_common_handled(K_BACKSPACE)
+        // && _STATE.get_state() != COMMAND
+        // && *curr_y != (*max_y - 2)
+        if (!buf->is_last_cell(*curr_y, *curr_x) && !buf->is_ignore_forcible_move())
         {
             wmove(stdscr, *curr_y, *curr_x + 1);
         }
@@ -40,6 +43,8 @@ void Renderer::render(BufferInterface<buf_cell_C> *buf)
         };
 
         buf->delete_move();
+
+        buf->set_ignore_forcible_move(false);
 
         wrefresh(stdscr);
     }

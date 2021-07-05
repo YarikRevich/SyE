@@ -316,10 +316,44 @@ void BufferInterface<T>::translocation_down_after_y(int y)
 };
 
 template <typename T>
-void BufferInterface<T>::translocation_right_after_x(int x)
+void BufferInterface<T>::translocation_right_after_x(int y, int x)
 {
     if constexpr (std::is_same_v<T, buf_cell_C>)
     {
+        auto [max_y, max_x] = _POSITION.get_max_coords();
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if ((this->buf[i]->y >= y) && this->buf[i]->x == *max_x)
+            {
+                this->buf[i]->y++;
+                this->buf[i]->x = 0;
+            }
+            else if ((this->buf[i]->y >= y) && this->buf[i]->x > x)
+            {
+                this->buf[i]->x++;
+            }
+        }
+    }
+};
+
+template <typename T>
+void BufferInterface<T>::translocation_left_after_x(int y, int x)
+{
+    if constexpr (std::is_same_v<T, buf_cell_C>)
+    {
+        auto [max_y, max_x] = _POSITION.get_max_coords();
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if ((this->buf[i]->y >= y) && this->buf[i]->x == 0)
+            {
+                this->buf[i]->y--;
+                this->buf[i]->x = *max_x;
+            }
+            else if ((this->buf[i]->y >= y) && this->buf[i]->x > x)
+            {
+                this->buf[i]->x--;
+            }
+        }
     }
 };
 
@@ -334,6 +368,18 @@ bool BufferInterface<T>::is_last_cell(int y, int x)
         }
     }
     return false;
+};
+
+template <typename T>
+void BufferInterface<T>::set_ignore_forcible_move(bool s)
+{
+    this->ignore_forcible_move = s;
+};
+
+template <typename T>
+bool BufferInterface<T>::is_ignore_forcible_move()
+{
+    return this->ignore_forcible_move;
 };
 
 template class BufferInterface<buf_cell>;

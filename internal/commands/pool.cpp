@@ -7,12 +7,15 @@
 #include "search/search.hpp"
 #include "./../status/status.hpp"
 #include "set_color/set_color.hpp"
+#include "./../bufs/bufs.hpp"
 
 void apply_command(std::string c)
 {
     std::transform(c.begin(), c.end(), c.begin(), [](char t)
                    { return tolower(t); });
-
+    for (auto i : c){
+        _LOG__BUF->add_L(i, CHAR);
+    }
     if (c == "w")
     {
         W_Command w_com;

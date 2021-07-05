@@ -49,4 +49,8 @@ Bonus+ (Implement search architecture over the app)
 - Fix errors with color placing
 - Fix error with scroll
 ```
+5.07.31
 
+```
+- Implement command to cycle what you have written
+```

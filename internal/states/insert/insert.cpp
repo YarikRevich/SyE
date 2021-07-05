@@ -19,13 +19,15 @@ void InsertHandler::handle(int ch)
     {
         if (*curr_y == (*max_y - 2))
         {
+            _INSERT__BUF->set_ignore_forcible_move(true);
             _INSERT__BUF->add_C(ch, *curr_y, *curr_x);
             _INSERT__BUF->translocation_down();
             return;
         }
         _POSITION.set_start(false);
-        if (!_INSERT__BUF->is_last_cell(*curr_y, *curr_x)){
-            _INSERT__BUF->set_move(*curr_y+1, 0);
+        if (!_INSERT__BUF->is_last_cell(*curr_y, *curr_x))
+        {
+            _INSERT__BUF->set_move(*curr_y + 1, 0);
             _INSERT__BUF->translocation_up_after_y(*curr_y);
         }
         break;

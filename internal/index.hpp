@@ -49,6 +49,8 @@ private:
 
     bool empty = true;
 
+    bool ignore_forcible_move;
+
     //Sorts buffer by y and x coords
     static bool sort(T *f, T *s);
 
@@ -119,10 +121,17 @@ public:
     void translocation_down_after_y(int y);
 
     //Translocates x coords right from the equal x coord
-    void translocation_right_after_x(int x);
+    void translocation_right_after_x(int y, int x);
+
+    //Translocates x coords right from the equal x coord
+    void translocation_left_after_x(int y, int x);
 
     //Says if cell with such coords is the last in the buffer
     bool is_last_cell(int y, int x);
+
+    void set_ignore_forcible_move(bool s);
+
+    bool is_ignore_forcible_move();
 };
 
 //Interface for all handlers
