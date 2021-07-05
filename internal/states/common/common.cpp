@@ -50,6 +50,20 @@ bool is_common_handler(int ch)
     return false;
 };
 
+void set_move(int y, int x)
+{
+    //Sets move depending on the current state
+
+    switch (_STATE.get_state())
+    {
+    case INSERT:
+        _INSERT__BUF->set_move(y, x);
+        break;
+    case COMMAND:
+        _COMMAND__BUF->set_move(y, x);
+    }
+};
+
 void CommonHandler::handle(int ch)
 {
     auto [max_y, max_x] = _POSITION.get_max_coords();
@@ -59,78 +73,100 @@ void CommonHandler::handle(int ch)
     {
     case KEY_UP:
     {
-        if (!_INSERT__BUF.is_start(*curr_y))
+        if (_STATE.get_state() != COMMAND)
         {
-            if (*curr_y == 0)
+            if (!_INSERT__BUF->is_start(*curr_y))
             {
-                wscrl(stdscr, -1);
-                _INSERT__BUF.translocation_up();
-                _POSITION.set_move(*curr_y, _INSERT__BUF.get_last_x(*curr_y));
-                return;
+                if (*curr_y == 0)
+                {
+                    wscrl(stdscr, -1);
+                    _INSERT__BUF->translocation_up();
+
+                    set_move(*curr_y, _INSERT__BUF->get_last_x(*curr_y));
+                    return;
+                };
+                _POSITION.decy();
+                set_move(*curr_y, _INSERT__BUF->get_last_x(*curr_y));
+            }
+            else
+            {
+                _POSITION.set_start(true);
             };
-            _POSITION.decy();
-            _POSITION.set_move(*curr_y, _INSERT__BUF.get_last_x(*curr_y));
         }
-        else
-        {
-            _POSITION.set_start(true);
-        };
         break;
     }
     case KEY_DOWN:
     {
-        if ((*curr_y + 1) == (*max_y - 1))
+        if (_STATE.get_state() != COMMAND)
         {
-            scroll(stdscr);
-            _INSERT__BUF.translocation_down();
-            break;
-        };
+            if ((*curr_y + 1) == (*max_y - 1))
+            {
+                scroll(stdscr);
+                _INSERT__BUF->translocation_down();
+                break;
+            };
 
-        _POSITION.incy();
-        _POSITION.set_move(*curr_y, _INSERT__BUF.get_last_x(*curr_y));
+            _POSITION.set_start(false);
+            _POSITION.incy();
+            set_move(*curr_y, _INSERT__BUF->get_last_x(*curr_y));
+        }
         break;
     }
     case KEY_LEFT:
     {
         if (*curr_x != 0)
         {
+            _POSITION.set_start(false);
             _POSITION.decx();
-
-            std::string q = "X is, ";
-            for (auto i : q)
-            {
-                _LOG__BUF.add_L(i, CHAR);
-            }
-            _LOG__BUF.add_L(*curr_x, INT);
-            _LOG__BUF.add_L(10, CHAR);
-
-            q = std::to_string(_INSERT__BUF.is_last_cell(*curr_y, *curr_x)) + "\n";
-            for (auto i : q)
-            {
-                _LOG__BUF.add_L(i, CHAR);
-            }
-
-            _POSITION.set_move(*curr_y, *curr_x);
+            set_move(*curr_y, *curr_x);
         }
         break;
     }
     case KEY_RIGHT:
     {
-        _POSITION.incx();
-        _POSITION.set_move(*curr_y, *curr_x);
+        if (!_INSERT__BUF->is_last_cell(*curr_y, *curr_x - 1) && !_COMMAND__BUF->is_last_cell(*curr_y, *curr_x - 1))
+        {
+            _POSITION.set_start(false);
+            _POSITION.incx();
+            set_move(*curr_y, *curr_x);
+        }
         break;
     }
     case K_BACKSPACE:
     {
-        _INSERT__BUF.pop();
 
-        if (*curr_x == 0)
+        if (!_INSERT__BUF->get().empty())
         {
-            _POSITION.decy();
-            _POSITION.set_move(*curr_y, _INSERT__BUF.get_last_x(*curr_y));
-            _INSERT__BUF.translocation_down_after_y(*curr_y);
+            if (*curr_x == 0)
+            {
+                _POSITION.decy();
+                _INSERT__BUF->erase(*curr_y, _INSERT__BUF->get_last_x(*curr_y));
+                // _INSERT__BUF->translocation_up();
+                // _INSERT__BUF->translocation_down_after_y(*curr_y);
+            }
+            else
+            {
+                _INSERT__BUF->erase(*curr_y, *curr_x - 1);
+            }
+
+            set_move(*curr_y, _INSERT__BUF->get_last_x(*curr_y));
+            set_handled_status(K_BACKSPACE);
         }
-        set_handled_status(K_BACKSPACE);
+
+        using namespace std;
+        string s = "Buf is, ";
+        for (auto i : s)
+        {
+            _LOG__BUF->add_L(i, CHAR);
+        }
+        _LOG__BUF->add_L(10, CHAR);
+
+        for (auto i : _INSERT__BUF->get())
+        {
+            _LOG__BUF->add_L(i->symbol, INT);
+            _LOG__BUF->add_L(10, CHAR);
+        }
+        _LOG__BUF->add_L(10, CHAR);
         break;
     }
     };

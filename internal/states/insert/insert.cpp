@@ -19,13 +19,14 @@ void InsertHandler::handle(int ch)
     {
         if (*curr_y == (*max_y - 2))
         {
-            _INSERT__BUF.add_C(ch, *curr_y, *curr_x);
-            _INSERT__BUF.translocation_down();
+            _INSERT__BUF->add_C(ch, *curr_y, *curr_x);
+            _INSERT__BUF->translocation_down();
             return;
         }
         _POSITION.set_start(false);
-        if (!_INSERT__BUF.is_last_cell(*curr_y, *curr_x)){
-            _INSERT__BUF.translocation_up_after_y(*curr_y);
+        if (!_INSERT__BUF->is_last_cell(*curr_y, *curr_x)){
+            _INSERT__BUF->set_move(*curr_y+1, 0);
+            _INSERT__BUF->translocation_up_after_y(*curr_y);
         }
         break;
     }
@@ -36,12 +37,12 @@ void InsertHandler::handle(int ch)
         int i = 0;
         while (i != *max_x - 1)
         {
-            _EFFECTS__BUF.add_C(32, *max_y - 1, i);
+            _EFFECTS__BUF->add_C(32, *max_y - 1, i);
             i++;
         }
-        _INSERT__BUF.add_C(ch, *max_y - 1, 0);
+        _INSERT__BUF->add_C(ch, *max_y - 1, 0);
 
-        _POSITION.set_move(*max_y - 1, 1);
+        _INSERT__BUF->set_move(*max_y - 1, 1);
 
         _STATE.set_checkpoint_before_command();
         _STATE.set_state(COMMAND);
@@ -51,20 +52,6 @@ void InsertHandler::handle(int ch)
 
     if (!is_common_handler(ch))
     {
-        _INSERT__BUF.add_C(ch, *curr_y, *curr_x);
+        _INSERT__BUF->add_C(ch, *curr_y, *curr_x);
     }
-    // auto [t, ok] = ctrl(ch);
-    // if (ok)
-    // {
-    //     for (int i = 0; i < t.size(); i++)
-    //     {
-    //         _FILE.add(t[i], *curr_y, *curr_x - i);
-    //     }
-    // }
-
-    // std::string m = std::to_string(_INSERT__BUF.get().size()) + " IS SIZE\n";
-    // for (int i = 0; i < m.size(); i++)
-    // {
-    //     _LOG__BUF.add(m[i]);
-    // }
 };

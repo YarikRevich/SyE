@@ -6,25 +6,12 @@
 class PositionMove
 {
 private:
-    std::tuple<int, int> move;
-    bool empty = true;
     bool start;
 
 public:
-    void set_move(int y, int x);
-
     void set_start(bool s);
 
     bool is_start();
-
-    std::tuple<int, int> get_move();
-
-    void delete_move();
-
-    //Says if set move function was used
-    //Because if it didn't it can cause
-    //death loop of printing chars
-    bool is_empty();
 };
 
 class Position : public PositionMove

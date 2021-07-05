@@ -40,9 +40,9 @@ void run_loop()
 
 		_POSITION.update_curr_coords();
 
-		_RENDERER.render_with_color(_EFFECTS__BUF.get(), COMMAND_THEME);
-		_RENDERER.render(_INSERT__BUF.get());
-		_RENDERER.render_with_color(_COMMAND__BUF.get(), COMMAND_THEME);
+		_RENDERER.render_with_color(_EFFECTS__BUF, COMMAND_THEME);
+		_RENDERER.render(_INSERT__BUF);
+		_RENDERER.render_with_color(_COMMAND__BUF, COMMAND_THEME);
 		_LOG_FILE.save();
 
 		reset_handled_status();

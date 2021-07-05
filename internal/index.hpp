@@ -45,6 +45,10 @@ private:
     //Says if buffer is modified
     bool modified;
 
+    std::tuple<int, int> move;
+
+    bool empty = true;
+
     //Sorts buffer by y and x coords
     static bool sort(T *f, T *s);
 
@@ -67,6 +71,20 @@ public:
     //Appends cell to the end of the buffer
     void add(int s);
 
+    //Sets move for render
+    void set_move(int y, int x);
+
+    //Returns move for render
+    std::tuple<int, int> get_move();
+
+    //Deletes move for render
+    void delete_move();
+
+    //Says if set move function was used
+    //Because if it didn't it can cause
+    //death loop of printing chars
+    bool is_empty();
+
     // Sets modified state
     void set_modified(bool s);
 
@@ -88,18 +106,22 @@ public:
     //Clears the whole buffer
     void clear();
 
-    //Translocates y coord up
+    //Translocates y coords up
     void translocation_up();
 
-    //Translocates y coord up from the equal y coord
+    //Translocates y coords up from the equal y coord
     void translocation_up_after_y(int y);
 
-    //Translocates y coord down
+    //Translocates y coord sdown
     void translocation_down();
 
-    //Translocates y coord up from the equal y coord
+    //Translocates y coords up from the equal y coord
     void translocation_down_after_y(int y);
 
+    //Translocates x coords right from the equal x coord
+    void translocation_right_after_x(int x);
+
+    //Says if cell with such coords is the last in the buffer
     bool is_last_cell(int y, int x);
 };
 

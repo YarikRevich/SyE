@@ -2,42 +2,50 @@
 #include "./../bufs/bufs.hpp"
 #include "./../keys/keys.hpp"
 #include "./../colors/colors.hpp"
+#include "./../status/status.hpp"
 #include "./../states/common/common.hpp"
 
-void Renderer::render(std::vector<buf_cell_C *> buf)
+void Renderer::render(BufferInterface<buf_cell_C> *buf)
 {
-    if (!buf.empty())
+    auto b = buf->get();
+    if (!b.empty())
     {
         auto [curr_y, curr_x] = _POSITION.get_curr_coords();
+         auto [max_y, max_x] = _POSITION.get_max_coords();
 
-        for (int i = 0; i < buf.size(); i++)
+        for (int i = 0; i < b.size(); i++)
         {
-            mvwprintw(stdscr, buf[i]->y, buf[i]->x, "%c", buf[i]->symbol);
+            mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
         }
 
-        if (!_INSERT__BUF.is_last_cell(*curr_y, *curr_x) && !is_common_handled(K_BACKSPACE))
+        if (!buf->is_last_cell(*curr_y, *curr_x) && !is_common_handled(K_BACKSPACE) && _STATE.get_state() != COMMAND && *curr_y != (*max_y - 2))
         {
-            wmove(stdscr, *curr_y, *curr_x+1);
+            wmove(stdscr, *curr_y, *curr_x + 1);
         }
 
-        auto [move_y, move_x] = _POSITION.get_move();
+        auto [move_y, move_x] = buf->get_move();
 
         if (_POSITION.is_start())
         {
-            wmove(stdscr, 0, _INSERT__BUF.get_last_x(0));
+            wmove(stdscr, 0, buf->get_last_x(0));
         }
-        else if ((!_POSITION.is_empty() && !((move_y == *curr_y) && (move_x == *curr_x))))
+        else if ((!buf->is_empty() && !((move_y == *curr_y) && (move_x == *curr_x))))
         {
+            // _LOG__BUF.add_L('Q', CHAR);
+            // _LOG__BUF.add_L(*curr_x, INT);
+            // _LOG__BUF.add_L(10, CHAR);
+            // _LOG__BUF.add_L(move_x, INT);
+            // _LOG__BUF.add_L(10, CHAR);
             wmove(stdscr, move_y, move_x);
         };
 
-        _POSITION.delete_move();
+        buf->delete_move();
 
         wrefresh(stdscr);
     }
 };
 
-void Renderer::render_with_color(std::vector<buf_cell_C *> buf, int color_pair)
+void Renderer::render_with_color(BufferInterface<buf_cell_C> *buf, int color_pair)
 {
     _COLORS.set_color(color_pair);
     this->render(buf);
@@ -63,7 +71,7 @@ void Renderer::init_render(std::string buf)
             default:
                 _POSITION.incx();
             };
-            _INSERT__BUF.add_C(buf[i], *curr_y, *curr_x);
+            _INSERT__BUF->add_C(buf[i], *curr_y, *curr_x);
             mvwaddch(stdscr, *curr_y, *curr_x, buf[i]);
         };
     };

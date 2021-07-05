@@ -7,8 +7,8 @@
 
 bool _is_insert_buf_equal_to_default()
 {
-    auto const insert_buf = _INSERT__BUF.get();
-    auto const default_buf = _DEFAULT__BUF.get();
+    auto const insert_buf = _INSERT__BUF->get();
+    auto const default_buf = _DEFAULT__BUF->get();
     if ((!insert_buf.empty() && !default_buf.empty()) && (insert_buf.size() == default_buf.size()))
     {
         for (int i = 0; i < default_buf.size() - 1; i++)
@@ -26,7 +26,7 @@ bool _is_insert_buf_equal_to_default()
 template <typename T>
 bool BufferInterface<T>::sort(T *f, T *s)
 {
- 
+
     if constexpr (std::is_same_v<T, buf_cell_C>)
     {
         if (f->y < s->y)
@@ -62,6 +62,16 @@ bool BufferInterface<T>::is_start(int y)
     return false;
 };
 
+template <typename T>
+void BufferInterface<T>::set_move(int y, int x)
+{
+    if (this->empty)
+    {
+        this->empty = FALSE;
+    }
+    this->move = {y, x};
+};
+
 template <class T>
 void BufferInterface<T>::erase(int y, int x)
 {
@@ -83,6 +93,25 @@ void BufferInterface<T>::erase(int y, int x)
             this->buf.erase(buf.begin());
         }
     }
+}
+
+template <typename T>
+std::tuple<int, int> BufferInterface<T>::get_move()
+{
+    return this->move;
+}
+
+template <typename T>
+void BufferInterface<T>::delete_move()
+{
+    this->empty = TRUE;
+    this->move = {};
+};
+
+template <typename T>
+bool BufferInterface<T>::is_empty()
+{
+    return this->empty;
 }
 
 template <typename T>
@@ -287,6 +316,14 @@ void BufferInterface<T>::translocation_down_after_y(int y)
 };
 
 template <typename T>
+void BufferInterface<T>::translocation_right_after_x(int x)
+{
+    if constexpr (std::is_same_v<T, buf_cell_C>)
+    {
+    }
+};
+
+template <typename T>
 bool BufferInterface<T>::is_last_cell(int y, int x)
 {
     if constexpr (std::is_same_v<T, buf_cell_C>)
@@ -303,9 +340,9 @@ template class BufferInterface<buf_cell>;
 template class BufferInterface<buf_cell_C>;
 template class BufferInterface<buf_cell_L>;
 
-BufferInterface<buf_cell_L> _LOG__BUF;
-BufferInterface<buf_cell> _DEFAULT__BUF;
-BufferInterface<buf_cell_C> _INSERT__BUF;
-BufferInterface<buf_cell_C> _COMMAND__BUF;
-BufferInterface<buf_cell_C> _EFFECTS__BUF;
-BufferInterface<buf_cell_C> _SEARCH__BUF;
+BufferInterface<buf_cell_L> *_LOG__BUF = new BufferInterface<buf_cell_L>;
+BufferInterface<buf_cell> *_DEFAULT__BUF = new BufferInterface<buf_cell>;
+BufferInterface<buf_cell_C> *_INSERT__BUF = new BufferInterface<buf_cell_C>;
+BufferInterface<buf_cell_C> *_COMMAND__BUF = new BufferInterface<buf_cell_C>;
+BufferInterface<buf_cell_C> *_EFFECTS__BUF = new BufferInterface<buf_cell_C>;
+BufferInterface<buf_cell_C> *_SEARCH__BUF = new BufferInterface<buf_cell_C>;

@@ -19,15 +19,6 @@ void Position::update_curr_coords()
 	getsyx(curr_y, curr_x);
 };
 
-void PositionMove::set_move(int y, int x)
-{
-	if (this->empty)
-	{
-		this->empty = FALSE;
-	}
-	this->move = {y, x};
-};
-
 void PositionMove::set_start(bool s)
 {
 	this->start = s;
@@ -37,22 +28,6 @@ bool PositionMove::is_start()
 {
 	return this->start;
 };
-
-std::tuple<int, int> PositionMove::get_move()
-{
-	return this->move;
-}
-
-void PositionMove::delete_move()
-{
-	this->empty = TRUE;
-	this->move = {};
-};
-
-bool PositionMove::is_empty()
-{
-	return this->empty;
-}
 
 void Position::resetx()
 {

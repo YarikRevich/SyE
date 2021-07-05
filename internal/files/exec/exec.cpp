@@ -45,7 +45,7 @@ std::string ExecFile::read()
         {
             break;
         }
-        _DEFAULT__BUF.add_C(res[i], 0, 0);
+        _DEFAULT__BUF->add(res[i]);
     }
 
     fclose(file);
@@ -62,7 +62,7 @@ void ExecFile::save()
     if (file != NULL)
     {
         //modified = true;
-        auto const insert_buf = _INSERT__BUF.get();
+        auto const insert_buf = _INSERT__BUF->get();
         if (!insert_buf.empty())
         {
             for (int i = 0; i < insert_buf.size(); i++)
@@ -76,8 +76,8 @@ void ExecFile::save()
 
 void ExecFile::auto_save()
 {
-    auto const default_buf = _DEFAULT__BUF.get();
-    if (_is_insert_buf_equal_to_default() || !_INSERT__BUF.is_modified())
+    auto const default_buf = _DEFAULT__BUF->get();
+    if (_is_insert_buf_equal_to_default() || !_INSERT__BUF->is_modified())
     {
         for (int i = 0; i < default_buf.size(); i++)
         {
