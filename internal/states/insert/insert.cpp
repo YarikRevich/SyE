@@ -54,6 +54,16 @@ void InsertHandler::handle(int ch)
 
     if (!is_common_handler(ch))
     {
-        _INSERT__BUF->add_C(ch, *curr_y, *curr_x);
+        // _LOG__BUF->add_L(*curr_x, INT);
+        // _LOG__BUF->add_L(10, CHAR);
+        if (*curr_x == (*max_x - 1))
+        {
+            _INSERT__BUF->add_C(ch, *curr_y, *curr_x);
+            _INSERT__BUF->add_C(10, *curr_y, *curr_x + 1);
+        }
+        else
+        {
+            _INSERT__BUF->add_C(ch, *curr_y, *curr_x);
+        }
     }
 };

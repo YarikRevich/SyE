@@ -11,7 +11,6 @@ void Config::read()
     else
     {
         this->file = fopen("~/.sye_config", "w");
-        
     };
 };
 void Config::save(){

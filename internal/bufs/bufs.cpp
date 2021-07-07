@@ -295,7 +295,10 @@ void BufferInterface<T>::translocation_down()
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            this->buf[i]->y--;
+            if (this->buf[i]->y != 0)
+            {
+                this->buf[i]->y--;
+            }
         }
     }
 };
@@ -344,12 +347,16 @@ void BufferInterface<T>::translocation_left_after_x(int y, int x)
         auto [max_y, max_x] = _POSITION.get_max_coords();
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if ((this->buf[i]->y >= y) && this->buf[i]->x == 0)
+            if ((this->buf[i]->y > y) && (this->buf[i]->x >= x) && (this->buf[i]->symbol == 10))
+            {
+                break;
+            }
+            if ((this->buf[i]->y > y) && (this->buf[i]->x == 0))
             {
                 this->buf[i]->y--;
                 this->buf[i]->x = *max_x;
             }
-            else if ((this->buf[i]->y >= y) && this->buf[i]->x > x)
+            else if ((this->buf[i]->y >= y) && this->buf[i]->x >= x)
             {
                 this->buf[i]->x--;
             }

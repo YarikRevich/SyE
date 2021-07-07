@@ -54,3 +54,10 @@ Bonus+ (Implement search architecture over the app)
 ```
 - Implement command to cycle what you have written
 ```
+
+6.07.31
+
+```
+- Implement checking of combined chars
+- Implement translocation of symbols
+```

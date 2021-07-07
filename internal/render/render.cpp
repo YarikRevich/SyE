@@ -18,15 +18,17 @@ void Renderer::render(BufferInterface<buf_cell_C> *buf)
             mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
         }
 
-        // && !is_common_handled(K_BACKSPACE)
-        // && _STATE.get_state() != COMMAND
-        // && *curr_y != (*max_y - 2)
         if (!buf->is_last_cell(*curr_y, *curr_x) && !buf->is_ignore_forcible_move())
         {
             wmove(stdscr, *curr_y, *curr_x + 1);
         }
 
         auto [move_y, move_x] = buf->get_move();
+
+        _LOG__BUF->add_L(move_y, INT);
+        _LOG__BUF->add_L(10, CHAR);
+        _LOG__BUF->add_L(move_x, INT);
+        _LOG__BUF->add_L(10, CHAR);
 
         if (_POSITION.is_start())
         {

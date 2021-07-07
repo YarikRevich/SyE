@@ -146,12 +146,16 @@ void CommonHandler::handle(int ch)
             {
                 _POSITION.decy();
                 _INSERT__BUF->erase(*curr_y, _INSERT__BUF->get_last_x(*curr_y));
-                _INSERT__BUF->translocation_down_after_y(*curr_y);
+                _INSERT__BUF->erase(*curr_y, _INSERT__BUF->get_last_x(*curr_y)-1);
+                _INSERT__BUF->set_move(*curr_y, _INSERT__BUF->get_last_x(*curr_y));
+                _INSERT__BUF->set_ignore_forcible_move(TRUE);
+                // _INSERT__BUF->translocation_down_after_y(*curr_y);
+                break;
             }
-            else if (!_INSERT__BUF->is_last_cell(*curr_y, *curr_x))
+            else if (!_INSERT__BUF->is_last_cell(*curr_y, *curr_x - 1))
             {
-                // _INSERT__BUF->translocation_left_after_x(*curr_y, *curr_x);
                 _INSERT__BUF->erase(*curr_y, *curr_x - 1);
+                //_INSERT__BUF->translocation_left_after_x(*curr_y, *curr_x);
             }
             else
             {

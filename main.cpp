@@ -9,25 +9,13 @@ int main(int argc, char **argv)
 {
 	TermFlags(argc, argv);
 
-	//Inits ncurses
 	initscr();
-
-	//Disables echo mode in ncurses
+	set_escdelay(FALSE);
 	noecho();
-
-	//Turn off scroll
 	scrollok(stdscr, TRUE);
-
-	//Enables the opportunity to use key pad
-	keypad(stdscr, true);
-
-	//Inits color sets
+	keypad(stdscr, TRUE);
 	_COLORS.init_colors();
-
-	//Handles sigint signal
 	signal(SIGINT, close_all_files);
-
 	run_loop();
-
 	return 0;
 }
