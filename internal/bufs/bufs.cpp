@@ -1,14 +1,13 @@
-#include <type_traits>
-#include <algorithm>
-#include <string>
 #include <math.h>
-#include "./../position/position.hpp"
 #include "bufs.hpp"
+#include <algorithm>
+#include <type_traits>
+#include "./../position/position.hpp"
 
-bool _is_insert_buf_equal_to_default()
+bool isInsertSameToDefaultBuf()
 {
-    auto const insert_buf = _INSERT__BUF->get();
-    auto const default_buf = _DEFAULT__BUF->get();
+    auto const insert_buf = _INSERT__BUF->getBuf();
+    auto const default_buf = _DEFAULT__BUF->getBuf();
     if ((!insert_buf.empty() && !default_buf.empty()) && (insert_buf.size() == default_buf.size()))
     {
         for (int i = 0; i < default_buf.size() - 1; i++)
@@ -24,23 +23,168 @@ bool _is_insert_buf_equal_to_default()
 };
 
 template <typename T>
-bool BufferInterface<T>::sort(T *f, T *s)
+void CoordsTranslocation<T>::translocateYUp()
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            this->buf[i]->y++;
+        }
+    }
+};
+
+template <typename T>
+void CoordsTranslocation<T>::translocateYUpAfter(int y)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->y > y)
+            {
+                this->buf[i]->y++;
+            }
+        }
+    }
+};
+
+template <typename T>
+void CoordsTranslocation<T>::translocateYDown()
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->y != 0)
+            {
+                this->buf[i]->y--;
+            }
+        }
+    }
+};
+
+template <typename T>
+void CoordsTranslocation<T>::translocateYDownAfter(int y)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->y > y && !this->isStartRow(this->buf[i]->y))
+            {
+                _LOG__BUF->addCellWithSymbolType('Y', CHAR);
+                _LOG__BUF->addCellWithSymbolType(10, CHAR);
+                this->buf[i]->y--;
+            }
+        }
+    }
+};
+
+template <typename T>
+void CoordsTranslocation<T>::translocateXRightAfter(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        auto [max_y, max_x] = _POSITION.get_max_coords();
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if ((this->buf[i]->y >= y) && this->buf[i]->x == *max_x)
+            {
+                this->buf[i]->y++;
+                this->buf[i]->x = 0;
+            }
+            else if ((this->buf[i]->y >= y) && this->buf[i]->x > x)
+            {
+                this->buf[i]->x++;
+            }
+        }
+    }
+};
+
+template <typename T>
+void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        auto [max_y, max_x] = _POSITION.get_max_coords();
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if ((this->buf[i]->y > y) && (this->buf[i]->x >= x) && (this->buf[i]->symbol == 10))
+            {
+                break;
+            }
+            if ((this->buf[i]->y > y) && (this->buf[i]->x == 0))
+            {
+                this->buf[i]->y--;
+                this->buf[i]->x = *max_x;
+            }
+            else if ((this->buf[i]->y >= y) && this->buf[i]->x >= x)
+            {
+                this->buf[i]->x--;
+            }
+        }
+    }
+};
+
+void Movement::setMovement(int y, int x)
+{
+    if (this->empty)
+    {
+        this->empty = FALSE;
+    }
+    this->movement = {y, x};
+};
+
+std::tuple<int, int> Movement::getMovement()
+{
+    return this->movement;
+}
+
+void Movement::deleteMovement()
+{
+    this->empty = TRUE;
+    this->movement = {};
+};
+
+bool Movement::isEmpty()
+{
+    return this->empty;
+}
+
+void Movement::setIgnoreForcibleMove(bool s)
+{
+    this->ignoreForcibleMove = s;
+};
+
+bool Movement::isIgnoreForcibleMove()
+{
+    return this->ignoreForcibleMove;
+};
+
+void Movement::resetIgnoreForcibleMove()
+{
+    this->ignoreForcibleMove = false;
+};
+
+template <typename T>
+bool Base<T>::sort(T *currentBufferCell, T *nextBufferCell)
 {
 
-    if constexpr (std::is_same_v<T, buf_cell_C>)
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        if (f->y < s->y)
+        if (currentBufferCell->y < nextBufferCell->y)
         {
             return true;
         }
-        else if (f->y > s->y)
+        else if (currentBufferCell->y > nextBufferCell->y)
         {
             return false;
         }
         else
         {
-            double g1 = sqrt(f->x * f->x + f->y * f->y);
-            double g2 = sqrt(s->x * s->x + s->y * s->y);
+            double g1 = sqrt(currentBufferCell->x * currentBufferCell->x + currentBufferCell->y * currentBufferCell->y);
+            double g2 = sqrt(nextBufferCell->x * nextBufferCell->x + nextBufferCell->y * nextBufferCell->y);
 
             return g1 < g2;
         }
@@ -49,10 +193,10 @@ bool BufferInterface<T>::sort(T *f, T *s)
 };
 
 template <typename T>
-bool BufferInterface<T>::is_start(int y)
+bool Base<T>::isStartRow(int y)
 {
     auto const first_cell = this->buf[0];
-    if constexpr (std::is_same_v<T, buf_cell_C>)
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
         if (first_cell->y == y)
         {
@@ -62,20 +206,10 @@ bool BufferInterface<T>::is_start(int y)
     return false;
 };
 
-template <typename T>
-void BufferInterface<T>::set_move(int y, int x)
-{
-    if (this->empty)
-    {
-        this->empty = FALSE;
-    }
-    this->move = {y, x};
-};
-
 template <class T>
-void BufferInterface<T>::erase(int y, int x)
+void Base<T>::eraseCell(int y, int x)
 {
-    if constexpr (std::is_same_v<T, buf_cell_C>)
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
         if (this->buf.size() > 1)
         {
@@ -96,43 +230,15 @@ void BufferInterface<T>::erase(int y, int x)
 }
 
 template <typename T>
-std::tuple<int, int> BufferInterface<T>::get_move()
+void Base<T>::addCellWithCoords(int s, int y, int x)
 {
-    return this->move;
-}
-
-template <typename T>
-void BufferInterface<T>::delete_move()
-{
-    this->empty = TRUE;
-    this->move = {};
-};
-
-template <typename T>
-bool BufferInterface<T>::is_empty()
-{
-    return this->empty;
-}
-
-template <typename T>
-void BufferInterface<T>::pop()
-{
-    if (!this->buf.empty())
-    {
-        this->buf.pop_back();
-    }
-};
-
-template <typename T>
-void BufferInterface<T>::add_C(int s, int y, int x)
-{
-    if constexpr (std::is_same_v<T, buf_cell_C>)
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
             if (this->buf[i]->x == x && this->buf[i]->y == y)
             {
-                this->erase(y, x);
+                this->eraseCell(y, x);
             }
         }
 
@@ -168,54 +274,100 @@ void BufferInterface<T>::add_C(int s, int y, int x)
         //     _LOG__BUF.add_L(q[i], CHAR);
         // }
 
-        buf_cell_C *b = new buf_cell_C;
+        BufferCellWithCoords *b = new BufferCellWithCoords;
         b->symbol = s;
         b->y = y;
         b->x = x;
+        b->sentenceHyphenation = false;
 
         this->buf.push_back(b);
 
         std::sort(this->buf.begin(), this->buf.end(), this->sort);
     }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+    }
 }
 
 template <typename T>
-void BufferInterface<T>::add_L(int s, L_symbol_type st)
+void Base<T>::addCellWithSymbolType(int s, SymbolType st)
 {
-    if constexpr (std::is_same_v<T, buf_cell_L>)
+    if constexpr (std::is_same_v<T, BufferCellWithSymbolType>)
     {
-        buf_cell_L *b = new buf_cell_L;
+        BufferCellWithSymbolType *b = new BufferCellWithSymbolType;
         b->symbol = s;
         b->type = st;
         this->buf.push_back(b);
     }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+    }
 };
 
 template <typename T>
-void BufferInterface<T>::add(int s)
+void Base<T>::addCell(int s)
 {
-    if constexpr (std::is_same_v<T, buf_cell>)
+    if constexpr (std::is_same_v<T, BufferCell>)
     {
-        buf_cell *b = new buf_cell;
+        BufferCell *b = new BufferCell;
         b->symbol = s;
         this->buf.push_back(b);
+    }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
     }
 }
 
 template <typename T>
-void BufferInterface<T>::set(std::vector<T *> b)
-{
-    this->buf = b;
-};
-
-template <typename T>
-std::vector<T *> BufferInterface<T>::get()
+std::vector<T *> Base<T>::getBuf()
 {
     return this->buf;
 };
 
 template <typename T>
-std::string BufferInterface<T>::get_as_string()
+void Base<T>::setCellSentenceHyphenation(int y, int x, bool status)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->y == y && this->buf[i]->x == x)
+            {
+                this->buf[i]->sentenceHyphenation = status;
+            }
+        }
+    }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+    }
+};
+
+template <typename T>
+bool Base<T>::cellIsSentenceHyphenation(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->y == y && this->buf[i]->x == x)
+            {
+                return this->buf[i]->sentenceHyphenation;
+            }
+        }
+    }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+    }
+    return false;
+}
+
+template <typename T>
+std::string Base<T>::getBufAsString()
 {
     std::string res;
     for (int i = 0; i < this->buf.size(); i++)
@@ -226,10 +378,10 @@ std::string BufferInterface<T>::get_as_string()
 };
 
 template <typename T>
-int BufferInterface<T>::get_last_x(int y)
+int Base<T>::getLastXInRow(int y)
 {
     int res = 0;
-    if constexpr (std::is_same_v<T, buf_cell_C>)
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
@@ -238,164 +390,63 @@ int BufferInterface<T>::get_last_x(int y)
                 res++;
             };
         };
+    }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
     };
 
     return res;
 };
 
-template <typename T>
-void BufferInterface<T>::set_modified(bool s)
+void Status::setModified(bool s)
 {
     this->modified = s;
 };
 
-template <typename T>
-bool BufferInterface<T>::is_modified()
+bool Status::isModified()
 {
     return this->modified;
 }
 
 template <typename T>
-void BufferInterface<T>::clear()
+void Base<T>::clearBuf()
 {
     this->buf.erase(this->buf.begin(), this->buf.end());
 };
 
 template <typename T>
-void BufferInterface<T>::translocation_up()
+bool Base<T>::isLastBufCell(int y, int x)
 {
-    if constexpr (std::is_same_v<T, buf_cell_C>)
-    {
-        for (int i = 0; i < this->buf.size(); i++)
-        {
-            this->buf[i]->y++;
-        }
-    }
-};
-
-template <typename T>
-void BufferInterface<T>::translocation_up_after_y(int y)
-{
-    if constexpr (std::is_same_v<T, buf_cell_C>)
-    {
-        for (int i = 0; i < this->buf.size(); i++)
-        {
-            if (this->buf[i]->y > y)
-            {
-                this->buf[i]->y++;
-            }
-        }
-    }
-};
-
-template <typename T>
-void BufferInterface<T>::translocation_down()
-{
-    if constexpr (std::is_same_v<T, buf_cell_C>)
-    {
-        for (int i = 0; i < this->buf.size(); i++)
-        {
-            if (this->buf[i]->y != 0)
-            {
-                this->buf[i]->y--;
-            }
-        }
-    }
-};
-
-template <typename T>
-void BufferInterface<T>::translocation_down_after_y(int y)
-{
-    if constexpr (std::is_same_v<T, buf_cell_C>)
-    {
-        for (int i = 0; i < this->buf.size(); i++)
-        {
-            if (this->buf[i]->y > y)
-            {
-                this->buf[i]->y--;
-            }
-        }
-    }
-};
-
-template <typename T>
-void BufferInterface<T>::translocation_right_after_x(int y, int x)
-{
-    if constexpr (std::is_same_v<T, buf_cell_C>)
-    {
-        auto [max_y, max_x] = _POSITION.get_max_coords();
-        for (int i = 0; i < this->buf.size(); i++)
-        {
-            if ((this->buf[i]->y >= y) && this->buf[i]->x == *max_x)
-            {
-                this->buf[i]->y++;
-                this->buf[i]->x = 0;
-            }
-            else if ((this->buf[i]->y >= y) && this->buf[i]->x > x)
-            {
-                this->buf[i]->x++;
-            }
-        }
-    }
-};
-
-template <typename T>
-void BufferInterface<T>::translocation_left_after_x(int y, int x)
-{
-    if constexpr (std::is_same_v<T, buf_cell_C>)
-    {
-        auto [max_y, max_x] = _POSITION.get_max_coords();
-        for (int i = 0; i < this->buf.size(); i++)
-        {
-            if ((this->buf[i]->y > y) && (this->buf[i]->x >= x) && (this->buf[i]->symbol == 10))
-            {
-                break;
-            }
-            if ((this->buf[i]->y > y) && (this->buf[i]->x == 0))
-            {
-                this->buf[i]->y--;
-                this->buf[i]->x = *max_x;
-            }
-            else if ((this->buf[i]->y >= y) && this->buf[i]->x >= x)
-            {
-                this->buf[i]->x--;
-            }
-        }
-    }
-};
-
-template <typename T>
-bool BufferInterface<T>::is_last_cell(int y, int x)
-{
-    if constexpr (std::is_same_v<T, buf_cell_C>)
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
         if (!this->buf.empty())
         {
             return this->buf[this->buf.size() - 1]->y == y && this->buf[this->buf.size() - 1]->x == x;
         }
     }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+    }
     return false;
 };
 
-template <typename T>
-void BufferInterface<T>::set_ignore_forcible_move(bool s)
-{
-    this->ignore_forcible_move = s;
-};
+template class Buffer<BufferCell>;
+template class Buffer<BufferCellWithCoords>;
+template class Buffer<BufferCellWithSymbolType>;
 
-template <typename T>
-bool BufferInterface<T>::is_ignore_forcible_move()
-{
-    return this->ignore_forcible_move;
-};
+template class Base<BufferCell>;
+template class Base<BufferCellWithCoords>;
+template class Base<BufferCellWithSymbolType>;
 
-template class BufferInterface<buf_cell>;
-template class BufferInterface<buf_cell_C>;
-template class BufferInterface<buf_cell_L>;
+template class CoordsTranslocation<BufferCell>;
+template class CoordsTranslocation<BufferCellWithCoords>;
+template class CoordsTranslocation<BufferCellWithSymbolType>;
 
-BufferInterface<buf_cell_L> *_LOG__BUF = new BufferInterface<buf_cell_L>;
-BufferInterface<buf_cell> *_DEFAULT__BUF = new BufferInterface<buf_cell>;
-BufferInterface<buf_cell_C> *_INSERT__BUF = new BufferInterface<buf_cell_C>;
-BufferInterface<buf_cell_C> *_COMMAND__BUF = new BufferInterface<buf_cell_C>;
-BufferInterface<buf_cell_C> *_EFFECTS__BUF = new BufferInterface<buf_cell_C>;
-BufferInterface<buf_cell_C> *_SEARCH__BUF = new BufferInterface<buf_cell_C>;
+Buffer<BufferCellWithSymbolType> *_LOG__BUF = new Buffer<BufferCellWithSymbolType>;
+Buffer<BufferCell> *_DEFAULT__BUF = new Buffer<BufferCell>;
+Buffer<BufferCellWithCoords> *_INSERT__BUF = new Buffer<BufferCellWithCoords>;
+Buffer<BufferCellWithCoords> *_COMMAND__BUF = new Buffer<BufferCellWithCoords>;
+Buffer<BufferCellWithCoords> *_EFFECTS__BUF = new Buffer<BufferCellWithCoords>;
+Buffer<BufferCellWithCoords> *_SEARCH__BUF = new Buffer<BufferCellWithCoords>;

@@ -46,5 +46,10 @@ void run_loop()
 		_LOG_FILE.save();
 
 		reset_handled_status();
+		
+		_POSITION.resetMovements();
+
+		_INSERT__BUF->resetIgnoreForcibleMove();
+		_COMMAND__BUF->resetIgnoreForcibleMove();
 	}
 }

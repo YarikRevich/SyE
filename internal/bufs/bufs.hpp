@@ -1,15 +1,17 @@
 #pragma once
 
-#include "./../index.hpp"
+#include <string>
+#include <vector>
+#include <tuple>
 
-
-bool is();
+bool isInsertSameToDefaultBuf();
 
 typedef struct
 {
     int symbol;
     int y;
     int x;
+    bool sentenceHyphenation;
 } BufferCellWithCoords;
 
 typedef struct
@@ -30,106 +32,101 @@ typedef struct
 } BufferCellWithSymbolType;
 
 template <typename T>
-class BufferInterface
+class Base
 {
-private:
+protected:
     std::vector<T *> buf;
 
-    //Says if buffer is modified
-    bool modified;
-
-    std::tuple<int, int> move;
-
-    bool empty = true;
-
-    bool ignore_forcible_move;
-
+private:
     //Sorts buffer by y and x coords
-    static bool sort(T *f, T *s);
+    static bool sort(T *currentBufferCell, T *nextBufferCell);
 
 public:
-    //Says if coords are the start of the file
-    bool is_start(int y);
+    bool isStartRow(int y);
 
-    //Deletes equal cell in buffer
-    void erase(int y, int x);
+    void addCellWithCoords(int s, int y, int x);
 
-    //Deletes the last element from buffer
-    void pop();
+    void addCellWithSymbolType(int s, SymbolType st);
 
-    //Appends cell to the end of the buffer with coords
-    void add_C(int s, int y, int x);
+    void addCell(int s);
 
-    //Appends cell to the buffer with symbol type
-    void add_L(int s, L_symbol_type st);
+    void setCellSentenceHyphenation(int y, int x, bool status);
 
-    //Appends cell to the end of the buffer
-    void add(int s);
+    bool cellIsSentenceHyphenation(int y, int x);
 
-    //Sets move for render
-    void set_move(int y, int x);
+    std::vector<T *> getBuf();
 
-    //Returns move for render
-    std::tuple<int, int> get_move();
+    std::string getBufAsString();
 
-    //Deletes move for render
-    void delete_move();
-
-    //Says if set move function was used
-    //Because if it didn't it can cause
-    //death loop of printing chars
-    bool is_empty();
-
-    // Sets modified state
-    void set_modified(bool s);
-
-    // Returns modified attr
-    bool is_modified();
-
-    // Sets fully new buffer
-    void set(std::vector<T *> b);
-
-    //Returns buffer
-    std::vector<T *> get();
-
-    //Returns buffer as string
-    std::string get_as_string();
-
-    //Returns the last x in the row
-    int get_last_x(int y);
-
-    //Clears the whole buffer
-    void clear();
-
-    //Translocates y coords up
-    void translocation_up();
-
-    //Translocates y coords up from the equal y coord
-    void translocation_up_after_y(int y);
-
-    //Translocates y coord sdown
-    void translocation_down();
-
-    //Translocates y coords up from the equal y coord
-    void translocation_down_after_y(int y);
-
-    //Translocates x coords right from the equal x coord
-    void translocation_right_after_x(int y, int x);
-
-    //Translocates x coords right from the equal x coord
-    void translocation_left_after_x(int y, int x);
+    int getLastXInRow(int y);
 
     //Says if cell with such coords is the last in the buffer
-    bool is_last_cell(int y, int x);
+    bool isLastBufCell(int y, int x);
 
-    void set_ignore_forcible_move(bool s);
+    void eraseCell(int y, int x);
 
-    bool is_ignore_forcible_move();
+    void clearBuf();
 };
 
-extern BufferInterface<BufferCellWithSymbolType> *_LOG__BUF;
-extern BufferInterface<BufferCell> *_DEFAULT__BUF;
-extern BufferInterface<BufferCellWithCoords> *_INSERT__BUF;
-extern BufferInterface<BufferCellWithCoords> *_COMMAND__BUF;
-extern BufferInterface<BufferCellWithCoords> *_EFFECTS__BUF;
-extern BufferInterface<BufferCellWithCoords> *_SEARCH__BUF;
+template <typename T>
+class CoordsTranslocation : public Base<T>
+{
+public:
+    void translocateYUp();
+
+    void translocateYDown();
+
+    void translocateYUpAfter(int y);
+
+    void translocateYDownAfter(int y);
+
+    void translocateXRightAfter(int y, int x);
+
+    void translocateXLeftAfter(int y, int x);
+};
+
+class Movement
+{
+protected:
+    std::tuple<int, int> movement;
+    bool empty = true;
+    bool ignoreForcibleMove;
+
+public:
+    void setMovement(int y, int x);
+
+    std::tuple<int, int> getMovement();
+
+    void deleteMovement();
+
+    bool isEmpty();
+
+    void setIgnoreForcibleMove(bool s);
+
+    bool isIgnoreForcibleMove();
+
+    void resetIgnoreForcibleMove();
+};
+
+class Status
+{
+protected:
+    bool modified;
+
+public:
+    void setModified(bool s);
+
+    bool isModified();
+};
+
+template <typename T>
+class Buffer : public CoordsTranslocation<T>, public Movement, public Status
+{
+};
+
+extern Buffer<BufferCellWithSymbolType> *_LOG__BUF;
+extern Buffer<BufferCell> *_DEFAULT__BUF;
+extern Buffer<BufferCellWithCoords> *_INSERT__BUF;
+extern Buffer<BufferCellWithCoords> *_COMMAND__BUF;
+extern Buffer<BufferCellWithCoords> *_EFFECTS__BUF;
+extern Buffer<BufferCellWithCoords> *_SEARCH__BUF;

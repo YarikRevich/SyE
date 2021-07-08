@@ -39,7 +39,7 @@ void LogFile::save()
 {
     if (this->file != NULL)
     {
-        auto const log_buf = _LOG__BUF->get();
+        auto const log_buf = _LOG__BUF->getBuf();
         for (int i = 0; i < log_buf.size(); i++)
         {
             switch (log_buf[i]->type)
@@ -51,7 +51,7 @@ void LogFile::save()
                 fprintf(this->file, "%d", log_buf[i]->symbol);
             }
         }
-        _LOG__BUF->clear();
+        _LOG__BUF->clearBuf();
     }
 };
 

@@ -6,12 +6,19 @@
 class PositionMove
 {
 private:
-    bool start;
+    bool startOfY;
+    bool startOfX;
 
 public:
-    void set_start(bool s);
+    void resetMovements();
 
-    bool is_start();
+    void setStartOfY(bool status);
+
+    bool isStartOfY();
+
+    void setStartOfX(bool status);
+
+    bool isStartOfX();
 };
 
 class Position : public PositionMove

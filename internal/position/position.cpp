@@ -19,14 +19,29 @@ void Position::update_curr_coords()
 	getsyx(curr_y, curr_x);
 };
 
-void PositionMove::set_start(bool s)
-{
-	this->start = s;
+void PositionMove::resetMovements(){
+	this->startOfX = false;
+	this->startOfY = false;
 };
 
-bool PositionMove::is_start()
+void PositionMove::setStartOfY(bool status)
 {
-	return this->start;
+	this->startOfY = status;
+};
+
+bool PositionMove::isStartOfY()
+{
+	return this->startOfY;
+};
+
+void PositionMove::setStartOfX(bool status)
+{
+	this->startOfX = status;
+};
+
+bool PositionMove::isStartOfX()
+{
+	return this->startOfX;
 };
 
 void Position::resetx()
