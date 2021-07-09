@@ -115,7 +115,7 @@ void CommonHandler::handle(int ch)
         _LOG__BUF->addCellWithSymbolType(*curr_x, INT);
         _LOG__BUF->addCellWithSymbolType(10, CHAR);
 
-        if (*curr_x == 0 || (_STATE.get_state() == COMMAND && (*curr_x-1) == 1))
+        if (*curr_x == 0 || (_STATE.get_state() == COMMAND && (*curr_x - 1) == 1))
         {
             _POSITION.setStartOfX(true);
         }
@@ -148,12 +148,12 @@ void CommonHandler::handle(int ch)
         {
             if (*curr_x == 0)
             {
+                _INSERT__BUF->eraseCell(*curr_y, 0);
                 _POSITION.decy();
                 if (_INSERT__BUF->cellIsSentenceHyphenation(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y) - 1))
                 {
-                    _INSERT__BUF->eraseCell(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y) - 1);
+                _INSERT__BUF->eraseCell(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y) - 1);
                 }
-                _INSERT__BUF->eraseCell(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y));
                 _INSERT__BUF->setMovement(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y));
                 _INSERT__BUF->setIgnoreForcibleMove(TRUE);
                 _INSERT__BUF->translocateYDownAfter(*curr_y);

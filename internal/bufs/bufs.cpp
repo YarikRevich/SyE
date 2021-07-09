@@ -67,17 +67,64 @@ void CoordsTranslocation<T>::translocateYDown()
 template <typename T>
 void CoordsTranslocation<T>::translocateYDownAfter(int y)
 {
+
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
+        // std::string s = "Buffer before : ";
+        // for (auto const i : s)
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // for (auto const i : this->getBuf())
+        // {
+        //     s = "Y is ";
+        //     for (auto const b : s)
+        //     {
+        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
+        //     }
+        //     _LOG__BUF->addCellWithSymbolType(i->y, INT);
+        //     s = " ,X is ";
+        //     for (auto const b : s)
+        //     {
+        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
+        //     }
+        //     _LOG__BUF->addCellWithSymbolType(i->x, INT);
+        //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
         for (int i = 0; i < this->buf.size(); i++)
         {
             if (this->buf[i]->y > y && !this->isStartRow(this->buf[i]->y))
             {
-                _LOG__BUF->addCellWithSymbolType('Y', CHAR);
-                _LOG__BUF->addCellWithSymbolType(10, CHAR);
                 this->buf[i]->y--;
             }
         }
+
+        // s = "Buffer after : ";
+        // for (auto const i : s)
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // for (auto const i : this->getBuf())
+        // {
+        //     s = "Y is ";
+        //     for (auto const b : s)
+        //     {
+        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
+        //     }
+        //     _LOG__BUF->addCellWithSymbolType(i->y, INT);
+        //     s = " ,X is ";
+        //     for (auto const b : s)
+        //     {
+        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
+        //     }
+        //     _LOG__BUF->addCellWithSymbolType(i->x, INT);
+        //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
     }
 };
 
@@ -107,6 +154,30 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
 {
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
+        std::string s = "Buffer before : ";
+        for (auto const i : s)
+        {
+            _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        }
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        for (auto const i : this->getBuf())
+        {
+            s = "Y is ";
+            for (auto const b : s)
+            {
+                _LOG__BUF->addCellWithSymbolType(b, CHAR);
+            }
+            _LOG__BUF->addCellWithSymbolType(i->y, INT);
+            s = " ,X is ";
+            for (auto const b : s)
+            {
+                _LOG__BUF->addCellWithSymbolType(b, CHAR);
+            }
+            _LOG__BUF->addCellWithSymbolType(i->x, INT);
+            _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        }
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
         auto [max_y, max_x] = _POSITION.get_max_coords();
         for (int i = 0; i < this->buf.size(); i++)
         {
@@ -124,6 +195,30 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
                 this->buf[i]->x--;
             }
         }
+
+        s = "Buffer after : ";
+        for (auto const i : s)
+        {
+            _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        }
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        for (auto const i : this->getBuf())
+        {
+            s = "Y is ";
+            for (auto const b : s)
+            {
+                _LOG__BUF->addCellWithSymbolType(b, CHAR);
+            }
+            _LOG__BUF->addCellWithSymbolType(i->y, INT);
+            s = " ,X is ";
+            for (auto const b : s)
+            {
+                _LOG__BUF->addCellWithSymbolType(b, CHAR);
+            }
+            _LOG__BUF->addCellWithSymbolType(i->x, INT);
+            _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        }
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
     }
 };
 
