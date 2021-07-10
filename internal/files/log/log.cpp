@@ -1,3 +1,4 @@
+#include <yaml.h>
 #include <stdio.h>
 #include "fstream"
 #include "log.hpp"
@@ -11,7 +12,7 @@ namespace fs = std::filesystem;
 namespace fs = std::experimental::filesystem;
 #endif
 
-void LogFile::open(char *)
+void LogFile::open(void *)
 {
     fs::create_directory("log");
     std::ofstream f("log/dev.log");

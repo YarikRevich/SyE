@@ -31,7 +31,7 @@ void Renderer::render(Buffer<BufferCellWithCoords> *buf)
 
         if (_POSITION.isStartOfY())
         {
-            wmove(stdscr, 0, buf->getLastXInRow(0));
+            wmove(stdscr, *curr_y, *curr_x);
         }
         else if (_POSITION.isStartOfX())
         {

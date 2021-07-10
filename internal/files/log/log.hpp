@@ -4,16 +4,16 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
-#include "./../../index.hpp"
+#include "./../file.hpp"
 
-class LogFile : public FileInterface
+class LogFile : public Open, public Read, public Save, public Close
 {
 protected:
     std::string file_name;
     FILE *file;
 
 public:
-    void open(char n[]);
+    void open(void *);
 
     std::string read();
 
@@ -21,22 +21,5 @@ public:
 
     void close();
 };
-
-// class LogFile : public FileInterface
-// {
-// private:
-//     FILE *file;
-
-// public:
-//     void prepare_file();
-
-//     void write_to_file_str(std::list<std::string>);
-
-//     void write_to_file_chr(char);
-
-//     FILE *get_file();
-
-//     void close_file();
-// };
 
 extern LogFile _LOG_FILE;

@@ -181,11 +181,11 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
         auto [max_y, max_x] = _POSITION.get_max_coords();
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if ((this->buf[i]->y > y) && (this->buf[i]->x >= x) && (this->buf[i]->symbol == 10))
+            if ((this->buf[i]->y >= y) && (this->buf[i]->x >= x) && (this->buf[i]->symbol == 10))
             {
                 break;
             }
-            if ((this->buf[i]->y > y) && (this->buf[i]->x == 0))
+            else if ((this->buf[i]->y > y) && (this->buf[i]->x == 0))
             {
                 this->buf[i]->y--;
                 this->buf[i]->x = *max_x;
@@ -460,6 +460,30 @@ bool Base<T>::cellIsSentenceHyphenation(int y, int x)
     }
     return false;
 }
+
+template <typename T>
+std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->y >= y && !this->cellIsSentenceHyphenation(this->buf[i]->y, this->getLastXInRow(this->buf[i]->y)))
+            {
+                return {this->buf[i]->y, this->buf[i]->x};
+                // if (this->buf[i]->symbol == 10 && !this->cellIsSentenceHyphenation(this->buf[i]->y, this->buf[i]->x - 1))
+                // {
+                //     return {this->buf[i]->y, this->buf[i]->x};
+                // }
+            };
+        }
+    }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+    }
+    return {0, 0};
+};
 
 template <typename T>
 std::string Base<T>::getBufAsString()

@@ -75,6 +75,9 @@ void CommonHandler::handle(int ch)
     {
         if (_STATE.get_state() != COMMAND && !_POSITION.isStartOfY())
         {
+
+            _LOG__BUF->addCellWithSymbolType(_INSERT__BUF->isStartRow(*curr_y - 1), INT);
+            _LOG__BUF->addCellWithSymbolType(10, CHAR);
             if (!_INSERT__BUF->isStartRow(*curr_y))
             {
                 if (*curr_y == 0)
@@ -91,13 +94,15 @@ void CommonHandler::handle(int ch)
             else
             {
                 _POSITION.setStartOfY(true);
+                // _INSERT__BUF->setIgnoreForcibleMove(true);
             };
+            _INSERT__BUF->setIgnoreForcibleMove(true);
         }
         break;
     }
     case KEY_DOWN:
     {
-        if (_STATE.get_state() != COMMAND && !_POSITION.isStartOfY())
+        if (_STATE.get_state() != COMMAND)
         {
             if ((*curr_y + 1) == (*max_y - 1))
             {
@@ -112,10 +117,11 @@ void CommonHandler::handle(int ch)
     }
     case KEY_LEFT:
     {
-        _LOG__BUF->addCellWithSymbolType(*curr_x, INT);
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
-        if (*curr_x == 0 || (_STATE.get_state() == COMMAND && (*curr_x - 1) == 1))
+        if (*curr_x == 0 && _INSERT__BUF->cellIsSentenceHyphenation(*curr_y - 1, _INSERT__BUF->getLastXInRow(*curr_y - 1) - 1))
+        {
+            _INSERT__BUF->setMovement(*curr_y - 1, _INSERT__BUF->getLastXInRow(*curr_y - 1) - 1);
+        }
+        else if (*curr_x == 0 || (_STATE.get_state() == COMMAND && (*curr_x - 1) == 1))
         {
             _POSITION.setStartOfX(true);
         }
@@ -125,8 +131,6 @@ void CommonHandler::handle(int ch)
             _POSITION.decx();
             set_move(*curr_y, *curr_x);
         }
-        // _INSERT__BUF->setIgnoreForcibleMove(true);
-        // _COMMAND__BUF->setIgnoreForcibleMove(true);
         break;
     }
     case KEY_RIGHT:
@@ -152,7 +156,7 @@ void CommonHandler::handle(int ch)
                 _POSITION.decy();
                 if (_INSERT__BUF->cellIsSentenceHyphenation(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y) - 1))
                 {
-                _INSERT__BUF->eraseCell(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y) - 1);
+                    _INSERT__BUF->eraseCell(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y) - 1);
                 }
                 _INSERT__BUF->setMovement(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y));
                 _INSERT__BUF->setIgnoreForcibleMove(TRUE);

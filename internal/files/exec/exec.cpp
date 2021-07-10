@@ -21,10 +21,10 @@
 //     return false;
 // };
 
-void ExecFile::open(char n[])
+void ExecFile::open(void *n)
 {
-    this->file_name = n;
-    this->file = fopen(n, "r+");
+    this->file_name = (char *)n;
+    this->file = fopen((char *)n, "r+");
 };
 
 std::string ExecFile::read()

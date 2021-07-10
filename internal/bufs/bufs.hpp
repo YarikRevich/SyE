@@ -54,6 +54,8 @@ public:
 
     bool cellIsSentenceHyphenation(int y, int x);
 
+    std::tuple<int, int> getEndOfSentence(int y, int x);
+
     std::vector<T *> getBuf();
 
     std::string getBufAsString();

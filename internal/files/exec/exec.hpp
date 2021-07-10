@@ -4,16 +4,16 @@
 #include <vector>
 #include <string>
 #include <stdio.h>
-#include "./../../index.hpp"
+#include "./../file.hpp"
 
-class ExecFile : public FileInterface, AddonFileInterface
+class ExecFile : public Open, public Read, public Save, public AutoSave, public Close
 {
 protected:
     std::string file_name;
     FILE *file;
 
 public:
-    void open(char n[]);
+    void open(void *);
 
     std::string read();
 

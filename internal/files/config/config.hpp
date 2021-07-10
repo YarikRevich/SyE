@@ -2,15 +2,12 @@
 
 #include <map>
 #include <string>
+#include "./../file.hpp"
 
-class Config
+class Config : public Open, public ConfigReader, public Close, public ConfigBase, public FileBase
 {
-private:
-    std::map<std::string, bool> config_data;
-    FILE *file;
-
 public:
-    void read();
-    void save();
-    void set_color(int c);
+    void open(void *);
+    ConfigData read_config();
+    void close();
 };

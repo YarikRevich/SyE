@@ -1,21 +1,43 @@
-#include "config.hpp"
+#include <yaml.h>
 #include <stdio.h>
 #include <iostream>
+#include "config.hpp"
+#include <sys/stat.h>
 
-void Config::read()
+#ifdef __APPLE__
+#include <filesystem>
+namespace fs = std::filesystem;
+#elif defined(linux)
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
+
+void Config::open(void *)
 {
+    struct stat info;
+    if (stat("~/.sye_configs", &info) == 0)
+    {
+        for (const auto &file : fs::directory_iterator("~/.sye_configs"))
+        {
+            const std::string path = file.path();
+            this->configs.push_back(fopen(path.c_str(), "r"));
+        }
+        return;
+    };
+    mkdir("~/.sye_configs", 0755);
+};
 
-    if (fopen("~/.sye_config", "r"))
-    {
-    }
-    else
-    {
-        this->file = fopen("~/.sye_config", "w");
+ConfigData Config::read_config()
+{
+    return {
+        yaml_parser_parse()
     };
 };
-void Config::save(){
 
-};
-void Config::set_color(int c){
-
+void Config::close()
+{
+    for (const auto &file : this->configs)
+    {
+        fclose(file);
+    }
 };
