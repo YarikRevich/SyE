@@ -94,4 +94,9 @@ void ExecFile::close()
     }
 };
 
-ExecFile _EXEC_FILE;
+std::string ExecFile::getFileName()
+{
+    return this->file_name;
+};
+
+ExecFile *_EXEC_FILE = new ExecFile;

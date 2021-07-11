@@ -28,7 +28,7 @@ protected:
 class ConfigBase
 {
 public:
-    std::vector<FILE *> configs;
+    std::vector<std::string> configs;
     ConfigData configData;
 };
 
@@ -56,10 +56,16 @@ public:
     virtual void save() = 0;
 };
 
+class GetFileName
+{
+public:
+    virtual std::string getFileName() = 0;
+};
+
 class ConfigReader
 {
 public:
-    virtual ConfigData read_config() = 0;
+    virtual void read_config() = 0;
 };
 
 class AutoSave

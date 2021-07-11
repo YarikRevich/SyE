@@ -22,4 +22,4 @@ public:
     void close();
 };
 
-extern LogFile _LOG_FILE;
+extern LogFile *_LOG_FILE;

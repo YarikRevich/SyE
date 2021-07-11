@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include "status/status.hpp"
 #include "files/exec/exec.hpp"
+#include "files/config/config.hpp"
 #include "files/log/log.hpp"
 #include "bufs/bufs.hpp"
 #include "./render/render.hpp"
@@ -12,8 +13,8 @@
 
 void run_loop()
 {
-	_RENDERER.init_render(_EXEC_FILE.read());
-
+	_RENDERER.init_render(_EXEC_FILE->read());
+	_CONFIG_FILE->read_config();
 	while (1)
 	{
 		int ch = getch();
@@ -43,10 +44,10 @@ void run_loop()
 		_RENDERER.render_with_color(_EFFECTS__BUF, COMMAND_THEME);
 		_RENDERER.render(_INSERT__BUF);
 		_RENDERER.render_with_color(_COMMAND__BUF, COMMAND_THEME);
-		_LOG_FILE.save();
+		_LOG_FILE->save();
 
 		reset_handled_status();
-		
+
 		_POSITION.resetMovements();
 
 		_INSERT__BUF->resetIgnoreForcibleMove();

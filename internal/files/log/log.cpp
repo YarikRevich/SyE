@@ -64,4 +64,4 @@ void LogFile::close()
     }
 };
 
-LogFile _LOG_FILE;
+LogFile *_LOG_FILE = new LogFile;
