@@ -12,6 +12,7 @@ typedef struct
     int y;
     int x;
     bool sentenceHyphenation;
+    std::string fontColor;
 } BufferCellWithCoords;
 
 typedef struct
@@ -62,7 +63,6 @@ public:
 
     int getLastXInRow(int y);
 
-    //Says if cell with such coords is the last in the buffer
     bool isLastBufCell(int y, int x);
 
     void eraseCell(int y, int x);

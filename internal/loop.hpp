@@ -1,15 +1,16 @@
 #include <ncurses.h>
-#include "status/status.hpp"
-#include "files/exec/exec.hpp"
-#include "files/config/config.hpp"
-#include "files/log/log.hpp"
 #include "bufs/bufs.hpp"
+#include "files/log/log.hpp"
+#include "status/status.hpp"
 #include "./render/render.hpp"
+#include "files/exec/exec.hpp"
 #include "states/pool/pool.hpp"
+#include "files/config/config.hpp"
 #include "states/common/common.hpp"
 #include "states/insert/insert.hpp"
 #include "states/search/search.hpp"
 #include "states/command/command.hpp"
+#include "highlighter/highlighter.hpp"
 
 void run_loop()
 {
@@ -40,6 +41,8 @@ void run_loop()
 		clear();
 
 		_POSITION.update_curr_coords();
+
+		_HIGHLIGHTER->analiseCode();
 
 		_RENDERER.render_with_color(_EFFECTS__BUF, COMMAND_THEME);
 		_RENDERER.render(_INSERT__BUF);

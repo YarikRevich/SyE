@@ -1,7 +1,10 @@
 #pragma once
 
-#include <string>
 #include <map>
+#include <tuple>
+#include <string>
+
+std::string strip(int startPos, std::string src);
 
 typedef struct
 {
@@ -10,33 +13,25 @@ typedef struct
     int position;
 } Token;
 
-typedef struct
-{
-    std::string name;
-    std::string regexp;
-    std::string color;
-} TokenType;
-
-std::vector<TokenType> allTokenTypes = {
-    {name : "jk", regexp : "fg", color: "RED"},
-};
-
 class Lexer
 {
 private:
-    std::string code;
-    int position;
+    std::tuple<int, int, int> position;
+    void setPosition(int strPos, int y, int x);
+    std::tuple<int, int, int> getPosition();
     std::vector<Token> allTokens();
 
+protected:
 public:
     std::vector<Token> analiseCode();
-    bool nextToken();
 };
 
 class Parser
 {
 };
 
-class Highlighter
+class Highlighter : public Lexer
 {
 };
+
+extern Highlighter *_HIGHLIGHTER;

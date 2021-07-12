@@ -53,25 +53,29 @@ void Config::read_config()
             std::vector<std::string> extensions = config["extension"].as<std::vector<std::string>>();
             if (!extensions.empty() && std::find(extensions.begin(), extensions.end(), file_extension) != extensions.end())
             {
-                std::vector<std::map<std::string, std::string>> types = config["types"].as<std::vector<std::map<std::string, std::string>>>();
-                for (auto type : types)
+                if (config["types"].IsDefined())
                 {
-                    configDataTypeCell dataToSave;
-                    if (type.count("name"))
+                    std::vector<std::map<std::string, std::string>> types = config["types"].as<std::vector<std::map<std::string, std::string>>>();
+                    for (auto type : types)
                     {
-                        dataToSave.name = type["name"];
+                        configDataTypeCell dataToSave;
+                        if (type.count("name"))
+                        {
+                            dataToSave.name = type["name"];
+                        }
+                        if (type.count("regexp"))
+                        {
+                            dataToSave.regexp = type["regexp"];
+                        }
+                        if (type.count("color"))
+                        {
+                            dataToSave.color = type["color"];
+                        }
+                        this->configData.types.push_back(dataToSave);
                     }
-                    if (type.count("regexp"))
-                    {
-                        dataToSave.regexp = type["regexp"];
-                    }
-                    if (type.count("color"))
-                    {
-                        dataToSave.color = type["color"];
-                    }
-                    this->configData.types.push_back(dataToSave);
+
+                    break;
                 }
-                break;
             }
         }
     }
