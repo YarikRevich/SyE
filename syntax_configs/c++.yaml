@@ -1,11 +1,11 @@
-# ---
-# extension:
-#   - "cpp"
-#   - "hpp"
+---
+extension:
+  - "cpp"
+  - "hpp"
 # types:
 #   - name: "class"
 #     regexp: "class"
 #     color: "RED"
 #   - name: "template"
 #     regexp: "GREEN"
-# ---
+---

@@ -5,16 +5,15 @@
 #include <string>
 #include <stdio.h>
 
-struct configDataTypeCell
+typedef struct
 {
     std::string name;
     std::string regexp;
     std::string color;
-};
+} configDataTypeCell;
 
 typedef struct
 {
-    std::string extension;
     std::vector<configDataTypeCell> types;
 } ConfigData;
 
@@ -66,6 +65,12 @@ class ConfigReader
 {
 public:
     virtual void read_config() = 0;
+};
+
+class GetConfig
+{
+public:
+    virtual ConfigData getConfig() = 0;
 };
 
 class AutoSave

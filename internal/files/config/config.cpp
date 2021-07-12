@@ -1,3 +1,4 @@
+#include <map>
 #include <pwd.h>
 #include <string>
 #include <vector>
@@ -6,6 +7,7 @@
 #include <iostream>
 #include <algorithm>
 #include "config.hpp"
+#include "./../file.hpp"
 #include <yaml-cpp/yaml.h>
 #include "./../exec/exec.hpp"
 #include <boost/filesystem.hpp>
@@ -38,26 +40,46 @@ void Config::open(void *n)
 
 void Config::read_config()
 {
-    //_LOG__BUF->addCellWithSymbolType('Y', CHAR);
+    std::string file_name = _EXEC_FILE->getFileName();
+    std::vector<std::string> split_file_name;
+    boost::split(split_file_name, file_name, boost::is_any_of("."));
+    std::string file_extension = split_file_name[split_file_name.size() - 1];
+
     for (auto const file : this->configs)
     {
         YAML::Node config = YAML::LoadFile(file);
         if (config["extension"])
         {
-
-            std::string file_name = _EXEC_FILE->getFileName();
-            std::vector<std::string> split_file_name;
-            boost::split(split_file_name, file_name, boost::is_any_of("."));
-            std::string file_extension = split_file_name[split_file_name.size() - 1];
-
             std::vector<std::string> extensions = config["extension"].as<std::vector<std::string>>();
-
-            // if (!extensions.empty() && std::find(extensions.begin(), extensions.end(), file_extension) != extensions.end()){
-            //     _LOG__BUF->addCellWithSymbolType('I', CHAR);
-            // }
-            _LOG__BUF->addCellWithSymbolType(extensions.size(), INT);
+            if (!extensions.empty() && std::find(extensions.begin(), extensions.end(), file_extension) != extensions.end())
+            {
+                std::vector<std::map<std::string, std::string>> types = config["types"].as<std::vector<std::map<std::string, std::string>>>();
+                for (auto type : types)
+                {
+                    configDataTypeCell dataToSave;
+                    if (type.count("name"))
+                    {
+                        dataToSave.name = type["name"];
+                    }
+                    if (type.count("regexp"))
+                    {
+                        dataToSave.regexp = type["regexp"];
+                    }
+                    if (type.count("color"))
+                    {
+                        dataToSave.color = type["color"];
+                    }
+                    this->configData.types.push_back(dataToSave);
+                }
+                break;
+            }
         }
     }
+};
+
+ConfigData Config::getConfig()
+{
+    return this->configData;
 };
 
 Config *_CONFIG_FILE = new Config;

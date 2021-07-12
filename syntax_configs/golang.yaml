@@ -1,7 +1,6 @@
 ---
 extension:
-  - cpp
-  - hpp
+  - go
 # types:
 #   - name: class
 #     regexp: class

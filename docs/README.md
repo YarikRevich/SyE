@@ -1,5 +1,6 @@
 **Editor which will make your life easier**
 ![](https://img.shields.io/github/commit-activity/m/YarikRevich/SyE)
+
 It's features are:
 
 - It almost has nothing except of opportunity to write
@@ -24,6 +25,12 @@ So, it's time to build
 
 ```
 cmake --build . #or make
+```
+
+To make it executable all around, install it
+
+```
+cmake --install .
 ```
 
 Enjoy!👌
