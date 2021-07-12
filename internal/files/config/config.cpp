@@ -57,15 +57,6 @@ void Config::read_config()
             // }
             _LOG__BUF->addCellWithSymbolType(extensions.size(), INT);
         }
-        // yaml_parser_initialize(&parser);
-        // yaml_parser_set_input_file(&parser, file);
-
-        // yaml_event_s event;
-        // yaml_parser_parse(&parser, &event);
-
-        // yaml_event_delete(&event);
-
-        // yaml_parser_delete(&parser);
     }
 };
 

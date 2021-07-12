@@ -2,4 +2,7 @@ docs/roadmap.md
 tmp/
 build/
 main
+
+#Ignore hidden files
 .vscode
+.dockerignore
