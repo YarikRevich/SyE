@@ -8,6 +8,12 @@ bool isInsertSameToDefaultBuf();
 
 typedef struct
 {
+    int y;
+    std::string text;
+} BufferAsString;
+
+typedef struct
+{
     int symbol;
     int y;
     int x;
@@ -61,7 +67,11 @@ public:
 
     std::string getBufAsString();
 
+    std::vector<BufferAsString> getBufAsStringWithYCoord();
+
     int getLastXInRow(int y);
+
+    std::vector<BufferCellWithCoords*> getRowWithY(int y);
 
     bool isLastBufCell(int y, int x);
 

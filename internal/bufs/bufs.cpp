@@ -471,10 +471,6 @@ std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
             if (this->buf[i]->y >= y && !this->cellIsSentenceHyphenation(this->buf[i]->y, this->getLastXInRow(this->buf[i]->y)))
             {
                 return {this->buf[i]->y, this->buf[i]->x};
-                // if (this->buf[i]->symbol == 10 && !this->cellIsSentenceHyphenation(this->buf[i]->y, this->buf[i]->x - 1))
-                // {
-                //     return {this->buf[i]->y, this->buf[i]->x};
-                // }
             };
         }
     }
@@ -486,12 +482,60 @@ std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
 };
 
 template <typename T>
+std::vector<BufferCellWithCoords *> Base<T>::getRowWithY(int y)
+{
+    std::vector<BufferCellWithCoords *> res;
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        std::vector<BufferCellWithCoords *> buf = this->getBuf();
+        for (int i = 0; i < buf.size(); i++)
+        {
+            if (buf[i]->y == y)
+            {
+                res.push_back(buf[i]);
+            }
+        };
+    }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+    }
+    return res;
+};
+
+template <typename T>
 std::string Base<T>::getBufAsString()
 {
     std::string res;
-    for (int i = 0; i < this->buf.size(); i++)
+    for (auto cell : this->getBuf())
     {
-        res.push_back(this->buf[i]->symbol);
+        res += cell->symbol;
+    };
+    return res;
+};
+
+template <typename T>
+std::vector<BufferAsString> Base<T>::getBufAsStringWithYCoord()
+{
+    std::vector<BufferAsString> res;
+
+    int y = 0;
+    while (1)
+    {
+        std::vector<BufferCellWithCoords *> row = this->getRowWithY(y);
+        if (row.empty())
+        {
+            break;
+        }
+
+        BufferAsString rowAsString;
+        rowAsString.y = y;
+        for (auto cell : row)
+        {
+            rowAsString.text += cell->symbol;
+        };
+        res.push_back(rowAsString);
+        y++;
     }
     return res;
 };

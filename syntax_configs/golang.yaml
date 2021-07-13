@@ -1,10 +1,11 @@
 ---
 extension:
   - go
-# types:
-#   - name: class
-#     regexp: class
-#     color: RED
-#   - name: template
-#     regexp: GREEN
+types:
+  - name: class
+    regexp: class
+    color: RED
+  - name: template
+    regexp: template
+    color: BLUE
 ---

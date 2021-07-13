@@ -17,13 +17,15 @@ class Lexer
 {
 private:
     std::tuple<int, int, int> position;
+
     void setPosition(int strPos, int y, int x);
     std::tuple<int, int, int> getPosition();
     std::vector<Token> allTokens();
+    std::vector<std::string> findAllWords(std::string);
 
 protected:
 public:
-    std::vector<Token> analiseCode();
+    void analiseCode();
 };
 
 class Parser
