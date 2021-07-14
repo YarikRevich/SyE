@@ -44,11 +44,16 @@ class Base
 protected:
     std::vector<T *> buf;
 
+    void createID();
+
 private:
-    //Sorts buffer by y and x coords
+    int id;
+
     static bool sort(T *currentBufferCell, T *nextBufferCell);
 
 public:
+    int getID();
+
     bool isStartRow(int y);
 
     void addCellWithCoords(int s, int y, int x);
@@ -73,7 +78,7 @@ public:
 
     int getLastXInRow(int y);
 
-    std::vector<BufferCellWithCoords*> getRowWithY(int y);
+    std::vector<BufferCellWithCoords *> getRowWithY(int y);
 
     bool isLastBufCell(int y, int x);
 
@@ -136,6 +141,8 @@ public:
 template <typename T>
 class Buffer : public CoordsTranslocation<T>, public Movement, public Status
 {
+public:
+    Buffer();
 };
 
 extern Buffer<BufferCellWithSymbolType> *_LOG__BUF;

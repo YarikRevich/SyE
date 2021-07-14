@@ -76,9 +76,9 @@ std::vector<matchedWord> Regex::findAllWords(std::string srcForFullProcessing)
         auto dublicatedWords = this->getWordsForDublicateCheck(srcForFullProcessing, word.text);
         for (int d = 0; d < dublicatedWords.size(); d++)
         {
-            if (!this->wordExists(res, dublicatedWords[d].startPosition + 1))
+            if (!this->wordExists(res, dublicatedWords[d].startPosition))
             {
-                word.startPosition = dublicatedWords[d].startPosition + 1;
+                word.startPosition = dublicatedWords[d].startPosition;
                 break;
             };
         }
@@ -87,28 +87,6 @@ std::vector<matchedWord> Regex::findAllWords(std::string srcForFullProcessing)
 
         srcForSequenceProcessing = sequenceMatch.suffix().str();
     };
-
-    // std::string t = " START OF SEQUENCE ";
-    // for (auto e : t)
-    // {
-    //     _LOG__BUF->addCellWithSymbolType(e, CHAR);
-    // }
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // for (int i = 0; i < res.size(); i++)
-    // {
-    //     // for (auto s : res[i].text)
-    //     // {
-    //     //     _LOG__BUF->addCellWithSymbolType(s, CHAR);
-    //     // };
-    //     std::string s = " START POS IS ";
-    //     for (auto q : s)
-    //     {
-    //         _LOG__BUF->addCellWithSymbolType(q, CHAR);
-    //     }
-    //     _LOG__BUF->addCellWithSymbolType(res[i].startPosition, INT);
-    //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // };
-
     return res;
 };
 
@@ -146,12 +124,14 @@ void Lexer::analiseCode()
             {
                 if (allWords[q].text == types[p].name)
                 {
-                    _LOG__BUF->addCellWithSymbolType(allWords[q].startPosition, INT);
-                    _LOG__BUF->addCellWithSymbolType(10, CHAR);
-                }
+                    for (int c = 0; c < allWords[q].text.length(); c++)
+                    {
+                        _INSERT__BUF->setCellWithCoordsColor(bufferAsText[i].y, allWords[q].startPosition+c, types[p].color);
+                    };
+                };
             };
         };
-    }
+    };
 };
 
 void LexPosition::setPosition(int strPos, int y, int x)

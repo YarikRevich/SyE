@@ -6,6 +6,9 @@
 
 void Renderer::render(Buffer<BufferCellWithCoords> *buf)
 {
+    _COLORS.useBuffer(buf->getID());
+    _LOG__BUF->addCellWithSymbolType(buf->getID(), INT);
+    _LOG__BUF->addCellWithSymbolType(10, CHAR);
     auto b = buf->getBuf();
     if (!b.empty())
     {
@@ -14,7 +17,18 @@ void Renderer::render(Buffer<BufferCellWithCoords> *buf)
 
         for (int i = 0; i < b.size(); i++)
         {
-            mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
+            if (b[i]->fontColor.length() != 0)
+            {
+                auto [color, pair] = _COLORS.get_compatible_single_color_and_pair(b[i]->fontColor);
+
+                _COLORS.set_temporar_font_color(color, pair);
+                mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
+                _COLORS.remove_temporar_font_color(pair);
+            }
+            else
+            {
+                mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
+            }
         }
 
         if (!buf->isLastBufCell(*curr_y, *curr_x) && !buf->isIgnoreForcibleMove())

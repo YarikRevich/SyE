@@ -1,7 +1,9 @@
 #include <math.h>
 #include "bufs.hpp"
+#include <iostream>
 #include <algorithm>
 #include <type_traits>
+#include "./../colors/colors.hpp"
 #include "./../position/position.hpp"
 
 bool isInsertSameToDefaultBuf()
@@ -285,6 +287,18 @@ bool Base<T>::sort(T *currentBufferCell, T *nextBufferCell)
         }
     }
     return false;
+};
+
+template <typename T>
+void Base<T>::createID()
+{
+    this->id = rand();
+};
+
+template <typename T>
+int Base<T>::getID()
+{
+    return this->id;
 };
 
 template <typename T>
@@ -613,6 +627,12 @@ bool Base<T>::isLastBufCell(int y, int x)
         throw std::logic_error("This method can't be used with buf which cells don't have coords");
     }
     return false;
+};
+
+template <typename T>
+Buffer<T>::Buffer()
+{
+    this->createID();
 };
 
 template class Buffer<BufferCell>;

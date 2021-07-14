@@ -16,7 +16,7 @@ void run_loop()
 {
 	_RENDERER.init_render(_EXEC_FILE->read());
 	_CONFIG_FILE->read_config();
-	
+
 	while (1)
 	{
 		int ch = getch();
