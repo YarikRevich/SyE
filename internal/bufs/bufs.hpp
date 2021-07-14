@@ -57,6 +57,8 @@ public:
 
     void addCell(int s);
 
+    void setCellWithCoordsColor(int y, int x, std::string color);
+
     void setCellSentenceHyphenation(int y, int x, bool status);
 
     bool cellIsSentenceHyphenation(int y, int x);

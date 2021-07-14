@@ -2,9 +2,16 @@
 
 #include <map>
 #include <tuple>
+#include <regex>
 #include <string>
 
 std::string strip(int startPos, std::string src);
+
+typedef struct
+{
+    int startPosition;
+    std::string text;
+} matchedWord;
 
 typedef struct
 {
@@ -13,23 +20,34 @@ typedef struct
     int position;
 } Token;
 
-class Lexer
+typedef struct
 {
-private:
-    std::tuple<int, int, int> position;
+    std::string pattern;
+    std::regex reg;
+} RegexPattern;
 
-    void setPosition(int strPos, int y, int x);
-    std::tuple<int, int, int> getPosition();
-    std::vector<Token> allTokens();
-    std::vector<std::string> findAllWords(std::string);
-
+class Regex
+{
 protected:
-public:
-    void analiseCode();
+    bool isAvailableSymbol(char symbol);
+    std::string modifyPatternToExceptSpecialSymbols(std::string src);
+    std::vector<matchedWord> findAllWords(std::string);
+    bool wordExists(std::vector<matchedWord>, int x);
+    std::vector<matchedWord> getWordsForDublicateCheck(std::string, std::string);
 };
 
-class Parser
+class LexPosition
 {
+protected:
+    std::tuple<int, int, int> position;
+    void setPosition(int strPos, int y, int x);
+    std::tuple<int, int, int> getPosition();
+};
+
+class Lexer : public Regex, public LexPosition
+{
+public:
+    void analiseCode();
 };
 
 class Highlighter : public Lexer

@@ -423,6 +423,26 @@ std::vector<T *> Base<T>::getBuf()
 };
 
 template <typename T>
+void Base<T>::setCellWithCoordsColor(int y, int x, std::string color)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        auto buf = this->getBuf();
+        for (int i = 0; i < buf.size(); i++)
+        {
+            if (buf[i]->y == y && buf[i]->x == x)
+            {
+                buf[i]->fontColor = color;
+            };
+        };
+    }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+    }
+};
+
+template <typename T>
 void Base<T>::setCellSentenceHyphenation(int y, int x, bool status)
 {
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)

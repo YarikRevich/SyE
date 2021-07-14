@@ -1,5 +1,9 @@
 #include <regex>
 #include <vector>
+#include <string>
+#include <iterator>
+#include <iostream>
+#include <ctype.h>
 #include "highlighter.hpp"
 #include "./../bufs/bufs.hpp"
 #include "./../files/config/config.hpp"
@@ -14,25 +18,117 @@ std::string strip(int startPos, std::string src)
     return res;
 };
 
-std::vector<std::string> Lexer::findAllWords(std::string text)
+bool Regex::isAvailableSymbol(char symbol)
 {
-    std::vector<std::string> res = {"Yarik"};
-    // std::string subject(text);
-    // std::smatch match;
-    // std::regex s("\\S+");
-    // while (std::regex_search(subject, match, s))
-    // {
-    //     res.push_back(match.str(0));
-    //     subject = match.suffix().str();
-    // };
+    return std::isalnum(symbol);
+};
+
+std::string Regex::modifyPatternToExceptSpecialSymbols(std::string src)
+{
+    std::string res;
+    for (int i = 0; i < src.size(); i++)
+    {
+        if (this->isAvailableSymbol(src[i]))
+        {
+            res += src[i];
+        }
+        else
+        {
+            res.append("\\").push_back(src[i]);
+        };
+    };
     return res;
+};
+
+std::vector<matchedWord> Regex::getWordsForDublicateCheck(std::string src, std::string pattern)
+{
+    std::vector<matchedWord> res;
+    std::regex reg(this->modifyPatternToExceptSpecialSymbols(pattern));
+
+    auto it = std::sregex_iterator(src.begin(), src.end(), reg);
+    auto end = std::sregex_iterator();
+
+    for (std::sregex_iterator i = it; i != end; i++)
+    {
+
+        matchedWord word;
+        word.startPosition = i->position();
+        word.text = i->str();
+
+        res.push_back(word);
+    };
+    return res;
+};
+
+std::vector<matchedWord> Regex::findAllWords(std::string srcForFullProcessing)
+{
+    std::vector<matchedWord> res;
+    std::string srcForSequenceProcessing(srcForFullProcessing);
+    std::smatch sequenceMatch;
+    std::regex s("\\S+");
+
+    while (std::regex_search(srcForSequenceProcessing, sequenceMatch, s))
+    {
+        matchedWord word;
+
+        word.text = sequenceMatch.str(0);
+
+        auto dublicatedWords = this->getWordsForDublicateCheck(srcForFullProcessing, word.text);
+        for (int d = 0; d < dublicatedWords.size(); d++)
+        {
+            if (!this->wordExists(res, dublicatedWords[d].startPosition + 1))
+            {
+                word.startPosition = dublicatedWords[d].startPosition + 1;
+                break;
+            };
+        }
+
+        res.push_back(word);
+
+        srcForSequenceProcessing = sequenceMatch.suffix().str();
+    };
+
+    // std::string t = " START OF SEQUENCE ";
+    // for (auto e : t)
+    // {
+    //     _LOG__BUF->addCellWithSymbolType(e, CHAR);
+    // }
+    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+    // for (int i = 0; i < res.size(); i++)
+    // {
+    //     // for (auto s : res[i].text)
+    //     // {
+    //     //     _LOG__BUF->addCellWithSymbolType(s, CHAR);
+    //     // };
+    //     std::string s = " START POS IS ";
+    //     for (auto q : s)
+    //     {
+    //         _LOG__BUF->addCellWithSymbolType(q, CHAR);
+    //     }
+    //     _LOG__BUF->addCellWithSymbolType(res[i].startPosition, INT);
+    //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
+    // };
+
+    return res;
+};
+
+bool Regex::wordExists(std::vector<matchedWord> src, int x)
+{
+    for (int i = 0; i < src.size(); i++)
+    {
+
+        if (src[i].startPosition == x)
+        {
+            return true;
+        }
+    };
+    return false;
 };
 
 void Lexer::analiseCode()
 {
-    std::vector<BufferAsString> text = _INSERT__BUF->getBufAsStringWithYCoord();
-    // while (1)
-    // {
+    std::vector<BufferAsString> bufferAsText = _INSERT__BUF->getBufAsStringWithYCoord();
+
     auto types = _CONFIG_FILE->getConfig().types;
     if (types.empty())
     {
@@ -41,74 +137,29 @@ void Lexer::analiseCode()
 
     auto [strPos, y, x] = this->getPosition();
 
-    for (int i = 0; i < text.size(); i++)
+    for (int i = 0; i < bufferAsText.size(); i++)
     {
-        _LOG__BUF->addCellWithSymbolType(text[i].y, INT);
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        std::vector<matchedWord> allWords = this->findAllWords(bufferAsText[i].text);
+        for (int q = 0; q < allWords.size(); q++)
+        {
+            for (int p = 0; p < types.size(); p++)
+            {
+                if (allWords[q].text == types[p].name)
+                {
+                    _LOG__BUF->addCellWithSymbolType(allWords[q].startPosition, INT);
+                    _LOG__BUF->addCellWithSymbolType(10, CHAR);
+                }
+            };
+        };
     }
-    // if (strPos >= text.length())
-    // {
-
-    //     return;
-    // }
-
-    // _LOG__BUF->addCellWithSymbolType(strPos, INT);
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // std::cmatch values;
-    // for (auto const type : types)
-    // {
-    //     // _LOG__BUF->addCellWithSymbolType(type.color.size(), INT);
-    //     // std::string s = strip(strPos, text).c_str();
-    //     // for (auto const i : s)
-    //     // {
-    //     //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    //     // };
-
-    //     if (std::regex_search(strip(strPos, text).c_str(), values, std::regex(type.regexp)))
-    //     {
-    //         _LOG__BUF->addCellWithSymbolType(8, INT);
-    //         // break;
-    //         this->setPosition(strPos += values[0].length(), y, x);
-    //     };
-    // };
-
-    // if (values.empty())
-    // {
-
-    // std::vector<std::string> allWords = this->findAllWords(text);
-    // this->setPosition(strPos += allWords[0].length(), y, x);
-    // for (auto i : )
-
-    // {
-    //     for (auto q : i)
-    //     {
-    //         _LOG__BUF->addCellWithSymbolType(q, CHAR);
-    //     };
-    //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // };
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
-    // if (std::regex_search(strip(strPos, text).c_str(), values, std::regex("\\S+")))
-    // {
-    //     std::string s = values.str(0);
-    //     for (auto const i : s)
-    //     {
-    //         _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    //     };
-    //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
-    //     this->setPosition(strPos += values[0].length(), y, x);
-    // };
-    // };
-    // };
 };
 
-void Lexer::setPosition(int strPos, int y, int x)
+void LexPosition::setPosition(int strPos, int y, int x)
 {
     this->position = {strPos, y, x};
 };
 
-std::tuple<int, int, int> Lexer::getPosition()
+std::tuple<int, int, int> LexPosition::getPosition()
 {
     return this->position;
 };
