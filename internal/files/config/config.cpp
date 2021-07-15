@@ -61,15 +61,26 @@ void Config::read_config()
                         configDataTypeCell dataToSave;
                         if (type.count("name"))
                         {
-                            dataToSave.name = type["name"];
+                            std::string name = type["name"];
+                            std::transform(name.begin(), name.end(), name.begin(), [](char n)
+                                           { return std::tolower(n); });
+
+                            dataToSave.name = name;
                         }
                         if (type.count("regexp"))
                         {
-                            dataToSave.regexp = type["regexp"];
+                            std::string regexp = type["regexp"];
+                            std::transform(regexp.begin(), regexp.end(), regexp.begin(), [](char n)
+                                           { return std::tolower(n); });
+
+                            dataToSave.regexp = regexp;
                         }
                         if (type.count("color"))
                         {
-                            dataToSave.color = type["color"];
+                            std::string color = type["color"];
+                            std::transform(color.begin(), color.end(), color.begin(), [](char n)
+                                           { return std::tolower(n); });
+                            dataToSave.color = color;
                         }
                         this->configData.types.push_back(dataToSave);
                     }

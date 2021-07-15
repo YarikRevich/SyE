@@ -18,6 +18,8 @@ public:
 
     void render_with_color(Buffer<BufferCellWithCoords> *buf, int color_pair);
 
+    void init_render_with_color(std::string buf);
+
     void init_render(std::string buf);
 };
 

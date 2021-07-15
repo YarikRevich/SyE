@@ -1,6 +1,6 @@
 #include <csignal>
 #include <iostream>
-#include "internal/loop.hpp"
+#include "internal/loop/loop.hpp"
 #include "internal/files/config/config.hpp"
 #include "internal/colors/colors.hpp"
 #include "internal/files/helper/helper.hpp"
@@ -13,11 +13,14 @@ int main(int argc, char **argv)
 	initscr();
 	set_escdelay(FALSE);
 	noecho();
+	start_color();
 	scrollok(stdscr, TRUE);
 	keypad(stdscr, TRUE);
-	_COLORS.init_colors();
 	signal(SIGINT, close_all_files);
 
-	run_loop();
+	_COLORS->init();
+
+	_LOOP->run();
+
 	return 0;
 }

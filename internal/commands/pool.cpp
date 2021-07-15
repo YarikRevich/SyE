@@ -13,9 +13,7 @@ void apply_command(std::string c)
 {
     std::transform(c.begin(), c.end(), c.begin(), [](char t)
                    { return tolower(t); });
-    for (auto i : c){
-        _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    }
+                   
     if (c == "w")
     {
         W_Command w_com;

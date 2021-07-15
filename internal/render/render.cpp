@@ -6,9 +6,8 @@
 
 void Renderer::render(Buffer<BufferCellWithCoords> *buf)
 {
-    _COLORS.useBuffer(buf->getID());
-    _LOG__BUF->addCellWithSymbolType(buf->getID(), INT);
-    _LOG__BUF->addCellWithSymbolType(10, CHAR);
+    _COLORS->useBuffer(buf->getID());
+
     auto b = buf->getBuf();
     if (!b.empty())
     {
@@ -19,11 +18,14 @@ void Renderer::render(Buffer<BufferCellWithCoords> *buf)
         {
             if (b[i]->fontColor.length() != 0)
             {
-                auto [color, pair] = _COLORS.get_compatible_single_color_and_pair(b[i]->fontColor);
+                //     // auto [color, pair] = _COLORS->get_compatible_single_color_and_pair(b[i]->fontColor).get();
 
-                _COLORS.set_temporar_font_color(color, pair);
+                //     // // _LOG__BUF->addCellWithSymbolType(buf->getID(), INT);
+                //     // // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
+                _COLORS->set_font_theme(b[i]->fontColor);
                 mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
-                _COLORS.remove_temporar_font_color(pair);
+                _COLORS->remove_font_theme(b[i]->fontColor);
             }
             else
             {
@@ -66,13 +68,19 @@ void Renderer::render(Buffer<BufferCellWithCoords> *buf)
 
 void Renderer::render_with_color(Buffer<BufferCellWithCoords> *buf, int color_pair)
 {
-    _COLORS.set_color(color_pair);
+    // _COLORS->set_color(color_pair);
     this->render(buf);
-    _COLORS.remove_color(color_pair);
+    // _COLORS->remove_color(color_pair);
+};
+
+void Renderer::init_render_with_color(std::string buf){
+    this->init_render(buf);
 };
 
 void Renderer::init_render(std::string buf)
 {
+    _COLORS->useBuffer(_INSERT__BUF->getID());
+    
     if (!buf.empty())
     {
         auto [curr_y, curr_x] = _POSITION.get_curr_coords();
@@ -91,6 +99,7 @@ void Renderer::init_render(std::string buf)
                 _POSITION.incx();
             };
             _INSERT__BUF->addCellWithCoords(buf[i], *curr_y, *curr_x);
+
             mvwaddch(stdscr, *curr_y, *curr_x, buf[i]);
         };
     };

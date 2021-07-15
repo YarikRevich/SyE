@@ -1,21 +1,65 @@
-#include <ncurses.h>
 #include <iostream>
+#include <ncurses.h>
 #include "colors.hpp"
+#include "./../bufs/bufs.hpp"
+#include <boost/optional.hpp>
 
-void ColorManager::useBuffer(int id){
-	this->current_buf = id;
-};
+// void ThemeStorage::init()
+// {
+// 	start_color();
+// 	init_pair(100, COLOR_BLACK);
+// 	init_pair(101, COLOR_RED);
+// 	init_pair(102, COLOR_GREEN);
+// 	init_pair(103, COLOR_YELLOW);
+// 	init_pair(104, COLOR_BLUE);
+// 	init_pair(105, COLOR_MAGENTA);
+// 	init_pair(106, COLOR_CYAN);
+// 	init_pair(107, COLOR_WHITE);
+// };
 
-void Colors::init_colors()
+void Manager::useBuffer(int id)
 {
-	start_color();
-	auto [f, b] = themes[DEFAULT];
-	init_pair(1, f, b);
-	attron(COLOR_PAIR(1));
-	wbkgd(stdscr, COLOR_PAIR(1));
+	this->current_buffer = id;
 };
 
-void Colors::set_color_by_compatible_theme(std::string color_pair)
+void FontTheme::set_font_theme(std::string color)
+{
+	if (this->font_themes.count(color))
+	{
+		auto screen_theme_used_before = this->themes_used_by_buffers[this->current_buffer];
+		attroff(COLOR_PAIR(screen_theme_used_before));
+
+		attron(COLOR_PAIR(this->font_themes[color]));
+	}
+
+	// auto [_, b] = themes[this->current_pair[this->current_buf]];
+	// init_pair(pair, color, b);
+	// attron(COLOR_PAIR(pair));
+};
+
+void FontTheme::remove_font_color(std::string color){
+	if (this->font_themes.count(color))
+	{
+		attroff(COLOR_PAIR(this->font_themes[color]));
+	}
+};
+
+// int Colors::get_main_color()
+// {
+// 	return this->main_theme;
+// };
+
+// void Colors::set_main_theme(int theme)
+// {
+// 	int color_pair_id = this->generate this->current_pair[this->current_buf] = theme;
+
+// 	auto [f, b] = themes[theme];
+// 	init_pair(1, f, b);
+// 	attron(COLOR_PAIR(1));
+// 	wbkgd(stdscr, COLOR_PAIR(1));
+// };
+
+void Colors::set_theme_by_string(std::string color_pair)
 {
 	if (compatible_themes.count(color_pair))
 	{
@@ -24,29 +68,33 @@ void Colors::set_color_by_compatible_theme(std::string color_pair)
 	}
 };
 
-void Colors::set_color(int color_pair)
+void Colors::set_color(int color_pair, int id)
 {
-	this->current_pair[this->current_buf] = color_pair;
+	int color_pair_id;
+	if (id != 0)
+	{
+		color_pair_id = id;
+	}
+	else
+	{
+		color_pair_id = this->generate_color_pair_id();
+	}
+
+	this->current_pair[this->current_buf] = {color_pair, color_pair_id};
 
 	auto [f, b] = themes[color_pair];
-	init_pair(color_pair, f, b);
-	attron(COLOR_PAIR(color_pair));
+	init_pair(color_pair_id, f, b);
+	attron(COLOR_PAIR(color_pair_id));
+	wbkgd(stdscr, COLOR_PAIR(color_pair_id));
 };
 
-void Colors::set_temporar_font_color(int color, int pair)
-{
-	auto [_, b] = themes[this->current_pair[this->current_buf]];
-	init_pair(pair, color, b);
-	attron(COLOR_PAIR(pair));
-};
-
-std::tuple<int, int> Colors::get_compatible_single_color_and_pair(std::string color)
+boost::optional<std::tuple<int, int>> Colors::get_compatible_single_color_and_pair(std::string color)
 {
 	if (this->compatible_single_colors.count(color))
 	{
 		return this->compatible_single_colors[color];
 	};
-	return {};
+	return boost::none;
 };
 
 void Colors::remove_color(int color_pair)
@@ -54,10 +102,9 @@ void Colors::remove_color(int color_pair)
 	attroff(COLOR_PAIR(color_pair));
 };
 
-void Colors::remove_temporar_font_color(int pair)
+int Colors::generate_color_pair_id()
 {
-	attroff(COLOR_PAIR(pair));
-	this->set_color(this->current_pair[this->current_buf]);
+	return rand() % 200 + 1;
 };
 
-Colors _COLORS;
+Colors *_COLORS = new Colors;
