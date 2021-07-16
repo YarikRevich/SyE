@@ -1,5 +1,6 @@
-#include "./../colors.hpp"
+#pragma once
 
+#include "./../colors.hpp"
 
 #define INSERT_THEME_DEFAULT 0
 #define INSERT_THEME_BLUE 1
@@ -17,8 +18,18 @@ private:
         {"blue", INSERT_THEME_BLUE},
     };
 
-public:
-    void set(void *);
+    std::tuple<int, int> current_theme;
 
-    void remove(void *);
-}
+public:
+    void set(void *theme);
+
+    void set_by_string(std::string theme);
+
+    void remove(void *theme = NULL);
+
+    void set_current_theme(std::tuple<int, int>);
+
+    std::tuple<int, int> get_current_theme();
+};
+
+extern InsertColor *_INSERT_COLOR;

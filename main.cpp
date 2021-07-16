@@ -18,8 +18,6 @@ int main(int argc, char **argv)
 	keypad(stdscr, TRUE);
 	signal(SIGINT, close_all_files);
 
-	_COLORS->init();
-
 	_LOOP->run();
 
 	return 0;

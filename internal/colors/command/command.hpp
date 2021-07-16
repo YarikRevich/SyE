@@ -1,3 +1,5 @@
+#pragma once
+
 #include "./../colors.hpp"
 
 #define COMMAND_THEME_DEFAULT 0
@@ -5,16 +7,24 @@
 class CommandColor : public ColorInterface
 {
 private:
-    std::map<int, std::tuple<int, int>> common_themes = {
+    std::map<int, std::tuple<int, int>> command_themes = {
         {COMMAND_THEME_DEFAULT, {COLOR_MAGENTA, COLOR_CYAN}},
     };
 
     std::map<std::string, int> compatible_themes = {
-        {"default", COMMAND_THEME_DEFAULT}, 
+        {"default", COMMAND_THEME_DEFAULT},
     };
 
-public:
-    void set(void *);
+    std::tuple<int, int> current_theme;
 
-    void remove(void *);
-}
+public:
+    void set(void *theme);
+
+    void set_by_string(std::string theme);
+
+    void remove(void *theme = NULL);
+
+    void set_current_theme(std::tuple<int, int>);
+
+    std::tuple<int, int> get_current_theme();
+};

@@ -6,14 +6,14 @@
 #include "pool.hpp"
 #include "search/search.hpp"
 #include "./../status/status.hpp"
-#include "set_color/set_color.hpp"
+#include "set_insert_color/set_insert_color.hpp"
 #include "./../bufs/bufs.hpp"
 
 void apply_command(std::string c)
 {
     std::transform(c.begin(), c.end(), c.begin(), [](char t)
                    { return tolower(t); });
-                   
+
     if (c == "w")
     {
         W_Command w_com;
@@ -24,7 +24,7 @@ void apply_command(std::string c)
         Search_Command search_com;
         search_com.execute();
     }
-    else if (c.find("set color") != std::string::npos || c.find("sc") != std::string::npos)
+    else if (c.find("set insert color") != std::string::npos || c.find("sic") != std::string::npos)
     {
         int pos = 0;
         std::vector<std::string> found;
@@ -37,7 +37,7 @@ void apply_command(std::string c)
 
         found.push_back(c);
 
-        Set_Color_Command set_color_com;
-        set_color_com.execute_with_params({found[found.size() - 1]});
+        Set_Insert_Color_Command set_insert_color_com;
+        set_insert_color_com.execute_with_params({found[found.size() - 1]});
     };
 };
