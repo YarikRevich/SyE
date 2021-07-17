@@ -1,5 +1,9 @@
 **Editor which will make your life easier**
+---
+
 ![](https://img.shields.io/github/commit-activity/m/YarikRevich/SyE)
+![](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
+![](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)
 
 It's features are:
 

@@ -1,10 +1,10 @@
 #include <csignal>
 #include <iostream>
-#include "internal/loop/loop.hpp"
-#include "internal/files/config/config.hpp"
-#include "internal/colors/colors.hpp"
-#include "internal/files/helper/helper.hpp"
-#include "internal/term_flags/term_flags.hpp"
+#include "./../internal/loop/loop.hpp"
+#include "./../internal/files/config/config.hpp"
+#include "./../internal/colors/colors.hpp"
+#include "./../internal/files/helper/helper.hpp"
+#include "./../internal/term_flags/term_flags.hpp"
 
 int main(int argc, char **argv)
 {

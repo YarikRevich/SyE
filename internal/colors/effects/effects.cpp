@@ -2,7 +2,7 @@
 
 void EffectsColor::set(void *theme)
 {
-    auto [font_color, background_color] = this->effects_themes[(int)theme];
+    auto [font_color, background_color] = this->effects_themes[*static_cast<int *>(theme)];
 
     init_pair(3, font_color, background_color);
     attron(COLOR_PAIR(3));

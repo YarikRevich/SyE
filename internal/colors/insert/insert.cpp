@@ -2,7 +2,7 @@
 
 void InsertColor::set(void *theme)
 {
-    auto [font_color, background_color] = this->screen_themes[(int)theme];
+    auto [font_color, background_color] = this->screen_themes[*static_cast<int *>(theme)];
 
     init_pair(1, font_color, background_color);
     attron(COLOR_PAIR(1));
@@ -11,10 +11,10 @@ void InsertColor::set(void *theme)
 
 void InsertColor::set_by_string(std::string theme)
 {
-    this->set(this->compatible_themes[theme]);
+    this->set(&this->compatible_themes[theme]);
 };
 
-void InsertColor::remove()
+void InsertColor::remove(void *)
 {
     attroff(COLOR_PAIR(1));
 };

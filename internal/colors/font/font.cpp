@@ -8,10 +8,9 @@ void FontColor::set(void *color)
 
     auto [_, background_color] = color_wrapper->get_current_theme();
 
-    int id = (int)color + 50;
-    init_pair(id, (int)color, background_color);
+    int id = *static_cast<int *>(color) + 50;
+    init_pair(id, *static_cast<int *>(color), background_color);
     attron(COLOR_PAIR(id));
-    wbkgd(stdscr, COLOR_PAIR(id));
 };
 
 void FontColor::set_by_string(std::string theme)
@@ -21,7 +20,7 @@ void FontColor::set_by_string(std::string theme)
 
 void FontColor::remove(void *color)
 {
-    attron(COLOR_PAIR((int)color + 50));
+    attron(COLOR_PAIR(*static_cast<int *>(color) + 50));
 };
 
 void FontColor::set_current_theme(std::tuple<int, int> theme)

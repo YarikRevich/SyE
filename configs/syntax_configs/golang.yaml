@@ -1,0 +1,9 @@
+---
+extension:
+  - go
+types:
+  - name: class
+    color: RED
+  - name: template
+    color: BLUE
+---

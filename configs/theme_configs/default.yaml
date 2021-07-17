@@ -1,0 +1,10 @@
+---
+insert:
+  - RED
+  - BLACK
+command:
+  - BLUE
+  - GREY
+effects:
+  - WHITE
+---

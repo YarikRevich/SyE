@@ -2,7 +2,7 @@
 
 void CommandColor::set(void *theme)
 {
-    auto [font_color, background_color] = this->command_themes[(int)theme];
+    auto [font_color, background_color] = this->command_themes[*static_cast<int *>(theme)];
 
     init_pair(2, font_color, background_color);
     attron(COLOR_PAIR(2));

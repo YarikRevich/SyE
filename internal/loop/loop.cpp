@@ -1,5 +1,6 @@
 #include "loop.hpp"
 #include <ncurses.h>
+#include <functional>
 #include "./../bufs/bufs.hpp"
 #include "./../files/log/log.hpp"
 #include "./../status/status.hpp"
@@ -13,10 +14,32 @@
 #include "./../states/command/command.hpp"
 #include "./../highlighter/highlighter.hpp"
 
-void Stages::prepare_run()
+//Middlewares logic
+
+Middleware::Middleware(std::function<void()> middleware){
+	this->middleware = middleware;
+};
+
+void Middleware::use(){
+	this->middleware();
+};
+
+MiddlwareExecutor::MiddlwareExecutor(std::vector<Middleware> middlewares){
+	for (int i = 0; i < middlewares.size(); i++){
+		middlewares[i].use();
+	};
+};
+
+
+void Stages::init_insert_buf()
 {
 	_RENDERER.init_render_with_color(_EXEC_FILE->read());
+};
+
+void Stages::init_configs()
+{
 	_CONFIG_FILE->read_config();
+	_
 };
 
 void Stages::handle_updation()
@@ -54,9 +77,10 @@ void Stages::prepare_for_render()
 
 void Stages::render()
 {
-	_RENDERER.render_with_color(_EFFECTS__BUF, COMMAND_THEME);
+	_RENDERER.render(_EFFECTS__BUF);
+	_RENDERER.render(_INSERT__BUF);
 	//_RENDERER.render_with_main_color(_INSERT__BUF, _COLORS->get_main_color());
-	_RENDERER.render_with_color(_COMMAND__BUF, COMMAND_THEME);
+	_RENDERER.render(_COMMAND__BUF);
 };
 
 void Stages::post_render()
@@ -76,17 +100,20 @@ void Stages::reset_temporary_data()
 
 void Loop::run()
 {
-	this->prepare_run();
+	MiddlwareExecutor({
+		Middleware(std::bind(&Loop::init_insert_buf, this)),
+		Middleware(std::bind(&Loop::init_configs, this)),
+	});
 
 	while (1)
 	{
-		this->handle_updation();
-
-		this->prepare_for_render();
-		this->render();
-		this->post_render();
-
-		this->reset_temporary_data();
+		MiddlwareExecutor({
+			Middleware(std::bind(&Loop::handle_updation, this)),
+			Middleware(std::bind(&Loop::prepare_for_render, this)),
+			Middleware(std::bind(&Loop::render, this)),
+			Middleware(std::bind(&Loop::post_render, this)),
+			Middleware(std::bind(&Loop::reset_temporary_data, this)),
+		});
 	};
 }
 

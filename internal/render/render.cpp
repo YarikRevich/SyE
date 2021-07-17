@@ -6,7 +6,7 @@
 
 void Renderer::render(Buffer<BufferCellWithCoords> *buf)
 {
-    _COLORS->useBuffer(buf->getID());
+    // _COLORS->useBuffer(buf->getID());
 
     auto b = buf->getBuf();
     if (!b.empty())
@@ -16,21 +16,21 @@ void Renderer::render(Buffer<BufferCellWithCoords> *buf)
 
         for (int i = 0; i < b.size(); i++)
         {
-            if (b[i]->fontColor.length() != 0)
-            {
-                //     // auto [color, pair] = _COLORS->get_compatible_single_color_and_pair(b[i]->fontColor).get();
+            // if (b[i]->fontColor.length() != 0)
+            // {
+            //     //     // auto [color, pair] = _COLORS->get_compatible_single_color_and_pair(b[i]->fontColor).get();
 
-                //     // // _LOG__BUF->addCellWithSymbolType(buf->getID(), INT);
-                //     // // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+            //     //     // // _LOG__BUF->addCellWithSymbolType(buf->getID(), INT);
+            //     //     // // _LOG__BUF->addCellWithSymbolType(10, CHAR);
 
-                _COLORS->set_font_theme(b[i]->fontColor);
+            //     _COLORS->set_font_theme(b[i]->fontColor);
+            //     mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
+            //     _COLORS->remove_font_theme(b[i]->fontColor);
+            // }
+            // else
+            // {
                 mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
-                _COLORS->remove_font_theme(b[i]->fontColor);
-            }
-            else
-            {
-                mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
-            }
+            // }
         }
 
         if (!buf->isLastBufCell(*curr_y, *curr_x) && !buf->isIgnoreForcibleMove())
@@ -79,8 +79,8 @@ void Renderer::init_render_with_color(std::string buf){
 
 void Renderer::init_render(std::string buf)
 {
-    _COLORS->useBuffer(_INSERT__BUF->getID());
-    
+
+    //_COLORS->useBuffer(_INSERT__BUF->getID());
     if (!buf.empty())
     {
         auto [curr_y, curr_x] = _POSITION.get_curr_coords();

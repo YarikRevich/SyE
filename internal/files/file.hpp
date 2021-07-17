@@ -5,18 +5,6 @@
 #include <string>
 #include <stdio.h>
 
-typedef struct
-{
-    std::string name;
-    std::string regexp;
-    std::string color;
-} configDataTypeCell;
-
-typedef struct
-{
-    std::vector<configDataTypeCell> types;
-} ConfigData;
-
 class FileBase
 {
 protected:
@@ -24,12 +12,12 @@ protected:
     FILE *file;
 };
 
-class ConfigBase
-{
-public:
-    std::vector<std::string> configs;
-    ConfigData configData;
-};
+// class ConfigBase
+// {
+// public:
+//     std::vector<std::string> configs;
+//     ConfigData configData;
+// };
 
 class Open
 {

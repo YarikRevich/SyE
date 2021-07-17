@@ -1,11 +1,10 @@
 ---
 extension:
-  - go
+  - "cpp"
+  - "hpp"
 types:
   - name: class
-    regexp: class
     color: RED
   - name: template
-    regexp: template
-    color: BLUE
+    color: GREEN
 ---
