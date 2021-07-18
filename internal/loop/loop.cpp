@@ -72,8 +72,7 @@ void Stages::Initialisers::init_colors()
 {
 	start_color();
 	auto theme_config_data = _THEME_CONFIG.get();
-	// _INSERT_COLOR->set_by_string(theme_config_data.insert);
-	// _INSERT_COLOR->set_by_string(theme_config_data.insert);
+	_INSERT_COLOR->set(theme_config_data.insert);
 };
 
 void Stages::Initialisers::init_signals()
@@ -148,6 +147,7 @@ void Loop::run()
 	MiddlwareExecutor({
 		Middleware(Stages::Initialisers::init_configs),
 		Middleware(Stages::Initialisers::init_term_flags),
+		Middleware(Stages::Initialisers::init_colors),
 		Middleware(Stages::Initialisers::init_insert_buf),
 		Middleware(Stages::Initialisers::init_ncurses),
 		Middleware(Stages::Initialisers::init_signals),

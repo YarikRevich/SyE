@@ -7,8 +7,6 @@
 int main(int argc, char **argv)
 {
 	TermFlags::add_args(argc, argv);
-
 	Loop::run();
-
 	return 0;
 }

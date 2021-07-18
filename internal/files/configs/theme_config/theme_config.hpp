@@ -2,14 +2,15 @@
 
 #include <string>
 #include <vector>
+#include <tuple>
 #include "./../helper/helper.hpp"
 
 typedef struct
 {
     std::string name;
-    std::vector<std::string> insert;
-    std::vector<std::string> command;
-    std::vector<std::string> effects;
+    std::tuple<std::string, std::string> insert;
+    std::tuple<std::string, std::string> command;
+    std::string effects;
 } ThemeConfigData;
 
 template <typename T>

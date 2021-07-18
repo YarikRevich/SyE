@@ -1,26 +1,30 @@
 #include "font.hpp"
+#include <string>
 #include "./../colors.hpp"
 #include "./../insert/insert.hpp"
 
-void FontColor::set(void *color)
+void FontColor::set(std::string color)
 {
-    ColorWrapper *color_wrapper = new ColorWrapper(_INSERT_COLOR);
+    auto [_, background_color] = _INSERT_COLOR->get_current_theme();
 
-    auto [_, background_color] = color_wrapper->get_current_theme();
+    int color_int = get_int_color(color);
 
-    int id = *static_cast<int *>(color) + 50;
-    init_pair(id, *static_cast<int *>(color), background_color);
+    int id = color_int + 50;
+    init_pair(id, color_int, background_color);
     attron(COLOR_PAIR(id));
 };
 
-void FontColor::set_by_string(std::string theme)
-{
-    this->set(&this->font_themes[theme]);
-};
+// void FontColor::set_by_string(std::string theme)
+// {
+//     this->set(&this->font_themes[theme]);
+// };
 
-void FontColor::remove(void *color)
+void FontColor::remove(std::string color)
 {
-    attron(COLOR_PAIR(*static_cast<int *>(color) + 50));
+    int color_int = get_int_color(color);
+
+    int id = color_int + 50;
+    attroff(COLOR_PAIR(id));
 };
 
 void FontColor::set_current_theme(std::tuple<int, int> theme)

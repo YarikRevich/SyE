@@ -11,8 +11,7 @@ insert:
 command:
   - "..."
   - "..."
-effects:
-  - "..."
+effects: "..."
 ```
 The first color of each theme elements(except of "effects", it has only background color) is a font color, but the
 second one is for backgound. Both of them should have only these values

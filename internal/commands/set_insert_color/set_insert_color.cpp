@@ -6,6 +6,6 @@
 void Set_Insert_Color_Command::execute_with_params(std::vector<std::string> params)
 {
     for (auto const i : params){
-        _INSERT_COLOR->set_by_string(i);
+        // _INSERT_COLOR->set_by_string(i);
     };
 }

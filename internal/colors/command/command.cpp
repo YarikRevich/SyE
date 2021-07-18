@@ -1,19 +1,22 @@
+#include <tuple>
+#include <string>
 #include "command.hpp"
 
-void CommandColor::set(void *theme)
+void CommandColor::set(std::tuple<std::string, std::string> theme)
 {
-    auto [font_color, background_color] = this->command_themes[*static_cast<int *>(theme)];
+
+    auto [font_color, background_color] = get_int_theme(theme);
 
     init_pair(2, font_color, background_color);
     attron(COLOR_PAIR(2));
 };
 
-void CommandColor::set_by_string(std::string theme)
-{
-    this->set(&this->compatible_themes[theme]);
-};
+// void CommandColor::set_by_string(std::string theme)
+// {
+//     this->set(&this->compatible_themes[theme]);
+// };
 
-void CommandColor::remove(void *)
+void CommandColor::remove()
 {
     attroff(COLOR_PAIR(2));
 };

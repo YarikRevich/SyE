@@ -1,20 +1,37 @@
+#include <map>
+#include <tuple>
+#include <string>
 #include <iostream>
 #include <ncurses.h>
 #include "colors.hpp"
 #include "./../bufs/bufs.hpp"
 
-ColorWrapper::ColorWrapper(ColorInterface *src)
-{
-	this->src = src;
+std::map<std::string, int> compatible_table_of_colors = {
+    {"black", COLOR_BLACK},
+    {"red", COLOR_RED},
+    {"green", COLOR_GREEN},
+    {"yellow", COLOR_YELLOW},
+    {"blue", COLOR_BLUE},
+    {"magenta", COLOR_MAGENTA},
+    {"cyan", COLOR_CYAN},
+    {"white", COLOR_WHITE},
 };
 
-void ColorWrapper::remove(void *color)
+std::tuple<int, int> get_int_theme(std::tuple<std::string, std::string> string_theme)
 {
-	this->src->remove(color);
+	int font_color_int;
+	int background_color_int;
+
+	auto [font_color_string, background_color_string] = string_theme;
+	font_color_int = compatible_table_of_colors[font_color_string];
+	background_color_int = compatible_table_of_colors[background_color_string];
+
+	return {font_color_int, background_color_int};
 };
 
-std::tuple<int, int> ColorWrapper::get_current_theme(){
-	return this->src->get_current_theme();
+int get_int_color(std::string string_color)
+{
+	return compatible_table_of_colors[string_color];
 };
 
 // void Manager::useBuffer(int id)
@@ -32,9 +49,9 @@ std::tuple<int, int> ColorWrapper::get_current_theme(){
 // 		attron(COLOR_PAIR(this->font_themes[color]));
 // 	}
 
-	// auto [_, b] = themes[this->current_pair[this->current_buf]];
-	// init_pair(pair, color, b);
-	// attron(COLOR_PAIR(pair));
+// auto [_, b] = themes[this->current_pair[this->current_buf]];
+// init_pair(pair, color, b);
+// attron(COLOR_PAIR(pair));
 // };
 
 // void FontTheme::remove_font_color(std::string color)

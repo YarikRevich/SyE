@@ -1,19 +1,21 @@
 #include "effects.hpp"
+#include <string>
 
-void EffectsColor::set(void *theme)
+
+void EffectsColor::set(std::string color)
 {
-    auto [font_color, background_color] = this->effects_themes[*static_cast<int *>(theme)];
+    int color_int = get_int_color(color);
 
-    init_pair(3, font_color, background_color);
+    init_pair(3, color_int, color_int);
     attron(COLOR_PAIR(3));
 };
 
-void EffectsColor::set_by_string(std::string theme)
-{
-    this->set(&this->compatible_themes[theme]);
-};
+// void EffectsColor::set_by_string(std::string theme)
+// {
+//     this->set(&this->compatible_themes[theme]);
+// };
 
-void EffectsColor::remove(void *)
+void EffectsColor::remove()
 {
     attroff(COLOR_PAIR(3));
 };

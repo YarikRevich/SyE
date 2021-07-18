@@ -1,20 +1,23 @@
+#include <tuple>
+#include <string>
 #include "insert.hpp"
+#include "./../colors.hpp"
 
-void InsertColor::set(void *theme)
+void InsertColor::set(std::tuple<std::string, std::string> theme)
 {
-    auto [font_color, background_color] = this->screen_themes[*static_cast<int *>(theme)];
+    auto [font_color, background_color] = get_int_theme(theme);
 
     init_pair(1, font_color, background_color);
     attron(COLOR_PAIR(1));
     wbkgd(stdscr, COLOR_PAIR(1));
 };
 
-void InsertColor::set_by_string(std::string theme)
-{
-    this->set(&this->compatible_themes[theme]);
-};
+// void InsertColor::set_by_string(std::string theme)
+// {
+//     this->set(&this->compatible_themes[theme]);
+// };
 
-void InsertColor::remove(void *)
+void InsertColor::remove()
 {
     attroff(COLOR_PAIR(1));
 };

@@ -1,3 +1,5 @@
+#include <tuple>
+#include <string>
 #include <yaml-cpp/yaml.h>
 #include "theme_config.hpp"
 #include "./../helper/helper.hpp"
@@ -49,20 +51,35 @@ void ThemeConfig<T>::read()
         {
             // MessageWriter({RedPrinter({file, "does not contain command"})});
         };
+        if (!config["effects"].IsScalar()){
+            continue;
+        }
 
         ThemeConfigData data;
 
         data.name = file;
-        data.insert = config["insert"].as<std::vector<std::string>>();
-        data.effects = config["effects"].as<std::vector<std::string>>();
-        data.command = config["command"].as<std::vector<std::string>>();
-    
+
+        auto insert = config["insert"].as<std::vector<std::string>>();
+        if (insert.empty() || insert.size() > 2 ||  insert.size() < 2){
+            continue;
+        };
+        data.insert = {insert[0], insert[1]};
+
+        auto command = config["command"].as<std::vector<std::string>>();
+        if (insert.empty() || insert.size() > 2 ||  insert.size() < 2){
+            continue;
+        };
+        data.command = {command[0], command[1]};
+
+        data.effects = config["effects"].as<std::string>();
+
         this->data = data;
     };
 };
 
 template <typename T>
-void ThemeConfig<T>::open_and_read(){
+void ThemeConfig<T>::open_and_read()
+{
     this->open();
     this->read();
 };

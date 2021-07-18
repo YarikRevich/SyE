@@ -5,6 +5,5 @@ insert:
 command:
   - BLUE
   - GREY
-effects:
-  - WHITE
+effects: WHITE
 ---
