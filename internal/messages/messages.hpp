@@ -1,13 +1,14 @@
 #pragma once
 
-class Message
+#include <vector>
+
+class PrinterInterface
 {
 private:
-    void *message;
+    std::vector<void *> messages;
 
 public:
-    Message(void *);
-    void *get();
+    virtual void print() = 0;
 };
 
 class MessageWriter
@@ -16,20 +17,10 @@ public:
     MessageWriter(std::vector<PrinterInterface>);
 };
 
-class PrinterInterface
+class RedPrinter : public PrinterInterface
 {
 public:
-    virtual void get()
+    RedPrinter(std::vector<void *>);
+
+    void print();
 };
-
-class RedPrinter : PrinterInterface
-{
-    std::vector<Message> messages;
-
-public:
-    RedPrint(std::vector<Message>);
-
-    void *get();
-};
-
-//MessageWriter(RedPrinter("Hello"));

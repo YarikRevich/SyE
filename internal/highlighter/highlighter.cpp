@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include "highlighter.hpp"
 #include "./../bufs/bufs.hpp"
-#include "./../files/config/config.hpp"
+#include "./../files/configs/syntax_config/syntax_config.hpp"
 
 std::string strip(int startPos, std::string src)
 {
@@ -107,7 +107,7 @@ void Lexer::analiseCode()
 {
     std::vector<BufferAsString> bufferAsText = _INSERT__BUF->getBufAsStringWithYCoord();
 
-    auto types = _CONFIG_FILE->getConfig().types;
+    auto types = _SYNTAX_CONFIG.get().types;
     if (types.empty())
     {
         return;

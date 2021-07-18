@@ -7,42 +7,83 @@
 #include "./../render/render.hpp"
 #include "./../files/exec/exec.hpp"
 #include "./../states/pool/pool.hpp"
-#include "./../files/config/config.hpp"
+#include "./../files/helper/helper.hpp"
+#include "./../colors/insert/insert.hpp"
+#include "./../colors/effects/effects.hpp"
+#include "./../colors/command/command.hpp"
 #include "./../states/common/common.hpp"
 #include "./../states/insert/insert.hpp"
 #include "./../states/search/search.hpp"
 #include "./../states/command/command.hpp"
 #include "./../highlighter/highlighter.hpp"
+#include "./../term_flags/term_flags.hpp"
+#include "./../files/configs/theme_config/theme_config.hpp"
+#include "./../files/configs/syntax_config/syntax_config.hpp"
 
 //Middlewares logic
 
-Middleware::Middleware(std::function<void()> middleware){
+Middleware::Middleware(std::function<void()> middleware)
+{
 	this->middleware = middleware;
 };
 
-void Middleware::use(){
+void Middleware::use()
+{
 	this->middleware();
 };
 
-MiddlwareExecutor::MiddlwareExecutor(std::vector<Middleware> middlewares){
-	for (int i = 0; i < middlewares.size(); i++){
+MiddlwareExecutor::MiddlwareExecutor(std::vector<Middleware> middlewares)
+{
+	for (int i = 0; i < middlewares.size(); i++)
+	{
 		middlewares[i].use();
 	};
 };
 
+//####### Initialisers
 
-void Stages::init_insert_buf()
+void Stages::Initialisers::init_insert_buf()
 {
 	_RENDERER.init_render_with_color(_EXEC_FILE->read());
 };
 
-void Stages::init_configs()
+void Stages::Initialisers::init_configs()
 {
-	_CONFIG_FILE->read_config();
-	_
+	_SYNTAX_CONFIG.open_and_read();
+	_THEME_CONFIG.open_and_read();
 };
 
-void Stages::handle_updation()
+void Stages::Initialisers::init_term_flags()
+{
+	TermFlags::check_executive_flag();
+	TermFlags::check_dev_flag();
+};
+
+void Stages::Initialisers::init_ncurses()
+{
+	initscr();
+	set_escdelay(FALSE);
+	noecho();
+	scrollok(stdscr, TRUE);
+	keypad(stdscr, TRUE);
+};
+
+void Stages::Initialisers::init_colors()
+{
+	start_color();
+	auto theme_config_data = _THEME_CONFIG.get();
+	// _INSERT_COLOR->set_by_string(theme_config_data.insert);
+	// _INSERT_COLOR->set_by_string(theme_config_data.insert);
+};
+
+void Stages::Initialisers::init_signals()
+{
+	signal(SIGINT, close_all_files);
+};
+
+//####### Loop parts
+
+void Stages::LoopParts::process_states()
 {
 	int ch = getch();
 
@@ -65,7 +106,9 @@ void Stages::handle_updation()
 	}
 };
 
-void Stages::prepare_for_render()
+//####### Render
+
+void Stages::LoopParts::Render::do_before_render()
 {
 
 	clear(); //Clears terminal screen
@@ -75,7 +118,7 @@ void Stages::prepare_for_render()
 	_HIGHLIGHTER->analiseCode();
 };
 
-void Stages::render()
+void Stages::LoopParts::Render::render()
 {
 	_RENDERER.render(_EFFECTS__BUF);
 	_RENDERER.render(_INSERT__BUF);
@@ -83,12 +126,14 @@ void Stages::render()
 	_RENDERER.render(_COMMAND__BUF);
 };
 
-void Stages::post_render()
+void Stages::LoopParts::Render::do_after_render()
 {
 	_LOG_FILE->save();
 };
 
-void Stages::reset_temporary_data()
+//#######
+
+void Stages::LoopParts::reset_temporary_data()
 {
 	reset_handled_status();
 
@@ -101,20 +146,21 @@ void Stages::reset_temporary_data()
 void Loop::run()
 {
 	MiddlwareExecutor({
-		Middleware(std::bind(&Loop::init_insert_buf, this)),
-		Middleware(std::bind(&Loop::init_configs, this)),
+		Middleware(Stages::Initialisers::init_configs),
+		Middleware(Stages::Initialisers::init_term_flags),
+		Middleware(Stages::Initialisers::init_insert_buf),
+		Middleware(Stages::Initialisers::init_ncurses),
+		Middleware(Stages::Initialisers::init_signals),
 	});
 
 	while (1)
 	{
 		MiddlwareExecutor({
-			Middleware(std::bind(&Loop::handle_updation, this)),
-			Middleware(std::bind(&Loop::prepare_for_render, this)),
-			Middleware(std::bind(&Loop::render, this)),
-			Middleware(std::bind(&Loop::post_render, this)),
-			Middleware(std::bind(&Loop::reset_temporary_data, this)),
+			Middleware(Stages::LoopParts::process_states),
+			Middleware(Stages::LoopParts::Render::do_before_render),
+			Middleware(Stages::LoopParts::Render::render),
+			Middleware(Stages::LoopParts::Render::do_after_render),
+			Middleware(Stages::LoopParts::reset_temporary_data),
 		});
 	};
-}
-
-Loop *_LOOP = new Loop;
+};

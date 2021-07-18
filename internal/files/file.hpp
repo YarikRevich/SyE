@@ -12,12 +12,6 @@ protected:
     FILE *file;
 };
 
-// class ConfigBase
-// {
-// public:
-//     std::vector<std::string> configs;
-//     ConfigData configData;
-// };
 
 class Open
 {
@@ -53,12 +47,6 @@ class ConfigReader
 {
 public:
     virtual void read_config() = 0;
-};
-
-class GetConfig
-{
-public:
-    virtual ConfigData getConfig() = 0;
 };
 
 class AutoSave

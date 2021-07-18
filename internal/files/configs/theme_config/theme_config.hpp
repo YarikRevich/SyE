@@ -1,12 +1,12 @@
 #pragma once
 
-
 #include <string>
 #include <vector>
-#include "./../config.hpp"
+#include "./../helper/helper.hpp"
 
 typedef struct
 {
+    std::string name;
     std::vector<std::string> insert;
     std::vector<std::string> command;
     std::vector<std::string> effects;
@@ -16,11 +16,13 @@ template <typename T>
 class ThemeConfig : public ConfigInterface<T>
 {
 private:
+    std::vector<std::string> files;
     T data;
-
-public:
     void open();
     void read();
+
+public:
+    void open_and_read();
     T get();
 };
 

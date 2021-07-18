@@ -18,25 +18,33 @@ public:
     MiddlwareExecutor(std::vector<Middleware>);
 };
 
-class Stages
+namespace Stages
 {
-protected:
-    void init_insert_buf();
-    void init_configs();
 
-    void prepare_configs();
-    void handle_updation();
-    void prepare_for_render();
-    void render();
-    void post_render();
-    void reset_temporary_data();
-};
+    namespace Initialisers
+    {
+        void init_insert_buf();
+        void init_configs();
+        void init_term_flags();
+        void init_ncurses();
+        void init_colors();
+        void init_signals();
+    };
 
-class Loop : public Stages
+    namespace LoopParts
+    {
+        void process_states();
+        namespace Render
+        {
+            void do_before_render();
+            void render();
+            void do_after_render();
+        };
+        void reset_temporary_data();
+    };
+}
+
+namespace Loop
 {
-private:
-public:
     void run();
 };
-
-extern Loop *_LOOP;

@@ -3,7 +3,6 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "./../file.hpp"
 
 namespace PathsManagment
 {
@@ -28,8 +27,10 @@ private:
     std::vector<std::string> files;
     T data;
 
-public:
     virtual void open() = 0;
     virtual void read() = 0;
+
+public:
+    virtual void open_and_read() = 0;
     virtual T get() = 0;
 };

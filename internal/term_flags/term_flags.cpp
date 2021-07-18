@@ -5,7 +5,6 @@
 #include "./../bufs/bufs.hpp"
 #include "./../files/log/log.hpp"
 #include "./../files/exec/exec.hpp"
-#include "./../files/config/config.hpp"
 
 #ifdef __APPLE__
 #include <filesystem>
@@ -15,32 +14,18 @@ namespace fs = std::filesystem;
 namespace fs = std::experimental::filesystem;
 #endif
 
-TermFlags::TermFlags(int argc, char **argv)
-{
-    this->argc = argc;
-    this->argv = argv;
-    this->check_exclude_syntax_highlighting_flag();
-    this->check_executive_flag();
-    this->check_dev_flag();
+int TermFlags::n_argc;
+char **TermFlags::n_argv;
+std::vector<std::string> TermFlags::n_single_flags = {
+    "--dev",
 };
 
 bool TermFlags::check_single_flag(std::string flag)
 {
 
-    for (int i = 0; i < this->argc; i++)
+    for (int i = 0; i < n_argc; i++)
     {
-        if (std::strcmp(this->argv[i], flag.c_str()) == 0){
-            return true;
-        }
-    }
-    return false;
-};
-
-bool TermFlags::last_is_flag()
-{
-    for (int i = 0; i < single_flags.size(); i++)
-    {
-        if (std::strcmp(argv[argc - 1], single_flags[i].c_str()) == 0)
+        if (std::strcmp(n_argv[i], flag.c_str()) == 0)
         {
             return true;
         }
@@ -48,19 +33,28 @@ bool TermFlags::last_is_flag()
     return false;
 };
 
-void TermFlags::check_exclude_syntax_highlighting_flag()
+void TermFlags::add_args(int argc, char **argv)
 {
-    if (!this->check_single_flag("--e"))
+    n_argc = argc;
+    n_argv = argv;
+};
+
+bool TermFlags::last_is_flag()
+{
+    for (int i = 0; i < n_single_flags.size(); i++)
     {
-        _CONFIG_FILE->open();
+        if (std::strcmp(n_argv[n_argc - 1], n_single_flags[i].c_str()) == 0)
+        {
+            return true;
+        }
     }
+    return false;
 };
 
 void TermFlags::check_executive_flag()
 {
     //Check if user has passed executive file;
-
-    if (argc == 1 || last_is_flag())
+    if (n_argc == 1 || last_is_flag())
     {
         std::cout << "\033[31m"
                   << "You gotta write executable file"
@@ -68,12 +62,12 @@ void TermFlags::check_executive_flag()
         exit(0);
     }
 
-    if (!fs::exists(argv[argc - 1]))
+    if (!fs::exists(n_argv[n_argc - 1]))
     {
-        fclose(fopen(argv[argc - 1], "w"));
+        fclose(fopen(n_argv[n_argc - 1], "w"));
     };
 
-    _EXEC_FILE->open(argv[argc - 1]);
+    _EXEC_FILE->open(n_argv[n_argc - 1]);
 };
 
 void TermFlags::check_dev_flag()

@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include "./../config.hpp"
+#include "./../helper/helper.hpp"
 
 typedef struct
 {
@@ -18,12 +18,14 @@ typedef struct
 template <typename T>
 class SyntaxConfig : public ConfigInterface<T>
 {
-// private:
-//     T data;
-
-public:
+private:
+    std::vector<std::string> files;
+    T data;
     void open();
     void read();
+
+public:
+    void open_and_read();
     T get();
 };
 

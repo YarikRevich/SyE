@@ -45,7 +45,7 @@ if(NOT WIN32)
 
 		internal/files/helper/helper.cpp 
 		internal/files/exec/exec.cpp 
-		internal/files/configs/config.cpp 
+		internal/files/configs/helper/helper.cpp 
 		internal/files/configs/syntax_config/syntax_config.cpp 
 		internal/files/configs/theme_config/theme_config.cpp 
 		internal/files/log/log.cpp 
