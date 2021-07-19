@@ -4,8 +4,9 @@
 #include <yaml-cpp/yaml.h>
 #include "syntax_config.hpp"
 #include "./../helper/helper.hpp"
-#include "./../../../messages/messages.hpp"
+#include "./../../../bufs/bufs.hpp"
 #include "./../../../files/exec/exec.hpp"
+#include "./../../../messages/messages.hpp"
 
 #ifdef __APPLE__
 #include <filesystem>
@@ -51,25 +52,31 @@ void SyntaxConfig<T>::read()
         };
 
         auto extensions = config["extension"].as<std::vector<std::string>>();
+
         if (std::find(extensions.begin(), extensions.end(), file_extension) != extensions.end())
         {
-            std::map<std::string, std::string> types = config["types"].as<std::map<std::string, std::string>>();
-            if (types.empty()){
-                continue;
+            auto types = config["types"].as<std::vector<std::map<std::string, std::string>>>();
+            if (types.empty())
+            {
+                // MessageWriter({RedPrinter({file, "types are empty"})});
             }
-
-            SyntaxConfigCellData data;
-
-            if (types.count("name"))
+            for (auto type : types)
             {
-                data.name = types["name"];
-            };
-            if (types.count("color"))
-            {
-                data.color = types["color"];
-            };
 
-            this->data.types.push_back(data);
+                SyntaxConfigCellData data;
+
+                if (type.count("name"))
+                {
+
+                    data.name = ParseManagement::transform_string_to_lower(type["name"]);
+                };
+                if (type.count("color"))
+                {
+                    data.color = ParseManagement::transform_string_to_lower(type["color"]);
+                };
+
+                this->data.types.push_back(data);
+            };
             break;
         };
     };

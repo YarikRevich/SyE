@@ -24,3 +24,5 @@ public:
 
     std::tuple<int, int> get_current_theme();
 };
+
+extern CommandColor *_COMMAND_COLOR;

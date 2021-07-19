@@ -70,7 +70,7 @@ public:
 
     std::tuple<int, int> getEndOfSentence(int y, int x);
 
-    std::vector<T *> getBuf();
+    std::vector<T *> getBufferIterator();
 
     std::string getBufAsString();
 

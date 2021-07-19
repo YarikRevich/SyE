@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <tuple>
 #include <vector>
 #include <string>
 #include <ncurses.h>
@@ -13,14 +14,24 @@
 
 class Renderer
 {
-public:
-    void render(Buffer<BufferCellWithCoords> *buf);
+private:
+    Buffer<BufferCellWithCoords> *buf;
+    std::tuple<int, int> current_color_theme;
 
-    void render_with_color(Buffer<BufferCellWithCoords> *buf, int color_pair);
+public:
+    Renderer *set_buf(Buffer<BufferCellWithCoords> *buf);
+
+    Renderer *set_color(std::tuple<int, int>);
+
+    void include_new_cell(int index);
+
+    void include_movements();
+
+    void render();
 
     void init_render_with_color(std::string buf);
 
     void init_render(std::string buf);
 };
 
-extern Renderer _RENDERER;
+extern Renderer *_RENDERER;

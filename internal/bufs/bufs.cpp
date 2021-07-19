@@ -8,8 +8,8 @@
 
 bool isInsertSameToDefaultBuf()
 {
-    auto const insert_buf = _INSERT__BUF->getBuf();
-    auto const default_buf = _DEFAULT__BUF->getBuf();
+    auto const insert_buf = _INSERT__BUF->getBufferIterator();
+    auto const default_buf = _DEFAULT__BUF->getBufferIterator();
     if ((!insert_buf.empty() && !default_buf.empty()) && (insert_buf.size() == default_buf.size()))
     {
         for (int i = 0; i < default_buf.size() - 1; i++)
@@ -162,7 +162,7 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
             _LOG__BUF->addCellWithSymbolType(i, CHAR);
         }
         _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        for (auto const i : this->getBuf())
+        for (auto const i : this->getBufferIterator())
         {
             s = "Y is ";
             for (auto const b : s)
@@ -204,7 +204,7 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
             _LOG__BUF->addCellWithSymbolType(i, CHAR);
         }
         _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        for (auto const i : this->getBuf())
+        for (auto const i : this->getBufferIterator())
         {
             s = "Y is ";
             for (auto const b : s)
@@ -431,7 +431,7 @@ void Base<T>::addCell(int s)
 }
 
 template <typename T>
-std::vector<T *> Base<T>::getBuf()
+std::vector<T *> Base<T>::getBufferIterator()
 {
     return this->buf;
 };
@@ -441,7 +441,7 @@ void Base<T>::setCellWithCoordsColor(int y, int x, std::string color)
 {
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        auto buf = this->getBuf();
+        auto buf = this->getBufferIterator();
         for (int i = 0; i < buf.size(); i++)
         {
             if (buf[i]->y == y && buf[i]->x == x)
@@ -521,7 +521,7 @@ std::vector<BufferCellWithCoords *> Base<T>::getRowWithY(int y)
     std::vector<BufferCellWithCoords *> res;
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        std::vector<BufferCellWithCoords *> buf = this->getBuf();
+        std::vector<BufferCellWithCoords *> buf = this->getBufferIterator();
         for (int i = 0; i < buf.size(); i++)
         {
             if (buf[i]->y == y)
@@ -541,7 +541,7 @@ template <typename T>
 std::string Base<T>::getBufAsString()
 {
     std::string res;
-    for (auto cell : this->getBuf())
+    for (auto cell : this->getBufferIterator())
     {
         res += cell->symbol;
     };

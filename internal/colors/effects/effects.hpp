@@ -26,3 +26,5 @@ public:
 
     std::tuple<int, int> get_current_theme();
 };
+
+extern EffectsColor *_EFFECTS_COLOR;

@@ -40,7 +40,7 @@ void LogFile::save()
 {
     if (this->file != NULL)
     {
-        auto const log_buf = _LOG__BUF->getBuf();
+        auto const log_buf = _LOG__BUF->getBufferIterator();
         for (int i = 0; i < log_buf.size(); i++)
         {
             switch (log_buf[i]->type)

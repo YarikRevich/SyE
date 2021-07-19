@@ -18,3 +18,5 @@ public:
 
     std::tuple<int, int> get_current_theme();
 };
+
+extern FontColor *_FONT_COLOR;

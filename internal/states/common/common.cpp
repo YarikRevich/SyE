@@ -148,7 +148,7 @@ void CommonHandler::handle(int ch)
     }
     case K_BACKSPACE:
     {
-        if (!_INSERT__BUF->getBuf().empty())
+        if (!_INSERT__BUF->getBufferIterator().empty())
         {
             if (*curr_x == 0)
             {

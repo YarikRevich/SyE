@@ -62,7 +62,7 @@ void ExecFile::save()
     if (file != NULL)
     {
         //modified = true;
-        auto const insert_buf = _INSERT__BUF->getBuf();
+        auto const insert_buf = _INSERT__BUF->getBufferIterator();
         if (!insert_buf.empty())
         {
             for (int i = 0; i < insert_buf.size(); i++)
@@ -76,7 +76,7 @@ void ExecFile::save()
 
 void ExecFile::auto_save()
 {
-    auto const default_buf = _DEFAULT__BUF->getBuf();
+    auto const default_buf = _DEFAULT__BUF->getBufferIterator();
     if (isInsertSameToDefaultBuf() || !_INSERT__BUF->isModified())
     {
         for (int i = 0; i < default_buf.size(); i++)

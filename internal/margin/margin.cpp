@@ -5,7 +5,7 @@ bool CharInserter::is_between()
 {
     auto const [curr_y, curr_x] = _POSITION.get_curr_coords();
     auto const [max_y, max_x] = _POSITION.get_max_coords();
-    auto const buf = _INSERT__BUF->getBuf();
+    auto const buf = _INSERT__BUF->getBufferIterator();
 
     if (*curr_x != *max_x)
     {

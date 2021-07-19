@@ -6,6 +6,9 @@
 void InsertColor::set(std::tuple<std::string, std::string> theme)
 {
     auto [font_color, background_color] = get_int_theme(theme);
+    this->set_current_theme({font_color, background_color});
+
+    start_color();
 
     init_pair(1, font_color, background_color);
     attron(COLOR_PAIR(1));

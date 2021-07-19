@@ -51,7 +51,8 @@ void ThemeConfig<T>::read()
         {
             // MessageWriter({RedPrinter({file, "does not contain command"})});
         };
-        if (!config["effects"].IsScalar()){
+        if (!config["effects"].IsScalar())
+        {
             continue;
         }
 
@@ -60,16 +61,24 @@ void ThemeConfig<T>::read()
         data.name = file;
 
         auto insert = config["insert"].as<std::vector<std::string>>();
-        if (insert.empty() || insert.size() > 2 ||  insert.size() < 2){
+        if (insert.empty() || insert.size() > 2 || insert.size() < 2)
+        {
             continue;
         };
-        data.insert = {insert[0], insert[1]};
+
+        data.insert = {
+            ParseManagement::transform_string_to_lower(insert[0]),
+            ParseManagement::transform_string_to_lower(insert[1])};
 
         auto command = config["command"].as<std::vector<std::string>>();
-        if (insert.empty() || insert.size() > 2 ||  insert.size() < 2){
+        if (insert.empty() || insert.size() > 2 || insert.size() < 2)
+        {
             continue;
         };
-        data.command = {command[0], command[1]};
+
+        data.command = {
+            ParseManagement::transform_string_to_lower(command[0]),
+            ParseManagement::transform_string_to_lower(command[1])};
 
         data.effects = config["effects"].as<std::string>();
 

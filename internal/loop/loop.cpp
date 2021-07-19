@@ -1,4 +1,5 @@
 #include "loop.hpp"
+#include <iostream>
 #include <ncurses.h>
 #include <functional>
 #include "./../bufs/bufs.hpp"
@@ -42,9 +43,8 @@ MiddlwareExecutor::MiddlwareExecutor(std::vector<Middleware> middlewares)
 
 //####### Initialisers
 
-void Stages::Initialisers::init_insert_buf()
-{
-	_RENDERER.init_render_with_color(_EXEC_FILE->read());
+void Stages::Initialisers::init_insert_buf(){
+	// _RENDERER.init_render_with_color(_EXEC_FILE->read());
 };
 
 void Stages::Initialisers::init_configs()
@@ -72,6 +72,7 @@ void Stages::Initialisers::init_colors()
 {
 	start_color();
 	auto theme_config_data = _THEME_CONFIG.get();
+
 	_INSERT_COLOR->set(theme_config_data.insert);
 };
 
@@ -119,10 +120,9 @@ void Stages::LoopParts::Render::do_before_render()
 
 void Stages::LoopParts::Render::render()
 {
-	_RENDERER.render(_EFFECTS__BUF);
-	_RENDERER.render(_INSERT__BUF);
-	//_RENDERER.render_with_main_color(_INSERT__BUF, _COLORS->get_main_color());
-	_RENDERER.render(_COMMAND__BUF);
+	_RENDERER->set_buf(_EFFECTS__BUF)->set_color(_EFFECTS_COLOR->get_current_theme())->render();
+	_RENDERER->set_buf(_INSERT__BUF)->set_color(_INSERT_COLOR->get_current_theme())->render();
+	_RENDERER->set_buf(_COMMAND__BUF)->set_color(_COMMAND_COLOR->get_current_theme())->render();
 };
 
 void Stages::LoopParts::Render::do_after_render()
@@ -145,13 +145,17 @@ void Stages::LoopParts::reset_temporary_data()
 void Loop::run()
 {
 	MiddlwareExecutor({
-		Middleware(Stages::Initialisers::init_configs),
 		Middleware(Stages::Initialisers::init_term_flags),
-		Middleware(Stages::Initialisers::init_colors),
+		Middleware(Stages::Initialisers::init_configs),
 		Middleware(Stages::Initialisers::init_insert_buf),
 		Middleware(Stages::Initialisers::init_ncurses),
+		Middleware(Stages::Initialisers::init_colors),
 		Middleware(Stages::Initialisers::init_signals),
 	});
+	// start_color();
+	// init_pair(1, COLOR_BLACK, COLOR_BLUE);
+	// attron(COLOR_PAIR(1));
+	// exit(0);
 
 	while (1)
 	{

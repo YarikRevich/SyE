@@ -1,62 +1,72 @@
+#include <tuple>
 #include "render.hpp"
 #include "./../keys/keys.hpp"
+#include "./../colors/font/font.hpp"
 #include "./../colors/colors.hpp"
 #include "./../status/status.hpp"
 #include "./../states/common/common.hpp"
 
-void Renderer::render(Buffer<BufferCellWithCoords> *buf)
+Renderer *Renderer::set_buf(Buffer<BufferCellWithCoords> *buf)
 {
-    // _COLORS->useBuffer(buf->getID());
+    this->buf = buf;
+    return this;
+};
 
-    auto b = buf->getBuf();
-    if (!b.empty())
+Renderer *Renderer::set_color(std::tuple<int, int> color_theme){
+    this->current_color_theme = color_theme;
+    return this;
+};
+
+void Renderer::include_new_cell(int index)
+{
+    auto buffer_iterator = buf->getBufferIterator();
+
+    if (buffer_iterator[index]->fontColor.length() != 0)
     {
-        auto [curr_y, curr_x] = _POSITION.get_curr_coords();
-        auto [max_y, max_x] = _POSITION.get_max_coords();
+        _FONT_COLOR->set(buffer_iterator[index]->fontColor);
+        mvwprintw(stdscr, buffer_iterator[index]->y, buffer_iterator[index]->x, "%c", buffer_iterator[index]->symbol);
+        _FONT_COLOR->remove(buffer_iterator[index]->fontColor);
+        return;
+    };
+    mvwprintw(stdscr, buffer_iterator[index]->y, buffer_iterator[index]->x, "%c", buffer_iterator[index]->symbol);
+};
 
-        for (int i = 0; i < b.size(); i++)
+void Renderer::include_movements()
+{
+    auto [curr_y, curr_x] = _POSITION.get_curr_coords();
+    auto [move_y, move_x] = buf->getMovement();
+
+    if (!buf->isLastBufCell(*curr_y, *curr_x) && !buf->isIgnoreForcibleMove())
+    {
+        wmove(stdscr, *curr_y, *curr_x + 1);
+    }
+
+    if (_POSITION.isStartOfY())
+    {
+        wmove(stdscr, *curr_y, *curr_x);
+    }
+    else if (_POSITION.isStartOfX())
+    {
+        wmove(stdscr, *curr_y, 0);
+    }
+    else if ((!buf->isEmpty() && !((move_y == *curr_y) && (move_x == *curr_x))))
+    {
+        wmove(stdscr, move_y, move_x);
+    };
+};
+
+void Renderer::render()
+{
+    auto buffer_iterator = this->buf->getBufferIterator();
+    if (!buffer_iterator.empty())
+    {
+        // _LOG__BUF->addCellWithSymbolType();
+
+        for (int i = 0; i < buffer_iterator.size(); i++)
         {
-            // if (b[i]->fontColor.length() != 0)
-            // {
-            //     //     // auto [color, pair] = _COLORS->get_compatible_single_color_and_pair(b[i]->fontColor).get();
-
-            //     //     // // _LOG__BUF->addCellWithSymbolType(buf->getID(), INT);
-            //     //     // // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
-            //     _COLORS->set_font_theme(b[i]->fontColor);
-            //     mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
-            //     _COLORS->remove_font_theme(b[i]->fontColor);
-            // }
-            // else
-            // {
-                mvwprintw(stdscr, b[i]->y, b[i]->x, "%c", b[i]->symbol);
-            // }
+            this->include_new_cell(i);
         }
-
-        if (!buf->isLastBufCell(*curr_y, *curr_x) && !buf->isIgnoreForcibleMove())
-        {
-            wmove(stdscr, *curr_y, *curr_x + 1);
-        }
-
-        auto [move_y, move_x] = buf->getMovement();
-
-        // _LOG__BUF->addCellWithSymbolType(move_y, INT);
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // _LOG__BUF->addCellWithSymbolType(move_x, INT);
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
-        if (_POSITION.isStartOfY())
-        {
-            wmove(stdscr, *curr_y, *curr_x);
-        }
-        else if (_POSITION.isStartOfX())
-        {
-            wmove(stdscr, *curr_y, 0);
-        }
-        else if ((!buf->isEmpty() && !((move_y == *curr_y) && (move_x == *curr_x))))
-        {
-            wmove(stdscr, move_y, move_x);
-        };
+        this->include_movements();
 
         buf->deleteMovement();
 
@@ -66,21 +76,13 @@ void Renderer::render(Buffer<BufferCellWithCoords> *buf)
     }
 };
 
-void Renderer::render_with_color(Buffer<BufferCellWithCoords> *buf, int color_pair)
-{
-    // _COLORS->set_color(color_pair);
-    this->render(buf);
-    // _COLORS->remove_color(color_pair);
-};
-
-void Renderer::init_render_with_color(std::string buf){
-    this->init_render(buf);
-};
+// void Renderer::init_render_with_color(std::string buf)
+// {
+//     this->init_render(buf);
+// };
 
 void Renderer::init_render(std::string buf)
 {
-
-    //_COLORS->useBuffer(_INSERT__BUF->getID());
     if (!buf.empty())
     {
         auto [curr_y, curr_x] = _POSITION.get_curr_coords();
@@ -105,4 +107,4 @@ void Renderer::init_render(std::string buf)
     };
 };
 
-Renderer _RENDERER;
+Renderer *_RENDERER = new Renderer;

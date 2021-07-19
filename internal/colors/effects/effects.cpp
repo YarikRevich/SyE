@@ -6,6 +6,7 @@ void EffectsColor::set(std::string color)
 {
     int color_int = get_int_color(color);
 
+
     init_pair(3, color_int, color_int);
     attron(COLOR_PAIR(3));
 };
@@ -29,3 +30,5 @@ std::tuple<int, int> EffectsColor::get_current_theme()
 {
     return this->current_theme;
 };
+
+EffectsColor *_EFFECTS_COLOR = new EffectsColor;

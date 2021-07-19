@@ -43,20 +43,20 @@ std::string Regex::modifyPatternToExceptSpecialSymbols(std::string src)
 std::vector<matchedWord> Regex::getWordsForDublicateCheck(std::string src, std::string pattern)
 {
     std::vector<matchedWord> res;
-    std::regex reg(this->modifyPatternToExceptSpecialSymbols(pattern));
+    std::regex reg("\\b" + this->modifyPatternToExceptSpecialSymbols(pattern) + "\\b");
 
     auto it = std::sregex_iterator(src.begin(), src.end(), reg);
     auto end = std::sregex_iterator();
 
     for (std::sregex_iterator i = it; i != end; i++)
     {
-
         matchedWord word;
         word.startPosition = i->position();
         word.text = i->str();
 
         res.push_back(word);
     };
+
     return res;
 };
 
@@ -72,7 +72,6 @@ std::vector<matchedWord> Regex::findAllWords(std::string srcForFullProcessing)
         matchedWord word;
 
         word.text = sequenceMatch.str(0);
-
         auto dublicatedWords = this->getWordsForDublicateCheck(srcForFullProcessing, word.text);
         for (int d = 0; d < dublicatedWords.size(); d++)
         {
@@ -126,7 +125,7 @@ void Lexer::analiseCode()
                 {
                     for (int c = 0; c < allWords[q].text.length(); c++)
                     {
-                        _INSERT__BUF->setCellWithCoordsColor(bufferAsText[i].y, allWords[q].startPosition+c, types[p].color);
+                        _INSERT__BUF->setCellWithCoordsColor(bufferAsText[i].y, allWords[q].startPosition + c, types[p].color);
                     };
                 };
             };
