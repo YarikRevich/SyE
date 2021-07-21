@@ -86,12 +86,20 @@ void Stages::Initialisers::init_signals()
 void Stages::LoopParts::process_states()
 {
 	int ch = getch();
+	// const cchar_t wch = L'\0';
+	// get_wch(&wch);
+
+	// const cchar_t* wch = "Ярослав";
+	// add_wch(wch);
+
+	// cchar_t* wch;
+	// get_wch(wch);
 
 	HandlerPool handler_pool;
 	switch (_STATE.get_state())
 	{
 	case INSERT:
-		handler_pool.handle(new InsertHandler, ch);
+		InsertState(ch).use();
 		break;
 	case COMMAND:
 		handler_pool.handle(new CommandHandler, ch);

@@ -50,6 +50,18 @@ bool is_common_handler(int ch)
     return false;
 };
 
+std::vector<Buffer<BufferCellWithCoords> *> affected_buffs = {
+    _INSERT__BUF,
+    _COMMAND__BUF};
+
+void set_ignore_forcible_move()
+{
+    for (auto b : affected_buffs)
+    {
+        b->setIgnoreForcibleMove(true);
+    };
+};
+
 void set_move(int y, int x)
 {
     //Sets move depending on the current state
@@ -94,9 +106,8 @@ void CommonHandler::handle(int ch)
             else
             {
                 _POSITION.setStartOfY(true);
-                // _INSERT__BUF->setIgnoreForcibleMove(true);
             };
-            _INSERT__BUF->setIgnoreForcibleMove(true);
+            set_ignore_forcible_move();
         }
         break;
     }
@@ -135,15 +146,16 @@ void CommonHandler::handle(int ch)
     }
     case KEY_RIGHT:
     {
-        // _LOG__BUF->add_L(!_INSERT__BUF->is_last_cell(*curr_y, *curr_x-1), INT);
-        // _LOG__BUF->add_L(10, CHAR);
         if ((!_INSERT__BUF->isLastBufCell(*curr_y, *curr_x)) || (!_COMMAND__BUF->isLastBufCell(*curr_y, *curr_x - 1)))
         {
-            _POSITION.incx();
-            set_move(*curr_y, *curr_x);
+            if (_INSERT__BUF->isBufCell(*curr_y, *curr_x + 1))
+            {
+
+                _POSITION.incx();
+                set_move(*curr_y, *curr_x);
+            }
         }
-        // _INSERT__BUF->setIgnoreForcibleMove(true);
-        // _COMMAND__BUF->setIgnoreForcibleMove(true);
+        set_ignore_forcible_move();
         break;
     }
     case K_BACKSPACE:

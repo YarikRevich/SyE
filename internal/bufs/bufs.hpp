@@ -82,6 +82,8 @@ public:
 
     bool isLastBufCell(int y, int x);
 
+    bool isBufCell(int y, int x);
+
     void eraseCell(int y, int x);
 
     void clearBuf();

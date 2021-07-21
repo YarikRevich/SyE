@@ -8,62 +8,89 @@
 #include "./../../bufs/bufs.hpp"
 #include "./../common/common.hpp"
 
-void InsertHandler::handle(int ch)
+InsertState::InsertState(int ch)
 {
+    this->m_ch = ch;
+
     auto [max_y, max_x] = _POSITION.get_max_coords();
     auto [curr_y, curr_x] = _POSITION.get_curr_coords();
 
-    switch (ch)
+    this->m_max_y = *max_y;
+    this->m_max_x = *max_x;
+    this->m_curr_y = *curr_y;
+    this->m_curr_x = *curr_x;
+};
+
+void InsertState::use()
+{
+    switch (this->m_ch)
     {
     case K_ENTER:
     {
-        if (*curr_y == (*max_y - 2))
-        {
-            _INSERT__BUF->setIgnoreForcibleMove(true);
-            _INSERT__BUF->addCellWithCoords(ch, *curr_y, *curr_x);
-            _INSERT__BUF->translocateYDown();
-            return;
-        }
-        _POSITION.setStartOfY(false);
-        if (!_INSERT__BUF->isLastBufCell(*curr_y, *curr_x))
-        {
-            _INSERT__BUF->setMovement(*curr_y + 1, 0);
-            _INSERT__BUF->translocateYUpAfter(*curr_y);
-        }
+        this->handle_enter();
         break;
     }
     case K_COLON:
     {
-        _PREV_HISTORY.set_prev_yx(*curr_y, *curr_x);
-
-        int i = 0;
-        while (i != *max_x - 1)
-        {
-            _EFFECTS__BUF->addCellWithCoords(32, *max_y - 1, i);
-            i++;
-        }
-        _INSERT__BUF->addCellWithCoords(ch, *max_y - 1, 0);
-
-        _INSERT__BUF->setMovement(*max_y - 1, 1);
-
-        _STATE.set_checkpoint_before_command();
-        _STATE.set_state(COMMAND);
-        return;
+        this->handle_colon();
+        break;
     }
-    }
-
-    if (!is_common_handler(ch))
+    default:
     {
-        if (*curr_x == (*max_x - 1))
+        this->handle_default();
+    }
+    };
+};
+
+void KeyHandlers::handle_default()
+{
+    if (!is_common_handler(this->m_ch))
+    {
+        if (this->m_curr_x == (this->m_max_x - 1))
         {
-            //  _LOG__BUF->addCellWithSymbolType('O', CHAR);
-            _INSERT__BUF->addCellWithCoords(ch, *curr_y, *curr_x);
-            _INSERT__BUF->addCellWithCoords(10, *curr_y, *curr_x + 1);
-            _INSERT__BUF->setCellSentenceHyphenation(*curr_y, *curr_x, TRUE);
+            _INSERT__BUF->addCellWithCoords(this->m_ch, this->m_curr_y, this->m_curr_x);
+            _INSERT__BUF->addCellWithCoords(10, this->m_curr_y, this->m_curr_x + 1);
+            _INSERT__BUF->setCellSentenceHyphenation(this->m_curr_y, this->m_curr_x, TRUE);
         }
         else
         {
-            _INSERT__BUF->addCellWithCoords(ch, *curr_y, *curr_x);
+            _INSERT__BUF->addCellWithCoords(m_ch, this->m_curr_y, this->m_curr_x);
         }
     }
+};
+
+void KeyHandlers::handle_colon()
+{
+    _PREV_HISTORY.set_prev_yx(this->m_curr_y, this->m_curr_x);
+
+    int i = 0;
+    while (i != this->m_max_x - 1)
+    {
+        _EFFECTS__BUF->addCellWithCoords(32, this->m_max_y - 1, i);
+        i++;
+    }
+    _INSERT__BUF->addCellWithCoords(this->m_ch, this->m_max_y - 1, 0);
+
+    _INSERT__BUF->setMovement(this->m_max_y - 1, 1);
+
+    _STATE.set_checkpoint_before_command();
+    _STATE.set_state(COMMAND);
+};
+
+void KeyHandlers::handle_enter()
+{
+    if (this->m_curr_y == (this->m_max_y - 2))
+    {
+        _INSERT__BUF->setIgnoreForcibleMove(true);
+        _INSERT__BUF->addCellWithCoords(m_ch, this->m_curr_y, this->m_curr_x);
+        _INSERT__BUF->translocateYDown();
+        return;
+    }
+    _POSITION.setStartOfY(false);
+    if (!_INSERT__BUF->isLastBufCell(this->m_curr_y, this->m_curr_x))
+    {
+        _INSERT__BUF->setMovement(this->m_curr_y + 1, 0);
+        _INSERT__BUF->translocateYUpAfter(this->m_curr_y);
+    }
+    this->handle_default();
 };

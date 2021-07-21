@@ -1,3 +1,4 @@
+#include <locale>
 #include <csignal>
 #include <iostream>
 #include "./../internal/loop/loop.hpp"
@@ -6,6 +7,8 @@
 
 int main(int argc, char **argv)
 {
+	setlocale(LC_ALL, "");
+
 	TermFlags::add_args(argc, argv);
 	Loop::run();
 	return 0;

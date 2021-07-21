@@ -630,6 +630,27 @@ bool Base<T>::isLastBufCell(int y, int x)
 };
 
 template <typename T>
+bool Base<T>::isBufCell(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        auto buf = this->getBufferIterator();
+        for (int i = 0; i < buf.size(); i++)
+        {
+            if (buf[i]->y == y && buf[i]->x == x)
+            {
+                return true;
+            };
+        }
+    }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+    }
+    return false;
+};
+
+template <typename T>
 Buffer<T>::Buffer()
 {
     this->createID();

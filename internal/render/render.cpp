@@ -60,8 +60,6 @@ void Renderer::render()
     auto buffer_iterator = this->buf->getBufferIterator();
     if (!buffer_iterator.empty())
     {
-        // _LOG__BUF->addCellWithSymbolType();
-
         for (int i = 0; i < buffer_iterator.size(); i++)
         {
             this->include_new_cell(i);
@@ -74,12 +72,7 @@ void Renderer::render()
 
         wrefresh(stdscr);
     }
-};
-
-// void Renderer::init_render_with_color(std::string buf)
-// {
-//     this->init_render(buf);
-// };
+}; 
 
 void Renderer::init_render(std::string buf)
 {
