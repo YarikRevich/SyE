@@ -16,13 +16,8 @@ jobs:
 
       - name: Create build dir
         run: mkdir build
-      - name: Go to build dir
-        run: cd build
-      - name: Current dir
-        run: ls
-      - name: CmakeLists dir
-        run: ls ..
-      - name: Generate make file
-        run: cmake ..
-      - name: Build file
-        run: make
+      - name: Build project
+        run: |
+          cd build
+          cmake ..
+          make
