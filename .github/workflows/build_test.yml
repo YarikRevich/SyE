@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Clones master branch
         uses: actions/checkout@v2
+      - name: Ls
+        run: ls
       - name: Create build dir
         run: mkdir build
       - name: Go to build dir
