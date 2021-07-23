@@ -1,44 +1,10 @@
 #pragma once
 
-#include <vector>
 #include <tuple>
+#include <vector>
 
-typedef struct
-{
-    //Contains coords to init cell in history
+namespace PreviouslyPressedHistory{
+    extern int y, x;
 
-    int y;
-    int x;
-} p_cell;
-
-class PrevHistory
-{
-private:
-    int prev_y, prev_x;
-
-public:
-    std::tuple<int, int> get_prev_yx();
-
-    void set_prev_yx(int y, int x);
-};
-
-extern PrevHistory _PREV_HISTORY;
-
-// class PressedHistory
-// {
-// private:
-//     std::vector<p_cell *> pressed;
-
-// public:
-//     void set_pressed(int y, int x);
-//     std::vector<p_cell *> get_pressed();
-//     void delete_pressed(int y, int x);
-//     void translocation_up();
-//     void translocation_down();
-
-//     //Due to the history it choses the best x to move the pointer
-//     //during the moving up and down
-//     int get_best_x(int y);
-// };
-
-// extern PressedHistory _PRESSED_HISTORY;
+    void set(int y, int x);
+}           

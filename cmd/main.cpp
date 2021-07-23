@@ -1,4 +1,4 @@
-#include <locale>
+#include <clocale>
 #include <csignal>
 #include <iostream>
 #include "./../internal/loop/loop.hpp"

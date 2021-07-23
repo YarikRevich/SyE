@@ -1,192 +1,155 @@
 #include "common.hpp"
+
+#include <stdlib.h>
+#include "./helper/helper.hpp"
 #include "./../../keys/keys.hpp"
-#include "./../../files/exec/exec.hpp"
-#include "./../../status/status.hpp"
 #include "./../../colors/colors.hpp"
+#include "./../../helper/helper.hpp"
+#include "./../../files/exec/exec.hpp"
 #include "./../../position/position.hpp"
 #include "./../../history/history.hpp"
-#include "./../../margin/margin.hpp"
+#include "./../../editor_status/editor_status.hpp"
 
-std::map<int, bool> handler_status = {
-    {K_BACKSPACE, false},
-    {K_COLON, false},
-    {KEY_UP, false},
-    {KEY_DOWN, false},
-    {KEY_LEFT, false},
-    {KEY_RIGHT, false},
-};
+int *CommonStateStorage::g_ch = (int *)std::malloc(sizeof(int));
 
-void set_handled_status(int id)
+void CommonStateUpHandler::use()
 {
-    handler_status[id] = true;
-};
-
-bool is_common_handled(int id)
-{
-    if (handler_status.count(id))
+    if (EditorStatus::getCurrStatus() != COMMAND && !Position::isStartOfY())
     {
-        return handler_status[id];
-    }
-    return false;
-};
 
-void reset_handled_status()
-{
-    for (auto const &[key, _] : handler_status)
-    {
-        handler_status[key] = false;
-    };
-};
-
-bool is_common_handler(int ch)
-{
-    for (auto const &[key, val] : handler_status)
-    {
-        if (key == ch)
+        _LOG__BUF->addCellWithSymbolType(_INSERT__BUF->isStartRow(Coords::curr_y - 1), INT);
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        if (!_INSERT__BUF->isStartRow(Coords::curr_y))
         {
-            return true;
+            if (Coords::curr_y == 0)
+            {
+                wscrl(stdscr, -1);
+                _INSERT__BUF->translocateYUp();
+
+                CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+                return;
+            };
+            Coords::decY();
+            CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+        }
+        else
+        {
+            Position::setStartOfY(true);
+        };
+        // CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
+    }
+};
+
+void CommonStateDownHandler::use()
+{
+    if (EditorStatus::getCurrStatus() != COMMAND)
+    {
+        if ((Coords::curr_y + 1) == (Coords::max_y - 1))
+        {
+            scroll(stdscr);
+            _INSERT__BUF->translocateYDown();
+            return;
+        };
+        Coords::incY();
+        CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+    }
+};
+
+void CommonStateLeftHandler::use()
+{
+    if (Coords::curr_x == 0 && _INSERT__BUF->cellIsSentenceHyphenation(Coords::curr_y - 1, _INSERT__BUF->getLastXInRow(Coords::curr_y - 1) - 1))
+    {
+        _INSERT__BUF->setMovement(Coords::curr_y - 1, _INSERT__BUF->getLastXInRow(Coords::curr_y - 1) - 1);
+    }
+    else if (Coords::curr_x == 0 || (EditorStatus::getCurrStatus() == COMMAND && (Coords::curr_x - 1) == 1))
+    {
+        Position::setStartOfX(true);
+    }
+    else if (Coords::curr_x != 0)
+    {
+        Position::setStartOfY(false);
+        Coords::decX();
+        CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x);
+    }
+};
+
+void CommonStateRightHandler::use()
+{
+    if ((!_INSERT__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x)) || (!_COMMAND__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x - 1)))
+    {
+        if (_INSERT__BUF->isBufCell(Coords::curr_y, Coords::curr_x + 1))
+        {
+
+            Coords::incX();
+            CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x);
         }
     }
-    return false;
+    // CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
 };
 
-std::vector<Buffer<BufferCellWithCoords> *> affected_buffs = {
-    _INSERT__BUF,
-    _COMMAND__BUF};
-
-void set_ignore_forcible_move()
+void CommonStateBackspaceHandler::use()
 {
-    for (auto b : affected_buffs)
+    if (!_INSERT__BUF->getBufferIterator().empty())
     {
-        b->setIgnoreForcibleMove(true);
-    };
-};
+        if (Coords::curr_x == 0)
+        {
+            _INSERT__BUF->eraseCell(Coords::curr_y, 0);
+            Coords::decY();
+            if (_INSERT__BUF->cellIsSentenceHyphenation(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1))
+            {
+                _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1);
+            }
+            _INSERT__BUF->setMovement(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+            _INSERT__BUF->setIgnoreForcibleMove(TRUE);
+            _INSERT__BUF->translocateYDownAfter(Coords::curr_y);
+            return;
+        }
+        else if (!_INSERT__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x - 1))
+        {
+            _INSERT__BUF->eraseCell(Coords::curr_y, Coords::curr_x - 1);
+            _INSERT__BUF->translocateXLeftAfter(Coords::curr_y, Coords::curr_x);
+        }
+        else
+        {
+            _INSERT__BUF->eraseCell(Coords::curr_y, Coords::curr_x - 1);
+        }
 
-void set_move(int y, int x)
-{
-    //Sets move depending on the current state
-
-    switch (_STATE.get_state())
-    {
-    case INSERT:
-        _INSERT__BUF->setMovement(y, x);
-        break;
-    case COMMAND:
-        _COMMAND__BUF->setMovement(y, x);
+        CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x - 1);
     }
 };
 
-void CommonHandler::handle(int ch)
+CommonState::CommonState(int ch)
 {
-    auto [max_y, max_x] = _POSITION.get_max_coords();
-    auto [curr_y, curr_x] = _POSITION.get_curr_coords();
+    *CommonStateStorage::g_ch = ch;
+};
 
-    switch (ch)
+void CommonState::use()
+{
+    switch (*CommonStateStorage::g_ch)
     {
     case KEY_UP:
     {
-        if (_STATE.get_state() != COMMAND && !_POSITION.isStartOfY())
-        {
-
-            _LOG__BUF->addCellWithSymbolType(_INSERT__BUF->isStartRow(*curr_y - 1), INT);
-            _LOG__BUF->addCellWithSymbolType(10, CHAR);
-            if (!_INSERT__BUF->isStartRow(*curr_y))
-            {
-                if (*curr_y == 0)
-                {
-                    wscrl(stdscr, -1);
-                    _INSERT__BUF->translocateYUp();
-
-                    set_move(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y));
-                    return;
-                };
-                _POSITION.decy();
-                set_move(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y));
-            }
-            else
-            {
-                _POSITION.setStartOfY(true);
-            };
-            set_ignore_forcible_move();
-        }
+        CommonStateUpHandler::use();
         break;
     }
     case KEY_DOWN:
     {
-        if (_STATE.get_state() != COMMAND)
-        {
-            if ((*curr_y + 1) == (*max_y - 1))
-            {
-                scroll(stdscr);
-                _INSERT__BUF->translocateYDown();
-                break;
-            };
-            _POSITION.incy();
-            set_move(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y));
-        }
+        CommonStateDownHandler::use();
         break;
     }
     case KEY_LEFT:
     {
-        if (*curr_x == 0 && _INSERT__BUF->cellIsSentenceHyphenation(*curr_y - 1, _INSERT__BUF->getLastXInRow(*curr_y - 1) - 1))
-        {
-            _INSERT__BUF->setMovement(*curr_y - 1, _INSERT__BUF->getLastXInRow(*curr_y - 1) - 1);
-        }
-        else if (*curr_x == 0 || (_STATE.get_state() == COMMAND && (*curr_x - 1) == 1))
-        {
-            _POSITION.setStartOfX(true);
-        }
-        else if (*curr_x != 0)
-        {
-            _POSITION.setStartOfY(false);
-            _POSITION.decx();
-            set_move(*curr_y, *curr_x);
-        }
+        CommonStateLeftHandler::use();
         break;
     }
     case KEY_RIGHT:
     {
-        if ((!_INSERT__BUF->isLastBufCell(*curr_y, *curr_x)) || (!_COMMAND__BUF->isLastBufCell(*curr_y, *curr_x - 1)))
-        {
-            if (_INSERT__BUF->isBufCell(*curr_y, *curr_x + 1))
-            {
-
-                _POSITION.incx();
-                set_move(*curr_y, *curr_x);
-            }
-        }
-        set_ignore_forcible_move();
+        CommonStateRightHandler::use();
         break;
     }
     case K_BACKSPACE:
     {
-        if (!_INSERT__BUF->getBufferIterator().empty())
-        {
-            if (*curr_x == 0)
-            {
-                _INSERT__BUF->eraseCell(*curr_y, 0);
-                _POSITION.decy();
-                if (_INSERT__BUF->cellIsSentenceHyphenation(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y) - 1))
-                {
-                    _INSERT__BUF->eraseCell(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y) - 1);
-                }
-                _INSERT__BUF->setMovement(*curr_y, _INSERT__BUF->getLastXInRow(*curr_y));
-                _INSERT__BUF->setIgnoreForcibleMove(TRUE);
-                _INSERT__BUF->translocateYDownAfter(*curr_y);
-                break;
-            }
-            else if (!_INSERT__BUF->isLastBufCell(*curr_y, *curr_x - 1))
-            {
-                _INSERT__BUF->eraseCell(*curr_y, *curr_x - 1);
-                _INSERT__BUF->translocateXLeftAfter(*curr_y, *curr_x);
-            }
-            else
-            {
-                _INSERT__BUF->eraseCell(*curr_y, *curr_x - 1);
-            }
-
-            set_move(*curr_y, *curr_x - 1);
-        }
+        CommonStateBackspaceHandler::use();
         break;
     }
     };

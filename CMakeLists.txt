@@ -29,24 +29,28 @@ if (NOT WIN32)
 	add_executable(
 		sye 
 		cmd/main.cpp
-		internal/loop/loop.cpp 
+		internal/loop/loop.cpp
+		internal/loop/helper/helper.cpp
+		internal/loop/processors/processors.cpp
+		internal/loop/initialisers/initialisers.cpp
+		
 		internal/keys/keys.cpp 
 
 		internal/margin/margin.cpp 
 
-		internal/commands/set_insert_color/set_insert_color.cpp 
-		internal/commands/pool.cpp 
 		internal/commands/w/w.cpp 
+		internal/commands/helper/helper.cpp
 		internal/commands/search/search.cpp 
-
+		internal/commands/applicator/applicator.cpp
+		
 		internal/bufs/bufs.cpp 
 
 		internal/states/common/common.cpp 
+		internal/states/common/helper/helper.cpp
 		internal/states/insert/insert.cpp 
-		internal/states/pool/pool.cpp 
 		internal/states/search/search.cpp 
 		internal/states/command/command.cpp 
-		internal/status/status.cpp 
+		internal/editor_status/editor_status.cpp 
 
 		internal/history/history.cpp 
 		internal/position/position.cpp 
@@ -68,13 +72,15 @@ if (NOT WIN32)
 		internal/colors/insert/insert.cpp
 		internal/colors/colors.cpp 
 
+		internal/helper/helper.cpp
+
 		tests/buf_test.cpp
 		tests/main.cpp
 	)
-target_link_libraries(sye ${YAML_CPP_LIBRARIES} ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES} ${GTest_CPP_LIBRARIES})
+target_link_libraries(sye yaml-cpp ncursesw ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES} ${GTest_CPP_LIBRARIES})
 
 	if(NOT APPLE)
-		target_link_libraries(sye ncursesw "libncursesw.dylib" stdc++fs)
+		target_link_libraries(sye ncursesw stdc++fs)
 	else()
 	    target_link_libraries(sye ncursesw)
 	endif()

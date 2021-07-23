@@ -1,58 +1,110 @@
 #include "command.hpp"
+
+#include <stdlib.h>
 #include "./../../bufs/bufs.hpp"
 #include "./../../keys/keys.hpp"
 #include "./../common/common.hpp"
-#include "./../../status/status.hpp"
 #include "./../../colors/colors.hpp"
-#include "./../../commands/pool.hpp"
+#include "./../../helper/helper.hpp"
 #include "./../../files/exec/exec.hpp"
 #include "./../../history/history.hpp"
+#include "./../common/helper/helper.hpp"
 #include "./../../position/position.hpp"
+#include "./../../editor_status/editor_status.hpp"
+#include "./../../commands/applicator/applicator.hpp"
 
-void CommandHandler::handle(int ch)
+int *CommandStateStorage::g_ch = (int *)std::malloc(sizeof(int));
+
+void CommandStateDefaultHandler::use()
 {
-    auto [prev_y, prev_x] = _PREV_HISTORY.get_prev_yx();
-    auto [max_y, max_x] = _POSITION.get_max_coords();
-    auto [curr_y, curr_x] = _POSITION.get_curr_coords();
+    if (!CommonStateHelper::isCommonKeyHandler(*CommandStateStorage::g_ch) && (Coords::curr_x != (Coords::max_x - 1)))
+    {
+        _COMMAND__BUF->addCellWithCoords(*CommandStateStorage::g_ch, Coords::curr_y, Coords::curr_x);
+    }
+};
 
+void CommandStateEnterHandler::cleanBuffers()
+{
+    _EFFECTS__BUF->clearBuf();
+    _INSERT__BUF->eraseCell(Coords::max_y - 1, 0);
+    _COMMAND__BUF->clearBuf();
+};
+
+void CommandStateEnterHandler::modifyState()
+{
+    EditorStatus::setCurrStatus(EditorStatus::getCheckpoint());
+    CommonStateHelper::setKeyHandled(K_ENTER);
+};
+
+void CommandStateEnterHandler::use()
+{
+
+    Applicator::apply_command(_COMMAND__BUF->getBufAsString());
+    CommandStateEnterHandler::cleanBuffers();
+
+    _INSERT__BUF->setMovement(PreviouslyPressedHistory::y, PreviouslyPressedHistory::x);
+
+    CommandStateEnterHandler::modifyState();
+};
+
+void CommandStateBackspaceHandler::cleanBuffers()
+{
+    _EFFECTS__BUF->clearBuf();
+    _INSERT__BUF->eraseCell(Coords::curr_y, 0);
+    _COMMAND__BUF->clearBuf();
+};
+
+void CommandStateBackspaceHandler::modifyCurrentlyProcessedBuffer()
+{
+    _COMMAND__BUF->setMovement(Coords::curr_y, Coords::curr_x - 1);
+    _COMMAND__BUF->eraseCell(Coords::curr_y, Coords::curr_x - 1);
+};
+
+void CommandStateBackspaceHandler::setKeyHandledIgnoringInsBufForceMovement()
+{
+    CommonStateHelper::setKeyHandled(K_BACKSPACE);
+    _INSERT__BUF->setIgnoreForcibleMove(true);
+};
+
+void CommandStateBackspaceHandler::use()
+{
+    if (Coords::curr_x - 1 == 0)
+    {
+        CommandStateBackspaceHandler::cleanBuffers();
+        EditorStatus::setCurrStatus(EditorStatus::getCheckpoint());
+
+        _INSERT__BUF->setMovement(PreviouslyPressedHistory::y, PreviouslyPressedHistory::x);
+        CommandStateBackspaceHandler::setKeyHandledIgnoringInsBufForceMovement();
+    }
+    else
+    {
+        CommandStateBackspaceHandler::modifyCurrentlyProcessedBuffer();
+        CommandStateBackspaceHandler::setKeyHandledIgnoringInsBufForceMovement();
+    }
+};
+
+CommandState::CommandState(int ch)
+{
+    *CommandStateStorage::g_ch = ch;
+};
+
+void CommandState::use()
+{
     _COMMAND__BUF->setIgnoreForcibleMove(true);
 
-    switch (ch)
+    switch (*CommandStateStorage::g_ch)
     {
     case K_BACKSPACE:
     {
-        if (*curr_x - 1 == 0)
-        {
-            _EFFECTS__BUF->clearBuf();
-            _INSERT__BUF->eraseCell(*curr_y, 0);
-            _COMMAND__BUF->clearBuf();
-            _STATE.set_state(_STATE.get_checkpoint_before_command());
-            _INSERT__BUF->setMovement(prev_y, prev_x);
-            set_handled_status(K_BACKSPACE);
-            _INSERT__BUF->setIgnoreForcibleMove(true);
-            break;
-        };
-        _COMMAND__BUF->setMovement(*curr_y, *curr_x - 1);
-        _COMMAND__BUF->eraseCell(*curr_y, *curr_x - 1);
-        set_handled_status(K_BACKSPACE);
-        _INSERT__BUF->setIgnoreForcibleMove(true);
+        CommandStateBackspaceHandler::use();
         break;
     }
     case K_ENTER:
     {
-        _EFFECTS__BUF->clearBuf();
-        _INSERT__BUF->eraseCell(*max_y - 1, 0);
-        apply_command(_COMMAND__BUF->getBufAsString());
-        _COMMAND__BUF->clearBuf();
-        _STATE.set_state(_STATE.get_checkpoint_before_command());
-        _INSERT__BUF->setMovement(prev_y, prev_x);
-        set_handled_status(K_ENTER);
+        CommandStateEnterHandler::use();
         break;
     };
     default:
-        if (!is_common_handler(ch) && (*curr_x != (*max_x - 1)))
-        {
-            _COMMAND__BUF->addCellWithCoords(ch, *curr_y, *curr_x);
-        }
+        CommandStateDefaultHandler::use();
     }
 };

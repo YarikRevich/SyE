@@ -17,6 +17,7 @@ typedef struct
     int symbol;
     int y;
     int x;
+    bool wideChar;
     bool sentenceHyphenation;
     std::string fontColor;
 } BufferCellWithCoords;
@@ -56,7 +57,7 @@ public:
 
     bool isStartRow(int y);
 
-    void addCellWithCoords(int s, int y, int x);
+    void addCellWithCoords(int s, int y, int x, bool wideChar = false);
 
     void addCellWithSymbolType(int s, SymbolType st);
 

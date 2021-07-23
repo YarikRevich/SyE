@@ -1,6 +1,6 @@
-#include "./../pool.hpp"
+#include "./../helper/helper.hpp"
 
-class W_Command : public CommandInterface
+class W_Command : public StandartCommandInterface
 {
 public:
     void execute();

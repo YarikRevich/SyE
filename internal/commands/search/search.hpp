@@ -1,6 +1,6 @@
-#include "./../pool.hpp"
+#include "./../helper/helper.hpp"
 
-class Search_Command : public CommandInterface
+class Search_Command : public StandartCommandInterface
 {
 public:
     void execute();

@@ -3,14 +3,29 @@
 #include <ncurses.h>
 #include <tuple>
 
-class PositionMove
+namespace Coords
 {
-private:
-    bool startOfY;
-    bool startOfX;
+    extern int curr_y, curr_x;
+    extern int max_y, max_x;
 
-public:
-    void resetMovements();
+    void updateMaxCoords();
+    void updateCurrentCoords();
+
+    void resetX();
+    void setX(int x);
+
+    void decX();
+    void decY();
+
+    void incX();
+    void incY();
+};
+
+namespace Position
+{
+    extern bool startOfY, startOfX;
+
+    void resetPositionPoints();
 
     void setStartOfY(bool status);
 
@@ -20,31 +35,3 @@ public:
 
     bool isStartOfX();
 };
-
-class Position : public PositionMove
-{
-private:
-    int curr_y, curr_x;
-    int max_y, max_x;
-
-public:
-    std::tuple<int *, int *> get_max_coords();
-
-    std::tuple<int *, int *> get_curr_coords();
-
-    void update_curr_coords();
-
-    void resetx();
-
-    void decx();
-
-    void decy();
-
-    void incx();
-
-    void setx(int x);
-
-    void incy();
-};
-
-extern Position _POSITION;

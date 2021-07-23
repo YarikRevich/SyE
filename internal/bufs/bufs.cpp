@@ -72,30 +72,6 @@ void CoordsTranslocation<T>::translocateYDownAfter(int y)
 
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        // std::string s = "Buffer before : ";
-        // for (auto const i : s)
-        // {
-        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-        // }
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // for (auto const i : this->getBuf())
-        // {
-        //     s = "Y is ";
-        //     for (auto const b : s)
-        //     {
-        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
-        //     }
-        //     _LOG__BUF->addCellWithSymbolType(i->y, INT);
-        //     s = " ,X is ";
-        //     for (auto const b : s)
-        //     {
-        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
-        //     }
-        //     _LOG__BUF->addCellWithSymbolType(i->x, INT);
-        //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // }
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
         for (int i = 0; i < this->buf.size(); i++)
         {
             if (this->buf[i]->y > y && !this->isStartRow(this->buf[i]->y))
@@ -103,30 +79,6 @@ void CoordsTranslocation<T>::translocateYDownAfter(int y)
                 this->buf[i]->y--;
             }
         }
-
-        // s = "Buffer after : ";
-        // for (auto const i : s)
-        // {
-        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-        // }
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // for (auto const i : this->getBuf())
-        // {
-        //     s = "Y is ";
-        //     for (auto const b : s)
-        //     {
-        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
-        //     }
-        //     _LOG__BUF->addCellWithSymbolType(i->y, INT);
-        //     s = " ,X is ";
-        //     for (auto const b : s)
-        //     {
-        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
-        //     }
-        //     _LOG__BUF->addCellWithSymbolType(i->x, INT);
-        //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // }
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
     }
 };
 
@@ -135,10 +87,9 @@ void CoordsTranslocation<T>::translocateXRightAfter(int y, int x)
 {
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        auto [max_y, max_x] = _POSITION.get_max_coords();
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if ((this->buf[i]->y >= y) && this->buf[i]->x == *max_x)
+            if ((this->buf[i]->y >= y) && this->buf[i]->x == Coords::max_x)
             {
                 this->buf[i]->y++;
                 this->buf[i]->x = 0;
@@ -180,7 +131,6 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
         }
         _LOG__BUF->addCellWithSymbolType(10, CHAR);
 
-        auto [max_y, max_x] = _POSITION.get_max_coords();
         for (int i = 0; i < this->buf.size(); i++)
         {
             if ((this->buf[i]->y >= y) && (this->buf[i]->x >= x) && (this->buf[i]->symbol == 10))
@@ -190,7 +140,7 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
             else if ((this->buf[i]->y > y) && (this->buf[i]->x == 0))
             {
                 this->buf[i]->y--;
-                this->buf[i]->x = *max_x;
+                this->buf[i]->x = Coords::max_x;
             }
             else if ((this->buf[i]->y >= y) && this->buf[i]->x >= x)
             {
@@ -339,54 +289,26 @@ void Base<T>::eraseCell(int y, int x)
 }
 
 template <typename T>
-void Base<T>::addCellWithCoords(int s, int y, int x)
+void Base<T>::addCellWithCoords(int s, int y, int x, bool wideChar)
 {
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        for (int i = 0; i < this->buf.size(); i++)
+        if (!wideChar)
         {
-            if (this->buf[i]->x == x && this->buf[i]->y == y)
+            for (int i = 0; i < this->buf.size(); i++)
             {
-                this->eraseCell(y, x);
+                if (this->buf[i]->x == x && this->buf[i]->y == y)
+                {
+                    this->eraseCell(y, x);
+                }
             }
         }
-
-        // std::string e = "Buffer is: ";
-        // for (int i = 0; i < e.size(); i++)
-        // {
-        //     _LOG__BUF.add_L(e[i], CHAR);
-        // }
-        // _LOG__BUF.add_L(10, CHAR);
-
-        // for (int r = 0; r < this->buf.size(); r++)
-        // {
-        //     std::string u = "X is ";
-        //     for (int i = 0; i < u.size(); i++)
-        //     {
-        //         _LOG__BUF.add_L(u[i], CHAR);
-        //     }
-        //     _LOG__BUF.add_L(this->buf[r]->x, INT);
-        //     _LOG__BUF.add_L('\t', CHAR);
-
-        //     u = " Y is ";
-        //     for (int i = 0; i < u.size(); i++)
-        //     {
-        //         _LOG__BUF.add_L(u[i], CHAR);
-        //     }
-        //     _LOG__BUF.add_L(this->buf[r]->y, INT);
-        //     _LOG__BUF.add_L(10, CHAR);
-        // }
-
-        // std::string q = std::to_string(to_emplace) + "\n";
-        // for (int i = 0; i < q.size(); i++)
-        // {
-        //     _LOG__BUF.add_L(q[i], CHAR);
-        // }
 
         BufferCellWithCoords *b = new BufferCellWithCoords;
         b->symbol = s;
         b->y = y;
         b->x = x;
+        b->wideChar = wideChar;
         b->sentenceHyphenation = false;
 
         this->buf.push_back(b);
@@ -577,14 +499,18 @@ std::vector<BufferAsString> Base<T>::getBufAsStringWithYCoord()
 template <typename T>
 int Base<T>::getLastXInRow(int y)
 {
-    int res = 0;
+    int chars = 0;
+    int wideChars = 0;
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
             if ((this->buf[i]->y == y) && (this->buf[i]->symbol != 10))
             {
-                res++;
+                if (this->buf[i]->wideChar){
+                    wideChars++;
+                }
+                chars++;
             };
         };
     }
@@ -593,7 +519,7 @@ int Base<T>::getLastXInRow(int y)
         throw std::logic_error("This method can't be used with buf which cells don't have coords");
     };
 
-    return res;
+    return chars - (wideChars / 2);
 };
 
 void Status::setModified(bool s)

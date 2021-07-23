@@ -1,28 +1,33 @@
-#include "./../../index.hpp"
-#include "./../pool/pool.hpp"
+#pragma once
 
-class KeyHandlers
+namespace InsertStateStorage
 {
-protected:
-    int m_ch;
-
-    int m_max_y;
-    int m_max_x;
-
-    int m_curr_y;
-    int m_curr_x;
-
-public:
-    void handle_default();
-
-    void handle_enter();
-
-    void handle_colon();
+    extern int *g_ch;
 };
 
-class InsertState : public KeyHandlers
+namespace InsertStateDefaultHandler
 {
+    void moveCariage();
+    void use();
+};
 
+namespace InsertStateEnterHandler
+{
+    void moveCariage();
+    void includeWordAreaOffset();
+    void use();
+};
+
+namespace InsertStateColonHandler
+{
+    void fillPanelWithSpaces();
+    void modifyBuffer();
+    void modifyState();
+    void use();
+};
+
+class InsertState
+{
 public:
     InsertState(int ch);
 

@@ -1,8 +1,34 @@
-#include "./../../index.hpp"
-#include "./../pool/pool.hpp"
+#pragma once
 
-class CommandHandler : public HandlerInterface
+namespace CommandStateStorage
+{
+    extern int *g_ch;
+};
+
+namespace CommandStateDefaultHandler
+{
+    void use();
+};
+
+namespace CommandStateEnterHandler
+{
+    void cleanBuffers();
+    void modifyState();
+    void use();
+};
+
+namespace CommandStateBackspaceHandler
+{
+    void cleanBuffers();
+    void modifyCurrentlyProcessedBuffer();
+    void setKeyHandledIgnoringInsBufForceMovement();
+    void use();
+};
+
+class CommandState
 {
 public:
-    virtual void handle(int ch);
+    CommandState(int ch);
+
+    void use();
 };

@@ -3,7 +3,6 @@
 #include "./../keys/keys.hpp"
 #include "./../colors/font/font.hpp"
 #include "./../colors/colors.hpp"
-#include "./../status/status.hpp"
 #include "./../states/common/common.hpp"
 
 Renderer *Renderer::set_buf(Buffer<BufferCellWithCoords> *buf)
@@ -33,23 +32,22 @@ void Renderer::include_new_cell(int index)
 
 void Renderer::include_movements()
 {
-    auto [curr_y, curr_x] = _POSITION.get_curr_coords();
     auto [move_y, move_x] = buf->getMovement();
 
-    if (!buf->isLastBufCell(*curr_y, *curr_x) && !buf->isIgnoreForcibleMove())
+    if (!buf->isLastBufCell(Coords::curr_y, Coords::curr_x) && !buf->isIgnoreForcibleMove())
     {
-        wmove(stdscr, *curr_y, *curr_x + 1);
+        wmove(stdscr, Coords::curr_y, Coords::curr_x + 1);
     }
 
-    if (_POSITION.isStartOfY())
+    if (Position::isStartOfY())
     {
-        wmove(stdscr, *curr_y, *curr_x);
+        wmove(stdscr, Coords::curr_y, Coords::curr_x);
     }
-    else if (_POSITION.isStartOfX())
+    else if (Position::isStartOfX())
     {
-        wmove(stdscr, *curr_y, 0);
+        wmove(stdscr, Coords::curr_y, 0);
     }
-    else if ((!buf->isEmpty() && !((move_y == *curr_y) && (move_x == *curr_x))))
+    else if ((!buf->isEmpty() && !((move_y == Coords::curr_y) && (move_x == Coords::curr_x))))
     {
         wmove(stdscr, move_y, move_x);
     };
@@ -63,6 +61,7 @@ void Renderer::render()
         for (int i = 0; i < buffer_iterator.size(); i++)
         {
             this->include_new_cell(i);
+            // printw("%c", buffer_iterator[i]->symbol);
         }
         this->include_movements();
 
@@ -78,8 +77,6 @@ void Renderer::init_render(std::string buf)
 {
     if (!buf.empty())
     {
-        auto [curr_y, curr_x] = _POSITION.get_curr_coords();
-
         for (int i = 0; i < buf.size() - 1; i++)
         {
             switch (buf[i])
@@ -87,15 +84,14 @@ void Renderer::init_render(std::string buf)
             case 0:
                 continue;
             case 10:
-                _POSITION.incy();
-                _POSITION.resetx();
+                Coords::incY();
+                Coords::resetX();
                 break;
             default:
-                _POSITION.incx();
+                Coords::incX();
             };
-            _INSERT__BUF->addCellWithCoords(buf[i], *curr_y, *curr_x);
-
-            mvwaddch(stdscr, *curr_y, *curr_x, buf[i]);
+            _INSERT__BUF->addCellWithCoords(buf[i], Coords::curr_y, Coords::curr_x);
+            mvwaddch(stdscr, Coords::curr_y, Coords::curr_x, buf[i]);
         };
     };
 };

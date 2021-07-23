@@ -2,74 +2,74 @@
 #include <tuple>
 #include "position.hpp"
 
-std::tuple<int *, int *> Position::get_max_coords()
+int Coords::curr_y, Coords::curr_x;
+int Coords::max_y, Coords::max_x;
+
+void Coords::updateMaxCoords()
 {
-	getmaxyx(stdscr, max_y, max_x);
-	return {&max_y, &max_x};
+	getmaxyx(stdscr, Coords::max_y, Coords::max_x);
 };
 
-std::tuple<int *, int *> Position::get_curr_coords()
+void Coords::updateCurrentCoords()
 {
-	getsyx(curr_y, curr_x);
-	return {&curr_y, &curr_x};
+	getsyx(Coords::curr_y, Coords::curr_x);
 };
 
-void Position::update_curr_coords()
+void Coords::resetX()
 {
-	getsyx(curr_y, curr_x);
+	Coords::curr_x = 0;
 };
 
-void PositionMove::resetMovements(){
-	this->startOfX = false;
-	this->startOfY = false;
+void Coords::setX(int x)
+{
+	Coords::curr_x = x;
 };
 
-void PositionMove::setStartOfY(bool status)
+void Coords::decX()
 {
-	this->startOfY = status;
+	Coords::curr_x--;
 };
 
-bool PositionMove::isStartOfY()
+void Coords::decY()
 {
-	return this->startOfY;
+	Coords::curr_y--;
 };
 
-void PositionMove::setStartOfX(bool status)
+void Coords::incX()
 {
-	this->startOfX = status;
+	Coords::curr_x++;
 };
 
-bool PositionMove::isStartOfX()
+void Coords::incY()
 {
-	return this->startOfX;
+	Coords::curr_y++;
 };
 
-void Position::resetx()
-{
-	this->curr_x = 0;
-}
+bool Position::startOfY, Position::startOfX;
 
-void Position::decx()
+void Position::resetPositionPoints()
 {
-	this->curr_x--;
-};
-void Position::decy()
-{
-	this->curr_y--;
-};
-void Position::incx()
-{
-	this->curr_x++;
+	Position::startOfX = false;
+	Position::startOfY = false;
 };
 
-void Position::incy()
+
+void Position::setStartOfY(bool status)
 {
-	this->curr_y++;
+	Position::startOfY = status;
 };
 
-void Position::setx(int x)
+bool Position::isStartOfY()
 {
-	this->curr_x = x;
-}
+	return Position::startOfY;
+};
 
-Position _POSITION;
+void Position::setStartOfX(bool status)
+{
+	Position::startOfX = status;
+};
+
+bool Position::isStartOfX()
+{
+	return Position::startOfX;
+};

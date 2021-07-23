@@ -5,7 +5,6 @@
 // #include "./../../../../status/status.hpp"
 // #include "./../../../../bufs/search_buf/search_buf.hpp"
 // #include "./../../../../file/file.hpp"
-#include "./../pool.hpp"
 
 void Search_Command::execute()
 {
