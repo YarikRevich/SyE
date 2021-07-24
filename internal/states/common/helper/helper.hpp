@@ -6,10 +6,16 @@
 
 namespace CommonStateAutomation
 {
-    template<class... Buffs>
-    void setIgnoreForcibleMoveForAffectedBuffs(Buffs&...);
+    template<typename... Args>
+    void setIgnoreForcibleMoveForAffectedBuffs(Args...);
 
     void setMoveForCurrentlyUsedStateBuffer(int y, int x);
+};
+
+template <typename... Args>
+void CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(Args...args)
+{
+    (args->setIgnoreForcibleMove(true), ...);
 };
 
 namespace CommonStateHelper

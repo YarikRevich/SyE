@@ -36,7 +36,7 @@ void InsertStateDefaultHandler::use()
     }
 };
 
-void InsertStateEnterHandler::includeWordAreaOffset()
+void InsertStateEnterHandler::includeWordAreaOffsetDown()
 {
     _INSERT__BUF->setIgnoreForcibleMove(true);
     _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x);
@@ -57,7 +57,7 @@ void InsertStateEnterHandler::use()
 {
     if (Coords::curr_y == (Coords::max_y - 2))
     {
-        InsertStateEnterHandler::includeWordAreaOffset();
+        InsertStateEnterHandler::includeWordAreaOffsetDown();
         return;
     }
     InsertStateEnterHandler::moveCariage();

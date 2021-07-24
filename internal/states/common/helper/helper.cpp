@@ -1,17 +1,9 @@
+#include <any>
 #include <vector>
 #include <ncurses.h>
 #include "helper.hpp"
 #include "./../../../keys/keys.hpp"
 #include "./../../../editor_status/editor_status.hpp"
-
-template <class... Buffs>
-void CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(Buffs &...buffs)
-{
-    for (auto buff : std::vector<Buffs...>(buffs...))
-    {
-        buff->setIgnoreForcibleMove(true);
-    };
-};
 
 void CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(int y, int x)
 {
@@ -67,5 +59,3 @@ bool CommonStateHelper::isCommonKeyHandler(int ch)
     }
     return false;
 };
-
-// template void CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs<Buffer<BufferCellWithCoords>>(){};

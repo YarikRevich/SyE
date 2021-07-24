@@ -6,38 +6,57 @@
 #include "./../../colors/colors.hpp"
 #include "./../../helper/helper.hpp"
 #include "./../../files/exec/exec.hpp"
-#include "./../../position/position.hpp"
 #include "./../../history/history.hpp"
+#include "./../../position/position.hpp"
 #include "./../../editor_status/editor_status.hpp"
 
 int *CommonStateStorage::g_ch = (int *)std::malloc(sizeof(int));
+
+void CommonStateUpHandler::includeWordAreaOffsetUp()
+{
+    wscrl(stdscr, -1);
+    _INSERT__BUF->translocateYUp();
+
+    CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+};
+
+void CommonStateUpHandler::moveLineUp()
+{
+    Coords::decY();
+    CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+};
 
 void CommonStateUpHandler::use()
 {
     if (EditorStatus::getCurrStatus() != COMMAND && !Position::isStartOfY())
     {
-
-        _LOG__BUF->addCellWithSymbolType(_INSERT__BUF->isStartRow(Coords::curr_y - 1), INT);
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
         if (!_INSERT__BUF->isStartRow(Coords::curr_y))
         {
             if (Coords::curr_y == 0)
             {
-                wscrl(stdscr, -1);
-                _INSERT__BUF->translocateYUp();
-
-                CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+                CommonStateUpHandler::includeWordAreaOffsetUp();
                 return;
             };
-            Coords::decY();
-            CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+            CommonStateUpHandler::moveLineUp();
         }
         else
         {
             Position::setStartOfY(true);
         };
-        // CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
+        CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
     }
+};
+
+void CommonStateDownHandler::includeWordAreaOffsetDown()
+{
+    scroll(stdscr);
+    _INSERT__BUF->translocateYDown();
+};
+
+void CommonStateDownHandler::moveLineDown()
+{
+    Coords::incY();
+    CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
 };
 
 void CommonStateDownHandler::use()
@@ -46,13 +65,18 @@ void CommonStateDownHandler::use()
     {
         if ((Coords::curr_y + 1) == (Coords::max_y - 1))
         {
-            scroll(stdscr);
-            _INSERT__BUF->translocateYDown();
+            CommonStateDownHandler::includeWordAreaOffsetDown();
             return;
         };
-        Coords::incY();
-        CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+        CommonStateDownHandler::moveLineDown();
     }
+};
+
+void CommonStateLeftHandler::moveRowLeft()
+{
+    Position::setStartOfY(false);
+    Coords::decX();
+    CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x);
 };
 
 void CommonStateLeftHandler::use()
@@ -67,10 +91,14 @@ void CommonStateLeftHandler::use()
     }
     else if (Coords::curr_x != 0)
     {
-        Position::setStartOfY(false);
-        Coords::decX();
-        CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x);
+        CommonStateLeftHandler::moveRowLeft();
     }
+};
+
+void CommonStateRightHandler::moveRowRight()
+{
+    Coords::incX();
+    CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x);
 };
 
 void CommonStateRightHandler::use()
@@ -79,12 +107,34 @@ void CommonStateRightHandler::use()
     {
         if (_INSERT__BUF->isBufCell(Coords::curr_y, Coords::curr_x + 1))
         {
-
-            Coords::incX();
-            CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x);
+            CommonStateRightHandler::moveRowRight();
         }
     }
     // CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
+};
+
+void CommonStateBackspaceHandler::moveBufferUp()
+{
+    _INSERT__BUF->setMovement(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+    _INSERT__BUF->setIgnoreForcibleMove(TRUE);
+    _INSERT__BUF->translocateYDownAfter(Coords::curr_y);
+};
+
+void CommonStateBackspaceHandler::moveRowUp()
+{
+    _INSERT__BUF->eraseCell(Coords::curr_y, 0);
+    Coords::decY();
+    if (_INSERT__BUF->cellIsSentenceHyphenation(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1))
+    {
+        _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1);
+    }
+    CommonStateBackspaceHandler::moveBufferUp();
+};
+
+void CommonStateBackspaceHandler::shiftRowToLeft()
+{
+    _INSERT__BUF->eraseCell(Coords::curr_y, Coords::curr_x - 1);
+    _INSERT__BUF->translocateXLeftAfter(Coords::curr_y, Coords::curr_x);
 };
 
 void CommonStateBackspaceHandler::use()
@@ -93,27 +143,17 @@ void CommonStateBackspaceHandler::use()
     {
         if (Coords::curr_x == 0)
         {
-            _INSERT__BUF->eraseCell(Coords::curr_y, 0);
-            Coords::decY();
-            if (_INSERT__BUF->cellIsSentenceHyphenation(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1))
-            {
-                _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1);
-            }
-            _INSERT__BUF->setMovement(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
-            _INSERT__BUF->setIgnoreForcibleMove(TRUE);
-            _INSERT__BUF->translocateYDownAfter(Coords::curr_y);
+            CommonStateBackspaceHandler::moveRowUp();
             return;
         }
         else if (!_INSERT__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x - 1))
         {
-            _INSERT__BUF->eraseCell(Coords::curr_y, Coords::curr_x - 1);
-            _INSERT__BUF->translocateXLeftAfter(Coords::curr_y, Coords::curr_x);
+            CommonStateBackspaceHandler::shiftRowToLeft();
         }
         else
         {
             _INSERT__BUF->eraseCell(Coords::curr_y, Coords::curr_x - 1);
         }
-
         CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x - 1);
     }
 };

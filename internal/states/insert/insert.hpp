@@ -14,7 +14,7 @@ namespace InsertStateDefaultHandler
 namespace InsertStateEnterHandler
 {
     void moveCariage();
-    void includeWordAreaOffset();
+    void includeWordAreaOffsetDown();
     void use();
 };
 
