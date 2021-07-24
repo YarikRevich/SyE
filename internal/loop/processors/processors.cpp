@@ -31,10 +31,9 @@ void LoopProcessors::process_states()
         break;
     case SEARCH:
         break;
-        // handler_pool.handle(new SearchHandler, ch);
     };
 
-    if (!CommonStateHelper::isCommonKeyHandler(ch))
+    if (!CommonStateHelper::isKeyHandled(ch))
     {
         CommonState(ch).use();
     }
@@ -69,7 +68,7 @@ void LoopProcessors::save_debug_files()
 };
 
 void LoopProcessors::reset_temp_vals()
-{   
+{
     CommonStateHelper::resetKeysHandled();
 
     Position::resetPositionPoints();

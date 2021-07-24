@@ -33,13 +33,9 @@ void CommonStateHelper::setKeyHandled(int ch)
 
 bool CommonStateHelper::isKeyHandled(int ch)
 {
-    for (auto const &[key, val] : CommonStateHelper::key_handlers)
-    {
-        if (key == ch)
-        {
-            return true;
-        }
-    }
+    if (CommonStateHelper::key_handlers.count(ch)){
+        return CommonStateHelper::key_handlers[ch];
+    };
     return false;
 };
 
@@ -53,9 +49,5 @@ void CommonStateHelper::resetKeysHandled()
 
 bool CommonStateHelper::isCommonKeyHandler(int ch)
 {
-    if (CommonStateHelper::key_handlers.count(ch))
-    {
-        return CommonStateHelper::key_handlers[ch];
-    }
-    return false;
+    return CommonStateHelper::key_handlers.count(ch);
 };

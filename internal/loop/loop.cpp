@@ -18,8 +18,8 @@ void Loop::run()
 	for (;;)
 	{
 		MiddlwareExecutor({
-			Middleware(LoopProcessors::process_states),
 			Middleware(LoopProcessors::update_coords),
+			Middleware(LoopProcessors::process_states),
 			Middleware(LoopProcessors::clean_screen),
 			Middleware(LoopProcessors::analise_syntax),
 			Middleware(LoopProcessors::render),

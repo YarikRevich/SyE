@@ -22,6 +22,7 @@ void CommonStateUpHandler::includeWordAreaOffsetUp()
 
 void CommonStateUpHandler::moveLineUp()
 {
+
     Coords::decY();
     CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
 };
@@ -30,6 +31,7 @@ void CommonStateUpHandler::use()
 {
     if (EditorStatus::getCurrStatus() != COMMAND && !Position::isStartOfY())
     {
+
         if (!_INSERT__BUF->isStartRow(Coords::curr_y))
         {
             if (Coords::curr_y == 0)
@@ -43,7 +45,8 @@ void CommonStateUpHandler::use()
         {
             Position::setStartOfY(true);
         };
-        CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
+        _INSERT__BUF->setIgnoreForcibleMove(true);
+        // CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
     }
 };
 

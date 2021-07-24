@@ -31,6 +31,7 @@ void InsertStateDefaultHandler::use()
         }
         else
         {
+            // _LOG__BUF->addCellWithSymbolType(*InsertStateStorage::g_ch, CHAR);
             _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x, isWideChar(*InsertStateStorage::g_ch));
         }
     }
