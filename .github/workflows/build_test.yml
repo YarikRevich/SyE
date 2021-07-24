@@ -1,6 +1,9 @@
-# This is a basic workflow to help you get started with Actions
-
 name: BuildTest
+
+env:
+  AUTHOR: YarikRevich
+
+permissions: read-all
 
 on:
   push:
