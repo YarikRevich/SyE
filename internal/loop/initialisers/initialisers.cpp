@@ -1,5 +1,6 @@
 #include "initialisers.hpp"
 
+#include <csignal>
 #include <ncurses.h>
 #include "./../../render/render.hpp"
 #include "./../../files/exec/exec.hpp"
