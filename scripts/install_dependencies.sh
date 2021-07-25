@@ -35,13 +35,13 @@ function install_boost (){
     tar -xf boost_1_76_0.tar.gz
     cd boost_1_76_0
     ./bootstrap.sh && ./b2 && ./b2 install
-    cd ..
+    cd ../../
 }
 
 function install_google_test (){
     git clone https://github.com/google/googletest.git google_test && cd google_test
-    mkdir build
-    cd build
+    mkdir tmp
+    cd tmp
     cmake .. && make && make install
 }
 
