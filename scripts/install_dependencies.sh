@@ -45,8 +45,8 @@ function install_google_test (){
     cmake .. && make && make install
 }
 
-install_yaml_cpp
-install_boost
+# install_yaml_cpp
+# install_boost
 install_google_test
 
 
