@@ -1,6 +1,8 @@
 #include "initialisers.hpp"
 
 #include <ncurses.h>
+#include "./../../render/render.hpp"
+#include "./../../files/exec/exec.hpp"
 #include "./../../files/helper/helper.hpp"
 #include "./../../colors/insert/insert.hpp"
 #include "./../../term_flags/term_flags.hpp"
@@ -8,7 +10,7 @@
 #include "./../../files/configs/syntax_config/syntax_config.hpp"
 
 void LoopInitialisers::init_insert_buf(){
-	// _RENDERER.init_render_with_color(_EXEC_FILE->read());
+	_RENDERER->init_render(_EXEC_FILE->read());
 };
 
 void LoopInitialisers::init_configs()

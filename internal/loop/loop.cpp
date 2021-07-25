@@ -9,9 +9,9 @@ void Loop::run()
 	MiddlwareExecutor({
 		Middleware(LoopInitialisers::init_term_flags),
 		Middleware(LoopInitialisers::init_configs),
-		Middleware(LoopInitialisers::init_insert_buf),
 		Middleware(LoopInitialisers::init_ncurses),
 		Middleware(LoopInitialisers::init_colors),
+		Middleware(LoopInitialisers::init_insert_buf),
 		Middleware(LoopInitialisers::init_signals),
 	});
 

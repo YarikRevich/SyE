@@ -16,9 +16,10 @@ int *InsertStateStorage::g_ch = (int *)std::malloc(sizeof(int));
 
 void InsertStateDefaultHandler::moveCariage()
 {
-    _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x);
-    _INSERT__BUF->addCellWithCoords(10, Coords::curr_y, Coords::curr_x + 1, isWideChar(*InsertStateStorage::g_ch));
+    _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x, isWideChar(*InsertStateStorage::g_ch));
+    _INSERT__BUF->addCellWithCoords(10, Coords::curr_y, Coords::curr_x + 1);
     _INSERT__BUF->setCellSentenceHyphenation(Coords::curr_y, Coords::curr_x, TRUE);
+    Coords::incY(), Coords::resetX();
 };
 
 void InsertStateDefaultHandler::use()
@@ -31,8 +32,8 @@ void InsertStateDefaultHandler::use()
         }
         else
         {
-            // _LOG__BUF->addCellWithSymbolType(*InsertStateStorage::g_ch, CHAR);
             _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x, isWideChar(*InsertStateStorage::g_ch));
+            Coords::incX();
         }
     }
 };
@@ -46,11 +47,11 @@ void InsertStateEnterHandler::includeWordAreaOffsetDown()
 
 void InsertStateEnterHandler::moveCariage()
 {
-    Position::setStartOfY(false);
+    // Position::setStartOfY(false);
     if (!_INSERT__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x))
     {
-        _INSERT__BUF->setMovement(Coords::curr_y + 1, 0);
         _INSERT__BUF->translocateYUpAfter(Coords::curr_y);
+        Coords::resetX(), Coords::incY();
     }
 };
 
@@ -61,8 +62,8 @@ void InsertStateEnterHandler::use()
         InsertStateEnterHandler::includeWordAreaOffsetDown();
         return;
     }
-    InsertStateEnterHandler::moveCariage();
     InsertStateDefaultHandler::use();
+    InsertStateEnterHandler::moveCariage();
 };
 
 void InsertStateColonHandler::fillPanelWithSpaces()
@@ -78,7 +79,7 @@ void InsertStateColonHandler::fillPanelWithSpaces()
 void InsertStateColonHandler::modifyBuffer()
 {
     _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::max_y - 1, 0);
-    _INSERT__BUF->setMovement(Coords::max_y - 1, 1);
+    Coords::setY(Coords::max_y-1), Coords::setX(1);
 };
 
 void InsertStateColonHandler::modifyState()

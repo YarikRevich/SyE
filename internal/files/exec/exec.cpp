@@ -61,7 +61,6 @@ void ExecFile::save()
 {
     if (file != NULL)
     {
-        //modified = true;
         auto const insert_buf = _INSERT__BUF->getBufferIterator();
         if (!insert_buf.empty())
         {

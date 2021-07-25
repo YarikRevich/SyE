@@ -21,7 +21,6 @@ namespace CommandStateBackspaceHandler
 {
     void cleanBuffers();
     void modifyCurrentlyProcessedBuffer();
-    void setKeyHandledIgnoringInsBufForceMovement();
     void use();
 };
 

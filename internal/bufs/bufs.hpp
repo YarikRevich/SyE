@@ -83,6 +83,8 @@ public:
 
     bool isLastBufCell(int y, int x);
 
+    bool isRowEmpty(int y);
+
     bool isBufCell(int y, int x);
 
     void eraseCell(int y, int x);

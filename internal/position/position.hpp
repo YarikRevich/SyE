@@ -13,6 +13,7 @@ namespace Coords
 
     void resetX();
     void setX(int x);
+    void setY(int y);
 
     void decX();
     void decY();

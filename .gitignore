@@ -1,8 +1,9 @@
 docs/roadmap.md
 tmp/
-build/
-main
+cmd/*
+!cmd/main.cpp
 
 #Ignore hidden files
 .vscode
 .dockerignore
+.DS_Store

@@ -3,8 +3,10 @@ if (NOT WIN32)
 	project(editor VERSION 0.0.1 LANGUAGES C CXX)
 	set(CMAKE_CXX_COMPILER /usr/bin/g++)
 	set(CMAKE_CXX_FLAGS "-std=gnu++2a -D_XOPEN_SOURCE_EXTENDED")
-	set(EXECUTABLE_OUTPUT_PATH, /cmd)
+	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/cmd)
 	message("Make build output path is /cmd")
+
+	exec_program(${CMAKE_CURRENT_SOURCE_DIR}/scripts/install_dependencies.sh)
 
 	find_package(yaml-cpp REQUIRED)
 	message("Found yaml-cpp lib")
@@ -77,7 +79,7 @@ if (NOT WIN32)
 		tests/buf_test.cpp
 		tests/main.cpp
 	)
-target_link_libraries(sye yaml-cpp ncursesw ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES} ${GTest_CPP_LIBRARIES})
+	target_link_libraries(sye yaml-cpp ncursesw ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES} ${GTest_CPP_LIBRARIES})
 
 	if(NOT APPLE)
 		target_link_libraries(sye ncursesw stdc++fs)
@@ -100,6 +102,7 @@ target_link_libraries(sye yaml-cpp ncursesw ${Boost_FILESYSTEM_LIBRARIES} ${Boos
 	message("Copied syntax configs to ~/.sye_config/syntax directory")
 	file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/configs/theme_configs/. DESTINATION $ENV{HOME}/.sye_configs/theme)
 	message("Copied theme configs to ~/.sye_config/theme directory")
+
 	install(TARGETS sye DESTINATION bin)
 else()
 	message("You mustn't use the worst os in the world to install this perfect editor")

@@ -25,6 +25,10 @@ void Coords::setX(int x)
 	Coords::curr_x = x;
 };
 
+void Coords::setY(int y){
+	Coords::curr_y = y;
+};
+
 void Coords::decX()
 {
 	Coords::curr_x--;

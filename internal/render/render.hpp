@@ -29,8 +29,6 @@ public:
 
     void render();
 
-    void init_render_with_color(std::string buf);
-
     void init_render(std::string buf);
 };
 

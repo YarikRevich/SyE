@@ -284,7 +284,17 @@ void Base<T>::eraseCell(int y, int x)
         else if (this->buf.size() != 0)
         {
             this->buf.erase(buf.begin());
+        };
+
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        std::string s = "Size is: ";
+        for (auto const i : s)
+        {
+            _LOG__BUF->addCellWithSymbolType(i, CHAR);
         }
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        _LOG__BUF->addCellWithSymbolType(this->buf.size(), INT);
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
     }
 }
 
@@ -333,7 +343,7 @@ void Base<T>::addCellWithSymbolType(int s, SymbolType st)
     }
     else
     {
-        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+        throw std::logic_error("This method can't be used with buf which cells don't have symbol type");
     }
 };
 
@@ -507,7 +517,8 @@ int Base<T>::getLastXInRow(int y)
         {
             if ((this->buf[i]->y == y) && (this->buf[i]->symbol != 10))
             {
-                if (this->buf[i]->wideChar){
+                if (this->buf[i]->wideChar)
+                {
                     wideChars++;
                 }
                 chars++;
@@ -553,6 +564,25 @@ bool Base<T>::isLastBufCell(int y, int x)
         throw std::logic_error("This method can't be used with buf which cells don't have coords");
     }
     return false;
+};
+
+template <typename T>
+bool Base<T>::isRowEmpty(int y)
+{
+
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        auto buf = this->getBufferIterator();
+        for (int i = 0; i < buf.size(); i++)
+        {
+            if (buf[i]->y == y)
+            {
+                return false;
+            };
+        };
+        return true;
+    }
+    throw std::logic_error("This method can't be used with buf which cells don't have coords");
 };
 
 template <typename T>

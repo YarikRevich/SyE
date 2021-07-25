@@ -22,14 +22,12 @@ void CommonStateUpHandler::includeWordAreaOffsetUp()
 
 void CommonStateUpHandler::moveLineUp()
 {
-
-    Coords::decY();
-    CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+    Coords::decY(), Coords::setX(_INSERT__BUF->getLastXInRow(Coords::curr_y));
 };
 
 void CommonStateUpHandler::use()
 {
-    if (EditorStatus::getCurrStatus() != COMMAND && !Position::isStartOfY())
+    if (EditorStatus::getCurrStatus() == INSERT && !Position::isStartOfY())
     {
 
         if (!_INSERT__BUF->isStartRow(Coords::curr_y))
@@ -45,8 +43,7 @@ void CommonStateUpHandler::use()
         {
             Position::setStartOfY(true);
         };
-        _INSERT__BUF->setIgnoreForcibleMove(true);
-        // CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
+        CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
     }
 };
 
@@ -58,13 +55,12 @@ void CommonStateDownHandler::includeWordAreaOffsetDown()
 
 void CommonStateDownHandler::moveLineDown()
 {
-    Coords::incY();
-    CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+    Coords::incY(), Coords::setX(_INSERT__BUF->getLastXInRow(Coords::curr_y));
 };
 
 void CommonStateDownHandler::use()
 {
-    if (EditorStatus::getCurrStatus() != COMMAND)
+    if (EditorStatus::getCurrStatus() == INSERT)
     {
         if ((Coords::curr_y + 1) == (Coords::max_y - 1))
         {
@@ -72,6 +68,8 @@ void CommonStateDownHandler::use()
             return;
         };
         CommonStateDownHandler::moveLineDown();
+        // _INSERT__BUF->setIgnoreForcibleMove(true);
+        // CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
     }
 };
 
@@ -113,14 +111,12 @@ void CommonStateRightHandler::use()
             CommonStateRightHandler::moveRowRight();
         }
     }
-    // CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
 };
 
 void CommonStateBackspaceHandler::moveBufferUp()
 {
-    _INSERT__BUF->setMovement(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
-    _INSERT__BUF->setIgnoreForcibleMove(TRUE);
     _INSERT__BUF->translocateYDownAfter(Coords::curr_y);
+    Coords::setX(_INSERT__BUF->getLastXInRow(Coords::curr_y));
 };
 
 void CommonStateBackspaceHandler::moveRowUp()
@@ -131,20 +127,25 @@ void CommonStateBackspaceHandler::moveRowUp()
     {
         _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1);
     }
+    else
+    {
+        _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+    }
     CommonStateBackspaceHandler::moveBufferUp();
 };
 
 void CommonStateBackspaceHandler::shiftRowToLeft()
 {
     _INSERT__BUF->eraseCell(Coords::curr_y, Coords::curr_x - 1);
+    Coords::decX();
     _INSERT__BUF->translocateXLeftAfter(Coords::curr_y, Coords::curr_x);
 };
 
 void CommonStateBackspaceHandler::use()
 {
-    if (!_INSERT__BUF->getBufferIterator().empty())
+    if (EditorStatus::getCurrStatus() == INSERT && !_INSERT__BUF->getBufferIterator().empty())
     {
-        if (Coords::curr_x == 0)
+        if (Coords::curr_x == 0 && _INSERT__BUF->isRowEmpty(Coords::curr_y))
         {
             CommonStateBackspaceHandler::moveRowUp();
             return;
@@ -157,7 +158,7 @@ void CommonStateBackspaceHandler::use()
         {
             _INSERT__BUF->eraseCell(Coords::curr_y, Coords::curr_x - 1);
         }
-        CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x - 1);
+        Coords::decX();
     }
 };
 
