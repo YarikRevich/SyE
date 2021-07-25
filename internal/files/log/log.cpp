@@ -1,4 +1,3 @@
-#include <yaml.h>
 #include <stdio.h>
 #include "fstream"
 #include "log.hpp"
