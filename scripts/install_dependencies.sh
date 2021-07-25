@@ -10,8 +10,7 @@ if [[ $OSTYPE != 'darwin'* ]]; then
     sudo apt-get install wget;
 fi
 
-
-echo -e "\033[32mDependencies are installed\033[0m"
+echo -e "\033[32mScript dependencies installed\033[0m"
 
 cd ../;
 mkdir -p vendor;
@@ -30,6 +29,9 @@ function install_yaml_cpp (){
 
     sudo cmake .. && sudo make && sudo make install
     cd ../../../
+
+    echo -e "\033[32mYaml-cpp library installed\033[0m"
+
 }
 
 function install_boost (){
@@ -37,8 +39,10 @@ function install_boost (){
     cd boost
     tar -xf boost_1_76_0.tar.gz
     cd boost_1_76_0
-    ./bootstrap.sh && ./b2 && ./b2 install
+    sudo ./bootstrap.sh && sudo ./b2 && sudo ./b2 install
     cd ../../
+
+    echo -e "\033[32mBoost library installed\033[0m"
 }
 
 function install_google_test (){
@@ -46,6 +50,8 @@ function install_google_test (){
     mkdir tmp
     cd tmp
     sudo cmake .. && sudo make && sudo make install
+
+    echo -e "\033[32mGoogle-test library installed\033[0m"
 }
 
 install_yaml_cpp
@@ -53,7 +59,7 @@ install_boost
 install_google_test
 
 touch .ignore_deps
-
+echo -e "\033[32mIt's done! .ignore_deps was created\033[0m"
 
 
 
