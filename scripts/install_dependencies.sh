@@ -22,12 +22,14 @@ cd vendor;
 function install_yaml_cpp (){
     wget https://github.com/jbeder/yaml-cpp/archive/refs/tags/yaml-cpp-0.6.0.tar.gz -P yaml-cpp
     cd yaml-cpp
+    tar -xf yaml-cpp-0.6.0.tar.gz
+    cd yaml-cpp-0.6.0
 
     mkdir build
     cd build
 
     sudo cmake .. && sudo make && sudo make install
-    cd ../../
+    cd ../../../
 }
 
 function install_boost (){
