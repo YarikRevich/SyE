@@ -20,7 +20,8 @@ cd vendor;
 #Functions for dependencies install
 
 function install_yaml_cpp (){
-    git clone https://github.com/jbeder/yaml-cpp.git yaml-cpp && cd yaml-cpp
+    wget https://github.com/jbeder/yaml-cpp/archive/refs/tags/yaml-cpp-0.6.0.tar.gz -P yaml-cpp
+    cd yaml-cpp
 
     mkdir build
     cd build
