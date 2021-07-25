@@ -1,5 +1,6 @@
 #include <map>
 #include <vector>
+#include <cstring>
 #include <csignal>
 #include <yaml-cpp/yaml.h>
 #include "syntax_config.hpp"

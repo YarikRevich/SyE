@@ -1,4 +1,5 @@
 #include <tuple>
+#include <cstring>
 #include <string>
 #include <yaml-cpp/yaml.h>
 #include "theme_config.hpp"
