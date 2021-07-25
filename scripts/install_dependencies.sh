@@ -42,7 +42,7 @@ function install_google_test (){
     git clone https://github.com/google/googletest.git google_test && cd google_test
     mkdir tmp
     cd tmp
-    cmake .. && make && make install
+    sudo cmake .. && sudo make && sudo make install
 }
 
 # install_yaml_cpp
