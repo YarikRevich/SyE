@@ -18,9 +18,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create build dir
-        run: mkdir build
+        run: mkdir tmp
       - name: Build project
         run: |
-          cd build
+          cd tmp
           cmake ..
           make
