@@ -25,7 +25,7 @@ function install_yaml_cpp (){
     mkdir build
     cd build
 
-    cmake .. && make && make install
+    sudo cmake .. && sudo make && sudo make install
     cd ../../
 }
 
