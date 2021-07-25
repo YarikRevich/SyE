@@ -82,13 +82,8 @@ if (NOT WIN32)
 		tests/buf_test.cpp
 		tests/main.cpp
 	)
-	if (NOT APPLE)
-		set(YAML_CPP_LIB_DIR, YAML_CPP_LIBRARIES)	
-	else()
-		set(YAML_CPP_LIB_DIR, yaml-cpp)
-	endif()
-
-	target_link_libraries(sye ${YAML_CPP_LIB_DIR} ncursesw ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES} ${GTest_CPP_LIBRARIES})
+	
+	target_link_libraries(sye yaml-cpp ncursesw ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES} ${GTest_CPP_LIBRARIES})
 
 	if(NOT APPLE)
 		target_link_libraries(sye ncursesw stdc++fs)
