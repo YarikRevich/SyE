@@ -5,7 +5,8 @@ if (NOT WIN32)
 	set(CMAKE_CXX_FLAGS "-std=gnu++2a -D_XOPEN_SOURCE_EXTENDED")
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/cmd)
 	message("Make build output path is /cmd")
-
+# 
+	# execute_process(COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/scripts/install_dependencies.sh)
 	exec_program(${CMAKE_CURRENT_SOURCE_DIR}/scripts/install_dependencies.sh)
 
 	find_package(yaml-cpp REQUIRED)

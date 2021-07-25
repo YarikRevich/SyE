@@ -1,20 +1,21 @@
-#!/usr/bin/bash
-
-set -n -v 
+#!/bin/bash 
 
 #Install dependencies 
 
-apt-get update && \
-apt-get install git && \
-apt-get install cmake && \
-apt-get install make && \
-apt-get install wget && \
+if [[ $OSTYPE != 'darwin'* ]]; then 
+    apt-get update;
+    apt-get install git;
+    apt-get install cmake;
+    apt-get install make;
+    apt-get install wget;
+fi
 
-echo "\033[32mDependencies are installed!\n\033[0m"
 
-cd .. && \ 
-mkdir vendor && \
-cd vendor
+echo -e "\033[32mDependencies are installed\033[0m"
+
+cd ../;
+mkdir -p vendor;
+cd vendor;
 
 #Functions for dependencies install
 
