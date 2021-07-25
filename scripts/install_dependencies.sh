@@ -46,8 +46,8 @@ function install_google_test (){
 }
 
 install_yaml_cpp
-install_boost
-install_google_test
+# install_boost
+# install_google_test
 
 touch .ignore_deps
 
