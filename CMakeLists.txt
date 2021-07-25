@@ -5,10 +5,12 @@ if (NOT WIN32)
 	set(CMAKE_CXX_FLAGS "-std=gnu++2a -D_XOPEN_SOURCE_EXTENDED")
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/cmd)
 	message("Make build output path is /cmd")
-# 
-	# execute_process(COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/scripts/install_dependencies.sh)
-	exec_program(${CMAKE_CURRENT_SOURCE_DIR}/scripts/install_dependencies.sh)
 
+
+	if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/.ignore_deps)
+		exec_program(${CMAKE_CURRENT_SOURCE_DIR}/scripts/install_dependencies.sh)
+	endif()
+	
 	find_package(yaml-cpp REQUIRED)
 	message("Found yaml-cpp lib")
 	find_package(GTest REQUIRED)
@@ -80,7 +82,13 @@ if (NOT WIN32)
 		tests/buf_test.cpp
 		tests/main.cpp
 	)
-	target_link_libraries(sye yaml-cpp ncursesw ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES} ${GTest_CPP_LIBRARIES})
+	if (NOT APPLE)
+		set(YAML_CPP_LIB_DIR, YAML_CPP_LIBRARIES)	
+	else()
+		set(YAML_CPP_LIB_DIR, yaml-cpp)
+	endif()
+
+	target_link_libraries(sye ${YAML_CPP_LIB_DIR} ncursesw ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES} ${GTest_CPP_LIBRARIES})
 
 	if(NOT APPLE)
 		target_link_libraries(sye ncursesw stdc++fs)

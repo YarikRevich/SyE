@@ -3,11 +3,11 @@
 #Install dependencies 
 
 if [[ $OSTYPE != 'darwin'* ]]; then 
-    apt-get update;
-    apt-get install git;
-    apt-get install cmake;
-    apt-get install make;
-    apt-get install wget;
+    sudo apt-get update;
+    sudo apt-get install git;
+    sudo apt-get install cmake;
+    sudo apt-get install make;
+    sudo apt-get install wget;
 fi
 
 
@@ -48,6 +48,8 @@ function install_google_test (){
 # install_yaml_cpp
 # install_boost
 install_google_test
+
+touch .ignore_deps
 
 
 

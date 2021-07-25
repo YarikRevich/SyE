@@ -4,6 +4,7 @@ cmd/*
 !cmd/main.cpp
 
 #Ignore hidden files
+.ignore_deps
 .vscode
 .dockerignore
 .DS_Store
