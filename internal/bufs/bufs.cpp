@@ -107,29 +107,29 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
 {
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        std::string s = "Buffer before : ";
-        for (auto const i : s)
-        {
-            _LOG__BUF->addCellWithSymbolType(i, CHAR);
-        }
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        for (auto const i : this->getBufferIterator())
-        {
-            s = "Y is ";
-            for (auto const b : s)
-            {
-                _LOG__BUF->addCellWithSymbolType(b, CHAR);
-            }
-            _LOG__BUF->addCellWithSymbolType(i->y, INT);
-            s = " ,X is ";
-            for (auto const b : s)
-            {
-                _LOG__BUF->addCellWithSymbolType(b, CHAR);
-            }
-            _LOG__BUF->addCellWithSymbolType(i->x, INT);
-            _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        }
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // std::string s = "Buffer before : ";
+        // for (auto const i : s)
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // for (auto const i : this->getBufferIterator())
+        // {
+        //     s = "Y is ";
+        //     for (auto const b : s)
+        //     {
+        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
+        //     }
+        //     _LOG__BUF->addCellWithSymbolType(i->y, INT);
+        //     s = " ,X is ";
+        //     for (auto const b : s)
+        //     {
+        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
+        //     }
+        //     _LOG__BUF->addCellWithSymbolType(i->x, INT);
+        //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
 
         for (int i = 0; i < this->buf.size(); i++)
         {
@@ -148,29 +148,29 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
             }
         }
 
-        s = "Buffer after : ";
-        for (auto const i : s)
-        {
-            _LOG__BUF->addCellWithSymbolType(i, CHAR);
-        }
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        for (auto const i : this->getBufferIterator())
-        {
-            s = "Y is ";
-            for (auto const b : s)
-            {
-                _LOG__BUF->addCellWithSymbolType(b, CHAR);
-            }
-            _LOG__BUF->addCellWithSymbolType(i->y, INT);
-            s = " ,X is ";
-            for (auto const b : s)
-            {
-                _LOG__BUF->addCellWithSymbolType(b, CHAR);
-            }
-            _LOG__BUF->addCellWithSymbolType(i->x, INT);
-            _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        }
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // s = "Buffer after : ";
+        // for (auto const i : s)
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // for (auto const i : this->getBufferIterator())
+        // {
+        //     s = "Y is ";
+        //     for (auto const b : s)
+        //     {
+        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
+        //     }
+        //     _LOG__BUF->addCellWithSymbolType(i->y, INT);
+        //     s = " ,X is ";
+        //     for (auto const b : s)
+        //     {
+        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
+        //     }
+        //     _LOG__BUF->addCellWithSymbolType(i->x, INT);
+        //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
     }
 };
 
@@ -286,15 +286,15 @@ void Base<T>::eraseCell(int y, int x)
             this->buf.erase(buf.begin());
         };
 
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        std::string s = "Size is: ";
-        for (auto const i : s)
-        {
-            _LOG__BUF->addCellWithSymbolType(i, CHAR);
-        }
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        _LOG__BUF->addCellWithSymbolType(this->buf.size(), INT);
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // std::string s = "Size is: ";
+        // for (auto const i : s)
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // _LOG__BUF->addCellWithSymbolType(this->buf.size(), INT);
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
     }
 }
 
@@ -358,9 +358,52 @@ void Base<T>::addCell(int s)
     }
     else
     {
-        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+        throw std::logic_error("Member is allowed to use with only-symbol buffer");
     }
 }
+
+template <typename T>
+void Base<T>::addCellToEnd(int s)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        std::vector<T *> const buf = this->getBufferIterator();
+
+        T *const last_cell = buf[buf.size() - 1];
+
+        T *b = new T;
+        if (last_cell->x == Coords::max_x)
+        {
+            b->y = (last_cell->y + 1);
+            b->x = 0;
+        }
+        else
+        {
+            b->x = (last_cell->x + 1);
+        }
+        b->symbol = s;
+        this->buf.push_back(b);
+    }
+    else
+    {
+        throw std::logic_error("This member can't be used with buf which cells don't have coords");
+    }
+};
+
+template <typename T>
+void Base<T>::addEolIfNotExists()
+{
+    if (this->buf.begin() != this->buf.end())
+    {
+        std::vector<T *> const buf = this->getBufferIterator();
+        if (buf[buf.size() - 1]->symbol != 10)
+        {
+            T *b = new T;
+            b->symbol = 10;
+            this->buf.push_back(b);
+        }
+    };
+};
 
 template <typename T>
 std::vector<T *> Base<T>::getBufferIterator()

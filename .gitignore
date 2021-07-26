@@ -1,5 +1,6 @@
 docs/roadmap.md
 tmp/
+vendor/
 cmd/*
 !cmd/main.cpp
 

@@ -26,6 +26,8 @@ void InsertStateDefaultHandler::use()
 {
     if (!CommonStateHelper::isCommonKeyHandler(*InsertStateStorage::g_ch))
     {
+       
+
         if (Coords::curr_x == (Coords::max_x - 1))
         {
             InsertStateDefaultHandler::moveCariage();
@@ -79,7 +81,7 @@ void InsertStateColonHandler::fillPanelWithSpaces()
 void InsertStateColonHandler::modifyBuffer()
 {
     _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::max_y - 1, 0);
-    Coords::setY(Coords::max_y-1), Coords::setX(1);
+    Coords::setY(Coords::max_y - 1), Coords::setX(1);
 };
 
 void InsertStateColonHandler::modifyState()

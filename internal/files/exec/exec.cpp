@@ -7,19 +7,8 @@
 #include <charconv>
 #include <ncurses.h>
 #include "exec.hpp"
+#include "./../log/log.hpp"
 #include "./../../bufs/bufs.hpp"
-
-// bool FileHelper::exist_in_buf(int y)
-// {
-//     for (int i = 0; i < buf.size(); i++)
-//     {
-//         if (buf[i].y <= y)
-//         {
-//             return true;
-//         }
-//     }
-//     return false;
-// };
 
 void ExecFile::open(void *n)
 {
@@ -61,28 +50,58 @@ void ExecFile::save()
 {
     if (file != NULL)
     {
+        _INSERT__BUF->setModified(true);
+        _INSERT__BUF->addEolIfNotExists();
         auto const insert_buf = _INSERT__BUF->getBufferIterator();
         if (!insert_buf.empty())
         {
             for (int i = 0; i < insert_buf.size(); i++)
             {
+                // _LOG__BUF->addCellWithSymbolType(insert_buf[i]->symbol, CHAR);
                 fprintf(file, "%c", insert_buf[i]->symbol);
             };
-            fprintf(file, "%s", "\n");
         }
     }
 };
 
 void ExecFile::auto_save()
 {
+    _INSERT__BUF->addEolIfNotExists();
+
     auto const default_buf = _DEFAULT__BUF->getBufferIterator();
+    // auto const insert_buf = _INSERT__BUF->getBufferIterator();
+
+    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+    // for (auto i : std::string("DEFAULT BUFFER"))
+    // {
+    //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+    // }
+    // for (int i = 0; i < default_buf.size(); i++)
+    // {
+    //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
+    //     _LOG__BUF->addCellWithSymbolType(default_buf[i]->symbol, INT);
+    // };
+    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+    // for (auto i : std::string("INSERT BUFFER"))
+    // {
+    //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+    // }
+    // for (int i = 0; i < insert_buf.size(); i++)
+    // {
+    //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
+    //     _LOG__BUF->addCellWithSymbolType(insert_buf[i]->symbol, INT);
+    // };
+    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+    // _LOG__BUF->addCellWithSymbolType(isInsertSameToDefaultBuf(), INT);
+
+    // _LOG_FILE->save();
     if (isInsertSameToDefaultBuf() || !_INSERT__BUF->isModified())
     {
         for (int i = 0; i < default_buf.size(); i++)
         {
             fprintf(file, "%c", default_buf[i]->symbol);
         };
-    }
+    };
 };
 
 void ExecFile::close()

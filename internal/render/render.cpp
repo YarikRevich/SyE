@@ -33,36 +33,7 @@ void Renderer::include_new_cell(int index)
 
 void Renderer::include_movements()
 {
-    // auto [move_y, move_x] = buf->getMovement();
-
-    // if (!buf->isLastBufCell(Coords::curr_y, Coords::curr_x) && !buf->isIgnoreForcibleMove())
-    // {
-
-    //     wmove(stdscr, Coords::curr_y, Coords::curr_x + 1);
-    // }
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // _LOG__BUF->addCellWithSymbolType('M', CHAR);
-    // _LOG__BUF->addCellWithSymbolType(move_y, INT);
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // _LOG__BUF->addCellWithSymbolType(move_x, INT);
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // _LOG__BUF->addCellWithSymbolType(Coords::curr_x, INT);
     wmove(stdscr, Coords::curr_y, Coords::curr_x);
-
-    // if (Position::isStartOfY())
-    // {
-    //     _LOG__BUF->addCellWithSymbolType('Y', CHAR);
-    //     wmove(stdscr, Coords::curr_y, Coords::curr_x);
-    // }
-    // else if (Position::isStartOfX())
-    // {
-    //     wmove(stdscr, Coords::curr_y, 0);
-    // }
-    // else if ((!buf->isEmpty() && !((move_y == Coords::curr_y) && (move_x == Coords::curr_x))))
-    // {
-    //     _LOG__BUF->addCellWithSymbolType('O', CHAR);
-    //     wmove(stdscr, move_y, move_x);
-    // };
 };
 
 void Renderer::render()
@@ -96,12 +67,12 @@ void Renderer::init_render(std::string buf)
                 continue;
             case 10:
                 Coords::incY(), Coords::resetX();
-                break;
-            default:
-                Coords::incX();
+                continue;
             };
             _INSERT__BUF->addCellWithCoords(buf[i], Coords::curr_y, Coords::curr_x);
             mvwaddch(stdscr, Coords::curr_y, Coords::curr_x, buf[i]);
+
+            Coords::incX();
         };
     };
 };

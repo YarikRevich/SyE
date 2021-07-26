@@ -12,7 +12,7 @@ void Coords::updateMaxCoords()
 
 void Coords::updateCurrentCoords()
 {
-	getsyx(Coords::curr_y, Coords::curr_x);
+	getyx(stdscr, Coords::curr_y, Coords::curr_x);
 };
 
 void Coords::resetX()

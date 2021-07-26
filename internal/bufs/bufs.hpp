@@ -63,6 +63,10 @@ public:
 
     void addCell(int s);
 
+    void addCellToEnd(int s);
+
+    void addEolIfNotExists();
+
     void setCellWithCoordsColor(int y, int x, std::string color);
 
     void setCellSentenceHyphenation(int y, int x, bool status);

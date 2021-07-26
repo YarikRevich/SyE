@@ -27,7 +27,6 @@ void CommandStateDefaultHandler::use()
 void CommandStateEnterHandler::cleanBuffers()
 {
     _EFFECTS__BUF->clearBuf();
-    _INSERT__BUF->eraseCell(Coords::max_y - 1, 0);
     _COMMAND__BUF->clearBuf();
 };
 
@@ -39,6 +38,7 @@ void CommandStateEnterHandler::modifyState()
 
 void CommandStateEnterHandler::use()
 {
+    _INSERT__BUF->eraseCell(Coords::max_y - 1, 0);
     Applicator::apply_command(_COMMAND__BUF->getBufAsString());
     CommandStateEnterHandler::cleanBuffers();
 
@@ -49,7 +49,7 @@ void CommandStateEnterHandler::use()
 void CommandStateBackspaceHandler::cleanBuffers()
 {
     _EFFECTS__BUF->clearBuf();
-    _INSERT__BUF->eraseCell(Coords::curr_y, 0);
+    _INSERT__BUF->eraseCell(Coords::max_y - 1, 0);
 };
 
 void CommandStateBackspaceHandler::modifyCurrentlyProcessedBuffer()
