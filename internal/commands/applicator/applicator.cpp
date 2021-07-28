@@ -1,20 +1,35 @@
 #include "applicator.hpp"
 #include "./../w/w.hpp"
+
 #include "./../search/search.hpp"
 
 #include "./../../editor_status/editor_status.hpp"
 
-void Applicator::apply_command(std::string c)
+int Applicator::handleOneWordCommand(std::string command)
 {
-    std::transform(c.begin(), c.end(), c.begin(), [](char t)
+    std::transform(command.begin(), command.end(), command.begin(), [](char t)
                    { return tolower(t); });
 
-    if (c == "w")
+    if (command == "w")
     {
         W_Command().execute();
+        return 1;
     }
-    else if (c[0] == '/')
+    return -1;
+};
+
+int Applicator::handleCommandWithArgs(std::string command)
+{
+    if (command[0] == '/')
     {
-        Search_Command().execute_with_params(c.substr(1, c.length()));
+        Search_Command().execute_with_params(command.substr(1, command.length()));
+        return 1;
     }
+    return -1;
+};
+
+int Applicator::applyCommand(std::string command)
+{
+    return Applicator::handleCommandWithArgs(command) ||
+           Applicator::handleOneWordCommand(command);
 };

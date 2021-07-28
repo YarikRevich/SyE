@@ -23,11 +23,13 @@ public:
 
     Renderer *set_color(std::tuple<int, int>);
 
-    static void include_new_cell(BufferCellWithCoords*);
+    static void include_new_cell(BufferCellWithCoords *);
 
     void include_movements();
 
     void render();
+
+    void checkSearchBufferForMovement();
 
     void init_render(std::string buf);
 };

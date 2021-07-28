@@ -3,6 +3,10 @@
 #include <string>
 
 namespace Applicator{
-    void apply_command(std::string c);
+    int handleOneWordCommand(std::string);
+
+    int handleCommandWithArgs(std::string);
+
+    int applyCommand(std::string);
 };
 

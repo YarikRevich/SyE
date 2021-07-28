@@ -362,16 +362,23 @@ void Base<T>::addCellToEnd(int s)
 template <typename T>
 void Base<T>::addEolIfNotExists()
 {
-    if (this->buf.begin() != this->buf.end())
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        std::vector<T *> const buf = this->getBufferIterator();
-        if (buf[buf.size() - 1]->symbol != 10)
+        if (this->buf.begin() != this->buf.end())
         {
-            T *b = new T;
-            b->symbol = 10;
-            this->buf.push_back(b);
-        }
-    };
+            std::vector<T *> const buf = this->getBufferIterator();
+            if (buf[buf.size() - 1]->symbol != 10)
+            {
+                T *b = new T;
+                b->symbol = 10;
+                this->buf.push_back(b);
+            }
+        };
+    }
+    else
+    {
+        throw std::logic_error("This member can't be used with buf which cells don't have coords");
+    }
 };
 
 template <typename T>
@@ -485,10 +492,17 @@ template <typename T>
 std::string Base<T>::getBufAsString()
 {
     std::string res;
-    for (auto cell : this->getBufferIterator())
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        res += cell->symbol;
-    };
+        for (auto cell : this->getBufferIterator())
+        {
+            res += cell->symbol;
+        };
+    }
+    else
+    {
+        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+    }
     return res;
 };
 
@@ -621,14 +635,17 @@ bool Base<T>::isBufCell(int y, int x)
 };
 
 template class Buffer<BufferCellOnlyWithSymbol>;
+template class Buffer<BufferCellOnlyWithCoords>;
 template class Buffer<BufferCellWithCoords>;
 template class Buffer<BufferCellWithSymbolType>;
 
 template class Base<BufferCellOnlyWithSymbol>;
+template class Base<BufferCellOnlyWithCoords>;
 template class Base<BufferCellWithCoords>;
 template class Base<BufferCellWithSymbolType>;
 
 template class CoordsTranslocation<BufferCellOnlyWithSymbol>;
+template class CoordsTranslocation<BufferCellOnlyWithCoords>;
 template class CoordsTranslocation<BufferCellWithCoords>;
 template class CoordsTranslocation<BufferCellWithSymbolType>;
 

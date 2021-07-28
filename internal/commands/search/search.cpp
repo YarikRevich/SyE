@@ -4,52 +4,33 @@
 #include <string>
 #include "search.hpp"
 #include "./../../bufs/bufs.hpp"
+#include "./../../position/position.hpp"
 #include "./../../editor_status/editor_status.hpp"
 
 void Search_Command::execute_with_params(std::string search_word)
 {
-    auto buffer = _INSERT__BUF->getBufAsStringWithYCoord();
-    for (int i = 0; i < buffer.size(); i++){
-        if (buffer[i].text.find(search_word) != buffer[i].text.npos){
-            // _SEARCH__BUF->
-        }
+    for (auto i : search_word)
+    {
+        _LOG__BUF->addCellWithSymbolType(i, CHAR);
     };
-    // auto buf = _FILE.get();
-    // auto command = _COMMAND_TOOL.get_command();
-    // command.erase(command.begin());
 
-    // std::vector<std::tuple<int, int>> found = {};
+    auto insert_buffer = _INSERT__BUF->getBufAsStringWithYCoord();
+    for (int i = 0; i < insert_buffer.size(); i++)
+    {
+        size_t pos = insert_buffer[i].text.find(search_word);
+        if (pos != insert_buffer[i].text.npos)
+        {
+            _SEARCH__BUF->addCellOnlyWithCoords(insert_buffer[i].y, pos + search_word.length());
+        };
+    };
 
-    // int sum = 0;
-    // int curr_index = 0;
-    // for (int i = 0; i <= buf.size(); i++)
-    // {
-    //     if (sum == command.size())
-    //     {
-    //         sum = 0;
-    //         curr_index = 0;
-    //         found.push_back({buf[i - 1].y, buf[i - 1].x});
-    //     }
-    //     if (buf[i].symbol == command[curr_index])
-    //     {
-    //         sum++;
-    //         curr_index++;
-    //     }
-    //     else
-    //     {
-    //         sum = 0;
-    //         curr_index = 0;
-    //     }
-    // };
-    // auto [y, x] = found[found.size() - 1];
-    // wmove(stdscr, y, x+1);
+    auto search_buffer = _SEARCH__BUF->getBufferIterator();
 
-    // if (found.size() > 1)
-    // {
-    //     _STATE.set_state(SEARCH);
-    // }
+    if (search_buffer.size() >= 1)
+    {
+        auto last_cell = search_buffer[search_buffer.size() - 1];
+        Coords::setY(last_cell->coords.y), Coords::setX(last_cell->coords.x);
 
-    // _SEARCH_BUF.set_buf(found);
-    EditorStatus::setCurrStatus(SEARCH);
-
+        EditorStatus::setCurrStatus(SEARCH);
+    }
 }

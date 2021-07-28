@@ -18,13 +18,13 @@ Renderer *Renderer::set_color(std::tuple<int, int> color_theme)
     return this;
 };
 
-void Renderer::include_new_cell(BufferCellWithCoords* cell)
+void Renderer::include_new_cell(BufferCellWithCoords *cell)
 {
     if (cell->fontColor.length() != 0)
     {
         _FONT_COLOR->set(cell->fontColor);
     };
-    
+
     mvwprintw(stdscr, cell->coords.y, cell->coords.x, "%c", cell->symbol);
 
     _FONT_COLOR->remove(cell->fontColor);
@@ -32,6 +32,7 @@ void Renderer::include_new_cell(BufferCellWithCoords* cell)
 
 void Renderer::include_movements()
 {
+    
     wmove(stdscr, Coords::curr_y, Coords::curr_x);
 };
 
@@ -43,9 +44,14 @@ void Renderer::render()
         std::for_each(buffer_iterator.begin(), buffer_iterator.end(), this->include_new_cell);
 
         this->include_movements();
-
         wrefresh(stdscr);
     }
+};
+
+void Renderer::checkSearchBufferForMovement()
+{
+    this->include_movements();
+    wrefresh(stdscr);
 };
 
 void Renderer::init_render(std::string buf)
