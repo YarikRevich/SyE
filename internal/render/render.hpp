@@ -23,7 +23,7 @@ public:
 
     Renderer *set_color(std::tuple<int, int>);
 
-    void include_new_cell(int index);
+    static void include_new_cell(BufferCellWithCoords*);
 
     void include_movements();
 

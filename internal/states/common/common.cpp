@@ -17,7 +17,7 @@ void CommonStateUpHandler::includeWordAreaOffsetUp()
     wscrl(stdscr, -1);
     _INSERT__BUF->translocateYUp();
 
-    CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+    Coords::setX(_INSERT__BUF->getLastXInRow(Coords::curr_y));
 };
 
 void CommonStateUpHandler::moveLineUp()
@@ -39,11 +39,6 @@ void CommonStateUpHandler::use()
             };
             CommonStateUpHandler::moveLineUp();
         }
-        else
-        {
-            Position::setStartOfY(true);
-        };
-        CommonStateAutomation::setIgnoreForcibleMoveForAffectedBuffs(_INSERT__BUF, _COMMAND__BUF);
     }
 };
 
@@ -75,7 +70,7 @@ void CommonStateLeftHandler::use()
 {
     if (Coords::curr_x == 0 && _INSERT__BUF->cellIsSentenceHyphenation(Coords::curr_y - 1, _INSERT__BUF->getLastXInRow(Coords::curr_y - 1) - 1))
     {
-        _INSERT__BUF->setMovement(Coords::curr_y - 1, _INSERT__BUF->getLastXInRow(Coords::curr_y - 1) - 1);
+        Coords::decY(), Coords::setX(_INSERT__BUF->getLastXInRow(Coords::curr_y - 1) - 1);
     }
     else if (EditorStatus::getCurrStatus() == INSERT && Coords::curr_x != 0 ||
              (EditorStatus::getCurrStatus() == COMMAND && Coords::curr_x != 1))

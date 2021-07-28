@@ -34,7 +34,7 @@ std::string ExecFile::read()
         {
             break;
         }
-        _DEFAULT__BUF->addCell(res[i]);
+        _DEFAULT__BUF->addCellOnlyWithSymbol(res[i]);
     }
 
     fclose(file);

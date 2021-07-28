@@ -82,8 +82,6 @@ CommandState::CommandState(int ch)
 
 void CommandState::use()
 {
-    _COMMAND__BUF->setIgnoreForcibleMove(true);
-
     switch (*CommandStateStorage::g_ch)
     {
     case K_BACKSPACE:

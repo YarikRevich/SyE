@@ -15,6 +15,6 @@ void Applicator::apply_command(std::string c)
     }
     else if (c[0] == '/')
     {
-        Search_Command().execute();
+        Search_Command().execute_with_params(c.substr(1, c.length()));
     }
 };

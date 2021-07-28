@@ -68,14 +68,12 @@ void InsertStateDefaultHandler::use()
 
 void InsertStateEnterHandler::includeWordAreaOffsetDown()
 {
-    _INSERT__BUF->setIgnoreForcibleMove(true);
     _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x);
     _INSERT__BUF->translocateYDown();
 };
 
 void InsertStateEnterHandler::moveCariage()
 {
-    // Position::setStartOfY(false);
     if (!_INSERT__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x))
     {
         _INSERT__BUF->translocateYUpAfter(Coords::curr_y);

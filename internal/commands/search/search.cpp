@@ -1,13 +1,19 @@
-#include "search.hpp"
-#include <ncurses.h>
-#include <vector>
 #include <tuple>
-// #include "./../../../../status/status.hpp"
-// #include "./../../../../bufs/search_buf/search_buf.hpp"
-// #include "./../../../../file/file.hpp"
+#include <vector>
+#include <ncurses.h>
+#include <string>
+#include "search.hpp"
+#include "./../../bufs/bufs.hpp"
+#include "./../../editor_status/editor_status.hpp"
 
-void Search_Command::execute()
+void Search_Command::execute_with_params(std::string search_word)
 {
+    auto buffer = _INSERT__BUF->getBufAsStringWithYCoord();
+    for (int i = 0; i < buffer.size(); i++){
+        if (buffer[i].text.find(search_word) != buffer[i].text.npos){
+            // _SEARCH__BUF->
+        }
+    };
     // auto buf = _FILE.get();
     // auto command = _COMMAND_TOOL.get_command();
     // command.erase(command.begin());
@@ -44,4 +50,6 @@ void Search_Command::execute()
     // }
 
     // _SEARCH_BUF.set_buf(found);
+    EditorStatus::setCurrStatus(SEARCH);
+
 }

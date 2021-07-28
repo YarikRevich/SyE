@@ -5,18 +5,6 @@
 #include "./../../../keys/keys.hpp"
 #include "./../../../editor_status/editor_status.hpp"
 
-void CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(int y, int x)
-{
-    switch (EditorStatus::getCurrStatus())
-    {
-    case INSERT:
-        _INSERT__BUF->setMovement(y, x);
-        break;
-    case COMMAND:
-        _COMMAND__BUF->setMovement(y, x);
-    }
-};
-
 std::map<int, bool> CommonStateHelper::key_handlers = {
     {K_BACKSPACE, false},
     {K_COLON, false},

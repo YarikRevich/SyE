@@ -31,7 +31,7 @@ void CoordsTranslocation<T>::translocateYUp()
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            this->buf[i]->y++;
+            this->buf[i]->coords.y++;
         }
     }
 };
@@ -44,15 +44,15 @@ void CoordsTranslocation<T>::translocateYUpAfter(int y)
         for (int i = 0; i < this->buf.size(); i++)
         {
 
-            if (this->buf[i]->y > y)
+            if (this->buf[i]->coords.y > y)
             {
-                if (this->buf[i]->wideChar.isStartOfChar && this->buf[i + 1]->wideChar.isEndOfChar)
-                {
-                    this->buf[i]->y++, this->buf[i + 1]->y++;
-                    i += 2;
-                    continue;
-                }
-                this->buf[i]->y++;
+                // if (this->buf[i]->wideChar.isStartOfChar && this->buf[i + 1]->wideChar.isEndOfChar)
+                // {
+                //     this->buf[i]->coords.y++, this->buf[i + 1]->coords.y++;
+                //     i += 2;
+                //     continue;
+                // }
+                this->buf[i]->coords.y++;
             }
         }
     }
@@ -65,9 +65,9 @@ void CoordsTranslocation<T>::translocateYDown()
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if (this->buf[i]->y != 0)
+            if (this->buf[i]->coords.y != 0)
             {
-                this->buf[i]->y--;
+                this->buf[i]->coords.y--;
             }
         }
     }
@@ -81,9 +81,9 @@ void CoordsTranslocation<T>::translocateYDownAfter(int y)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if (this->buf[i]->y > y && !this->isStartRow(this->buf[i]->y))
+            if (this->buf[i]->coords.y > y && !this->isStartRow(this->buf[i]->coords.y))
             {
-                this->buf[i]->y--;
+                this->buf[i]->coords.y--;
             }
         }
     }
@@ -96,14 +96,14 @@ void CoordsTranslocation<T>::translocateXRightAfter(int y, int x)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if ((this->buf[i]->y >= y) && this->buf[i]->x == Coords::max_x)
+            if ((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x == Coords::max_x)
             {
-                this->buf[i]->y++;
-                this->buf[i]->x = 0;
+                this->buf[i]->coords.y++;
+                this->buf[i]->coords.x = 0;
             }
-            else if ((this->buf[i]->y >= y) && this->buf[i]->x > x)
+            else if ((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x > x)
             {
-                this->buf[i]->x++;
+                this->buf[i]->coords.x++;
             }
         }
     }
@@ -140,18 +140,18 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
 
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if ((this->buf[i]->y >= y) && (this->buf[i]->x >= x) && (this->buf[i]->symbol == 10))
+            if ((this->buf[i]->coords.y >= y) && (this->buf[i]->coords.x >= x) && (this->buf[i]->symbol == 10))
             {
                 break;
             }
-            else if ((this->buf[i]->y > y) && (this->buf[i]->x == 0))
+            else if ((this->buf[i]->coords.y > y) && (this->buf[i]->coords.x == 0))
             {
-                this->buf[i]->y--;
-                this->buf[i]->x = Coords::max_x;
+                this->buf[i]->coords.y--;
+                this->buf[i]->coords.x = Coords::max_x;
             }
-            else if ((this->buf[i]->y >= y) && this->buf[i]->x >= x)
+            else if ((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x >= x)
             {
-                this->buf[i]->x--;
+                this->buf[i]->coords.x--;
             }
         }
 
@@ -181,80 +181,28 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
     }
 };
 
-void Movement::setMovement(int y, int x)
-{
-    if (this->empty)
-    {
-        this->empty = FALSE;
-    }
-    this->movement = {y, x};
-};
-
-std::tuple<int, int> Movement::getMovement()
-{
-    return this->movement;
-}
-
-void Movement::deleteMovement()
-{
-    this->empty = TRUE;
-    this->movement = {};
-};
-
-bool Movement::isEmpty()
-{
-    return this->empty;
-}
-
-void Movement::setIgnoreForcibleMove(bool s)
-{
-    this->ignoreForcibleMove = s;
-};
-
-bool Movement::isIgnoreForcibleMove()
-{
-    return this->ignoreForcibleMove;
-};
-
-void Movement::resetIgnoreForcibleMove()
-{
-    this->ignoreForcibleMove = false;
-};
-
 template <typename T>
 bool Base<T>::sort(T *currentBufferCell, T *nextBufferCell)
 {
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        if (currentBufferCell->y < nextBufferCell->y)
+        if (currentBufferCell->coords.y < nextBufferCell->coords.y)
         {
             return true;
         }
-        else if (currentBufferCell->y > nextBufferCell->y)
+        else if (currentBufferCell->coords.y > nextBufferCell->coords.y)
         {
             return false;
         }
         else
         {
-            double g1 = sqrt(currentBufferCell->x * currentBufferCell->x + currentBufferCell->y * currentBufferCell->y);
-            double g2 = sqrt(nextBufferCell->x * nextBufferCell->x + nextBufferCell->y * nextBufferCell->y);
+            double g1 = sqrt(currentBufferCell->coords.x * currentBufferCell->coords.x + currentBufferCell->coords.y * currentBufferCell->coords.y);
+            double g2 = sqrt(nextBufferCell->coords.x * nextBufferCell->coords.x + nextBufferCell->coords.y * nextBufferCell->coords.y);
 
-            return g1 <= g2;
+            return g1 < g2;
         }
     }
     return false;
-};
-
-template <typename T>
-void Base<T>::createID()
-{
-    this->id = rand();
-};
-
-template <typename T>
-int Base<T>::getID()
-{
-    return this->id;
 };
 
 template <typename T>
@@ -263,7 +211,7 @@ bool Base<T>::isStartRow(int y)
     auto const first_cell = this->buf[0];
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        if (first_cell->y == y)
+        if (first_cell->coords.y == y)
         {
             return true;
         }
@@ -281,7 +229,7 @@ void Base<T>::eraseCell(int y, int x)
             int index_of_cell_to_delete = 0;
             for (int i = 0; i < this->buf.size(); i++)
             {
-                if (this->buf[i]->x == x && this->buf[i]->y == y)
+                if (this->buf[i]->coords.x == x && this->buf[i]->coords.y == y)
                 {
                     index_of_cell_to_delete = i;
                 }
@@ -291,7 +239,7 @@ void Base<T>::eraseCell(int y, int x)
                 _LOG__BUF->addCellWithSymbolType(index_of_cell_to_delete, INT);
                 this->buf.erase(this->buf.begin() + index_of_cell_to_delete);
 
-                if (this->buf[index_of_cell_to_delete - 1]->y == y && this->buf[index_of_cell_to_delete - 1]->x == x)
+                if (this->buf[index_of_cell_to_delete - 1]->coords.y == y && this->buf[index_of_cell_to_delete - 1]->coords.x == x)
                 {
                     this->buf.erase(this->buf.begin() + index_of_cell_to_delete - 1);
                 }
@@ -303,118 +251,6 @@ void Base<T>::eraseCell(int y, int x)
         };
     }
 }
-
-template <typename T>
-void Base<T>::addStartWideCharCellWithCoords(int s, int y, int x)
-{
-    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
-    {
-        BufferCellWithCoords *b = new BufferCellWithCoords;
-        b->symbol = s;
-        b->y = y;
-        b->x = x;
-        b->sentenceHyphenation = false;
-
-        WideChar wideChar;
-        wideChar.isStartOfChar = true;
-
-        b->wideChar = wideChar;
-
-        this->buf.push_back(b);
-
-        // std::sort(this->buf.begin(), this->buf.end(), this->sort);
-    }
-    else
-    {
-        throw std::logic_error("This member can't be used with buf which cells don't have coords");
-    }
-};
-
-template <typename T>
-void Base<T>::addEndWideCharCellWithCoords(int s, int y, int x)
-{
-    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
-    {
-        BufferCellWithCoords *b = new BufferCellWithCoords;
-        b->symbol = s;
-        b->y = y;
-        b->x = x;
-        b->sentenceHyphenation = false;
-
-        WideChar wideChar;
-        wideChar.isEndOfChar = true;
-
-        b->wideChar = wideChar;
-
-        this->buf.push_back(b);
-
-        // std::sort(this->buf.begin(), this->buf.end(), this->sort);
-    }
-    else
-    {
-        throw std::logic_error("This member can't be used with buf which cells don't have coords");
-    }
-};
-
-template <typename T>
-bool Base<T>::isWideCharStarted(int y, int x)
-{
-    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
-    {
-        for (int i = 0; i < this->buf.size(); i++)
-        {
-            if (this->buf[i]->x == x && this->buf[i]->y == y)
-            {
-                return true;
-            }
-        };
-    }
-    else
-    {
-        throw std::logic_error("This member can't be used with buf which cells don't have coords");
-    }
-    return false;
-};
-
-template <typename T>
-bool Base<T>::isStartOfWideChar(int y, int x)
-{
-    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
-    {
-        for (int i = 0; i < this->buf.size(); i++)
-        {
-            if (this->buf[i]->x == x && this->buf[i]->y == y)
-            {
-                return this->buf[i]->wideChar.isStartOfChar;
-            }
-        };
-    }
-    else
-    {
-        throw std::logic_error("This member can't be used with buf which cells don't have coords");
-    }
-    return false;
-};
-
-template <typename T>
-bool Base<T>::isEndOfWideChar(int y, int x)
-{
-    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
-    {
-        for (int i = 0; i < this->buf.size(); i++)
-        {
-            if (this->buf[i]->x == x && this->buf[i]->y == y)
-            {
-                return this->buf[i]->wideChar.isEndOfChar;
-            }
-        };
-    }
-    else
-    {
-        throw std::logic_error("This member can't be used with buf which cells don't have coords");
-    }
-    return false;
-};
 
 template <typename T>
 void Base<T>::addCellWithCoords(int s, int y, int x)
@@ -434,8 +270,8 @@ void Base<T>::addCellWithCoords(int s, int y, int x)
 
         BufferCellWithCoords *b = new BufferCellWithCoords;
         b->symbol = s;
-        b->y = y;
-        b->x = x;
+        b->coords.y = y;
+        b->coords.x = x;
         b->sentenceHyphenation = false;
 
         this->buf.push_back(b);
@@ -465,11 +301,11 @@ void Base<T>::addCellWithSymbolType(int s, SymbolType st)
 };
 
 template <typename T>
-void Base<T>::addCell(int s)
+void Base<T>::addCellOnlyWithSymbol(int s)
 {
-    if constexpr (std::is_same_v<T, BufferCell>)
+    if constexpr (std::is_same_v<T, BufferCellOnlyWithSymbol>)
     {
-        BufferCell *b = new BufferCell;
+        BufferCellOnlyWithSymbol *b = new BufferCellOnlyWithSymbol;
         b->symbol = s;
         this->buf.push_back(b);
     }
@@ -478,6 +314,22 @@ void Base<T>::addCell(int s)
         throw std::logic_error("Member is allowed to use with only-symbol buffer");
     }
 }
+
+template <typename T>
+void Base<T>::addCellOnlyWithCoords(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellOnlyWithCoords>)
+    {
+        BufferCellOnlyWithCoords *b = new BufferCellOnlyWithCoords;
+        b->coords.y = y;
+        b->coords.x = x;
+        this->buf.push_back(b);
+    }
+    else
+    {
+        throw std::logic_error("Member is allowed to use with only-symbol buffer");
+    }
+};
 
 template <typename T>
 void Base<T>::addCellToEnd(int s)
@@ -489,14 +341,14 @@ void Base<T>::addCellToEnd(int s)
         T *const last_cell = buf[buf.size() - 1];
 
         T *b = new T;
-        if (last_cell->x == Coords::max_x)
+        if (last_cell->coords.x == Coords::max_x)
         {
-            b->y = (last_cell->y + 1);
-            b->x = 0;
+            b->coords.y = (last_cell->coords.y + 1);
+            b->coords.x = 0;
         }
         else
         {
-            b->x = (last_cell->x + 1);
+            b->coords.x = (last_cell->coords.x + 1);
         }
         b->symbol = s;
         this->buf.push_back(b);
@@ -536,7 +388,7 @@ void Base<T>::setCellWithCoordsColor(int y, int x, std::string color)
         auto buf = this->getBufferIterator();
         for (int i = 0; i < buf.size(); i++)
         {
-            if (buf[i]->y == y && buf[i]->x == x)
+            if (buf[i]->coords.y == y && buf[i]->coords.x == x)
             {
                 buf[i]->fontColor = color;
             };
@@ -555,7 +407,7 @@ void Base<T>::setCellSentenceHyphenation(int y, int x, bool status)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if (this->buf[i]->y == y && this->buf[i]->x == x)
+            if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
             {
                 this->buf[i]->sentenceHyphenation = status;
             }
@@ -574,7 +426,7 @@ bool Base<T>::cellIsSentenceHyphenation(int y, int x)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if (this->buf[i]->y == y && this->buf[i]->x == x)
+            if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
             {
                 return this->buf[i]->sentenceHyphenation;
             }
@@ -594,9 +446,9 @@ std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if (this->buf[i]->y >= y && !this->cellIsSentenceHyphenation(this->buf[i]->y, this->getLastXInRow(this->buf[i]->y)))
+            if (this->buf[i]->coords.y >= y && !this->cellIsSentenceHyphenation(this->buf[i]->coords.y, this->getLastXInRow(this->buf[i]->coords.y)))
             {
-                return {this->buf[i]->y, this->buf[i]->x};
+                return {this->buf[i]->coords.y, this->buf[i]->coords.x};
             };
         }
     }
@@ -616,7 +468,7 @@ std::vector<BufferCellWithCoords *> Base<T>::getRowWithY(int y)
         std::vector<BufferCellWithCoords *> buf = this->getBufferIterator();
         for (int i = 0; i < buf.size(); i++)
         {
-            if (buf[i]->y == y)
+            if (buf[i]->coords.y == y)
             {
                 res.push_back(buf[i]);
             }
@@ -675,11 +527,11 @@ int Base<T>::getLastXInRow(int y)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
-            if ((this->buf[i]->y == y) && (this->buf[i]->symbol != 10))
+            if ((this->buf[i]->coords.y == y) && (this->buf[i]->symbol != 10))
             {
                 if (i != 0)
                 {
-                    if (this->buf[i - 1]->y == y && this->buf[i - 1]->x == this->buf[i]->x)
+                    if (this->buf[i - 1]->coords.y == y && this->buf[i - 1]->coords.x == this->buf[i]->coords.x)
                     {
                         wideChars += 2;
                     };
@@ -718,7 +570,7 @@ bool Base<T>::isLastBufCell(int y, int x)
     {
         if (!this->buf.empty())
         {
-            return this->buf[this->buf.size() - 1]->y == y && this->buf[this->buf.size() - 1]->x == x;
+            return this->buf[this->buf.size() - 1]->coords.y == y && this->buf[this->buf.size() - 1]->coords.x == x;
         }
     }
     else
@@ -737,7 +589,7 @@ bool Base<T>::isRowEmpty(int y)
         auto buf = this->getBufferIterator();
         for (int i = 0; i < buf.size(); i++)
         {
-            if (buf[i]->y == y)
+            if (buf[i]->coords.y == y)
             {
                 return false;
             };
@@ -755,7 +607,7 @@ bool Base<T>::isBufCell(int y, int x)
         auto buf = this->getBufferIterator();
         for (int i = 0; i < buf.size(); i++)
         {
-            if (buf[i]->y == y && buf[i]->x == x)
+            if (buf[i]->coords.y == y && buf[i]->coords.x == x)
             {
                 return true;
             };
@@ -768,27 +620,21 @@ bool Base<T>::isBufCell(int y, int x)
     return false;
 };
 
-template <typename T>
-Buffer<T>::Buffer()
-{
-    this->createID();
-};
-
-template class Buffer<BufferCell>;
+template class Buffer<BufferCellOnlyWithSymbol>;
 template class Buffer<BufferCellWithCoords>;
 template class Buffer<BufferCellWithSymbolType>;
 
-template class Base<BufferCell>;
+template class Base<BufferCellOnlyWithSymbol>;
 template class Base<BufferCellWithCoords>;
 template class Base<BufferCellWithSymbolType>;
 
-template class CoordsTranslocation<BufferCell>;
+template class CoordsTranslocation<BufferCellOnlyWithSymbol>;
 template class CoordsTranslocation<BufferCellWithCoords>;
 template class CoordsTranslocation<BufferCellWithSymbolType>;
 
 Buffer<BufferCellWithSymbolType> *_LOG__BUF = new Buffer<BufferCellWithSymbolType>;
-Buffer<BufferCell> *_DEFAULT__BUF = new Buffer<BufferCell>;
+Buffer<BufferCellOnlyWithSymbol> *_DEFAULT__BUF = new Buffer<BufferCellOnlyWithSymbol>;
 Buffer<BufferCellWithCoords> *_INSERT__BUF = new Buffer<BufferCellWithCoords>;
 Buffer<BufferCellWithCoords> *_COMMAND__BUF = new Buffer<BufferCellWithCoords>;
 Buffer<BufferCellWithCoords> *_EFFECTS__BUF = new Buffer<BufferCellWithCoords>;
-Buffer<BufferCellWithCoords> *_SEARCH__BUF = new Buffer<BufferCellWithCoords>;
+Buffer<BufferCellOnlyWithCoords> *_SEARCH__BUF = new Buffer<BufferCellOnlyWithCoords>;

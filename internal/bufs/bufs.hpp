@@ -6,32 +6,35 @@
 
 bool isInsertSameToDefaultBuf();
 
+typedef struct CellCoords
+{
+    int y;
+    int x;
+} CellCoords;
+
+typedef struct
+{
+    int symbol;
+    CellCoords coords;
+    bool sentenceHyphenation;
+    std::string fontColor;
+} BufferCellWithCoords;
+
+
 typedef struct
 {
     int y;
     std::string text;
 } BufferAsString;
 
-typedef struct{
-    bool isStartOfChar;
-    bool isEndOfChar;
-} WideChar;
-
-typedef struct
-{
-    WideChar wideChar;
-
-    int symbol;
-    int y;
-    int x;
-    bool sentenceHyphenation;
-    std::string fontColor;
-} BufferCellWithCoords;
-
 typedef struct
 {
     int symbol;
-} BufferCell;
+} BufferCellOnlyWithSymbol;
+
+typedef struct {
+    CellCoords coords;
+} BufferCellOnlyWithCoords;
 
 enum SymbolType
 {
@@ -51,33 +54,20 @@ class Base
 protected:
     std::vector<T *> buf;
 
-    void createID();
-
 private:
-    int id;
 
     static bool sort(T *currentBufferCell, T *nextBufferCell);
 
 public:
-    int getID();
-
     bool isStartRow(int y);
-
-    void addStartWideCharCellWithCoords(int s, int y, int x);
-
-    void addEndWideCharCellWithCoords(int s, int y, int x);
-
-    bool isWideCharStarted(int y, int x);
-
-    bool isStartOfWideChar(int y, int x);
-
-    bool isEndOfWideChar(int y, int x);
 
     void addCellWithCoords(int s, int y, int x);
 
     void addCellWithSymbolType(int s, SymbolType st);
 
-    void addCell(int s);
+    void addCellOnlyWithSymbol(int s);
+
+    void addCellOnlyWithCoords(int y, int x);
 
     void addCellToEnd(int s);
 
@@ -129,29 +119,6 @@ public:
     void translocateXLeftAfter(int y, int x);
 };
 
-class Movement
-{
-protected:
-    std::tuple<int, int> movement;
-    bool empty = true;
-    bool ignoreForcibleMove;
-
-public:
-    void setMovement(int y, int x);
-
-    std::tuple<int, int> getMovement();
-
-    void deleteMovement();
-
-    bool isEmpty();
-
-    void setIgnoreForcibleMove(bool s);
-
-    bool isIgnoreForcibleMove();
-
-    void resetIgnoreForcibleMove();
-};
-
 class Status
 {
 protected:
@@ -164,15 +131,13 @@ public:
 };
 
 template <typename T>
-class Buffer : public CoordsTranslocation<T>, public Movement, public Status
+class Buffer : public CoordsTranslocation<T>, public Status
 {
-public:
-    Buffer();
 };
 
 extern Buffer<BufferCellWithSymbolType> *_LOG__BUF;
-extern Buffer<BufferCell> *_DEFAULT__BUF;
+extern Buffer<BufferCellOnlyWithSymbol> *_DEFAULT__BUF;
 extern Buffer<BufferCellWithCoords> *_INSERT__BUF;
 extern Buffer<BufferCellWithCoords> *_COMMAND__BUF;
 extern Buffer<BufferCellWithCoords> *_EFFECTS__BUF;
-extern Buffer<BufferCellWithCoords> *_SEARCH__BUF;
+extern Buffer<BufferCellOnlyWithCoords> *_SEARCH__BUF;

@@ -1,5 +1,6 @@
 #include <tuple>
 #include "render.hpp"
+#include <algorithm>
 #include "./../keys/keys.hpp"
 #include "./../colors/font/font.hpp"
 #include "./../colors/colors.hpp"
@@ -17,18 +18,16 @@ Renderer *Renderer::set_color(std::tuple<int, int> color_theme)
     return this;
 };
 
-void Renderer::include_new_cell(int index)
+void Renderer::include_new_cell(BufferCellWithCoords* cell)
 {
-    auto buffer_iterator = buf->getBufferIterator();
-
-    if (buffer_iterator[index]->fontColor.length() != 0)
+    if (cell->fontColor.length() != 0)
     {
-        _FONT_COLOR->set(buffer_iterator[index]->fontColor);
-        mvwprintw(stdscr, buffer_iterator[index]->y, buffer_iterator[index]->x, "%c", buffer_iterator[index]->symbol);
-        _FONT_COLOR->remove(buffer_iterator[index]->fontColor);
-        return;
+        _FONT_COLOR->set(cell->fontColor);
     };
-    mvwprintw(stdscr, buffer_iterator[index]->y, buffer_iterator[index]->x, "%c", buffer_iterator[index]->symbol);
+    
+    mvwprintw(stdscr, cell->coords.y, cell->coords.x, "%c", cell->symbol);
+
+    _FONT_COLOR->remove(cell->fontColor);
 };
 
 void Renderer::include_movements()
@@ -41,34 +40,9 @@ void Renderer::render()
     auto buffer_iterator = this->buf->getBufferIterator();
     if (!buffer_iterator.empty())
     {
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        _LOG__BUF->addCellWithSymbolType('S', CHAR);
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        for (int i = 0; i < buffer_iterator.size(); i++)
-        {
-            _LOG__BUF->addCellWithSymbolType(buffer_iterator[i]->symbol, INT);
-            // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-            // _LOG__BUF->addCellWithSymbolType(buffer_iterator[i]->wideChar.startOfChar, INT);
-            // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-            // _LOG__BUF->addCellWithSymbolType(buffer_iterator[i]->wideChar.endOfChar, INT);
-            _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-            _LOG__BUF->addCellWithSymbolType('Y', CHAR);
-            _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-            _LOG__BUF->addCellWithSymbolType(buffer_iterator[i]->y, INT);
-            _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-            _LOG__BUF->addCellWithSymbolType('X', CHAR);
-            _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-            _LOG__BUF->addCellWithSymbolType(buffer_iterator[i]->x, INT);
+        std::for_each(buffer_iterator.begin(), buffer_iterator.end(), this->include_new_cell);
 
-            _LOG__BUF->addCellWithSymbolType(10, CHAR);
-            this->include_new_cell(i);
-            // printw("%c", buffer_iterator[i]->symbol);
-        }
         this->include_movements();
-
-        buf->deleteMovement();
-
-        buf->setIgnoreForcibleMove(false);
 
         wrefresh(stdscr);
     }

@@ -1,7 +1,7 @@
 #include "./../helper/helper.hpp"
 
-class Search_Command : public StandartCommandInterface
+class Search_Command : public CommandWithArgsInterface
 {
 public:
-    void execute();
+    void execute_with_params(std::string);
 };

@@ -30,6 +30,7 @@ void LoopProcessors::process_states()
         CommandState(ch).use();
         break;
     case SEARCH:
+
         break;
     };
 
@@ -72,7 +73,4 @@ void LoopProcessors::reset_temp_vals()
     CommonStateHelper::resetKeysHandled();
 
     Position::resetPositionPoints();
-
-    _INSERT__BUF->resetIgnoreForcibleMove();
-    _COMMAND__BUF->resetIgnoreForcibleMove();
 };
