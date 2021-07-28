@@ -3,10 +3,12 @@
 namespace InsertStateStorage
 {
     extern int *g_ch;
+    extern bool await;
 };
 
 namespace InsertStateDefaultHandler
 {
+    void includeWideChar();
     void moveCariage();
     void use();
 };
@@ -21,6 +23,7 @@ namespace InsertStateEnterHandler
 namespace InsertStateColonHandler
 {
     void fillPanelWithSpaces();
+
     void modifyBuffer();
     void modifyState();
     void use();

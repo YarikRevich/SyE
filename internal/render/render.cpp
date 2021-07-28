@@ -41,9 +41,28 @@ void Renderer::render()
     auto buffer_iterator = this->buf->getBufferIterator();
     if (!buffer_iterator.empty())
     {
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        _LOG__BUF->addCellWithSymbolType('S', CHAR);
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
         for (int i = 0; i < buffer_iterator.size(); i++)
         {
+            _LOG__BUF->addCellWithSymbolType(buffer_iterator[i]->symbol, INT);
+            // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+            // _LOG__BUF->addCellWithSymbolType(buffer_iterator[i]->wideChar.startOfChar, INT);
+            // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+            // _LOG__BUF->addCellWithSymbolType(buffer_iterator[i]->wideChar.endOfChar, INT);
+            _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+            _LOG__BUF->addCellWithSymbolType('Y', CHAR);
+            _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+            _LOG__BUF->addCellWithSymbolType(buffer_iterator[i]->y, INT);
+            _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+            _LOG__BUF->addCellWithSymbolType('X', CHAR);
+            _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+            _LOG__BUF->addCellWithSymbolType(buffer_iterator[i]->x, INT);
+
+            _LOG__BUF->addCellWithSymbolType(10, CHAR);
             this->include_new_cell(i);
+            // printw("%c", buffer_iterator[i]->symbol);
         }
         this->include_movements();
 
@@ -70,7 +89,7 @@ void Renderer::init_render(std::string buf)
                 continue;
             };
             _INSERT__BUF->addCellWithCoords(buf[i], Coords::curr_y, Coords::curr_x);
-            mvwaddch(stdscr, Coords::curr_y, Coords::curr_x, buf[i]);
+            mvwprintw(stdscr, Coords::curr_y, Coords::curr_x, "%c", buf[i]);
 
             Coords::incX();
         };

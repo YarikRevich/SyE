@@ -55,9 +55,18 @@ void ExecFile::save()
         auto const insert_buf = _INSERT__BUF->getBufferIterator();
         if (!insert_buf.empty())
         {
+            for (auto i : std::string("INSERT BUFFER"))
+            {
+                _LOG__BUF->addCellWithSymbolType(i, CHAR);
+            };
+            _LOG__BUF->addCellWithSymbolType(10, CHAR);
             for (int i = 0; i < insert_buf.size(); i++)
             {
-                // _LOG__BUF->addCellWithSymbolType(insert_buf[i]->symbol, CHAR);
+
+                _LOG__BUF->addCellWithSymbolType(insert_buf[i]->symbol, CHAR);
+                _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+                _LOG__BUF->addCellWithSymbolType(insert_buf[i]->symbol, INT);
+                _LOG__BUF->addCellWithSymbolType(10, CHAR);
                 fprintf(file, "%c", insert_buf[i]->symbol);
             };
         }
@@ -66,7 +75,7 @@ void ExecFile::save()
 
 void ExecFile::auto_save()
 {
-    _INSERT__BUF->addEolIfNotExists();
+    // _INSERT__BUF->addEolIfNotExists();
 
     auto const default_buf = _DEFAULT__BUF->getBufferIterator();
     // auto const insert_buf = _INSERT__BUF->getBufferIterator();

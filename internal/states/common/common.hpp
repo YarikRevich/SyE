@@ -25,7 +25,6 @@ namespace CommonStateLeftHandler
 
 namespace CommonStateRightHandler
 {
-    void moveRowRight();
     void use();
 };
 

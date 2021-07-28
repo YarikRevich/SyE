@@ -14,19 +14,38 @@
 
 int *InsertStateStorage::g_ch = (int *)std::malloc(sizeof(int));
 
+bool InsertStateStorage::await;
+
 void InsertStateDefaultHandler::moveCariage()
 {
-    _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x, isWideChar(*InsertStateStorage::g_ch));
+    _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x);
     _INSERT__BUF->addCellWithCoords(10, Coords::curr_y, Coords::curr_x + 1);
     _INSERT__BUF->setCellSentenceHyphenation(Coords::curr_y, Coords::curr_x, TRUE);
     Coords::incY(), Coords::resetX();
+};
+
+void InsertStateDefaultHandler::includeWideChar()
+{
+    _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x);
+    
+    if (!InsertStateStorage::await)
+    {
+        InsertStateStorage::await = true;
+    }
+    else
+    {
+        InsertStateStorage::await = false;
+        Coords::incX();
+    }
 };
 
 void InsertStateDefaultHandler::use()
 {
     if (!CommonStateHelper::isCommonKeyHandler(*InsertStateStorage::g_ch))
     {
-       
+        if (_INSERT__BUF->getBufferIterator().empty()){
+            _INSERT__BUF->addCellWithCoords(' ', 0, 0);
+        }
 
         if (Coords::curr_x == (Coords::max_x - 1))
         {
@@ -34,8 +53,15 @@ void InsertStateDefaultHandler::use()
         }
         else
         {
-            _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x, isWideChar(*InsertStateStorage::g_ch));
-            Coords::incX();
+            if (isWideChar(*InsertStateStorage::g_ch))
+            {
+                InsertStateDefaultHandler::includeWideChar();
+            }
+            else
+            {
+                _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x);
+                Coords::incX();
+            };
         }
     }
 };
@@ -54,7 +80,7 @@ void InsertStateEnterHandler::moveCariage()
     {
         _INSERT__BUF->translocateYUpAfter(Coords::curr_y);
         Coords::resetX(), Coords::incY();
-    }
+    };
 };
 
 void InsertStateEnterHandler::use()

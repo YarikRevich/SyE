@@ -43,8 +43,15 @@ void CoordsTranslocation<T>::translocateYUpAfter(int y)
     {
         for (int i = 0; i < this->buf.size(); i++)
         {
+
             if (this->buf[i]->y > y)
             {
+                if (this->buf[i]->wideChar.isStartOfChar && this->buf[i + 1]->wideChar.isEndOfChar)
+                {
+                    this->buf[i]->y++, this->buf[i + 1]->y++;
+                    i += 2;
+                    continue;
+                }
                 this->buf[i]->y++;
             }
         }
@@ -217,7 +224,6 @@ void Movement::resetIgnoreForcibleMove()
 template <typename T>
 bool Base<T>::sort(T *currentBufferCell, T *nextBufferCell)
 {
-
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
         if (currentBufferCell->y < nextBufferCell->y)
@@ -233,7 +239,7 @@ bool Base<T>::sort(T *currentBufferCell, T *nextBufferCell)
             double g1 = sqrt(currentBufferCell->x * currentBufferCell->x + currentBufferCell->y * currentBufferCell->y);
             double g2 = sqrt(nextBufferCell->x * nextBufferCell->x + nextBufferCell->y * nextBufferCell->y);
 
-            return g1 < g2;
+            return g1 <= g2;
         }
     }
     return false;
@@ -272,12 +278,22 @@ void Base<T>::eraseCell(int y, int x)
     {
         if (this->buf.size() > 1)
         {
+            int index_of_cell_to_delete = 0;
             for (int i = 0; i < this->buf.size(); i++)
             {
-
                 if (this->buf[i]->x == x && this->buf[i]->y == y)
                 {
-                    this->buf.erase(this->buf.begin() + i);
+                    index_of_cell_to_delete = i;
+                }
+            }
+            if (index_of_cell_to_delete != 0)
+            {
+                _LOG__BUF->addCellWithSymbolType(index_of_cell_to_delete, INT);
+                this->buf.erase(this->buf.begin() + index_of_cell_to_delete);
+
+                if (this->buf[index_of_cell_to_delete - 1]->y == y && this->buf[index_of_cell_to_delete - 1]->x == x)
+                {
+                    this->buf.erase(this->buf.begin() + index_of_cell_to_delete - 1);
                 }
             }
         }
@@ -285,49 +301,150 @@ void Base<T>::eraseCell(int y, int x)
         {
             this->buf.erase(buf.begin());
         };
-
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // std::string s = "Size is: ";
-        // for (auto const i : s)
-        // {
-        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-        // }
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // _LOG__BUF->addCellWithSymbolType(this->buf.size(), INT);
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
     }
 }
 
 template <typename T>
-void Base<T>::addCellWithCoords(int s, int y, int x, bool wideChar)
+void Base<T>::addStartWideCharCellWithCoords(int s, int y, int x)
 {
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        if (!wideChar)
+        BufferCellWithCoords *b = new BufferCellWithCoords;
+        b->symbol = s;
+        b->y = y;
+        b->x = x;
+        b->sentenceHyphenation = false;
+
+        WideChar wideChar;
+        wideChar.isStartOfChar = true;
+
+        b->wideChar = wideChar;
+
+        this->buf.push_back(b);
+
+        // std::sort(this->buf.begin(), this->buf.end(), this->sort);
+    }
+    else
+    {
+        throw std::logic_error("This member can't be used with buf which cells don't have coords");
+    }
+};
+
+template <typename T>
+void Base<T>::addEndWideCharCellWithCoords(int s, int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        BufferCellWithCoords *b = new BufferCellWithCoords;
+        b->symbol = s;
+        b->y = y;
+        b->x = x;
+        b->sentenceHyphenation = false;
+
+        WideChar wideChar;
+        wideChar.isEndOfChar = true;
+
+        b->wideChar = wideChar;
+
+        this->buf.push_back(b);
+
+        // std::sort(this->buf.begin(), this->buf.end(), this->sort);
+    }
+    else
+    {
+        throw std::logic_error("This member can't be used with buf which cells don't have coords");
+    }
+};
+
+template <typename T>
+bool Base<T>::isWideCharStarted(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            for (int i = 0; i < this->buf.size(); i++)
+            if (this->buf[i]->x == x && this->buf[i]->y == y)
             {
-                if (this->buf[i]->x == x && this->buf[i]->y == y)
-                {
-                    this->eraseCell(y, x);
-                }
+                return true;
             }
-        }
+        };
+    }
+    else
+    {
+        throw std::logic_error("This member can't be used with buf which cells don't have coords");
+    }
+    return false;
+};
+
+template <typename T>
+bool Base<T>::isStartOfWideChar(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->x == x && this->buf[i]->y == y)
+            {
+                return this->buf[i]->wideChar.isStartOfChar;
+            }
+        };
+    }
+    else
+    {
+        throw std::logic_error("This member can't be used with buf which cells don't have coords");
+    }
+    return false;
+};
+
+template <typename T>
+bool Base<T>::isEndOfWideChar(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->x == x && this->buf[i]->y == y)
+            {
+                return this->buf[i]->wideChar.isEndOfChar;
+            }
+        };
+    }
+    else
+    {
+        throw std::logic_error("This member can't be used with buf which cells don't have coords");
+    }
+    return false;
+};
+
+template <typename T>
+void Base<T>::addCellWithCoords(int s, int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    {
+        // for (int i = 0; i < this->buf.size(); i++)
+        // {
+        //     if (this->buf[i]->x == x && this->buf[i]->y == y)
+        //     {
+        //         if (!this->buf[i]->wideChar.isStartOfChar && !this->buf[i]->wideChar.isEndOfChar)
+        //         {
+        //             this->eraseCell(y, x);
+        //         }
+        //     }
+        // }
 
         BufferCellWithCoords *b = new BufferCellWithCoords;
         b->symbol = s;
         b->y = y;
         b->x = x;
-        b->wideChar = wideChar;
         b->sentenceHyphenation = false;
 
         this->buf.push_back(b);
 
-        std::sort(this->buf.begin(), this->buf.end(), this->sort);
+        // std::sort(this->buf.begin(), this->buf.end(), this->sort);
     }
     else
     {
-        throw std::logic_error("This method can't be used with buf which cells don't have coords");
+        throw std::logic_error("This member can't be used with buf which cells don't have coords");
     }
 }
 
@@ -560,10 +677,13 @@ int Base<T>::getLastXInRow(int y)
         {
             if ((this->buf[i]->y == y) && (this->buf[i]->symbol != 10))
             {
-                if (this->buf[i]->wideChar)
+                if (i != 0)
                 {
-                    wideChars++;
-                }
+                    if (this->buf[i - 1]->y == y && this->buf[i - 1]->x == this->buf[i]->x)
+                    {
+                        wideChars += 2;
+                    };
+                };
                 chars++;
             };
         };
@@ -572,7 +692,6 @@ int Base<T>::getLastXInRow(int y)
     {
         throw std::logic_error("This method can't be used with buf which cells don't have coords");
     };
-
     return chars - (wideChars / 2);
 };
 

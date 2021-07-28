@@ -71,42 +71,28 @@ void CommonStateDownHandler::use()
     }
 };
 
-void CommonStateLeftHandler::moveRowLeft()
-{
-    Position::setStartOfY(false);
-    Coords::decX();
-    CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x);
-};
-
 void CommonStateLeftHandler::use()
 {
     if (Coords::curr_x == 0 && _INSERT__BUF->cellIsSentenceHyphenation(Coords::curr_y - 1, _INSERT__BUF->getLastXInRow(Coords::curr_y - 1) - 1))
     {
         _INSERT__BUF->setMovement(Coords::curr_y - 1, _INSERT__BUF->getLastXInRow(Coords::curr_y - 1) - 1);
     }
-    else if (Coords::curr_x == 0 || (EditorStatus::getCurrStatus() == COMMAND && (Coords::curr_x - 1) == 1))
+    else if (EditorStatus::getCurrStatus() == INSERT && Coords::curr_x != 0 ||
+             (EditorStatus::getCurrStatus() == COMMAND && Coords::curr_x != 1))
     {
-        Position::setStartOfX(true);
+        Coords::decX();
     }
-    else if (Coords::curr_x != 0)
-    {
-        CommonStateLeftHandler::moveRowLeft();
-    }
-};
-
-void CommonStateRightHandler::moveRowRight()
-{
-    Coords::incX();
-    CommonStateAutomation::setMoveForCurrentlyUsedStateBuffer(Coords::curr_y, Coords::curr_x);
 };
 
 void CommonStateRightHandler::use()
 {
-    if ((!_INSERT__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x)) || (!_COMMAND__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x - 1)))
+    if ((!_INSERT__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x)) ||
+        (!_COMMAND__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x - 1)))
     {
-        if (_INSERT__BUF->isBufCell(Coords::curr_y, Coords::curr_x + 1))
+        if (_INSERT__BUF->isBufCell(Coords::curr_y, Coords::curr_x) ||
+            _COMMAND__BUF->isBufCell(Coords::curr_y, Coords::curr_x))
         {
-            CommonStateRightHandler::moveRowRight();
+            Coords::incX();
         };
     };
 };
@@ -122,7 +108,7 @@ void CommonStateBackspaceHandler::moveRowUp()
     _INSERT__BUF->eraseCell(Coords::curr_y, 0);
     Coords::decY();
 
-     _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+    _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
     if (_INSERT__BUF->cellIsSentenceHyphenation(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1))
     {
         _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1);
@@ -133,7 +119,6 @@ void CommonStateBackspaceHandler::moveRowUp()
 void CommonStateBackspaceHandler::shiftRowToLeft()
 {
     _INSERT__BUF->eraseCell(Coords::curr_y, Coords::curr_x - 1);
-    Coords::decX();
     _INSERT__BUF->translocateXLeftAfter(Coords::curr_y, Coords::curr_x);
 };
 
@@ -147,7 +132,7 @@ void CommonStateBackspaceHandler::use()
             CommonStateBackspaceHandler::moveRowUp();
             return;
         }
-        else if (!_INSERT__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x-1))
+        else if (!_INSERT__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x - 1))
         {
             CommonStateBackspaceHandler::shiftRowToLeft();
         }

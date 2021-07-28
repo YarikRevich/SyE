@@ -12,12 +12,18 @@ typedef struct
     std::string text;
 } BufferAsString;
 
+typedef struct{
+    bool isStartOfChar;
+    bool isEndOfChar;
+} WideChar;
+
 typedef struct
 {
+    WideChar wideChar;
+
     int symbol;
     int y;
     int x;
-    bool wideChar;
     bool sentenceHyphenation;
     std::string fontColor;
 } BufferCellWithCoords;
@@ -57,7 +63,17 @@ public:
 
     bool isStartRow(int y);
 
-    void addCellWithCoords(int s, int y, int x, bool wideChar = false);
+    void addStartWideCharCellWithCoords(int s, int y, int x);
+
+    void addEndWideCharCellWithCoords(int s, int y, int x);
+
+    bool isWideCharStarted(int y, int x);
+
+    bool isStartOfWideChar(int y, int x);
+
+    bool isEndOfWideChar(int y, int x);
+
+    void addCellWithCoords(int s, int y, int x);
 
     void addCellWithSymbolType(int s, SymbolType st);
 
