@@ -10,15 +10,22 @@
 
 int *SearchStateStorage::g_ch = (int *)std::malloc(sizeof(int));
 
-void SearchStateUpHandler::use(){};
+void SearchStateUpHandler::use()
+{
+    auto prev_cell = _SEARCH__BUF->getPrevCellByCoords(Coords::curr_y, Coords::curr_x);
+    Coords::setY(prev_cell->coords.y), Coords::setX(prev_cell->coords.x);
+};
 
-void SearchStateDownHandler::use(){};
+void SearchStateDownHandler::use()
+{
+    auto next_cell = _SEARCH__BUF->getNextCellByCoords(Coords::curr_y, Coords::curr_x);
+    Coords::setY(next_cell->coords.y), Coords::setX(next_cell->coords.x);
+};
 
-void SearchStateLeftHandler::use(){};
-
-void SearchStateRightHandler::use(){};
-
-void SearchStateEnterHandler::use(){};
+void SearchStateEnterHandler::use()
+{
+    EditorStatus::setCurrStatus(INSERT);
+};
 
 SearchState::SearchState(int ch)
 {
@@ -31,69 +38,17 @@ void SearchState::use()
     {
     case KEY_UP:
     {
-        CommonStateHelper::setKeyHandled(KEY_UP);
+        SearchStateUpHandler::use();
         break;
     }
     case KEY_DOWN:
     {
-        CommonStateHelper::setKeyHandled(KEY_DOWN);
-        break;
-    }
-    case KEY_LEFT:
-    {
-        CommonStateHelper::setKeyHandled(KEY_LEFT);
-        break;
-    }
-    case KEY_RIGHT:
-    {
-        CommonStateHelper::setKeyHandled(KEY_RIGHT);
+        SearchStateDownHandler::use();
         break;
     }
     case K_ENTER:
     {
-        EditorStatus::setCurrStatus(INSERT);
+        SearchStateEnterHandler::use();
     }
     };
 };
-
-// void SearchHandler::handle(int ch)
-// {
-//     // auto [curr_y, curr_x] = _POSITION.get_curr_coords();
-
-//     //auto buf = _SEARCH_BUF.get_buf();
-//     // switch (ch)
-//     // {
-//     // case KEY_UP:
-//     //     set_handled_status(KEY_UP);
-//     //     for (int i = 0; i < buf.size(); i++)
-//     //     {
-//     //         auto [y, x] = buf[i];
-//     //         if (y < *curr_y)
-//     //         {
-//     //             wmove(stdscr, y, x + 1);
-//     //             break;
-//     //         }
-//     //     }
-//     //     break;
-//     // case KEY_DOWN:
-//     //     set_handled_status(KEY_DOWN);
-//     //     for (int i = 0; i < buf.size(); i++)
-//     //     {
-//     //         auto [y, x] = buf[i];
-//     //         if (y > *curr_y)
-//     //         {
-//     //             wmove(stdscr, y, x + 1);
-//     //             break;
-//     //         }
-//     //     }
-//     //     break;
-//     // case KEY_LEFT:
-//     //     set_handled_status(KEY_LEFT);
-//     //     break;
-//     // case KEY_RIGHT:
-//     //     set_handled_status(KEY_RIGHT);
-//     //     break;
-//     // case K_ENTER:
-//     //     _STATE.set_state(INSERT);
-//     // }
-// }

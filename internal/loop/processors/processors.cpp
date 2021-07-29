@@ -21,7 +21,9 @@ void LoopProcessors::process_states()
 {
     int ch = getch();
 
-    switch (EditorStatus::getCurrStatus())
+    int curr_state = EditorStatus::getCurrStatus();
+
+    switch (curr_state)
     {
     case INSERT:
         InsertState(ch).use();
@@ -31,7 +33,7 @@ void LoopProcessors::process_states()
         break;
     case SEARCH:
         SearchState(ch).use();
-        break;
+        return;
     };
 
     if (!CommonStateHelper::isKeyHandled(ch))
@@ -61,7 +63,6 @@ void LoopProcessors::render()
     _RENDERER->set_buf(_EFFECTS__BUF)->set_color(_EFFECTS_COLOR->get_current_theme())->render();
     _RENDERER->set_buf(_INSERT__BUF)->set_color(_INSERT_COLOR->get_current_theme())->render();
     _RENDERER->set_buf(_COMMAND__BUF)->set_color(_COMMAND_COLOR->get_current_theme())->render();
-    // _RENDERER->checkSearchBufferForMovement();
 };
 
 void LoopProcessors::save_debug_files()

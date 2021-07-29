@@ -219,6 +219,46 @@ bool Base<T>::isStartRow(int y)
     return false;
 };
 
+template <typename T>
+BufferCellOnlyWithCoords *Base<T>::getPrevCellByCoords(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellOnlyWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+            {
+                return i == 0 ? this->buf[i] : this->buf[i - 1];
+            }
+        };
+    }
+    else
+    {
+        throw std::logic_error("This member can't be used with buf which cells don't have coords");
+    }
+    return NULL;
+};
+
+template <typename T>
+BufferCellOnlyWithCoords *Base<T>::getNextCellByCoords(int y, int x)
+{
+    if constexpr (std::is_same_v<T, BufferCellOnlyWithCoords>)
+    {
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+            {
+                return i == this->buf.size()-1 ? this->buf[i] : this->buf[i + 1];
+            }
+        };
+    }
+    else
+    {
+        throw std::logic_error("This member can't be used with buf which cells don't have coords");
+    }
+    return NULL;
+};
+
 template <class T>
 void Base<T>::eraseCell(int y, int x)
 {
@@ -236,7 +276,6 @@ void Base<T>::eraseCell(int y, int x)
             }
             if (index_of_cell_to_delete != 0)
             {
-                _LOG__BUF->addCellWithSymbolType(index_of_cell_to_delete, INT);
                 this->buf.erase(this->buf.begin() + index_of_cell_to_delete);
 
                 if (this->buf[index_of_cell_to_delete - 1]->coords.y == y && this->buf[index_of_cell_to_delete - 1]->coords.x == x)
@@ -257,17 +296,6 @@ void Base<T>::addCellWithCoords(int s, int y, int x)
 {
     if constexpr (std::is_same_v<T, BufferCellWithCoords>)
     {
-        // for (int i = 0; i < this->buf.size(); i++)
-        // {
-        //     if (this->buf[i]->x == x && this->buf[i]->y == y)
-        //     {
-        //         if (!this->buf[i]->wideChar.isStartOfChar && !this->buf[i]->wideChar.isEndOfChar)
-        //         {
-        //             this->eraseCell(y, x);
-        //         }
-        //     }
-        // }
-
         BufferCellWithCoords *b = new BufferCellWithCoords;
         b->symbol = s;
         b->coords.y = y;

@@ -9,11 +9,6 @@
 
 void Search_Command::execute_with_params(std::string search_word)
 {
-    for (auto i : search_word)
-    {
-        _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    };
-
     auto insert_buffer = _INSERT__BUF->getBufAsStringWithYCoord();
     for (int i = 0; i < insert_buffer.size(); i++)
     {

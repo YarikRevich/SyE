@@ -91,6 +91,10 @@ public:
 
     std::vector<BufferCellWithCoords *> getRowWithY(int y);
 
+    BufferCellOnlyWithCoords* getPrevCellByCoords(int y, int x);
+
+    BufferCellOnlyWithCoords* getNextCellByCoords(int y, int x);
+
     bool isLastBufCell(int y, int x);
 
     bool isRowEmpty(int y);
