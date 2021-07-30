@@ -81,7 +81,7 @@ public:
 
     std::tuple<int, int> getEndOfSentence(int y, int x);
 
-    std::vector<T *> getBufferIterator();
+    std::vector<T *>& getBufferIterator();
 
     std::string getBufAsString();
 
@@ -100,6 +100,8 @@ public:
     bool isRowEmpty(int y);
 
     bool isBufCell(int y, int x);
+
+    void removeCharsBetweenSpaces(int y, int x);
 
     void eraseCell(int y, int x);
 

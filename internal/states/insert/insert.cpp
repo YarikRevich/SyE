@@ -27,7 +27,7 @@ void InsertStateDefaultHandler::moveCariage()
 void InsertStateDefaultHandler::includeWideChar()
 {
     _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x);
-    
+
     if (!InsertStateStorage::await)
     {
         InsertStateStorage::await = true;
@@ -43,7 +43,8 @@ void InsertStateDefaultHandler::use()
 {
     if (!CommonStateHelper::isCommonKeyHandler(*InsertStateStorage::g_ch))
     {
-        if (_INSERT__BUF->getBufferIterator().empty()){
+        if (_INSERT__BUF->getBufferIterator().empty())
+        {
             _INSERT__BUF->addCellWithCoords(' ', 0, 0);
         }
 
@@ -52,7 +53,24 @@ void InsertStateDefaultHandler::use()
             InsertStateDefaultHandler::moveCariage();
         }
         else
+
         {
+            // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+            // for (auto i : std::string(" NEW !"))
+            // {
+            //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+            // };
+            // _LOG__BUF->addCellWithSymbolType('Q', CHAR);
+
+            if (_INSERT__BUF->isBufCell(Coords::curr_y, Coords::curr_x))
+            {
+
+                // _LOG__BUF->addCellWithSymbolType(this->buf[i - 1]->coords.y, INT);
+                // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+                // _LOG__BUF->addCellWithSymbolType(this->buf[i - 1]->coords.x, INT);
+                _INSERT__BUF->translocateXRightAfter(Coords::curr_y, Coords::curr_x);
+            }
+
             if (isWideChar(*InsertStateStorage::g_ch))
             {
                 InsertStateDefaultHandler::includeWideChar();
@@ -74,11 +92,8 @@ void InsertStateEnterHandler::includeWordAreaOffsetDown()
 
 void InsertStateEnterHandler::moveCariage()
 {
-    if (!_INSERT__BUF->isLastBufCell(Coords::curr_y, Coords::curr_x))
-    {
-        _INSERT__BUF->translocateYUpAfter(Coords::curr_y);
-        Coords::resetX(), Coords::incY();
-    };
+    _INSERT__BUF->translocateYUpAfter(Coords::curr_y);
+    Coords::resetX(), Coords::incY();
 };
 
 void InsertStateEnterHandler::use()

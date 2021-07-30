@@ -14,6 +14,8 @@ int Applicator::handleOneWordCommand(std::string command)
     {
         W_Command().execute();
         return 1;
+    }else if (command == "z"){
+        
     }
     return -1;
 };
