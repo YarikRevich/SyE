@@ -66,13 +66,7 @@ std::vector<matchedWord> Regex::findAllWords(std::string srcForFullProcessing)
     std::string srcForSequenceProcessing(srcForFullProcessing);
     std::smatch sequenceMatch;
     std::regex s("\\S+");
-
-    for (auto i : srcForFullProcessing)
-    {
-        _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    };
-    _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
+    
     while (std::regex_search(srcForSequenceProcessing, sequenceMatch, s))
     {
         matchedWord word;
@@ -87,10 +81,6 @@ std::vector<matchedWord> Regex::findAllWords(std::string srcForFullProcessing)
                 break;
             };
         }
-
-        // _LOG__BUF->addCellWithSymbolType(word.startPosition, INT);
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
         res.push_back(word);
 
         srcForSequenceProcessing = sequenceMatch.suffix().str();
@@ -124,13 +114,14 @@ void Lexer::analiseCode()
 
     for (int i = 0; i < bufferAsText.size(); i++)
     {
-        _LOG__BUF->addCellWithSymbolType(bufferAsText[i].y, INT);
+    
         std::string textToAnalise;
         if (bufferAsText[i].y == 0){
             textToAnalise = bufferAsText[i].text.substr(1);
         }else{
             textToAnalise = bufferAsText[i].text;
         }
+
         std::vector<matchedWord> allWords = this->findAllWords(textToAnalise);
         for (int q = 0; q < allWords.size(); q++)
         {
@@ -138,15 +129,8 @@ void Lexer::analiseCode()
             {
                 if (allWords[q].text == types[p].name)
                 {
-
-                    // _LOG__BUF->addCellWithSymbolType(bufferAsText[i].y, INT);
-                    // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-                    // _LOG__BUF->addCellWithSymbolType(allWords[q].startPosition + c, INT);
-                    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
                     for (int c = 0; c < allWords[q].text.length(); c++)
                     {
-
                         _INSERT__BUF->setCellWithCoordsColor(bufferAsText[i].y, allWords[q].startPosition + c, types[p].color);
                     };
                 };

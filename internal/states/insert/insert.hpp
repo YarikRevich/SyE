@@ -29,6 +29,10 @@ namespace InsertStateColonHandler
     void use();
 };
 
+namespace InsertStateTabHandler{
+    void use();
+};
+
 class InsertState
 {
 public:

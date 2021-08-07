@@ -20,15 +20,6 @@ Renderer *Renderer::set_color(std::tuple<int, int> color_theme)
 
 void Renderer::include_new_cell(BufferCellWithCoords *cell)
 {
-    // _LOG__BUF->addCellWithSymbolType(cell->coords.y, INT);
-    // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-    // _LOG__BUF->addCellWithSymbolType(cell->coords.x, INT);
-    // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-    // for (auto i : cell->fontColor)
-    // {
-    //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    // };
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
     if (cell->fontColor.length() != 0)
     {
         _FONT_COLOR->set(cell->fontColor);
@@ -41,7 +32,6 @@ void Renderer::include_new_cell(BufferCellWithCoords *cell)
 
 void Renderer::include_movements()
 {
-
     wmove(stdscr, Coords::curr_y, Coords::curr_x);
 };
 
@@ -51,10 +41,9 @@ void Renderer::render()
     if (!buffer_iterator.empty())
     {
         std::for_each(buffer_iterator.begin(), buffer_iterator.end(), this->include_new_cell);
-
-        this->include_movements();
-        wrefresh(stdscr);
     }
+    this->include_movements();
+    wrefresh(stdscr);
 };
 
 void Renderer::checkSearchBufferForMovement()

@@ -138,6 +138,22 @@ void InsertStateColonHandler::use()
     InsertStateColonHandler::modifyState();
 };
 
+void InsertStateTabHandler::use()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if ((Coords::curr_x + i) <= Coords::max_x)
+        {
+            Coords::incX();
+        }
+        else
+        {
+            Coords::incY();
+            Coords::setX(0);
+        }
+    };
+};
+
 InsertState::InsertState(int ch)
 {
     *InsertStateStorage::g_ch = ch;
@@ -155,6 +171,11 @@ void InsertState::use()
     case K_COLON:
     {
         InsertStateColonHandler::use();
+        break;
+    }
+    case K_TAB:
+    {
+        InsertStateTabHandler::use();
         break;
     }
     default:
