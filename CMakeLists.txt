@@ -2,7 +2,7 @@ if (NOT WIN32)
 	cmake_minimum_required(VERSION 3.20)
 	project(editor VERSION 0.0.1 LANGUAGES C CXX)
 	set(CMAKE_CXX_COMPILER /usr/bin/g++)
-	set(CMAKE_CXX_FLAGS "-std=gnu++2a -D_XOPEN_SOURCE_EXTENDED -fdelayed-template-parsing")
+	set(CMAKE_CXX_FLAGS "-std=c++2a -D_XOPEN_SOURCE_EXTENDED -Xclang -fconcepts-ts")
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/cmd)
 	message("Make build output path is /cmd")
 
