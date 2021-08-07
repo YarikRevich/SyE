@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <tuple>
+#include <type_traits>
 
 bool isInsertSameToDefaultBuf();
 
@@ -20,7 +21,6 @@ typedef struct
     std::string fontColor;
 } BufferCellWithCoords;
 
-
 typedef struct
 {
     int y;
@@ -32,7 +32,8 @@ typedef struct
     int symbol;
 } BufferCellOnlyWithSymbol;
 
-typedef struct {
+typedef struct
+{
     CellCoords coords;
 } BufferCellOnlyWithCoords;
 
@@ -55,7 +56,6 @@ protected:
     std::vector<T *> buf;
 
 private:
-
     static bool sort(T *currentBufferCell, T *nextBufferCell);
 
 public:
@@ -81,7 +81,7 @@ public:
 
     std::tuple<int, int> getEndOfSentence(int y, int x);
 
-    std::vector<T *>& getBufferIterator();
+    std::vector<T *> &getBufferIterator();
 
     std::string getBufAsString();
 
@@ -91,11 +91,11 @@ public:
 
     std::vector<BufferCellWithCoords *> getRowWithY(int y);
 
-    BufferCellOnlyWithCoords* getPrevCellByCoords(int y, int x);
+    BufferCellOnlyWithCoords *getPrevCellByCoords(int y, int x);
 
-    BufferCellOnlyWithCoords* getNextCellByCoords(int y, int x);
+    BufferCellOnlyWithCoords *getNextCellByCoords(int y, int x);
 
-    bool isLastBufCell(int y, int x);
+    bool isLastBufCell(int y, int x) const;
 
     bool isRowEmpty(int y);
 
@@ -112,7 +112,7 @@ template <typename T>
 class CoordsTranslocation : public Base<T>
 {
 public:
-    void translocateYUp();
+    void translocateYUp() const;
 
     void translocateYDown();
 
@@ -140,6 +140,21 @@ template <typename T>
 class Buffer : public CoordsTranslocation<T>, public Status
 {
 };
+
+extern template class Buffer<BufferCellOnlyWithSymbol>;
+extern template class Buffer<BufferCellOnlyWithCoords>;
+extern template class Buffer<BufferCellWithCoords>;
+extern template class Buffer<BufferCellWithSymbolType>;
+
+extern template class Base<BufferCellOnlyWithSymbol>;
+extern template class Base<BufferCellOnlyWithCoords>;
+extern template class Base<BufferCellWithCoords>;
+extern template class Base<BufferCellWithSymbolType>;
+
+extern template class CoordsTranslocation<BufferCellOnlyWithSymbol>;
+extern template class CoordsTranslocation<BufferCellOnlyWithCoords>;
+extern template class CoordsTranslocation<BufferCellWithCoords>;
+extern template class CoordsTranslocation<BufferCellWithSymbolType>;
 
 extern Buffer<BufferCellWithSymbolType> *_LOG__BUF;
 extern Buffer<BufferCellOnlyWithSymbol> *_DEFAULT__BUF;

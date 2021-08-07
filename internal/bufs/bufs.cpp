@@ -5,7 +5,7 @@
 #include <type_traits>
 #include "./../colors/colors.hpp"
 #include "./../position/position.hpp"
-#include "./../../tools/exceptions/exceptions.hpp"
+#include "./../../tools/template_assertion/template_assertion.hpp"
 
 bool isInsertSameToDefaultBuf()
 {
@@ -26,9 +26,11 @@ bool isInsertSameToDefaultBuf()
 };
 
 template <typename T>
-void CoordsTranslocation<T>::translocateYUp()
+requires std::is_same_v<T, BufferCellWithCoords>
+void CoordsTranslocation<T>::translocateYUp() const
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     for (int i = 0; i < this->buf.size(); i++)
     {
@@ -37,9 +39,11 @@ void CoordsTranslocation<T>::translocateYUp()
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateYUpAfter(int y)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     for (int i = 0; i < this->buf.size(); i++)
     {
@@ -51,10 +55,13 @@ void CoordsTranslocation<T>::translocateYUpAfter(int y)
     }
 };
 
+
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateYDown()
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     for (int i = 0; i < this->buf.size(); i++)
     {
@@ -66,10 +73,11 @@ void CoordsTranslocation<T>::translocateYDown()
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateYDownAfter(int y)
 {
-
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+        // throw buffer_assertion_error;
 
     for (int i = 0; i < this->buf.size(); ++i)
     {
@@ -81,9 +89,11 @@ void CoordsTranslocation<T>::translocateYDownAfter(int y)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateXRightAfter(int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     _LOG__BUF->addCellWithSymbolType(10, CHAR);
     for (int i = 0; i < this->buf.size(); i++)
@@ -127,9 +137,11 @@ void CoordsTranslocation<T>::translocateXRightAfter(int y, int x)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     // std::string s = "Buffer before : ";
     // for (auto const i : s)
@@ -198,9 +210,12 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 bool Base<T>::sort(T *nextBufferCell, T *currentBufferCell)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
+
     // if ((currentBufferCell->coords.y == nextBufferCell->coords.y) &&
     //     (currentBufferCell->coords.x == nextBufferCell->coords.x))
     // {
@@ -255,9 +270,11 @@ bool Base<T>::sort(T *nextBufferCell, T *currentBufferCell)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 bool Base<T>::isStartRow(int y)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     auto const first_cell = this->buf[0];
 
@@ -269,9 +286,11 @@ bool Base<T>::isStartRow(int y)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellOnlyWithCoords>
 BufferCellOnlyWithCoords *Base<T>::getPrevCellByCoords(int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellOnlyWithCoords>::value, buffer_only_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellOnlyWithCoords))
+    //     throw buffer_assertion_error;
 
     for (int i = 0; i < this->buf.size(); i++)
     {
@@ -285,9 +304,11 @@ BufferCellOnlyWithCoords *Base<T>::getPrevCellByCoords(int y, int x)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellOnlyWithCoords>
 BufferCellOnlyWithCoords *Base<T>::getNextCellByCoords(int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellOnlyWithCoords>::value, buffer_only_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellOnlyWithCoords))
+    //     throw buffer_assertion_error;
 
     for (int i = 0; i < this->buf.size(); i++)
     {
@@ -301,10 +322,9 @@ BufferCellOnlyWithCoords *Base<T>::getNextCellByCoords(int y, int x)
 };
 
 template <class T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::eraseCell(int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
-
     if (this->buf.size() > 1)
     {
         int index_of_cell_to_delete = 0;
@@ -332,9 +352,11 @@ void Base<T>::eraseCell(int y, int x)
 }
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::addCellWithCoords(int s, int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    // if constexpr (std::is_same_v<T, BufferCellWithCoords>)
+    //     throw buffer_assertion_error;
 
     BufferCellWithCoords *b = new BufferCellWithCoords;
     b->symbol = s;
@@ -348,9 +370,11 @@ void Base<T>::addCellWithCoords(int s, int y, int x)
 }
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithSymbolType>
 void Base<T>::addCellWithSymbolType(int s, SymbolType st)
 {
-    static_assert(std::is_same_v<T, BufferCellWithSymbolType>::value, buffer_with_symbol_type_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithSymbolType))
+    //     throw buffer_assertion_error;
 
     BufferCellWithSymbolType *b = new BufferCellWithSymbolType;
     b->symbol = s;
@@ -359,9 +383,11 @@ void Base<T>::addCellWithSymbolType(int s, SymbolType st)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellOnlyWithCoords>
 void Base<T>::addCellOnlyWithSymbol(int s)
 {
-    static_assert(std::is_same_v<T, BufferCellOnlyWithCoords>::value, buffer_only_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellOnlyWithCoords))
+    //     throw buffer_assertion_error;
 
     BufferCellOnlyWithSymbol *b = new BufferCellOnlyWithSymbol;
     b->symbol = s;
@@ -369,9 +395,11 @@ void Base<T>::addCellOnlyWithSymbol(int s)
 }
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithSymbolType>
 void Base<T>::addCellOnlyWithCoords(int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellOnlyWithCoords>::value, buffer_only_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithSymbolType))
+    //     throw buffer_assertion_error;
 
     BufferCellOnlyWithCoords *b = new BufferCellOnlyWithCoords;
     b->coords.y = y;
@@ -380,9 +408,11 @@ void Base<T>::addCellOnlyWithCoords(int y, int x)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::addCellToEnd(int s)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     std::vector<T *> const buf = this->getBufferIterator();
 
@@ -403,9 +433,11 @@ void Base<T>::addCellToEnd(int s)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::addEolIfNotExists()
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     if (this->buf.begin() != this->buf.end())
     {
@@ -426,9 +458,11 @@ std::vector<T *> &Base<T>::getBufferIterator()
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::setCellWithCoordsColor(int y, int x, std::string color)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     auto buf = this->getBufferIterator();
     for (int i = 0; i < buf.size(); i++)
@@ -441,9 +475,11 @@ void Base<T>::setCellWithCoordsColor(int y, int x, std::string color)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::setCellSentenceHyphenation(int y, int x, bool status)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     for (int i = 0; i < this->buf.size(); i++)
     {
@@ -455,9 +491,11 @@ void Base<T>::setCellSentenceHyphenation(int y, int x, bool status)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 bool Base<T>::cellIsSentenceHyphenation(int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     for (int i = 0; i < this->buf.size(); i++)
     {
@@ -470,9 +508,11 @@ bool Base<T>::cellIsSentenceHyphenation(int y, int x)
 }
 
 template <typename T>
-std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
+requires std::is_same_v<T, BufferCellWithCoords>
+    std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     for (int i = 0; i < this->buf.size(); i++)
     {
@@ -485,9 +525,11 @@ std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
 };
 
 template <typename T>
-std::vector<BufferCellWithCoords *> Base<T>::getRowWithY(int y)
+requires std::is_same_v<T, BufferCellWithCoords>
+    std::vector<BufferCellWithCoords *> Base<T>::getRowWithY(int y)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     std::vector<BufferCellWithCoords *> res;
     std::vector<BufferCellWithCoords *> buf = this->getBufferIterator();
@@ -504,7 +546,8 @@ std::vector<BufferCellWithCoords *> Base<T>::getRowWithY(int y)
 template <typename T>
 std::string Base<T>::getBufAsString()
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+        throw buffer_assertion_error;
 
     std::string res;
     for (auto cell : this->getBufferIterator())
@@ -541,9 +584,11 @@ std::vector<BufferAsString> Base<T>::getBufAsStringWithYCoord()
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 int Base<T>::getLastXInRow(int y)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     int chars = 0;
     int wideChars = 0;
@@ -581,9 +626,11 @@ void Base<T>::clearBuf()
 };
 
 template <typename T>
-bool Base<T>::isLastBufCell(int y, int x)
+requires std::is_same_v<T, BufferCellWithCoords>
+bool Base<T>::isLastBufCell(int y, int x) const
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     if (!this->buf.empty())
     {
@@ -592,9 +639,11 @@ bool Base<T>::isLastBufCell(int y, int x)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 bool Base<T>::isRowEmpty(int y)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    //     if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //         throw buffer_assertion_error;
 
     auto buf = this->getBufferIterator();
     for (int i = 0; i < buf.size(); i++)
@@ -608,9 +657,11 @@ bool Base<T>::isRowEmpty(int y)
 };
 
 template <typename T>
+requires std::is_same_v<T, BufferCellWithCoords>
 bool Base<T>::isBufCell(int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>, buffer_with_coords_assertion_error);
+    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+    //     throw buffer_assertion_error;
 
     auto buf = this->getBufferIterator();
     for (int i = 0; i < buf.size(); i++)
@@ -626,7 +677,8 @@ bool Base<T>::isBufCell(int y, int x)
 template <typename T>
 void Base<T>::removeCharsBetweenSpaces(int y, int x)
 {
-    static_assert(std::is_same_v<T, BufferCellWithCoords>::value, buffer_with_coords_assertion_error);
+    if constexpr (!buffer_assertion(T, BufferCellWithCoords))
+        throw buffer_assertion_error;
 };
 
 template class Buffer<BufferCellOnlyWithSymbol>;
