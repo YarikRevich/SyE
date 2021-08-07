@@ -26,163 +26,158 @@ bool isInsertSameToDefaultBuf()
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateYUp() const
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        this->buf[i]->coords.y++;
+        for (int i = 0; i < this->buf.size(); i++)
+        {
+            this->buf[i]->coords.y++;
+        }
     }
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateYUpAfter(int y)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-
-        if (this->buf[i]->coords.y > y)
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            this->buf[i]->coords.y++;
+
+            if (this->buf[i]->coords.y > y)
+            {
+                this->buf[i]->coords.y++;
+            }
         }
     }
 };
 
-
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateYDown()
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (this->buf[i]->coords.y != 0)
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            this->buf[i]->coords.y--;
+            if (this->buf[i]->coords.y != 0)
+            {
+                this->buf[i]->coords.y--;
+            }
         }
     }
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateYDownAfter(int y)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-        // throw buffer_assertion_error;
-
-    for (int i = 0; i < this->buf.size(); ++i)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (this->buf[i]->coords.y > y && !this->isStartRow(this->buf[i]->coords.y))
+        for (int i = 0; i < this->buf.size(); ++i)
         {
-            this->buf[i]->coords.y--;
+            if (this->buf[i]->coords.y > y && !this->isStartRow(this->buf[i]->coords.y))
+            {
+                this->buf[i]->coords.y--;
+            }
         }
     }
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateXRightAfter(int y, int x)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
 
-        if ((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x == Coords::max_x)
-        {
-            this->buf[i]->coords.y++;
-            this->buf[i]->coords.x = 0;
-        }
-        else if ((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x >= x)
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        for (int i = 0; i < this->buf.size(); i++)
         {
 
-            _LOG__BUF->addCellWithSymbolType(10, CHAR);
-            _LOG__BUF->addCellWithSymbolType(this->buf[i]->symbol, INT);
-            _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-            _LOG__BUF->addCellWithSymbolType((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x >= x, INT);
-            if (this->buf[i]->symbol != ' ')
+            if ((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x == Coords::max_x)
             {
-                // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-                // _LOG__BUF->addCellWithSymbolType(this->buf[i]->symbol, INT);
-                if (i != 0 && (this->buf[i - 1]->coords.x >= x &&
-                               this->buf[i - 1]->coords.y >= y))
-                {
-                    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-                    // _LOG__BUF->addCellWithSymbolType('O', CHAR);
-                    // this->buf[i - 1]->coords.x++;
-                }
-
-                if (i != this->buf.size() - 1 && (this->buf[i + 1]->coords.x >= x &&
-                                                  this->buf[i + 1]->coords.y >= y))
-                {
-                    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-                    // _LOG__BUF->addCellWithSymbolType('B', CHAR);
-                    // this->buf[i + 1]->coords.x++;
-                }
+                this->buf[i]->coords.y++;
+                this->buf[i]->coords.x = 0;
             }
-            // this->buf[i]->coords.x++;
+            else if ((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x >= x)
+            {
+
+                _LOG__BUF->addCellWithSymbolType(10, CHAR);
+                _LOG__BUF->addCellWithSymbolType(this->buf[i]->symbol, INT);
+                _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+                _LOG__BUF->addCellWithSymbolType((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x >= x, INT);
+                if (this->buf[i]->symbol != ' ')
+                {
+                    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+                    // _LOG__BUF->addCellWithSymbolType(this->buf[i]->symbol, INT);
+                    if (i != 0 && (this->buf[i - 1]->coords.x >= x &&
+                                   this->buf[i - 1]->coords.y >= y))
+                    {
+                        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+                        // _LOG__BUF->addCellWithSymbolType('O', CHAR);
+                        // this->buf[i - 1]->coords.x++;
+                    }
+
+                    if (i != this->buf.size() - 1 && (this->buf[i + 1]->coords.x >= x &&
+                                                      this->buf[i + 1]->coords.y >= y))
+                    {
+                        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+                        // _LOG__BUF->addCellWithSymbolType('B', CHAR);
+                        // this->buf[i + 1]->coords.x++;
+                    }
+                }
+                // this->buf[i]->coords.x++;
+            }
         }
     }
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    // std::string s = "Buffer before : ";
-    // for (auto const i : s)
-    // {
-    //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    // }
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // for (auto const i : this->getBufferIterator())
-    // {
-    //     s = "Y is ";
-    //     for (auto const b : s)
-    //     {
-    //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
-    //     }
-    //     _LOG__BUF->addCellWithSymbolType(i->y, INT);
-    //     s = " ,X is ";
-    //     for (auto const b : s)
-    //     {
-    //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
-    //     }
-    //     _LOG__BUF->addCellWithSymbolType(i->x, INT);
-    //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // }
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if ((this->buf[i]->coords.y >= y) && (this->buf[i]->coords.x >= x) && (this->buf[i]->symbol == 10))
+
+        // std::string s = "Buffer before : ";
+        // for (auto const i : s)
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // for (auto const i : this->getBufferIterator())
+        // {
+        //     s = "Y is ";
+        //     for (auto const b : s)
+        //     {
+        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
+        //     }
+        //     _LOG__BUF->addCellWithSymbolType(i->y, INT);
+        //     s = " ,X is ";
+        //     for (auto const b : s)
+        //     {
+        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
+        //     }
+        //     _LOG__BUF->addCellWithSymbolType(i->x, INT);
+        //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            break;
+            if ((this->buf[i]->coords.y >= y) && (this->buf[i]->coords.x >= x) && (this->buf[i]->symbol == 10))
+            {
+                break;
+            }
+            else if ((this->buf[i]->coords.y > y) && (this->buf[i]->coords.x == 0))
+            {
+                this->buf[i]->coords.y--;
+                this->buf[i]->coords.x = Coords::max_x;
+            }
+            else if ((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x >= x)
+            {
+                this->buf[i]->coords.x--;
+            }
         }
-        else if ((this->buf[i]->coords.y > y) && (this->buf[i]->coords.x == 0))
-        {
-            this->buf[i]->coords.y--;
-            this->buf[i]->coords.x = Coords::max_x;
-        }
-        else if ((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x >= x)
-        {
-            this->buf[i]->coords.x--;
-        }
-    }
+    };
 
     // s = "Buffer after : ";
     // for (auto const i : s)
@@ -210,244 +205,236 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 bool Base<T>::sort(T *nextBufferCell, T *currentBufferCell)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    // if ((currentBufferCell->coords.y == nextBufferCell->coords.y) &&
-    //     (currentBufferCell->coords.x == nextBufferCell->coords.x))
-    // {
-    //     return true;
-    // }
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // for (auto i : std::string("   NEW !!!!"))
-    // {
-    //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    // };
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // for (auto i : std::string("CURRENT"))
-    // {
-    //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    // };
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // _LOG__BUF->addCellWithSymbolType(currentBufferCell->coords.y, INT);
-    // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-    // _LOG__BUF->addCellWithSymbolType(currentBufferCell->coords.x, INT);
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // for (auto i : std::string("NEXT"))
-    // {
-    //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    // };
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // _LOG__BUF->addCellWithSymbolType(nextBufferCell->coords.y, INT);
-    // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-    // _LOG__BUF->addCellWithSymbolType(nextBufferCell->coords.x, INT);
-
-    if (currentBufferCell->coords.y < nextBufferCell->coords.y)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        return false;
-    }
-    else if (currentBufferCell->coords.y > nextBufferCell->coords.y)
-    {
-        return true;
-    }
-    // else if (currentBufferCell->coords.y == nextBufferCell->coords.y &&
-    //          currentBufferCell->coords.x == nextBufferCell->coords.x)
-    // {
-    //     return true;
-    // }
-    else
-    {
-        double g1 = sqrt(currentBufferCell->coords.x * currentBufferCell->coords.x + currentBufferCell->coords.y * currentBufferCell->coords.y);
-        double g2 = sqrt(nextBufferCell->coords.x * nextBufferCell->coords.x + nextBufferCell->coords.y * nextBufferCell->coords.y);
 
-        return g1 > g2;
-    }
-};
+        // if ((currentBufferCell->coords.y == nextBufferCell->coords.y) &&
+        //     (currentBufferCell->coords.x == nextBufferCell->coords.x))
+        // {
+        //     return true;
+        // }
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // for (auto i : std::string("   NEW !!!!"))
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        // };
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // for (auto i : std::string("CURRENT"))
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        // };
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // _LOG__BUF->addCellWithSymbolType(currentBufferCell->coords.y, INT);
+        // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+        // _LOG__BUF->addCellWithSymbolType(currentBufferCell->coords.x, INT);
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // for (auto i : std::string("NEXT"))
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+        // };
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // _LOG__BUF->addCellWithSymbolType(nextBufferCell->coords.y, INT);
+        // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+        // _LOG__BUF->addCellWithSymbolType(nextBufferCell->coords.x, INT);
 
-template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
-bool Base<T>::isStartRow(int y)
-{
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
+        if (currentBufferCell->coords.y < nextBufferCell->coords.y)
+        {
+            return false;
+        }
+        else if (currentBufferCell->coords.y > nextBufferCell->coords.y)
+        {
+            return true;
+        }
+        // else if (currentBufferCell->coords.y == nextBufferCell->coords.y &&
+        //          currentBufferCell->coords.x == nextBufferCell->coords.x)
+        // {
+        //     return true;
+        // }
+        else
+        {
+            double g1 = sqrt(currentBufferCell->coords.x * currentBufferCell->coords.x + currentBufferCell->coords.y * currentBufferCell->coords.y);
+            double g2 = sqrt(nextBufferCell->coords.x * nextBufferCell->coords.x + nextBufferCell->coords.y * nextBufferCell->coords.y);
 
-    auto const first_cell = this->buf[0];
-
-    if (first_cell->coords.y == y)
-    {
-        return true;
-    }
+            return g1 > g2;
+        };
+    };
     return false;
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellOnlyWithCoords>
+bool Base<T>::isStartRow(int y)
+{
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
+    {
+        auto const first_cell = this->buf[0];
+
+        if (first_cell->coords.y == y)
+        {
+            return true;
+        };
+    };
+    return false;
+};
+
+template <typename T>
 BufferCellOnlyWithCoords *Base<T>::getPrevCellByCoords(int y, int x)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellOnlyWithCoords))
-    //     throw buffer_assertion_error;
-
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellOnlyWithCoords))
     {
-        if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            return i == 0 ? this->buf[i] : this->buf[i - 1];
-        }
+            if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+            {
+                return i == 0 ? this->buf[i] : this->buf[i - 1];
+            };
+        };
     };
-
     return nullptr;
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellOnlyWithCoords>
 BufferCellOnlyWithCoords *Base<T>::getNextCellByCoords(int y, int x)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellOnlyWithCoords))
-    //     throw buffer_assertion_error;
-
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellOnlyWithCoords))
     {
-        if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            return i == this->buf.size() - 1 ? this->buf[i] : this->buf[i + 1];
-        }
+            if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+            {
+                return i == this->buf.size() - 1 ? this->buf[i] : this->buf[i + 1];
+            };
+        };
     };
-
     return nullptr;
 };
 
 template <class T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::eraseCell(int y, int x)
 {
-    if (this->buf.size() > 1)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        int index_of_cell_to_delete = 0;
-        for (int i = 0; i < this->buf.size(); i++)
+        if (this->buf.size() > 1)
         {
-            if (this->buf[i]->coords.x == x && this->buf[i]->coords.y == y)
+            int index_of_cell_to_delete = 0;
+            for (int i = 0; i < this->buf.size(); i++)
             {
-                index_of_cell_to_delete = i;
+                if (this->buf[i]->coords.x == x && this->buf[i]->coords.y == y)
+                {
+                    index_of_cell_to_delete = i;
+                }
             }
-        }
-        if (index_of_cell_to_delete != 0)
-        {
-            this->buf.erase(this->buf.begin() + index_of_cell_to_delete);
+            if (index_of_cell_to_delete != 0)
+            {
+                this->buf.erase(this->buf.begin() + index_of_cell_to_delete);
 
-            if (this->buf[index_of_cell_to_delete - 1]->coords.y == y && this->buf[index_of_cell_to_delete - 1]->coords.x == x)
-            {
-                this->buf.erase(this->buf.begin() + index_of_cell_to_delete - 1);
+                if (this->buf[index_of_cell_to_delete - 1]->coords.y == y && this->buf[index_of_cell_to_delete - 1]->coords.x == x)
+                {
+                    this->buf.erase(this->buf.begin() + index_of_cell_to_delete - 1);
+                }
             }
         }
-    }
-    else if (this->buf.size() != 0)
-    {
-        this->buf.erase(buf.begin());
+        else if (this->buf.size() != 0)
+        {
+            this->buf.erase(buf.begin());
+        };
     };
 }
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::addCellWithCoords(int s, int y, int x)
 {
-    // if constexpr (std::is_same_v<T, BufferCellWithCoords>)
-    //     throw buffer_assertion_error;
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
+    {
+        BufferCellWithCoords *b = new BufferCellWithCoords;
+        b->symbol = s;
+        b->coords.y = y;
+        b->coords.x = x;
+        b->sentenceHyphenation = false;
 
-    BufferCellWithCoords *b = new BufferCellWithCoords;
-    b->symbol = s;
-    b->coords.y = y;
-    b->coords.x = x;
-    b->sentenceHyphenation = false;
+        this->buf.push_back(b);
 
-    this->buf.push_back(b);
-
-    std::sort(this->buf.begin(), this->buf.end(), this->sort);
+        // std::sort(this->buf.begin(), this->buf.end(), this->sort);
+    };
 }
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithSymbolType>
 void Base<T>::addCellWithSymbolType(int s, SymbolType st)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithSymbolType))
-    //     throw buffer_assertion_error;
-
-    BufferCellWithSymbolType *b = new BufferCellWithSymbolType;
-    b->symbol = s;
-    b->type = st;
-    this->buf.push_back(b);
+    if constexpr (buffer_assertion(T, BufferCellWithSymbolType))
+    {
+        BufferCellWithSymbolType *b = new BufferCellWithSymbolType;
+        b->symbol = s;
+        b->type = st;
+        this->buf.push_back(b);
+    };
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellOnlyWithCoords>
 void Base<T>::addCellOnlyWithSymbol(int s)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellOnlyWithCoords))
-    //     throw buffer_assertion_error;
-
-    BufferCellOnlyWithSymbol *b = new BufferCellOnlyWithSymbol;
-    b->symbol = s;
-    this->buf.push_back(b);
+    if constexpr (buffer_assertion(T, BufferCellOnlyWithSymbol))
+    {
+        BufferCellOnlyWithSymbol *b = new BufferCellOnlyWithSymbol;
+        b->symbol = s;
+        this->buf.push_back(b);
+    };
 }
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithSymbolType>
 void Base<T>::addCellOnlyWithCoords(int y, int x)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithSymbolType))
-    //     throw buffer_assertion_error;
-
-    BufferCellOnlyWithCoords *b = new BufferCellOnlyWithCoords;
-    b->coords.y = y;
-    b->coords.x = x;
-    this->buf.push_back(b);
+    if constexpr (buffer_assertion(T, BufferCellOnlyWithCoords))
+    {
+        BufferCellOnlyWithCoords *b = new BufferCellOnlyWithCoords;
+        b->coords.y = y;
+        b->coords.x = x;
+        this->buf.push_back(b);
+    };
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::addCellToEnd(int s)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    std::vector<T *> const buf = this->getBufferIterator();
-
-    T *const last_cell = buf[buf.size() - 1];
-
-    T *b = new T;
-    if (last_cell->coords.x == Coords::max_x)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        b->coords.y = (last_cell->coords.y + 1);
-        b->coords.x = 0;
-    }
-    else
-    {
-        b->coords.x = (last_cell->coords.x + 1);
-    }
-    b->symbol = s;
-    this->buf.push_back(b);
+        std::vector<T *> const buf = this->getBufferIterator();
+
+        T *const last_cell = buf[buf.size() - 1];
+
+        T *b = new T;
+        if (last_cell->coords.x == Coords::max_x)
+        {
+            b->coords.y = (last_cell->coords.y + 1);
+            b->coords.x = 0;
+        }
+        else
+        {
+            b->coords.x = (last_cell->coords.x + 1);
+        }
+        b->symbol = s;
+        this->buf.push_back(b);
+    };
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::addEolIfNotExists()
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    if (this->buf.begin() != this->buf.end())
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        std::vector<T *> const buf = this->getBufferIterator();
-        if (buf[buf.size() - 1]->symbol != 10)
+        if (this->buf.begin() != this->buf.end())
         {
-            T *b = new T;
-            b->symbol = 10;
-            this->buf.push_back(b);
-        }
+            std::vector<T *> const buf = this->getBufferIterator();
+            if (buf[buf.size() - 1]->symbol != 10)
+            {
+                T *b = new T;
+                b->symbol = 10;
+                this->buf.push_back(b);
+            }
+        };
     };
 };
 
@@ -458,87 +445,82 @@ std::vector<T *> &Base<T>::getBufferIterator()
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::setCellWithCoordsColor(int y, int x, std::string color)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    auto buf = this->getBufferIterator();
-    for (int i = 0; i < buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (buf[i]->coords.y == y && buf[i]->coords.x == x)
+        auto buf = this->getBufferIterator();
+        for (int i = 0; i < buf.size(); i++)
         {
-            buf[i]->fontColor = color;
+            if (buf[i]->coords.y == y && buf[i]->coords.x == x)
+            {
+                buf[i]->fontColor = color;
+            };
         };
     };
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 void Base<T>::setCellSentenceHyphenation(int y, int x, bool status)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            this->buf[i]->sentenceHyphenation = status;
-        }
-    }
+            if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+            {
+                this->buf[i]->sentenceHyphenation = status;
+            };
+        };
+    };
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 bool Base<T>::cellIsSentenceHyphenation(int y, int x)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            return this->buf[i]->sentenceHyphenation;
-        }
-    }
+            if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+            {
+                return this->buf[i]->sentenceHyphenation;
+            };
+        };
+    };
     return false;
 }
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
-    std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
+std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (this->buf[i]->coords.y >= y && !this->cellIsSentenceHyphenation(this->buf[i]->coords.y, this->getLastXInRow(this->buf[i]->coords.y)))
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            return {this->buf[i]->coords.y, this->buf[i]->coords.x};
+            if (this->buf[i]->coords.y >= y && !this->cellIsSentenceHyphenation(this->buf[i]->coords.y, this->getLastXInRow(this->buf[i]->coords.y)))
+            {
+                return {this->buf[i]->coords.y, this->buf[i]->coords.x};
+            };
         };
-    }
+    };
     return {0, 0};
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
-    std::vector<BufferCellWithCoords *> Base<T>::getRowWithY(int y)
+std::vector<BufferCellWithCoords *> Base<T>::getRowWithY(int y)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
     std::vector<BufferCellWithCoords *> res;
-    std::vector<BufferCellWithCoords *> buf = this->getBufferIterator();
-    for (int i = 0; i < buf.size(); ++i)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (buf[i]->coords.y == y)
+        std::vector<BufferCellWithCoords *> buf = this->getBufferIterator();
+        for (int i = 0; i < buf.size(); ++i)
         {
-            res.push_back(buf[i]);
-        }
+            if (buf[i]->coords.y == y)
+            {
+                res.push_back(buf[i]);
+            };
+        };
     };
     return res;
 };
@@ -546,13 +528,13 @@ requires std::is_same_v<T, BufferCellWithCoords>
 template <typename T>
 std::string Base<T>::getBufAsString()
 {
-    if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-        throw buffer_assertion_error;
-
     std::string res;
-    for (auto cell : this->getBufferIterator())
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        res += cell->symbol;
+        for (auto cell : this->getBufferIterator())
+        {
+            res += cell->symbol;
+        };
     };
     return res;
 };
@@ -584,29 +566,29 @@ std::vector<BufferAsString> Base<T>::getBufAsStringWithYCoord()
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 int Base<T>::getLastXInRow(int y)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    int chars = 0;
-    int wideChars = 0;
-    for (int i = 0; i < this->buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if ((this->buf[i]->coords.y == y) && (this->buf[i]->symbol != 10))
+        int chars = 0;
+        int wideChars = 0;
+        for (int i = 0; i < this->buf.size(); i++)
         {
-            if (i != 0)
+            if ((this->buf[i]->coords.y == y) && (this->buf[i]->symbol != 10))
             {
-                if (this->buf[i - 1]->coords.y == y && this->buf[i - 1]->coords.x == this->buf[i]->coords.x)
+                if (i != 0)
                 {
-                    wideChars += 2;
+                    if (this->buf[i - 1]->coords.y == y && this->buf[i - 1]->coords.x == this->buf[i]->coords.x)
+                    {
+                        wideChars += 2;
+                    };
                 };
+                chars++;
             };
-            chars++;
         };
+        return chars - (wideChars / 2);
     };
-    return chars - (wideChars / 2);
+    return 0;
 };
 
 void Status::setModified(bool s)
@@ -626,59 +608,58 @@ void Base<T>::clearBuf()
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 bool Base<T>::isLastBufCell(int y, int x) const
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    if (!this->buf.empty())
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        return this->buf[this->buf.size() - 1]->coords.y == y && this->buf[this->buf.size() - 1]->coords.x == x;
-    }
+        if (!this->buf.empty())
+        {
+            return this->buf[this->buf.size() - 1]->coords.y == y && this->buf[this->buf.size() - 1]->coords.x == x;
+        };
+    };
+    return false;
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 bool Base<T>::isRowEmpty(int y)
 {
-    //     if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //         throw buffer_assertion_error;
-
-    auto buf = this->getBufferIterator();
-    for (int i = 0; i < buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (buf[i]->coords.y == y)
+        auto buf = this->getBufferIterator();
+        for (int i = 0; i < buf.size(); i++)
         {
-            return false;
+            if (buf[i]->coords.y == y)
+            {
+                return false;
+            };
         };
     };
     return true;
 };
 
 template <typename T>
-requires std::is_same_v<T, BufferCellWithCoords>
 bool Base<T>::isBufCell(int y, int x)
 {
-    // if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-    //     throw buffer_assertion_error;
-
-    auto buf = this->getBufferIterator();
-    for (int i = 0; i < buf.size(); i++)
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (buf[i]->coords.y == y && buf[i]->coords.x == x && buf[i]->symbol != ' ')
+        auto buf = this->getBufferIterator();
+        for (int i = 0; i < buf.size(); i++)
         {
-            return true;
+            if (buf[i]->coords.y == y && buf[i]->coords.x == x && buf[i]->symbol != ' ')
+            {
+                return true;
+            };
         };
-    }
+    };
     return false;
 };
 
 template <typename T>
 void Base<T>::removeCharsBetweenSpaces(int y, int x)
 {
-    if constexpr (!buffer_assertion(T, BufferCellWithCoords))
-        throw buffer_assertion_error;
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
+    {
+    };
 };
 
 template class Buffer<BufferCellOnlyWithSymbol>;

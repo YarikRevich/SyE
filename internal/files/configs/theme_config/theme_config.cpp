@@ -9,7 +9,7 @@
 #ifdef __APPLE__
 #include <filesystem>
 namespace fs = std::filesystem;
-#elif defined(linux)
+#elif defined(__linux__)
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
 #endif
