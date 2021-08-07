@@ -103,6 +103,8 @@ public:
 
     void removeCharsBetweenSpaces(int y, int x);
 
+    std::tuple<int, int> deleteWordBeforeSpace(int y, int x);
+
     void eraseCell(int y, int x);
 
     void clearBuf();

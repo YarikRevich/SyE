@@ -44,6 +44,7 @@ if (NOT WIN32)
 		internal/margin/margin.cpp 
 
 		internal/commands/w/w.cpp 
+		internal/commands/z/z.cpp
 		internal/commands/helper/helper.cpp
 		internal/commands/search/search.cpp 
 		internal/commands/applicator/applicator.cpp

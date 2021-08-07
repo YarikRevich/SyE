@@ -655,11 +655,25 @@ bool Base<T>::isBufCell(int y, int x)
 };
 
 template <typename T>
-void Base<T>::removeCharsBetweenSpaces(int y, int x)
+std::tuple<int, int> Base<T>::deleteWordBeforeSpace(int y, int x)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
+        bool traced_chars;
+        for (int i = this->buf.size(); i != 0; --i)
+        {
+            if (this->buf[i]->symbol != ' ')
+            {
+                traced_chars = true;
+            }
+            if (traced_chars && this->buf[i]->symbol == ' ')
+            {
+                return {this->buf[i]->coords.y, this->buf[i]->coords.x};
+            }
+            this->eraseCell(this->buf[i]->coords.y, this->buf[i]->coords.x);
+        };
     };
+    return {0, 0};
 };
 
 template class Buffer<BufferCellOnlyWithSymbol>;
