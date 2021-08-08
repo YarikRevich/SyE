@@ -7,7 +7,7 @@
 #include "./../../position/position.hpp"
 #include "./../../editor_status/editor_status.hpp"
 
-void Search_Command::execute_with_params(std::string search_word)
+void Search_Command::execute_with_params(std::string search_word) const
 {
     auto insert_buffer = _INSERT__BUF->getBufAsStringWithYCoord();
     for (int i = 0; i < insert_buffer.size(); i++)

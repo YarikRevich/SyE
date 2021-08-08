@@ -12,13 +12,13 @@ Renderer *Renderer::set_buf(Buffer<BufferCellWithCoords> *buf)
     return this;
 };
 
-Renderer *Renderer::set_color(std::tuple<int, int> color_theme)
+Renderer *Renderer::set_color(const std::tuple<int, int> color_theme)
 {
     this->current_color_theme = color_theme;
     return this;
 };
 
-void Renderer::include_new_cell(BufferCellWithCoords *cell)
+void Renderer::include_new_cell(const BufferCellWithCoords *cell)
 {
     if (cell->fontColor.length() != 0)
     {
@@ -30,14 +30,14 @@ void Renderer::include_new_cell(BufferCellWithCoords *cell)
     _FONT_COLOR->remove(cell->fontColor);
 };
 
-void Renderer::include_movements()
+void Renderer::include_movements() const 
 {
     wmove(stdscr, Coords::curr_y, Coords::curr_x);
 };
 
-void Renderer::render()
+void Renderer::render() const
 {
-    auto buffer_iterator = this->buf->getBufferIterator();
+    auto &buffer_iterator = this->buf->getBufferIterator();
     if (!buffer_iterator.empty())
     {
         std::for_each(buffer_iterator.begin(), buffer_iterator.end(), this->include_new_cell);
@@ -46,13 +46,13 @@ void Renderer::render()
     wrefresh(stdscr);
 };
 
-void Renderer::checkSearchBufferForMovement()
+void Renderer::checkSearchBufferForMovement() const
 {
     this->include_movements();
     wrefresh(stdscr);
 };
 
-void Renderer::init_render(std::string buf)
+void Renderer::init_render(const std::string buf) const
 {
     if (!buf.empty())
     {

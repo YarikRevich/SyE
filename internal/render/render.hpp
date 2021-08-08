@@ -21,17 +21,17 @@ private:
 public:
     Renderer *set_buf(Buffer<BufferCellWithCoords> *buf);
 
-    Renderer *set_color(std::tuple<int, int>);
+    Renderer *set_color(const std::tuple<int, int>);
 
-    static void include_new_cell(BufferCellWithCoords *);
+    static void include_new_cell(const BufferCellWithCoords *);
 
-    void include_movements();
+    void include_movements() const;
 
-    void render();
+    void render() const;
 
-    void checkSearchBufferForMovement();
+    void checkSearchBufferForMovement() const;
 
-    void init_render(std::string buf);
+    void init_render(const std::string buf) const;
 };
 
 extern Renderer *_RENDERER;

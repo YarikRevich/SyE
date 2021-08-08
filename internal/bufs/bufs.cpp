@@ -1,4 +1,5 @@
 #include <math.h>
+#include <cmath>
 #include "bufs.hpp"
 #include <iostream>
 #include <algorithm>
@@ -38,7 +39,7 @@ void CoordsTranslocation<T>::translocateYUp() const
 };
 
 template <typename T>
-void CoordsTranslocation<T>::translocateYUpAfter(int y)
+void CoordsTranslocation<T>::translocateYUpAfter(const int y) const
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
@@ -54,7 +55,7 @@ void CoordsTranslocation<T>::translocateYUpAfter(int y)
 };
 
 template <typename T>
-void CoordsTranslocation<T>::translocateYDown()
+void CoordsTranslocation<T>::translocateYDown() const
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
@@ -69,7 +70,7 @@ void CoordsTranslocation<T>::translocateYDown()
 };
 
 template <typename T>
-void CoordsTranslocation<T>::translocateYDownAfter(int y)
+void CoordsTranslocation<T>::translocateYDownAfter(const int y) const
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
@@ -84,11 +85,10 @@ void CoordsTranslocation<T>::translocateYDownAfter(int y)
 };
 
 template <typename T>
-void CoordsTranslocation<T>::translocateXRightAfter(int y, int x)
+void CoordsTranslocation<T>::translocateXRightAfter(const int y, const int x) const
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-
         _LOG__BUF->addCellWithSymbolType(10, CHAR);
         for (int i = 0; i < this->buf.size(); i++)
         {
@@ -132,35 +132,10 @@ void CoordsTranslocation<T>::translocateXRightAfter(int y, int x)
 };
 
 template <typename T>
-void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
+void CoordsTranslocation<T>::translocateXLeftAfter(const int y, const int x) const
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-
-        // std::string s = "Buffer before : ";
-        // for (auto const i : s)
-        // {
-        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-        // }
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // for (auto const i : this->getBufferIterator())
-        // {
-        //     s = "Y is ";
-        //     for (auto const b : s)
-        //     {
-        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
-        //     }
-        //     _LOG__BUF->addCellWithSymbolType(i->y, INT);
-        //     s = " ,X is ";
-        //     for (auto const b : s)
-        //     {
-        //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
-        //     }
-        //     _LOG__BUF->addCellWithSymbolType(i->x, INT);
-        //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // }
-        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
         for (int i = 0; i < this->buf.size(); i++)
         {
             if ((this->buf[i]->coords.y >= y) && (this->buf[i]->coords.x >= x) && (this->buf[i]->symbol == 10))
@@ -178,34 +153,10 @@ void CoordsTranslocation<T>::translocateXLeftAfter(int y, int x)
             }
         }
     };
-
-    // s = "Buffer after : ";
-    // for (auto const i : s)
-    // {
-    //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-    // }
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // for (auto const i : this->getBufferIterator())
-    // {
-    //     s = "Y is ";
-    //     for (auto const b : s)
-    //     {
-    //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
-    //     }
-    //     _LOG__BUF->addCellWithSymbolType(i->y, INT);
-    //     s = " ,X is ";
-    //     for (auto const b : s)
-    //     {
-    //         _LOG__BUF->addCellWithSymbolType(b, CHAR);
-    //     }
-    //     _LOG__BUF->addCellWithSymbolType(i->x, INT);
-    //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
-    // }
-    // _LOG__BUF->addCellWithSymbolType(10, CHAR);
 };
 
 template <typename T>
-bool Base<T>::sort(T *nextBufferCell, T *currentBufferCell)
+bool Base<T>::sort(const T *nextBufferCell, const T *currentBufferCell)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
@@ -266,7 +217,7 @@ bool Base<T>::sort(T *nextBufferCell, T *currentBufferCell)
 };
 
 template <typename T>
-bool Base<T>::isStartRow(int y)
+bool Base<T>::isStartRow(const int y) const
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
@@ -281,7 +232,7 @@ bool Base<T>::isStartRow(int y)
 };
 
 template <typename T>
-BufferCellOnlyWithCoords *Base<T>::getPrevCellByCoords(int y, int x)
+BufferCellOnlyWithCoords *Base<T>::getPrevCellByCoords(const int y, const int x) const
 {
     if constexpr (buffer_assertion(T, BufferCellOnlyWithCoords))
     {
@@ -297,7 +248,7 @@ BufferCellOnlyWithCoords *Base<T>::getPrevCellByCoords(int y, int x)
 };
 
 template <typename T>
-BufferCellOnlyWithCoords *Base<T>::getNextCellByCoords(int y, int x)
+BufferCellOnlyWithCoords *Base<T>::getNextCellByCoords(const int y, const int x) const
 {
     if constexpr (buffer_assertion(T, BufferCellOnlyWithCoords))
     {
@@ -313,39 +264,45 @@ BufferCellOnlyWithCoords *Base<T>::getNextCellByCoords(int y, int x)
 };
 
 template <class T>
-void Base<T>::eraseCell(int y, int x)
+void Base<T>::eraseCell(const int y, const int x)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (this->buf.size() > 1)
+        auto &buffer = this->getBufferIterator();
+        if (buffer.size() > 1)
         {
             int index_of_cell_to_delete = 0;
-            for (int i = 0; i < this->buf.size(); i++)
+
+            for (int i = 0; i < buffer.size(); i++)
             {
-                if (this->buf[i]->coords.x == x && this->buf[i]->coords.y == y)
+                if (buffer[i]->coords.x == x && buffer[i]->coords.y == y)
                 {
                     index_of_cell_to_delete = i;
                 }
-            }
-            if (index_of_cell_to_delete != 0)
-            {
-                this->buf.erase(this->buf.begin() + index_of_cell_to_delete);
+            };
 
-                if (this->buf[index_of_cell_to_delete - 1]->coords.y == y && this->buf[index_of_cell_to_delete - 1]->coords.x == x)
+            buffer.erase(buffer.begin() + index_of_cell_to_delete);
+
+            if (!std::signbit(index_of_cell_to_delete - 1))
+            {
+                if (buffer[index_of_cell_to_delete - 1]->coords.y == y && buffer[index_of_cell_to_delete - 1]->coords.x == x)
                 {
-                    this->buf.erase(this->buf.begin() + index_of_cell_to_delete - 1);
+                    if (buffer[index_of_cell_to_delete - 1]->symbol != 32)
+                    {
+                        buffer.erase(buffer.begin() + index_of_cell_to_delete - 1);
+                    }
                 }
             }
         }
-        else if (this->buf.size() != 0)
+        else if (buffer.size() != 0)
         {
-            this->buf.erase(buf.begin());
+            buffer.erase(buffer.begin());
         };
     };
 }
 
 template <typename T>
-void Base<T>::addCellWithCoords(int s, int y, int x)
+void Base<T>::addCellWithCoords(const int s, const int y, const int x)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
@@ -355,32 +312,37 @@ void Base<T>::addCellWithCoords(int s, int y, int x)
         b->coords.x = x;
         b->sentenceHyphenation = false;
 
-        this->buf.push_back(b);
+        auto &buffer = this->getBufferIterator();
+        buffer.push_back(b);
 
         // std::sort(this->buf.begin(), this->buf.end(), this->sort);
     };
 }
 
 template <typename T>
-void Base<T>::addCellWithSymbolType(int s, SymbolType st)
+void Base<T>::addCellWithSymbolType(const int s, const SymbolType st)
 {
     if constexpr (buffer_assertion(T, BufferCellWithSymbolType))
     {
         BufferCellWithSymbolType *b = new BufferCellWithSymbolType;
         b->symbol = s;
         b->type = st;
-        this->buf.push_back(b);
+
+        auto &buffer = this->getBufferIterator();
+        buffer.push_back(b);
     };
 };
 
 template <typename T>
-void Base<T>::addCellOnlyWithSymbol(int s)
+void Base<T>::addCellOnlyWithSymbol(const int s)
 {
     if constexpr (buffer_assertion(T, BufferCellOnlyWithSymbol))
     {
         BufferCellOnlyWithSymbol *b = new BufferCellOnlyWithSymbol;
         b->symbol = s;
-        this->buf.push_back(b);
+
+        auto &buffer = this->getBufferIterator();
+        buffer.push_back(b);
     };
 }
 
@@ -392,18 +354,20 @@ void Base<T>::addCellOnlyWithCoords(int y, int x)
         BufferCellOnlyWithCoords *b = new BufferCellOnlyWithCoords;
         b->coords.y = y;
         b->coords.x = x;
-        this->buf.push_back(b);
+
+        auto &buffer = this->getBufferIterator();
+        buffer.push_back(b);
     };
 };
 
 template <typename T>
-void Base<T>::addCellToEnd(int s)
+void Base<T>::addCellToEnd(const int s)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        std::vector<T *> const buf = this->getBufferIterator();
+        auto &buffer = this->getBufferIterator();
 
-        T *const last_cell = buf[buf.size() - 1];
+        auto last_cell = buffer[buffer.size() - 1];
 
         T *b = new T;
         if (last_cell->coords.x == Coords::max_x)
@@ -416,7 +380,8 @@ void Base<T>::addCellToEnd(int s)
             b->coords.x = (last_cell->coords.x + 1);
         }
         b->symbol = s;
-        this->buf.push_back(b);
+
+        buffer.push_back(b);
     };
 };
 
@@ -425,14 +390,15 @@ void Base<T>::addEolIfNotExists()
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (this->buf.begin() != this->buf.end())
+        auto &buffer = this->getBufferIterator();
+        if (buffer.begin() != buffer.end())
         {
-            std::vector<T *> const buf = this->getBufferIterator();
-            if (buf[buf.size() - 1]->symbol != 10)
+            if (buffer[buffer.size() - 1]->symbol != 10)
             {
                 T *b = new T;
                 b->symbol = 10;
-                this->buf.push_back(b);
+
+                buffer.push_back(b);
             }
         };
     };
@@ -445,46 +411,48 @@ std::vector<T *> &Base<T>::getBufferIterator()
 };
 
 template <typename T>
-void Base<T>::setCellWithCoordsColor(int y, int x, std::string color)
+void Base<T>::setCellWithCoordsColor(const int y, const int x, const std::string color)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        auto buf = this->getBufferIterator();
-        for (int i = 0; i < buf.size(); i++)
+        auto &buffer = this->getBufferIterator();
+        for (int i = 0; i < buffer.size(); i++)
         {
-            if (buf[i]->coords.y == y && buf[i]->coords.x == x)
+            if (buffer[i]->coords.y == y && buffer[i]->coords.x == x)
             {
-                buf[i]->fontColor = color;
+                buffer[i]->fontColor = color;
             };
         };
     };
 };
 
 template <typename T>
-void Base<T>::setCellSentenceHyphenation(int y, int x, bool status)
+void Base<T>::setCellSentenceHyphenation(const int y, const int x, const bool status)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        for (int i = 0; i < this->buf.size(); i++)
+        auto &buffer = this->getBufferIterator();
+        for (int i = 0; i < buffer.size(); i++)
         {
-            if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+            if (buffer[i]->coords.y == y && buffer[i]->coords.x == x)
             {
-                this->buf[i]->sentenceHyphenation = status;
+                buffer[i]->sentenceHyphenation = status;
             };
         };
     };
 };
 
 template <typename T>
-bool Base<T>::cellIsSentenceHyphenation(int y, int x)
+bool Base<T>::cellIsSentenceHyphenation(const int y, const int x)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        for (int i = 0; i < this->buf.size(); i++)
+        auto &buffer = this->getBufferIterator();
+        for (int i = 0; i < buffer.size(); i++)
         {
-            if (this->buf[i]->coords.y == y && this->buf[i]->coords.x == x)
+            if (buffer[i]->coords.y == y && buffer[i]->coords.x == x)
             {
-                return this->buf[i]->sentenceHyphenation;
+                return buffer[i]->sentenceHyphenation;
             };
         };
     };
@@ -492,15 +460,16 @@ bool Base<T>::cellIsSentenceHyphenation(int y, int x)
 }
 
 template <typename T>
-std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
+std::tuple<int, int> Base<T>::getEndOfSentence(const int y, const int x)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        for (int i = 0; i < this->buf.size(); i++)
+        auto &buffer = this->getBufferIterator();
+        for (int i = 0; i < buffer.size(); i++)
         {
-            if (this->buf[i]->coords.y >= y && !this->cellIsSentenceHyphenation(this->buf[i]->coords.y, this->getLastXInRow(this->buf[i]->coords.y)))
+            if (buffer[i]->coords.y >= y && !this->cellIsSentenceHyphenation(buffer[i]->coords.y, this->getLastXInRow(buffer[i]->coords.y)))
             {
-                return {this->buf[i]->coords.y, this->buf[i]->coords.x};
+                return {buffer[i]->coords.y, buffer[i]->coords.x};
             };
         };
     };
@@ -508,17 +477,17 @@ std::tuple<int, int> Base<T>::getEndOfSentence(int y, int x)
 };
 
 template <typename T>
-std::vector<BufferCellWithCoords *> Base<T>::getRowWithY(int y)
+std::vector<BufferCellWithCoords *> Base<T>::getRowWithY(const int y)
 {
     std::vector<BufferCellWithCoords *> res;
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        std::vector<BufferCellWithCoords *> buf = this->getBufferIterator();
-        for (int i = 0; i < buf.size(); ++i)
+        auto &buffer = this->getBufferIterator();
+        for (int i = 0; i < buffer.size(); ++i)
         {
-            if (buf[i]->coords.y == y)
+            if (buffer[i]->coords.y == y)
             {
-                res.push_back(buf[i]);
+                res.push_back(buffer[i]);
             };
         };
     };
@@ -566,19 +535,20 @@ std::vector<BufferAsString> Base<T>::getBufAsStringWithYCoord()
 };
 
 template <typename T>
-int Base<T>::getLastXInRow(int y)
+int Base<T>::getLastXInRow(const int y)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
         int chars = 0;
         int wideChars = 0;
-        for (int i = 0; i < this->buf.size(); i++)
+        auto &buffer = this->getBufferIterator();
+        for (int i = 0; i < buffer.size(); i++)
         {
-            if ((this->buf[i]->coords.y == y) && (this->buf[i]->symbol != 10))
+            if ((buffer[i]->coords.y == y) && (buffer[i]->symbol != 10))
             {
                 if (i != 0)
                 {
-                    if (this->buf[i - 1]->coords.y == y && this->buf[i - 1]->coords.x == this->buf[i]->coords.x)
+                    if (buffer[i - 1]->coords.y == y && buffer[i - 1]->coords.x == buffer[i]->coords.x)
                     {
                         wideChars += 2;
                     };
@@ -591,12 +561,12 @@ int Base<T>::getLastXInRow(int y)
     return 0;
 };
 
-void Status::setModified(bool s)
+void Status::setModified(const bool s)
 {
     this->modified = s;
 };
 
-bool Status::isModified()
+bool Status::isModified() const
 {
     return this->modified;
 }
@@ -604,31 +574,33 @@ bool Status::isModified()
 template <typename T>
 void Base<T>::clearBuf()
 {
-    this->buf.erase(this->buf.begin(), this->buf.end());
+    auto &buffer = this->getBufferIterator();
+    buffer.erase(buffer.begin(), buffer.end());
 };
 
 template <typename T>
-bool Base<T>::isLastBufCell(int y, int x) const
+bool Base<T>::isLastBufCell(const int y, const int x)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        if (!this->buf.empty())
+        auto &buffer = this->getBufferIterator();
+        if (!buffer.empty())
         {
-            return this->buf[this->buf.size() - 1]->coords.y == y && this->buf[this->buf.size() - 1]->coords.x == x;
+            return buffer[buffer.size() - 1]->coords.y == y && buffer[buffer.size() - 1]->coords.x == x;
         };
     };
     return false;
 };
 
 template <typename T>
-bool Base<T>::isRowEmpty(int y)
+bool Base<T>::isRowEmpty(const int y)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        auto buf = this->getBufferIterator();
-        for (int i = 0; i < buf.size(); i++)
+        auto &buffer = this->getBufferIterator();
+        for (int i = 0; i < buffer.size(); i++)
         {
-            if (buf[i]->coords.y == y)
+            if (buffer[i]->coords.y == y)
             {
                 return false;
             };
@@ -638,14 +610,14 @@ bool Base<T>::isRowEmpty(int y)
 };
 
 template <typename T>
-bool Base<T>::isBufCell(int y, int x)
+bool Base<T>::isBufCell(const int y, const int x)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        auto buf = this->getBufferIterator();
-        for (int i = 0; i < buf.size(); i++)
+        auto buffer = this->getBufferIterator();
+        for (int i = 0; i < buffer.size(); i++)
         {
-            if (buf[i]->coords.y == y && buf[i]->coords.x == x && buf[i]->symbol != ' ')
+            if (buffer[i]->coords.y == y && buffer[i]->coords.x == x && buffer[i]->symbol != ' ')
             {
                 return true;
             };
@@ -655,22 +627,25 @@ bool Base<T>::isBufCell(int y, int x)
 };
 
 template <typename T>
-std::tuple<int, int> Base<T>::deleteWordBeforeSpace(int y, int x)
+std::tuple<int, int> Base<T>::deleteWordBeforeSpace(const int y, const int x)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        bool traced_chars;
-        for (int i = this->buf.size(); i != 0; --i)
+        auto &buffer = this->getBufferIterator();
+        bool traced_chars = false;
+
+        for (int i = buffer.size() - 1; i > -1; --i)
         {
-            if (this->buf[i]->symbol != ' ')
+            if (buffer[i]->symbol != ' ')
             {
                 traced_chars = true;
             }
-            if (traced_chars && this->buf[i]->symbol == ' ')
+            if (traced_chars && buffer[i]->symbol == ' ')
             {
-                return {this->buf[i]->coords.y, this->buf[i]->coords.x};
+                return {buffer[i]->coords.y, buffer[i]->coords.x};
             }
-            this->eraseCell(this->buf[i]->coords.y, this->buf[i]->coords.x);
+
+            this->eraseCell(buffer[i]->coords.y, buffer[i]->coords.x);
         };
     };
     return {0, 0};

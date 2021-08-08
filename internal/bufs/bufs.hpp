@@ -56,30 +56,30 @@ protected:
     std::vector<T *> buf;
 
 private:
-    static bool sort(T *currentBufferCell, T *nextBufferCell);
+    static bool sort(const T *, const T *);
 
 public:
-    bool isStartRow(int y);
+    bool isStartRow(const int) const;
 
-    void addCellWithCoords(int s, int y, int x);
+    void addCellWithCoords(const int, const int, const int);
 
-    void addCellWithSymbolType(int s, SymbolType st);
+    void addCellWithSymbolType(const int, const SymbolType st);
 
-    void addCellOnlyWithSymbol(int s);
+    void addCellOnlyWithSymbol(const int);
 
-    void addCellOnlyWithCoords(int y, int x);
+    void addCellOnlyWithCoords(const int, const int);
 
-    void addCellToEnd(int s);
+    void addCellToEnd(const int);
 
     void addEolIfNotExists();
 
-    void setCellWithCoordsColor(int y, int x, std::string color);
+    void setCellWithCoordsColor(const int y, const int x, const std::string color);
 
-    void setCellSentenceHyphenation(int y, int x, bool status);
+    void setCellSentenceHyphenation(const int y, const int x, const bool status);
 
-    bool cellIsSentenceHyphenation(int y, int x);
+    bool cellIsSentenceHyphenation(const int y, const int x);
 
-    std::tuple<int, int> getEndOfSentence(int y, int x);
+    std::tuple<int, int> getEndOfSentence(const int y, const int x);
 
     std::vector<T *> &getBufferIterator();
 
@@ -87,25 +87,23 @@ public:
 
     std::vector<BufferAsString> getBufAsStringWithYCoord();
 
-    int getLastXInRow(int y);
+    int getLastXInRow(const int);
 
-    std::vector<BufferCellWithCoords *> getRowWithY(int y);
+    std::vector<BufferCellWithCoords *> getRowWithY(const int);
 
-    BufferCellOnlyWithCoords *getPrevCellByCoords(int y, int x);
+    BufferCellOnlyWithCoords *getPrevCellByCoords(const int, const int) const;
 
-    BufferCellOnlyWithCoords *getNextCellByCoords(int y, int x);
+    BufferCellOnlyWithCoords *getNextCellByCoords(const int, const int) const;
 
-    bool isLastBufCell(int y, int x) const;
+    bool isLastBufCell(const int, const int);
 
-    bool isRowEmpty(int y);
+    bool isRowEmpty(const int);
 
-    bool isBufCell(int y, int x);
+    bool isBufCell(const int, const int);
 
-    void removeCharsBetweenSpaces(int y, int x);
+    std::tuple<int, int> deleteWordBeforeSpace(const int, const int);
 
-    std::tuple<int, int> deleteWordBeforeSpace(int y, int x);
-
-    void eraseCell(int y, int x);
+    void eraseCell(const int, const int);
 
     void clearBuf();
 };
@@ -116,15 +114,15 @@ class CoordsTranslocation : public Base<T>
 public:
     void translocateYUp() const;
 
-    void translocateYDown();
+    void translocateYDown() const;
 
-    void translocateYUpAfter(int y);
+    void translocateYUpAfter(const int) const;
 
-    void translocateYDownAfter(int y);
+    void translocateYDownAfter(const int) const;
 
-    void translocateXRightAfter(int y, int x);
+    void translocateXRightAfter(const int, const int) const;
 
-    void translocateXLeftAfter(int y, int x);
+    void translocateXLeftAfter(const int, const int) const;
 };
 
 class Status
@@ -133,9 +131,9 @@ protected:
     bool modified;
 
 public:
-    void setModified(bool s);
+    void setModified(const bool s);
 
-    bool isModified();
+    bool isModified() const;
 };
 
 template <typename T>
