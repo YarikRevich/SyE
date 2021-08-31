@@ -17,7 +17,7 @@ namespace fs = std::experimental::filesystem;
 int TermFlags::n_argc;
 char **TermFlags::n_argv;
 std::vector<std::string> TermFlags::n_single_flags = {
-    "--dev",
+    "--log",
 };
 
 bool TermFlags::check_single_flag(std::string flag)
@@ -72,7 +72,7 @@ void TermFlags::check_executive_flag()
 
 void TermFlags::check_dev_flag()
 {
-    if (check_single_flag("--dev"))
+    if (check_single_flag("--log"))
     {
         _LOG_FILE->open(NULL);
     };

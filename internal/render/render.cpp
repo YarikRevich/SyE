@@ -56,6 +56,8 @@ void Renderer::init_render(const std::string buf) const
 {
     if (!buf.empty())
     {
+        _INSERT__BUF->addCellWithCoords(0, Coords::curr_y, Coords::curr_x);
+
         for (int i = 0; i < buf.size() - 1; i++)
         {
             switch (buf[i])

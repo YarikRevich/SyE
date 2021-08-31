@@ -1,36 +1,25 @@
 if (NOT WIN32)
 	cmake_minimum_required(VERSION 3.16)
 	project(editor VERSION 0.0.1 LANGUAGES C CXX)
+	include(CTest)
+
 	set(CMAKE_CXX_COMPILER /usr/bin/g++)
 	set(CMAKE_CXX_FLAGS "-std=c++2a -D_XOPEN_SOURCE_EXTENDED")
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/cmd)
 	message("Make build output path is /cmd")
 
-
-	if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/.ignore_deps)
-		exec_program(${CMAKE_CURRENT_SOURCE_DIR}/scripts/install_dependencies.sh)
-	endif()
-	
-	find_package(yaml-cpp REQUIRED)
-	message("Found yaml-cpp lib")
-	find_package(GTest REQUIRED)
-	message("Found gtest lib")
-	find_package(Boost COMPONENTS REQUIRED filesystem system)
-	message("Found boost lib")
-	set(Boost_USE_STATIC_LIBS OFF)
-	set(Boost_USE_MULTITHREADED ON)
-	set(Boost_USE_STATIC_RUNTIME OFF)
-
+	enable_testing()
 	add_subdirectory(tests)
+
 
 	if (APPLE)
 		include_directories("/usr/local/opt/ncurses/include")
 		link_directories("/usr/local/opt/ncurses/lib")
 	endif()
 
-	include_directories(${GTEST_INCLUDE_DIRS})
-	include_directories(${YAML_CPP_INCLUDE_DIRS})
-	include_directories(${Boost_INCLUDE_DIRS})
+	include_directories("include/")
+	link_directories("lib/")
+
 	add_executable(
 		sye 
 		cmd/main.cpp
@@ -79,12 +68,18 @@ if (NOT WIN32)
 		internal/colors/colors.cpp 
 
 		internal/helper/helper.cpp
-
-		tests/buf_test.cpp
-		tests/main.cpp
 	)
 
-	target_link_libraries(sye ${YAML_CPP_LIBRARIES} ncursesw ${Boost_FILESYSTEM_LIBRARIES} ${Boost_SYSTEM_LIBRARIES} ${GTest_CPP_LIBRARIES})
+	target_link_libraries(
+		sye 
+		ncursesw
+
+		${CMAKE_SOURCE_DIR}/lib/yaml-cpp/libyaml-cpp.0.6.3.dylib
+		${CMAKE_SOURCE_DIR}/lib/gtest/libgtest_main.a
+		${CMAKE_SOURCE_DIR}/lib/gtest/libgtest.a
+		${CMAKE_SOURCE_DIR}/lib/boost/libboost_filesystem.a
+		${CMAKE_SOURCE_DIR}/lib/boost/libboost_system.a
+	)
 
 	if(NOT APPLE)
 		target_link_libraries(sye ncursesw stdc++fs)

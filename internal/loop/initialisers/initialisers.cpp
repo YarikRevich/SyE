@@ -7,12 +7,21 @@
 #include "./../../files/helper/helper.hpp"
 #include "./../../colors/insert/insert.hpp"
 #include "./../../term_flags/term_flags.hpp"
+#include "./../../highlighter/highlighter.hpp"
 #include "./../../files/configs/theme_config/theme_config.hpp"
 #include "./../../files/configs/syntax_config/syntax_config.hpp"
 
 void LoopInitialisers::init_insert_buf(){
 	_RENDERER->init_render(_EXEC_FILE->read());
 };
+
+void LoopInitialisers::init_analiser(){
+	_HIGHLIGHTER->analiseCode();
+}
+
+void LoopInitialisers::init_insert_buf_render(){
+	_RENDERER->set_buf(_INSERT__BUF)->render();
+}
 
 void LoopInitialisers::init_configs()
 {

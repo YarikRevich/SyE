@@ -40,7 +40,7 @@ void CommandStateEnterHandler::use()
 {
     _INSERT__BUF->eraseCell(Coords::max_y - 1, 0);
 
-    if (!Applicator::applyCommand(_COMMAND__BUF->getBufAsString()))
+    if (Applicator::applyCommand(_COMMAND__BUF->getBufAsString()))
     {
         Coords::setY(PreviouslyPressedHistory::y), Coords::setX(PreviouslyPressedHistory::x);
     }

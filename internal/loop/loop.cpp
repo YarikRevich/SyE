@@ -12,6 +12,8 @@ void Loop::run()
 		Middleware(LoopInitialisers::init_ncurses),
 		Middleware(LoopInitialisers::init_colors),
 		Middleware(LoopInitialisers::init_insert_buf),
+		Middleware(LoopInitialisers::init_analiser),
+		Middleware(LoopInitialisers::init_insert_buf_render),
 		Middleware(LoopInitialisers::init_signals),
 	});
 
@@ -19,9 +21,9 @@ void Loop::run()
 	{
 		MiddlwareExecutor({
 			Middleware(LoopProcessors::update_coords),
+			Middleware(LoopProcessors::analise_syntax),
 			Middleware(LoopProcessors::process_states),
 			Middleware(LoopProcessors::clean_screen),
-			Middleware(LoopProcessors::analise_syntax),
 			Middleware(LoopProcessors::render),
 			Middleware(LoopProcessors::save_debug_files),
 			Middleware(LoopProcessors::reset_temp_vals),
