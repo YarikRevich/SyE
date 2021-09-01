@@ -89,7 +89,7 @@ void CoordsTranslocation<T>::translocateXRightAfter(const int y, const int x) co
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
         for (int i = 0; i < this->buf.size(); i++)
         {
 
@@ -100,32 +100,34 @@ void CoordsTranslocation<T>::translocateXRightAfter(const int y, const int x) co
             }
             else if ((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x >= x)
             {
-
-                _LOG__BUF->addCellWithSymbolType(10, CHAR);
-                _LOG__BUF->addCellWithSymbolType(this->buf[i]->symbol, INT);
-                _LOG__BUF->addCellWithSymbolType(' ', CHAR);
-                _LOG__BUF->addCellWithSymbolType((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x >= x, INT);
-                if (this->buf[i]->symbol != ' ')
+                if (this->buf[i]->symbol != 0)
                 {
                     // _LOG__BUF->addCellWithSymbolType(10, CHAR);
                     // _LOG__BUF->addCellWithSymbolType(this->buf[i]->symbol, INT);
-                    if (i != 0 && (this->buf[i - 1]->coords.x >= x &&
-                                   this->buf[i - 1]->coords.y >= y))
-                    {
-                        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-                        // _LOG__BUF->addCellWithSymbolType('O', CHAR);
-                        // this->buf[i - 1]->coords.x++;
-                    }
+                    // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+                    // _LOG__BUF->addCellWithSymbolType((this->buf[i]->coords.y >= y) && this->buf[i]->coords.x >= x, INT);
+                    // if (this->buf[i]->symbol != ' ')
+                    // {
+                    //     // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+                    //     // _LOG__BUF->addCellWithSymbolType(this->buf[i]->symbol, INT);
+                    //     if (i != 0 && (this->buf[i - 1]->coords.x >= x &&
+                    //                    this->buf[i - 1]->coords.y >= y))
+                    //     {
+                    //         // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+                    //         // _LOG__BUF->addCellWithSymbolType('O', CHAR);
+                    //         // this->buf[i - 1]->coords.x++;
+                    //     }
 
-                    if (i != this->buf.size() - 1 && (this->buf[i + 1]->coords.x >= x &&
-                                                      this->buf[i + 1]->coords.y >= y))
-                    {
-                        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-                        // _LOG__BUF->addCellWithSymbolType('B', CHAR);
-                        // this->buf[i + 1]->coords.x++;
-                    }
+                    //     if (i != this->buf.size() - 1 && (this->buf[i + 1]->coords.x >= x &&
+                    //                                       this->buf[i + 1]->coords.y >= y))
+                    //     {
+                    //         // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+                    //         // _LOG__BUF->addCellWithSymbolType('B', CHAR);
+                    //         // this->buf[i + 1]->coords.x++;
+                    //     }
+                    // }
+                    this->buf[i]->coords.x++;
                 }
-                // this->buf[i]->coords.x++;
             }
         }
     }
@@ -174,10 +176,6 @@ bool Base<T>::sort(const T *nextBufferCell, const T *currentBufferCell)
         // };
         // _LOG__BUF->addCellWithSymbolType(10, CHAR);
         // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // for (auto i : std::string("CURRENT"))
-        // {
-        //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-        // };
         // _LOG__BUF->addCellWithSymbolType(10, CHAR);
         // _LOG__BUF->addCellWithSymbolType(currentBufferCell->coords.y, INT);
         // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
@@ -191,27 +189,36 @@ bool Base<T>::sort(const T *nextBufferCell, const T *currentBufferCell)
         // _LOG__BUF->addCellWithSymbolType(nextBufferCell->coords.y, INT);
         // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
         // _LOG__BUF->addCellWithSymbolType(nextBufferCell->coords.x, INT);
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        _LOG__BUF->addCellWithSymbolType(currentBufferCell->coords.x, INT);
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        _LOG__BUF->addCellWithSymbolType(nextBufferCell->coords.x, INT);
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
 
-        if (currentBufferCell->coords.y < nextBufferCell->coords.y)
-        {
-            return false;
-        }
-        else if (currentBufferCell->coords.y > nextBufferCell->coords.y)
-        {
-            return true;
-        }
+        // if (currentBufferCell->coords.y < nextBufferCell->coords.y)
+        // {
+        //     return false;
+        // }
+        // else if (currentBufferCell->coords.y > nextBufferCell->coords.y)
+        // {
+        //     return true;
+        // }
+        // else if (currentBufferCell->coords.x == nextBufferCell->coords.x)
+        // {
+        //     return true;
+        // }
         // else if (currentBufferCell->coords.y == nextBufferCell->coords.y &&
         //          currentBufferCell->coords.x == nextBufferCell->coords.x)
         // {
         //     return true;
         // }
-        else
-        {
-            double g1 = sqrt(currentBufferCell->coords.x * currentBufferCell->coords.x + currentBufferCell->coords.y * currentBufferCell->coords.y);
-            double g2 = sqrt(nextBufferCell->coords.x * nextBufferCell->coords.x + nextBufferCell->coords.y * nextBufferCell->coords.y);
+        // else
+        // {
+        //     double g1 = sqrt(currentBufferCell->coords.x * currentBufferCell->coords.x + currentBufferCell->coords.y * currentBufferCell->coords.y);
+        //     double g2 = sqrt(nextBufferCell->coords.x * nextBufferCell->coords.x + nextBufferCell->coords.y * nextBufferCell->coords.y);
 
-            return g1 > g2;
-        };
+        //     return g1 > g2;
+        // };
     };
     return false;
 };
@@ -315,7 +322,7 @@ void Base<T>::addCellWithCoords(const int s, const int y, const int x)
         auto &buffer = this->getBufferIterator();
         buffer.push_back(b);
 
-        // std::sort(this->buf.begin(), this->buf.end(), this->sort);
+        std::sort(this->buf.begin(), this->buf.end(), this->sort);
     };
 }
 

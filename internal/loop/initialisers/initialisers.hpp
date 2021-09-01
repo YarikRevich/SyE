@@ -10,4 +10,5 @@ namespace LoopInitialisers
     void init_ncurses();
     void init_colors();
     void init_signals();
+    void init_widgets();
 };

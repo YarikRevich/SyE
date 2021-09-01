@@ -1,9 +1,11 @@
 #include "initialisers.hpp"
 
 #include <csignal>
+#include <thread>
 #include <ncurses.h>
 #include "./../../render/render.hpp"
 #include "./../../files/exec/exec.hpp"
+#include "./../../widgets/time/time.hpp"
 #include "./../../files/helper/helper.hpp"
 #include "./../../colors/insert/insert.hpp"
 #include "./../../term_flags/term_flags.hpp"
@@ -55,4 +57,8 @@ void LoopInitialisers::init_colors()
 void LoopInitialisers::init_signals()
 {
 	signal(SIGINT, close_all_files);
+};
+
+void LoopInitialisers::init_widgets(){
+	std::thread{Time::use}.detach();
 };

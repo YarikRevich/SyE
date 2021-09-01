@@ -15,6 +15,7 @@ void Loop::run()
 		Middleware(LoopInitialisers::init_analiser),
 		Middleware(LoopInitialisers::init_insert_buf_render),
 		Middleware(LoopInitialisers::init_signals),
+		Middleware(LoopInitialisers::init_widgets),
 	});
 
 	for (;;)

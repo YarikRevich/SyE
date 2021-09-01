@@ -53,23 +53,12 @@ void InsertStateDefaultHandler::use()
             InsertStateDefaultHandler::moveCariage();
         }
         else
-
         {
-            // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-            // for (auto i : std::string(" NEW !"))
+            // if (_INSERT__BUF->isBufCell(Coords::curr_y, Coords::curr_x))
             // {
-            //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
-            // };
-            // _LOG__BUF->addCellWithSymbolType('Q', CHAR);
-
-            if (_INSERT__BUF->isBufCell(Coords::curr_y, Coords::curr_x))
-            {
-
-                // _LOG__BUF->addCellWithSymbolType(this->buf[i - 1]->coords.y, INT);
-                // _LOG__BUF->addCellWithSymbolType(10, CHAR);
-                // _LOG__BUF->addCellWithSymbolType(this->buf[i - 1]->coords.x, INT);
-                _INSERT__BUF->translocateXRightAfter(Coords::curr_y, Coords::curr_x);
-            }
+            //     _LOG__BUF->addCellWithSymbolType('B', CHAR);
+            //     _INSERT__BUF->translocateXRightAfter(Coords::curr_y, Coords::curr_x);
+            // }
 
             if (isWideChar(*InsertStateStorage::g_ch))
             {

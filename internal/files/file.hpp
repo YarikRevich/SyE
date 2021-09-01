@@ -12,7 +12,6 @@ protected:
     FILE *file;
 };
 
-
 class Open
 {
 public:

@@ -26,13 +26,15 @@ void Renderer::include_new_cell(const BufferCellWithCoords *cell)
     };
 
     mvwprintw(stdscr, cell->coords.y, cell->coords.x, "%c", cell->symbol);
+    wrefresh(stdscr);
 
     _FONT_COLOR->remove(cell->fontColor);
 };
 
-void Renderer::include_movements() const 
+void Renderer::include_movements() const
 {
     wmove(stdscr, Coords::curr_y, Coords::curr_x);
+    wrefresh(stdscr);
 };
 
 void Renderer::render() const
@@ -70,6 +72,7 @@ void Renderer::init_render(const std::string buf) const
             };
             _INSERT__BUF->addCellWithCoords(buf[i], Coords::curr_y, Coords::curr_x);
             mvwprintw(stdscr, Coords::curr_y, Coords::curr_x, "%c", buf[i]);
+            wrefresh(stdscr);
 
             Coords::incX();
         };

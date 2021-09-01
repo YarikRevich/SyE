@@ -67,6 +67,8 @@ if (NOT WIN32)
 		internal/colors/insert/insert.cpp
 		internal/colors/colors.cpp 
 
+		internal/widgets/time/time.cpp
+
 		internal/helper/helper.cpp
 	)
 
