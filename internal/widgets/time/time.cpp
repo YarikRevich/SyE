@@ -18,7 +18,6 @@ void Time::use()
         strftime(buff, sizeof(buff), "%r", lt);
 
         mvwprintw(stdscr, Coords::max_y - 1, Coords::max_x - 12, buff);
-        wrefresh(stdscr);
 
         wmove(stdscr, Coords::curr_y, Coords::curr_x);
         wrefresh(stdscr);

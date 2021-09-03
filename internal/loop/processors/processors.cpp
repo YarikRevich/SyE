@@ -48,11 +48,6 @@ void LoopProcessors::update_coords()
     Coords::updateCurrentCoords();
 };
 
-void LoopProcessors::clean_screen()
-{
-    clear();
-};
-
 void LoopProcessors::analise_syntax()
 {
     _HIGHLIGHTER->analiseCode();

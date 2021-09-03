@@ -1,5 +1,4 @@
 #include <map>
-#include <pwd.h>
 #include <string>
 #include <vector>
 #include <stdio.h>
@@ -38,8 +37,7 @@ std::string PathsManagment::get_file_extension(std::string split_file_path)
 
 std::string PathsManagment::get_path_for_config_directory(std::string dest)
 {
-    struct passwd *pw = getpwuid(getuid());
-    return std::string(pw->pw_dir) + "/.sye_configs" + "/" + dest;
+    return "/usr/local/etc/sye/" + dest;
 };
 
 void *ParseManagement::get_value_of(std::map<std::string, void *> storage, std::string key)
