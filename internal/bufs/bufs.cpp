@@ -322,7 +322,7 @@ void Base<T>::addCellWithCoords(const int s, const int y, const int x)
         auto &buffer = this->getBufferIterator();
         buffer.push_back(b);
 
-        std::sort(this->buf.begin(), this->buf.end(), this->sort);
+        // std::sort(this->buf.begin(), this->buf.end(), this->sort);
     };
 }
 
@@ -679,3 +679,5 @@ Buffer<BufferCellWithCoords> *_INSERT__BUF = new Buffer<BufferCellWithCoords>;
 Buffer<BufferCellWithCoords> *_COMMAND__BUF = new Buffer<BufferCellWithCoords>;
 Buffer<BufferCellWithCoords> *_EFFECTS__BUF = new Buffer<BufferCellWithCoords>;
 Buffer<BufferCellOnlyWithCoords> *_SEARCH__BUF = new Buffer<BufferCellOnlyWithCoords>;
+
+Buffer<BufferCellWithCoords> *_TIME_WIDGET__BUF = new Buffer<BufferCellWithCoords>;

@@ -36,3 +36,13 @@ namespace Position
 
     bool isStartOfX();
 };
+
+namespace Deleters{
+    void sequencial_delch();
+
+    void carriage_delch();
+
+    void last_in_row_delch();
+
+    void shiftable_delch();
+};

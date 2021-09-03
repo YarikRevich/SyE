@@ -1,6 +1,14 @@
 #include <ncurses.h>
 #include <tuple>
 #include "position.hpp"
+#include "../bufs/bufs.hpp"
+
+// #define AAA()                                         \
+// 	{                                                  \
+// 		mvdelch(Coords::curr_y, Coords::curr_x - 1);   \
+// 		Coords::decX();                                \
+// 		wmove(stdscr, Coords::curr_y, Coords::curr_x); \
+// 	}
 
 int Coords::curr_y, Coords::curr_x;
 int Coords::max_y, Coords::max_x;
@@ -25,7 +33,8 @@ void Coords::setX(int x)
 	Coords::curr_x = x;
 };
 
-void Coords::setY(int y){
+void Coords::setY(int y)
+{
 	Coords::curr_y = y;
 };
 
@@ -57,7 +66,6 @@ void Position::resetPositionPoints()
 	Position::startOfY = false;
 };
 
-
 void Position::setStartOfY(bool status)
 {
 	Position::startOfY = status;
@@ -77,3 +85,36 @@ bool Position::isStartOfX()
 {
 	return Position::startOfX;
 };
+
+void Deleters::sequencial_delch()
+{
+	mvdelch(Coords::curr_y, Coords::curr_x);
+	wmove(stdscr, Coords::curr_y, Coords::curr_x);
+	wrefresh(stdscr);
+};
+
+void Deleters::carriage_delch()
+{
+	mvdelch(Coords::curr_y, 0);
+	wrefresh(stdscr);
+};
+
+void Deleters::last_in_row_delch()
+{
+
+	// mvdelch(Coords::curr_y, last);
+	// wmove(stdscr, Coords::curr_y, last);
+	// wrefresh(stdscr);
+
+	mvdelch(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+	wrefresh(stdscr);
+};
+
+void Deleters::shiftable_delch(){};
+
+// void coords_delch()
+// {
+// 	mvdelch(Coords::curr_y, Coords::curr_x - 1);
+// 	Coords::decX();
+// 	wmove(stdscr, Coords::curr_y, Coords::curr_x);
+// };

@@ -162,3 +162,5 @@ extern Buffer<BufferCellWithCoords> *_INSERT__BUF;
 extern Buffer<BufferCellWithCoords> *_COMMAND__BUF;
 extern Buffer<BufferCellWithCoords> *_EFFECTS__BUF;
 extern Buffer<BufferCellOnlyWithCoords> *_SEARCH__BUF;
+
+extern Buffer<BufferCellWithCoords> *_TIME_WIDGET__BUF;

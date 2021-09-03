@@ -18,15 +18,20 @@ Renderer *Renderer::set_color(const std::tuple<int, int> color_theme)
     return this;
 };
 
+// void Renderer::delete_cell() const
+// {
+//     mvdelch(Coords::curr_y, Coords::curr_x - 1);
+//     // Coords::decX();
+//     // wmove(stdscr, Coords::curr_y, Coords::curr_x);
+// };
+
 void Renderer::include_new_cell(const BufferCellWithCoords *cell)
 {
     if (cell->fontColor.length() != 0)
     {
         _FONT_COLOR->set(cell->fontColor);
     };
-
     mvwprintw(stdscr, cell->coords.y, cell->coords.x, "%c", cell->symbol);
-    wrefresh(stdscr);
 
     _FONT_COLOR->remove(cell->fontColor);
 };
@@ -43,8 +48,7 @@ void Renderer::render() const
     if (!buffer_iterator.empty())
     {
         std::for_each(buffer_iterator.begin(), buffer_iterator.end(), this->include_new_cell);
-    }
-    this->include_movements();
+    };
     wrefresh(stdscr);
 };
 

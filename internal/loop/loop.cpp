@@ -24,7 +24,7 @@ void Loop::run()
 			Middleware(LoopProcessors::update_coords),
 			Middleware(LoopProcessors::analise_syntax),
 			Middleware(LoopProcessors::process_states),
-			Middleware(LoopProcessors::clean_screen),
+			// Middleware(LoopProcessors::clean_screen),
 			Middleware(LoopProcessors::render),
 			Middleware(LoopProcessors::save_debug_files),
 			Middleware(LoopProcessors::reset_temp_vals),

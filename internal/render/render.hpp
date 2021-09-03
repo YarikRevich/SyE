@@ -27,6 +27,8 @@ public:
 
     void include_movements() const;
 
+    void delete_cell() const;
+
     void render() const;
 
     void checkSearchBufferForMovement() const;
