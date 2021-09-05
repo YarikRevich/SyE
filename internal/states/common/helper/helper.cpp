@@ -14,6 +14,19 @@ std::map<int, bool> CommonStateHelper::key_handlers = {
     {KEY_RIGHT, false},
 };
 
+std::vector<int> CommonStateHelper::key_exceptions = {
+    410,
+};
+
+bool CommonStateHelper::isKeyException(int ch){
+    for (int i = 0; i < CommonStateHelper::key_exceptions.size(); ++i){
+        if (CommonStateHelper::key_exceptions[i] == ch){
+            return true;
+        };
+    }; 
+    return false;
+};
+
 void CommonStateHelper::setKeyHandled(int ch)
 {
     CommonStateHelper::key_handlers[ch] = true;
@@ -39,3 +52,5 @@ bool CommonStateHelper::isCommonKeyHandler(int ch)
 {
     return CommonStateHelper::key_handlers.count(ch);
 };
+
+

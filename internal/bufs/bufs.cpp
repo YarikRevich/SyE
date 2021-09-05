@@ -158,6 +158,12 @@ void CoordsTranslocation<T>::translocateXLeftAfter(const int y, const int x) con
 };
 
 template <typename T>
+CoordsTranslocation<T>::ResizeType CoordsTranslocation<T>::getResizeType() const {
+    
+    return CoordsTranslocation<T>::Down;
+};  
+
+template <typename T>
 bool Base<T>::sort(const T *nextBufferCell, const T *currentBufferCell)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))

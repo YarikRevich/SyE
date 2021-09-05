@@ -9,6 +9,8 @@ namespace Coords
     extern int max_y, max_x;
 
     void updateMaxCoords();
+    bool areMaxCoordsChanged();
+
     void updateCurrentCoords();
 
     void resetX();

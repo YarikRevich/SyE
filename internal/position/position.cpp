@@ -2,20 +2,28 @@
 #include <tuple>
 #include "position.hpp"
 #include "../bufs/bufs.hpp"
-
-// #define AAA()                                         \
-// 	{                                                  \
-// 		mvdelch(Coords::curr_y, Coords::curr_x - 1);   \
-// 		Coords::decX();                                \
-// 		wmove(stdscr, Coords::curr_y, Coords::curr_x); \
-// 	}
+#include "../colors/insert/insert.hpp"
+#include "../render/render.hpp"
+#include "../history/history.hpp"
 
 int Coords::curr_y, Coords::curr_x;
 int Coords::max_y, Coords::max_x;
 
 void Coords::updateMaxCoords()
 {
+	PreviousMaxCoords::set(Coords::max_y, Coords::max_x);
 	getmaxyx(stdscr, Coords::max_y, Coords::max_x);
+
+	if (Coords::areMaxCoordsChanged())
+	{
+		clear();
+		_INSERT__BUF->
+		_RENDERER->set_buf(_INSERT__BUF)->set_color(_INSERT_COLOR->get_current_theme())->render();
+	}
+};
+
+bool Coords::areMaxCoordsChanged(){
+	return PreviousMaxCoords::max_y != Coords::max_y || PreviousMaxCoords::max_x != Coords::max_x;
 };
 
 void Coords::updateCurrentCoords()

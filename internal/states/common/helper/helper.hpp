@@ -8,6 +8,10 @@ namespace CommonStateHelper
 {
     extern std::map<int, bool> key_handlers;
 
+    extern std::vector<int> key_exceptions;
+
+    bool isKeyException(int ch);
+
     void setKeyHandled(int ch);
 
     bool isKeyHandled(int ch);

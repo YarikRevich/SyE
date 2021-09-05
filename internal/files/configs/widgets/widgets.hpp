@@ -1,3 +1,5 @@
+#pragma once
+
 #include "./../helper/helper.hpp"
 #include <vector>
 #include <string>

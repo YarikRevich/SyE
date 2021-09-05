@@ -11,6 +11,7 @@ void Loop::run()
 		Middleware(LoopInitialisers::init_configs),
 		Middleware(LoopInitialisers::init_ncurses),
 		Middleware(LoopInitialisers::init_colors),
+		Middleware(LoopProcessors::update_coords),
 		Middleware(LoopInitialisers::init_insert_buf),
 		Middleware(LoopInitialisers::init_analiser),
 		Middleware(LoopInitialisers::init_insert_buf_render),

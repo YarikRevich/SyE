@@ -41,13 +41,9 @@ void InsertStateDefaultHandler::includeWideChar()
 
 void InsertStateDefaultHandler::use()
 {
-    if (!CommonStateHelper::isCommonKeyHandler(*InsertStateStorage::g_ch))
+    if (!CommonStateHelper::isCommonKeyHandler(*InsertStateStorage::g_ch) &&
+        !CommonStateHelper::isKeyException(*InsertStateStorage::g_ch))
     {
-        if (_INSERT__BUF->getBufferIterator().empty())
-        {
-            _INSERT__BUF->addCellWithCoords(' ', 0, 0);
-        }
-
         if (Coords::curr_x == (Coords::max_x - 1))
         {
             InsertStateDefaultHandler::moveCariage();

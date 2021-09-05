@@ -74,6 +74,11 @@ void Renderer::init_render(const std::string buf) const
                 Coords::incY(), Coords::resetX();
                 continue;
             };
+            if (Coords::curr_x == Coords::max_x) {
+                Coords::incY();
+                continue;
+            }
+
             _INSERT__BUF->addCellWithCoords(buf[i], Coords::curr_y, Coords::curr_x);
             mvwprintw(stdscr, Coords::curr_y, Coords::curr_x, "%c", buf[i]);
             wrefresh(stdscr);
