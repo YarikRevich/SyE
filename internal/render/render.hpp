@@ -19,6 +19,8 @@ private:
     std::tuple<int, int> current_color_theme;
 
 public:
+        bool wide_char_await;
+
     Renderer *set_buf(Buffer<BufferCellWithCoords> *buf);
 
     Renderer *set_color(const std::tuple<int, int>);
@@ -33,7 +35,7 @@ public:
 
     void checkSearchBufferForMovement() const;
 
-    void init_render(const std::string buf) const;
+    void init_render(const std::string buf);
 };
 
 extern Renderer *_RENDERER;

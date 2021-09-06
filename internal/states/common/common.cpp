@@ -106,7 +106,7 @@ void CommonStateBackspaceHandler::moveRowUp()
     _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
     if (_INSERT__BUF->cellIsSentenceHyphenation(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1))
     {
-    _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1);
+        _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1);
     }
 
     CommonStateBackspaceHandler::moveBufferUp();
@@ -170,31 +170,30 @@ void CommonState::use()
     }
     case K_BACKSPACE:
     {
-
         CommonStateBackspaceHandler::use();
-        _LOG__BUF->addCellWithSymbolType('Y', CHAR);
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
-        _LOG__BUF->addCellWithSymbolType(Coords::curr_y, INT);
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
-        _LOG__BUF->addCellWithSymbolType('X', CHAR);
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
-        _LOG__BUF->addCellWithSymbolType(Coords::curr_x, INT);
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
-
-        // for (const auto &q : std::string{""})
-        // {
-        //     _LOG__BUF->addCellWithSymbolType(q, CHAR);
-        // };
+        // _LOG__BUF->addCellWithSymbolType('Y', CHAR);
         // _LOG__BUF->addCellWithSymbolType(10, CHAR);
 
-        // for (const auto &r : _INSERT__BUF->getBufferIterator())
-        // {
-        //     _LOG__BUF->addCellWithSymbolType(r->symbol, INT);
-        //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        // };
+        // _LOG__BUF->addCellWithSymbolType(Coords::curr_y, INT);
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
+        // _LOG__BUF->addCellWithSymbolType('X', CHAR);
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
+        // _LOG__BUF->addCellWithSymbolType(Coords::curr_x, INT);
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
+        for (const auto &q : std::string{"INSERT BUF"})
+        {
+            _LOG__BUF->addCellWithSymbolType(q, CHAR);
+        };
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
+        for (const auto &r : _INSERT__BUF->getBufferIterator())
+        {
+            _LOG__BUF->addCellWithSymbolType(r->symbol, INT);
+            _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        };
         break;
     }
     };
