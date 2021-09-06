@@ -14,7 +14,7 @@ int Applicator::handleOneWordCommand(std::string command)
     if (command == "w")
     {
         W_Command().execute();
-        return 1;
+        return 0;
     }
     else if (command == "z")
     {

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include "../position/position.hpp"
 #include <tuple>
 #include <type_traits>
 
@@ -112,12 +113,6 @@ template <typename T>
 class CoordsTranslocation : public Base<T>
 {
 public:
-    enum class ResizeType
-    {
-        Up,
-        Down,
-    };
-
     void translocateYUp() const;
 
     void translocateYDown() const;
@@ -131,8 +126,6 @@ public:
     void translocateXLeftAfter(const int, const int) const;
 
     void translocateByResize() const;
-
-    ResizeType getResizeType() const;
 };
 
 class Status

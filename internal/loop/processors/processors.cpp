@@ -48,6 +48,13 @@ void LoopProcessors::update_coords()
     Coords::updateCurrentCoords();
 };
 
+void LoopProcessors::force_rerender(){
+    if (Coords::areMaxCoordsChanged()){
+        // _INSERT__BUF->translocateByResize()
+        Coords::getResizeType();
+    }
+};
+
 void LoopProcessors::analise_syntax()
 {
     _HIGHLIGHTER->analiseCode();

@@ -44,6 +44,9 @@ void InsertStateDefaultHandler::use()
     if (!CommonStateHelper::isCommonKeyHandler(*InsertStateStorage::g_ch) &&
         !CommonStateHelper::isKeyException(*InsertStateStorage::g_ch))
     {
+        _LOG__BUF->addCellWithSymbolType(*InsertStateStorage::g_ch, INT);
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
         if (Coords::curr_x == (Coords::max_x - 1))
         {
             InsertStateDefaultHandler::moveCariage();
@@ -77,7 +80,7 @@ void InsertStateEnterHandler::includeWordAreaOffsetDown()
 
 void InsertStateEnterHandler::moveCariage()
 {
-    _INSERT__BUF->translocateYUpAfter(Coords::curr_y);
+    // _INSERT__BUF->translocateYUpAfter(Coords::curr_y);
     Coords::resetX(), Coords::incY();
 };
 
@@ -95,7 +98,7 @@ void InsertStateEnterHandler::use()
 void InsertStateColonHandler::fillPanelWithSpaces()
 {
     int pos = 0;
-    while (pos != Coords::max_x - 1)
+    while (pos != Coords::max_x - WIDGET_AREA)
     {
         _EFFECTS__BUF->addCellWithCoords(32, Coords::max_y - 1, pos);
         pos++;
@@ -136,6 +139,7 @@ void InsertStateTabHandler::use()
             Coords::incY();
             Coords::setX(0);
         }
+        _INSERT__BUF->addCellWithCoords(0, Coords::curr_y, Coords::curr_x);
     };
 };
 

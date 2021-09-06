@@ -17,13 +17,19 @@ void Coords::updateMaxCoords()
 	if (Coords::areMaxCoordsChanged())
 	{
 		clear();
-		_INSERT__BUF->
 		_RENDERER->set_buf(_INSERT__BUF)->set_color(_INSERT_COLOR->get_current_theme())->render();
 	}
 };
 
 bool Coords::areMaxCoordsChanged(){
 	return PreviousMaxCoords::max_y != Coords::max_y || PreviousMaxCoords::max_x != Coords::max_x;
+};
+
+Coords::ResizeType Coords::getResizeType(){
+	if (PreviousMaxCoords::max_y != Coords::max_y){
+		return Coords::ResizeType::Y;
+	}
+	return Coords::ResizeType::X;
 };
 
 void Coords::updateCurrentCoords()

@@ -22,6 +22,6 @@ void Time::use()
         wmove(stdscr, Coords::curr_y, Coords::curr_x);
         wrefresh(stdscr);
 
-        std::this_thread::sleep_for(2s);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }

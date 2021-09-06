@@ -3,13 +3,21 @@
 #include <ncurses.h>
 #include <tuple>
 
+#define WIDGET_AREA 20
+
 namespace Coords
 {
+    enum class ResizeType {
+        X,
+        Y,
+    };
+
     extern int curr_y, curr_x;
     extern int max_y, max_x;
 
     void updateMaxCoords();
     bool areMaxCoordsChanged();
+    ResizeType getResizeType();
 
     void updateCurrentCoords();
 

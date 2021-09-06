@@ -158,10 +158,13 @@ void CoordsTranslocation<T>::translocateXLeftAfter(const int y, const int x) con
 };
 
 template <typename T>
-CoordsTranslocation<T>::ResizeType CoordsTranslocation<T>::getResizeType() const {
-    
-    return CoordsTranslocation<T>::Down;
-};  
+void CoordsTranslocation<T>::translocateByResize() const {
+    // for (int i = 0; i < this->buf.size(); ++i){
+    //     if (this->buf[i]->coords.x == Coords::max_x){
+
+    //     }
+    // }
+};
 
 template <typename T>
 bool Base<T>::sort(const T *nextBufferCell, const T *currentBufferCell)
@@ -646,9 +649,12 @@ std::tuple<int, int> Base<T>::deleteWordBeforeSpace(const int y, const int x)
     {
         auto &buffer = this->getBufferIterator();
         bool traced_chars = false;
+        int deletedSize = 0;
 
         for (int i = buffer.size() - 1; i > -1; --i)
         {
+            mvdelch(buffer[i]->coords.y, buffer[i]->coords.x);
+
             if (buffer[i]->symbol != ' ')
             {
                 traced_chars = true;

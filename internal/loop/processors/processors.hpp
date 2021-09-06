@@ -4,6 +4,7 @@ namespace LoopProcessors
 {
     void process_states();
     void update_coords();
+    void force_rerender();
     void clean_screen();
     void analise_syntax();
     void render();

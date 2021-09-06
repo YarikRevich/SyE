@@ -17,7 +17,7 @@ int *CommandStateStorage::g_ch = (int *)std::malloc(sizeof(int));
 
 void CommandStateDefaultHandler::use()
 {
-    if (!CommonStateHelper::isCommonKeyHandler(*CommandStateStorage::g_ch) && (Coords::curr_x != (Coords::max_x - 1)))
+    if (!CommonStateHelper::isCommonKeyHandler(*CommandStateStorage::g_ch) && (Coords::curr_x != (Coords::max_x - WIDGET_AREA)))
     {
         _COMMAND__BUF->addCellWithCoords(*CommandStateStorage::g_ch, Coords::curr_y, Coords::curr_x);
         Coords::incX();
@@ -28,6 +28,11 @@ void CommandStateEnterHandler::cleanBuffers()
 {
     _EFFECTS__BUF->clearBuf();
     _COMMAND__BUF->clearBuf();
+
+    for (int i = 0; i < ((Coords::max_x - WIDGET_AREA)); ++i)
+    {
+        mvprintw(Coords::max_y - 1, i, "%c", ' ');
+    };
 };
 
 void CommandStateEnterHandler::modifyState()
@@ -40,7 +45,7 @@ void CommandStateEnterHandler::use()
 {
     _INSERT__BUF->eraseCell(Coords::max_y - 1, 0);
 
-    if (Applicator::applyCommand(_COMMAND__BUF->getBufAsString()))
+    if (Applicator::applyCommand(_COMMAND__BUF->getBufAsString()) == 0)
     {
         Coords::setY(PreviouslyPressedHistory::y), Coords::setX(PreviouslyPressedHistory::x);
     }
@@ -54,6 +59,7 @@ void CommandStateBackspaceHandler::cleanBuffers()
 {
     _EFFECTS__BUF->clearBuf();
     _INSERT__BUF->eraseCell(Coords::max_y - 1, 0);
+    mvprintw(Coords::max_y - 1, 0, "%c", ' ');
 };
 
 void CommandStateBackspaceHandler::modifyCurrentlyProcessedBuffer()

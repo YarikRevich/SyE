@@ -49,6 +49,7 @@ void Renderer::render() const
     {
         std::for_each(buffer_iterator.begin(), buffer_iterator.end(), this->include_new_cell);
     };
+    this->include_movements();
     wrefresh(stdscr);
 };
 
@@ -70,18 +71,26 @@ void Renderer::init_render(const std::string buf) const
             {
             case 0:
                 continue;
-            case 10:
-                Coords::incY(), Coords::resetX();
-                continue;
+            // case 10:
+            //     Coords::incY(), Coords::resetX();
+            //     // continue;
+            // };
             };
-            if (Coords::curr_x == Coords::max_x) {
+            if (Coords::curr_x == Coords::max_x)
+            {
                 Coords::incY();
-                continue;
             }
 
             _INSERT__BUF->addCellWithCoords(buf[i], Coords::curr_y, Coords::curr_x);
             mvwprintw(stdscr, Coords::curr_y, Coords::curr_x, "%c", buf[i]);
             wrefresh(stdscr);
+
+            switch (buf[i])
+            {
+            case 10:
+                Coords::incY(), Coords::resetX();
+                continue;
+            };
 
             Coords::incX();
         };
