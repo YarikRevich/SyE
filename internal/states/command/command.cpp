@@ -47,7 +47,7 @@ void CommandStateEnterHandler::use()
 
     if (Applicator::applyCommand(_COMMAND__BUF->getBufAsString()) == 0)
     {
-        Coords::setY(PreviouslyPressedHistory::y), Coords::setX(PreviouslyPressedHistory::x);
+        Coords::setY(PressHistoryCommand->y), Coords::setX(PressHistoryCommand->x);
     }
 
     CommandStateEnterHandler::cleanBuffers();
@@ -75,7 +75,7 @@ void CommandStateBackspaceHandler::use()
         CommandStateBackspaceHandler::cleanBuffers();
         EditorStatus::setCurrStatus(EditorStatus::getCheckpoint());
 
-        Coords::setY(PreviouslyPressedHistory::y), Coords::setX(PreviouslyPressedHistory::x);
+        Coords::setY(PressHistoryCommand->y), Coords::setX(PressHistoryCommand->x);
         CommonStateHelper::setKeyHandled(K_BACKSPACE);
     }
     else

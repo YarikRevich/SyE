@@ -5,13 +5,15 @@
 #include "../colors/insert/insert.hpp"
 #include "../render/render.hpp"
 #include "../history/history.hpp"
+#include "../position/position.hpp"
 
 int Coords::curr_y, Coords::curr_x;
 int Coords::max_y, Coords::max_x;
 
 void Coords::updateMaxCoords()
 {
-	PreviousMaxCoords::set(Coords::max_y, Coords::max_x);
+
+	PressHistoryMaxCoords->set(Coords::max_y, Coords::max_x);
 	getmaxyx(stdscr, Coords::max_y, Coords::max_x);
 
 	if (Coords::areMaxCoordsChanged())
@@ -22,11 +24,11 @@ void Coords::updateMaxCoords()
 };
 
 bool Coords::areMaxCoordsChanged(){
-	return PreviousMaxCoords::max_y != Coords::max_y || PreviousMaxCoords::max_x != Coords::max_x;
+	return PressHistoryMaxCoords->y != Coords::max_y || PressHistoryMaxCoords->x != Coords::max_x;
 };
 
 Coords::ResizeType Coords::getResizeType(){
-	if (PreviousMaxCoords::max_y != Coords::max_y){
+	if (PressHistoryMaxCoords->y != Coords::max_y){
 		return Coords::ResizeType::Y;
 	}
 	return Coords::ResizeType::X;
@@ -34,6 +36,7 @@ Coords::ResizeType Coords::getResizeType(){
 
 void Coords::updateCurrentCoords()
 {
+	PressHistoryStandard->set(Coords::curr_y, Coords::curr_x);
 	getyx(stdscr, Coords::curr_y, Coords::curr_x);
 };
 

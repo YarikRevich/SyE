@@ -2,16 +2,11 @@
 #include <vector>
 #include "history.hpp"
 
-int PreviouslyPressedHistory::y, PreviouslyPressedHistory::x;
-
-void PreviouslyPressedHistory::set(int y, int x){
-	PreviouslyPressedHistory::x = x;
-	PreviouslyPressedHistory::y = y;
+void PressHistory::set(int y, int x)
+{
+	this->y = y, this->x = x;
 };
 
-int PreviousMaxCoords::max_y, PreviousMaxCoords::max_x;
-
-void PreviousMaxCoords::set(int max_y, int max_x){
-	PreviousMaxCoords::max_y = max_y;
-	PreviousMaxCoords::max_x = max_x;
-};
+PressHistory *PressHistoryStandard = new PressHistory;
+PressHistory *PressHistoryCommand = new PressHistory;
+PressHistory *PressHistoryMaxCoords = new PressHistory;

@@ -5,6 +5,10 @@
 #include "../position/position.hpp"
 #include <tuple>
 #include <type_traits>
+#include <limits.h>
+
+#define UNDEFINED_INT_VALUE UINT_MAX
+#define UNDEFINED_STR_VALUE "usv";
 
 bool isInsertSameToDefaultBuf();
 
@@ -89,6 +93,8 @@ public:
     std::vector<BufferAsString> getBufAsStringWithYCoord();
 
     int getLastXInRow(const int);
+
+    int getRowLength(const int);
 
     std::vector<BufferCellWithCoords *> getRowWithY(const int);
 

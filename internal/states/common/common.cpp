@@ -22,7 +22,20 @@ void CommonStateUpHandler::includeWordAreaOffsetUp()
 
 void CommonStateUpHandler::moveLineUp()
 {
-    Coords::decY(), Coords::setX(_INSERT__BUF->getLastXInRow(Coords::curr_y));
+    // if (PressHistoryStandard->x == 0 ||   != 0){
+
+    // }
+                Coords::decY(), Coords::setX(_INSERT__BUF->getLastXInRow(Coords::curr_y));
+
+    // const int x = ;
+    // if (x == UNDEFINED){
+    //     Coords::setX(0);    
+    // }else{
+    //     Coords::setX(x);
+    // }
+
+
+    
 };
 
 void CommonStateUpHandler::use()
@@ -34,7 +47,7 @@ void CommonStateUpHandler::use()
         {
             if (Coords::curr_y == 0)
             {
-                CommonStateUpHandler::includeWordAreaOffsetUp();
+                // CommonStateUpHandler::includeWordAreaOffsetUp();
                 return;
             };
             CommonStateUpHandler::moveLineUp();
@@ -59,9 +72,14 @@ void CommonStateDownHandler::use()
     {
         if ((Coords::curr_y + 1) == (Coords::max_y - 1))
         {
-            CommonStateDownHandler::includeWordAreaOffsetDown();
+                //   CommonStateDownHandler::includeWordAreaOffsetDown();
             return;
-        };
+        }
+
+        if (PressHistoryStandard->x == 0 && _INSERT__BUF->getRowLength(Coords::curr_y+1) == 0){
+            return;
+        }
+
         CommonStateDownHandler::moveLineDown();
     }
 };

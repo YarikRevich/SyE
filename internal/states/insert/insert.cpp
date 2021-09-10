@@ -44,8 +44,8 @@ void InsertStateDefaultHandler::use()
     if (!CommonStateHelper::isCommonKeyHandler(*InsertStateStorage::g_ch) &&
         !CommonStateHelper::isKeyException(*InsertStateStorage::g_ch))
     {
-        _LOG__BUF->addCellWithSymbolType(*InsertStateStorage::g_ch, INT);
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // _LOG__BUF->addCellWithSymbolType(*InsertStateStorage::g_ch, INT);
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
 
         if (Coords::curr_x == (Coords::max_x - 1))
         {
@@ -76,11 +76,13 @@ void InsertStateEnterHandler::includeWordAreaOffsetDown()
 {
     _INSERT__BUF->addCellWithCoords(*InsertStateStorage::g_ch, Coords::curr_y, Coords::curr_x);
     _INSERT__BUF->translocateYDown();
+    Coords::resetX();
+    clear();
 };
 
 void InsertStateEnterHandler::moveCariage()
 {
-    // _INSERT__BUF->translocateYUpAfter(Coords::curr_y);
+    _INSERT__BUF->translocateYUpAfter(Coords::curr_y);
     Coords::resetX(), Coords::incY();
 };
 
@@ -119,7 +121,7 @@ void InsertStateColonHandler::modifyState()
 
 void InsertStateColonHandler::use()
 {
-    PreviouslyPressedHistory::set(Coords::curr_y, Coords::curr_x);
+    PressHistoryCommand->set(Coords::curr_y, Coords::curr_x);
 
     InsertStateColonHandler::fillPanelWithSpaces();
     InsertStateColonHandler::modifyBuffer();

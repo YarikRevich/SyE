@@ -557,11 +557,17 @@ int Base<T>::getLastXInRow(const int y)
     {
         int chars = 0;
         int wideChars = 0;
-        auto &buffer = this->getBufferIterator();
+
+        const auto &buffer = this->getBufferIterator();
         for (int i = 0; i < buffer.size(); i++)
         {
             if ((buffer[i]->coords.y == y) && (buffer[i]->symbol != 10))
             {
+                if (i == 0)
+                {
+                    chars = 0, wideChars = 0;
+                };
+
                 if (i != 0)
                 {
                     if (buffer[i - 1]->coords.y == y && buffer[i - 1]->coords.x == buffer[i]->coords.x)
@@ -572,8 +578,30 @@ int Base<T>::getLastXInRow(const int y)
                 chars++;
             };
         };
+        // if (chars == UNDEFINED || wideChars == UNDEFINED)
+        // {
+        //     return UNDEFINED;
+        // }
         return chars - (wideChars / 2);
     };
+    return 0;
+};
+
+template <typename T>
+int Base<T>::getRowLength(const int y){
+        if constexpr (buffer_assertion(T, BufferCellWithCoords))
+    {
+                int num_of_elements = 0;
+
+                const auto &buffer = this->getBufferIterator();
+        for (int i = 0; i < buffer.size(); i++)
+        {
+            if (buffer[i]->coords.y == y){
+                num_of_elements++;
+            }
+        }
+        return num_of_elements;
+    }
     return 0;
 };
 
