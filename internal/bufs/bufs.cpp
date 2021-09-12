@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include <type_traits>
+#include "./../helper/helper.hpp"
 #include "./../colors/colors.hpp"
 #include "./../position/position.hpp"
 #include "./../../tools/template_assertion/template_assertion.hpp"
@@ -158,12 +159,30 @@ void CoordsTranslocation<T>::translocateXLeftAfter(const int y, const int x) con
 };
 
 template <typename T>
-void CoordsTranslocation<T>::translocateByResize() const {
-    // for (int i = 0; i < this->buf.size(); ++i){
-    //     if (this->buf[i]->coords.x == Coords::max_x){
+void CoordsTranslocation<T>::translocateRowsLeft() const
+{
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
+    {
+        int y{0}, x{0};
 
-    //     }
-    // }
+        for (int i = 1; i < this->buf.size(); ++i)
+        {
+            this->buf[i]->coords.y = y, this->buf[i]->coords.x = x;
+
+            auto &&buf_x = this->buf[i]->coords.x;
+            if (buf_x == Coords::max_x-1 || this->buf[i]->symbol == 10)
+            {
+                if (buf_x == Coords::max_x-1){
+                    this->buf[i]->sentenceHyphenation = true;
+                }
+                y++, x = 0;
+                continue;
+            }
+
+            this->buf[i]->sentenceHyphenation = false;
+            x++;
+        }
+    }
 };
 
 template <typename T>
@@ -237,12 +256,10 @@ bool Base<T>::isStartRow(const int y) const
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        auto const first_cell = this->buf[0];
-
-        if (first_cell->coords.y == y)
+        if (!this->buf.empty())
         {
-            return true;
-        };
+            return buf[0]->coords.y == y;
+        }
     };
     return false;
 };
@@ -406,15 +423,15 @@ void Base<T>::addEolIfNotExists()
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        auto &buffer = this->getBufferIterator();
-        if (buffer.begin() != buffer.end())
+        auto &&buffer = this->getBufferIterator();
+        if (!buffer.empty())
         {
-            if (buffer[buffer.size() - 1]->symbol != 10)
+            if (buffer[buffer.size()-1]->symbol != 10)
             {
                 T *b = new T;
                 b->symbol = 10;
 
-                buffer.push_back(b);
+                buffer.push_back(std::move(b));
             }
         };
     };
@@ -555,10 +572,10 @@ int Base<T>::getLastXInRow(const int y)
 {
     if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-        int chars = 0;
-        int wideChars = 0;
+        int chars{0}, wideChars{0};
 
-        const auto &buffer = this->getBufferIterator();
+        auto &&buffer = this->getBufferIterator();
+
         for (int i = 0; i < buffer.size(); i++)
         {
             if ((buffer[i]->coords.y == y) && (buffer[i]->symbol != 10))
@@ -578,29 +595,40 @@ int Base<T>::getLastXInRow(const int y)
                 chars++;
             };
         };
-        // if (chars == UNDEFINED || wideChars == UNDEFINED)
-        // {
-        //     return UNDEFINED;
-        // }
         return chars - (wideChars / 2);
     };
     return 0;
 };
 
 template <typename T>
-int Base<T>::getRowLength(const int y){
-        if constexpr (buffer_assertion(T, BufferCellWithCoords))
+int Base<T>::getRowLength(const int y)
+{
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
     {
-                int num_of_elements = 0;
+        int num_of_elements = 0;
 
-                const auto &buffer = this->getBufferIterator();
+        auto &buffer = this->getBufferIterator();
         for (int i = 0; i < buffer.size(); i++)
         {
-            if (buffer[i]->coords.y == y){
+            if (buffer[i]->coords.y == y)
+            {
                 num_of_elements++;
             }
         }
         return num_of_elements;
+    }
+    return 0;
+};
+
+template <typename T>
+int Base<T>::getLastY()
+{
+    if constexpr (buffer_assertion(T, BufferCellWithCoords))
+    {
+        if (!this->buf.empty())
+        {
+            return this->buf.back()->coords.y;
+        }
     }
     return 0;
 };

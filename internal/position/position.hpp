@@ -7,17 +7,11 @@
 
 namespace Coords
 {
-    enum class ResizeType {
-        X,
-        Y,
-    };
-
     extern int curr_y, curr_x;
     extern int max_y, max_x;
 
     void updateMaxCoords();
-    bool areMaxCoordsChanged();
-    ResizeType getResizeType();
+ 
 
     void updateCurrentCoords();
 
@@ -53,6 +47,8 @@ namespace Deleters{
     void carriage_delch();
 
     void last_in_row_delch();
+
+    void hyphination_last_in_row_delch();
 
     void shiftable_delch();
 };

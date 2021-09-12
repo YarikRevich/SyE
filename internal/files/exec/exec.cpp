@@ -39,7 +39,7 @@ std::string ExecFile::read()
 
     fclose(file);
 
-    std::ofstream q(file_name, std::ofstream::out | std::ofstream::trunc);
+    std::ifstream q(file_name, std::ifstream::out | std::ifstream::trunc);
     q.close();
 
     file = fopen(file_name.c_str(), "r+");
@@ -51,37 +51,41 @@ void ExecFile::save()
     if (file != NULL)
     {
         _INSERT__BUF->setModified(true);
-        // _INSERT__BUF->addEolIfNotExists();
+        _INSERT__BUF->addEolIfNotExists();
 
-        const auto insert_buf = _INSERT__BUF->getBufferIterator();
+        auto &&insert_buf = _INSERT__BUF->getBufferIterator();
         if (!insert_buf.empty())
         {
-            for (auto i : std::string("INSERT BUFFER"))
-            {
-                _LOG__BUF->addCellWithSymbolType(i, CHAR);
-            };
-            _LOG__BUF->addCellWithSymbolType(10, CHAR);
+            // for (auto i : std::string("INSERT BUFFER"))
+            // {
+            //     _LOG__BUF->addCellWithSymbolType(i, CHAR);
+            // };
+            // _LOG__BUF->addCellWithSymbolType(10, CHAR);
             // int i = insert_buf[0]->symbol == 32 || insert_buf[0]->symbol == 0 ? 1 : 0;
             // if (insert_buf[0]->symbol == 32){
             //     i = 1;
             // }
-            for (int i = 0;i < insert_buf.size(); ++i)
+            for (int i = 0; i < insert_buf.size(); ++i)
             {
-                    _LOG__BUF->addCellWithSymbolType(insert_buf[i]->symbol, CHAR);
-                    _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+                if (insert_buf[i]->symbol != 0)
+                {
+                    // _LOG__BUF->addCellWithSymbolType(insert_buf[i]->symbol, CHAR);
+                    // _LOG__BUF->addCellWithSymbolType(' ', CHAR);
                     _LOG__BUF->addCellWithSymbolType(insert_buf[i]->symbol, INT);
                     _LOG__BUF->addCellWithSymbolType(10, CHAR);
                     fprintf(file, "%c", insert_buf[i]->symbol);
+                }
                 // }
             };
         }
+
     }
 };
 
 void ExecFile::auto_save()
 {
-    const auto default_buf = _DEFAULT__BUF->getBufferIterator();
-    //isInsertSameToDefaultBuf() || 
+    auto &&default_buf = _DEFAULT__BUF->getBufferIterator();
+    //isInsertSameToDefaultBuf() ||
     if (!_INSERT__BUF->isModified())
     {
         for (int i = 0; i < default_buf.size(); i++)

@@ -6,6 +6,7 @@
 #include "../render/render.hpp"
 #include "../history/history.hpp"
 #include "../position/position.hpp"
+#include "win_resizer/win_resizer.hpp"
 
 int Coords::curr_y, Coords::curr_x;
 int Coords::max_y, Coords::max_x;
@@ -16,22 +17,16 @@ void Coords::updateMaxCoords()
 	PressHistoryMaxCoords->set(Coords::max_y, Coords::max_x);
 	getmaxyx(stdscr, Coords::max_y, Coords::max_x);
 
-	if (Coords::areMaxCoordsChanged())
+	if (_WIN_RESIZER->areMaxCoordsChanged())
 	{
-		clear();
-		_RENDERER->set_buf(_INSERT__BUF)->set_color(_INSERT_COLOR->get_current_theme())->render();
+		_WIN_RESIZER->resizeWin();
 	}
-};
 
-bool Coords::areMaxCoordsChanged(){
-	return PressHistoryMaxCoords->y != Coords::max_y || PressHistoryMaxCoords->x != Coords::max_x;
-};
-
-Coords::ResizeType Coords::getResizeType(){
-	if (PressHistoryMaxCoords->y != Coords::max_y){
-		return Coords::ResizeType::Y;
-	}
-	return Coords::ResizeType::X;
+	// if (Coords::areMaxCoordsChanged())
+	// {
+	// 	clear();
+	// 	_RENDERER->set_buf(_INSERT__BUF)->set_color(_INSERT_COLOR->get_current_theme())->render();
+	// }
 };
 
 void Coords::updateCurrentCoords()
@@ -105,7 +100,11 @@ bool Position::isStartOfX()
 
 void Deleters::sequencial_delch()
 {
-	mvdelch(Coords::curr_y, Coords::curr_x);
+	auto &&buf = _INSERT__BUF->getBufferIterator();
+	if (!((PressHistoryStandard->x == 0 && Coords::curr_y == 0) && (!buf.empty() && buf[0]->symbol == 0)))
+	{
+		mvdelch(Coords::curr_y, Coords::curr_x);
+	}
 	wmove(stdscr, Coords::curr_y, Coords::curr_x);
 	wrefresh(stdscr);
 };
@@ -118,12 +117,14 @@ void Deleters::carriage_delch()
 
 void Deleters::last_in_row_delch()
 {
-
-	// mvdelch(Coords::curr_y, last);
-	// wmove(stdscr, Coords::curr_y, last);
-	// wrefresh(stdscr);
-
 	mvdelch(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+	wrefresh(stdscr);
+};
+
+void Deleters::hyphination_last_in_row_delch()
+{
+	// mvdelch(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+	mvdelch(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1);
 	wrefresh(stdscr);
 };
 

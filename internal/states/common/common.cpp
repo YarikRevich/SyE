@@ -25,17 +25,14 @@ void CommonStateUpHandler::moveLineUp()
     // if (PressHistoryStandard->x == 0 ||   != 0){
 
     // }
-                Coords::decY(), Coords::setX(_INSERT__BUF->getLastXInRow(Coords::curr_y));
+    Coords::decY(), Coords::setX(_INSERT__BUF->getLastXInRow(Coords::curr_y));
 
     // const int x = ;
     // if (x == UNDEFINED){
-    //     Coords::setX(0);    
+    //     Coords::setX(0);
     // }else{
     //     Coords::setX(x);
     // }
-
-
-    
 };
 
 void CommonStateUpHandler::use()
@@ -72,11 +69,12 @@ void CommonStateDownHandler::use()
     {
         if ((Coords::curr_y + 1) == (Coords::max_y - 1))
         {
-                //   CommonStateDownHandler::includeWordAreaOffsetDown();
+            //   CommonStateDownHandler::includeWordAreaOffsetDown();
             return;
         }
 
-        if (PressHistoryStandard->x == 0 && _INSERT__BUF->getRowLength(Coords::curr_y+1) == 0){
+        if (PressHistoryStandard->x == 0 && _INSERT__BUF->getRowLength(Coords::curr_y + 1) == 0)
+        {
             return;
         }
 
@@ -118,15 +116,30 @@ void CommonStateBackspaceHandler::moveBufferUp()
 
 void CommonStateBackspaceHandler::moveRowUp()
 {
+    auto &&buf = _INSERT__BUF->getBufferIterator();
+    for (int i = 0; i < buf.size(); ++i)
+    {
+        _LOG__BUF->addCellWithSymbolType(buf[i]->coords.y, INT);
+        _LOG__BUF->addCellWithSymbolType(' ', CHAR);
+        _LOG__BUF->addCellWithSymbolType(buf[i]->coords.x, INT);
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        _LOG__BUF->addCellWithSymbolType(buf[i]->sentenceHyphenation, INT);
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
+        _LOG__BUF->addCellWithSymbolType(buf[i]->symbol, INT);
+        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+    };
+
     Coords::decY();
 
     Deleters::last_in_row_delch();
     _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y));
+    
     if (_INSERT__BUF->cellIsSentenceHyphenation(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1))
     {
+        Deleters::hyphination_last_in_row_delch();
         _INSERT__BUF->eraseCell(Coords::curr_y, _INSERT__BUF->getLastXInRow(Coords::curr_y) - 1);
     }
-
     CommonStateBackspaceHandler::moveBufferUp();
 };
 
@@ -201,17 +214,17 @@ void CommonState::use()
         // _LOG__BUF->addCellWithSymbolType(Coords::curr_x, INT);
         // _LOG__BUF->addCellWithSymbolType(10, CHAR);
 
-        for (const auto &q : std::string{"INSERT BUF"})
-        {
-            _LOG__BUF->addCellWithSymbolType(q, CHAR);
-        };
-        _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // for (const auto &q : std::string{"INSERT BUF"})
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(q, CHAR);
+        // };
+        // _LOG__BUF->addCellWithSymbolType(10, CHAR);
 
-        for (const auto &r : _INSERT__BUF->getBufferIterator())
-        {
-            _LOG__BUF->addCellWithSymbolType(r->symbol, INT);
-            _LOG__BUF->addCellWithSymbolType(10, CHAR);
-        };
+        // for (const auto &r : _INSERT__BUF->getBufferIterator())
+        // {
+        //     _LOG__BUF->addCellWithSymbolType(r->symbol, INT);
+        //     _LOG__BUF->addCellWithSymbolType(10, CHAR);
+        // };
         break;
     }
     };

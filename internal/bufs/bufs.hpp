@@ -96,6 +96,8 @@ public:
 
     int getRowLength(const int);
 
+    int getLastY();
+
     std::vector<BufferCellWithCoords *> getRowWithY(const int);
 
     BufferCellOnlyWithCoords *getPrevCellByCoords(const int, const int) const;
@@ -131,7 +133,7 @@ public:
 
     void translocateXLeftAfter(const int, const int) const;
 
-    void translocateByResize() const;
+    void translocateRowsLeft() const;
 };
 
 class Status

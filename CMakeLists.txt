@@ -48,7 +48,11 @@ if (NOT WIN32)
 		internal/editor_status/editor_status.cpp 
 
 		internal/history/history.cpp 
+
+		internal/position/win_resizer/win_resizer.cpp
 		internal/position/position.cpp 
+
+
 		internal/term_flags/term_flags.cpp 
 
 		internal/files/helper/helper.cpp 
@@ -69,8 +73,6 @@ if (NOT WIN32)
 		internal/colors/colors.cpp 
 
 		internal/widgets/time/time.cpp
-
-		internal/helper/helper.cpp
 	)
 
 	target_link_libraries(

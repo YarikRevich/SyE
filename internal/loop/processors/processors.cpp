@@ -49,10 +49,10 @@ void LoopProcessors::update_coords()
 };
 
 void LoopProcessors::force_rerender(){
-    if (Coords::areMaxCoordsChanged()){
-        // _INSERT__BUF->translocateByResize()
-        Coords::getResizeType();
-    }
+    // if (Coords::areMaxCoordsChanged()){
+    //     // _INSERT__BUF->translocateByResize()
+    //     Coords::getResizeType();
+    // }
 };
 
 void LoopProcessors::analise_syntax()

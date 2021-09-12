@@ -59,7 +59,7 @@ void InsertStateDefaultHandler::use()
             //     _INSERT__BUF->translocateXRightAfter(Coords::curr_y, Coords::curr_x);
             // }
 
-            if (isWideChar(*InsertStateStorage::g_ch))
+            if (wide_char(*InsertStateStorage::g_ch))
             {
                 InsertStateDefaultHandler::includeWideChar();
             }

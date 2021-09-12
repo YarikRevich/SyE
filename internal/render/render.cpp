@@ -1,11 +1,20 @@
 #include <tuple>
 #include "render.hpp"
 #include <algorithm>
+#include "./../bufs/bufs.hpp"
 #include "./../keys/keys.hpp"
 #include "./../helper/helper.hpp"
 #include "./../colors/colors.hpp"
 #include "./../colors/font/font.hpp"
 #include "./../states/common/common.hpp"
+
+void ForceRenderer::rerender_insert_forcely()
+{
+    if (Renderer *child = dynamic_cast<Renderer *>(this))
+    {
+        child->set_buf(_INSERT__BUF)->render();
+    }
+};
 
 Renderer *Renderer::set_buf(Buffer<BufferCellWithCoords> *buf)
 {
@@ -68,28 +77,34 @@ void Renderer::init_render(const std::string buf)
 
         for (int i = 0; i < buf.size(); i++)
         {
-            switch (buf[i])
+
+            _LOG__BUF->addCellWithSymbolType(buf[i], INT);
+            _LOG__BUF->addCellWithSymbolType(10, CHAR);
+
+            if (buf[i] == 0)
             {
-            case 0:
                 continue;
             };
 
             if (Coords::curr_x == Coords::max_x)
             {
-                Coords::incY();
+                Coords::incY(), Coords::resetX();
+                _INSERT__BUF->addCellWithCoords(buf[i], Coords::curr_y, Coords::curr_x);
+                _INSERT__BUF->setCellSentenceHyphenation(Coords::curr_y, Coords::curr_x, true);
             }
-
-            _INSERT__BUF->addCellWithCoords(buf[i], Coords::curr_y, Coords::curr_x);
+            else
+            {
+                _INSERT__BUF->addCellWithCoords(buf[i], Coords::curr_y, Coords::curr_x);
+            }
             mvprintw(Coords::curr_y, Coords::curr_x, "%c", buf[i]);
 
-            switch (buf[i])
+            if (buf[i] == 10)
             {
-            case 10:
                 Coords::incY(), Coords::resetX();
                 continue;
             };
 
-            if (isWideChar(buf[i]))
+            if (wide_char(buf[i]))
             {
                 if (!this->wide_char_await)
                 {

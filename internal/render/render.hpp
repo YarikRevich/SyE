@@ -12,14 +12,20 @@
 #include "./../history/history.hpp"
 #include "./../position/position.hpp"
 
-class Renderer
+class ForceRenderer
+{
+public:
+    virtual void rerender_insert_forcely();
+};
+
+class Renderer : public ForceRenderer
 {
 private:
     Buffer<BufferCellWithCoords> *buf;
     std::tuple<int, int> current_color_theme;
 
 public:
-        bool wide_char_await;
+    bool wide_char_await;
 
     Renderer *set_buf(Buffer<BufferCellWithCoords> *buf);
 
