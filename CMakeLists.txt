@@ -79,7 +79,7 @@ if (NOT WIN32)
 		sye 
 		ncursesw
 
-		${CMAKE_SOURCE_DIR}/lib/yaml-cpp/libyaml-cpp.0.6.3.dylib
+		${CMAKE_SOURCE_DIR}/lib/yaml-cpp/libyaml-cpp.0.6.3.so
 		${CMAKE_SOURCE_DIR}/lib/gtest/libgtest_main.a
 		${CMAKE_SOURCE_DIR}/lib/gtest/libgtest.a
 		${CMAKE_SOURCE_DIR}/lib/boost/libboost_filesystem.a
