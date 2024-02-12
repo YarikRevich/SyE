@@ -15,5 +15,11 @@ std::string IOHelper::getAbsolutePath(std::string path) noexcept {
 };
 
 std::string IOHelper::getFileExtension(std::string path) noexcept {
-    return fs::path(path).extension();
+    std::string extension = fs::path(path).extension();
+
+    if (extension.empty()) {
+        return THEME_EXTENSION_NONE;
+    }
+
+    return extension.substr(1);
 };

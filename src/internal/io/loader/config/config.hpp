@@ -57,7 +57,7 @@ public:
     /**
      * Retrieves parsed configuration file entity.
      * 
-     * @return parsed configuration file entity
+     * @return parsed configuration file entity.
     */
     static ConfigEntity* getConfigEntity();
 private:

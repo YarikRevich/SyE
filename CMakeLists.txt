@@ -23,6 +23,14 @@ if (NOT WIN32)
 	# Describes keys used for configuration file properties.
 	add_compile_definitions(CONFIG_WIDGETS_KEY="widgets")
 
+	# Describes keys used for theme configuration file properties.
+	add_compile_definitions(THEME_CONFIG_EXTENSIONS_KEY="extensions")
+	add_compile_definitions(THEME_CONFIG_COLORS_KEY="colors")
+	add_compile_definitions(THEME_CONFIG_PATTERNS_KEY="patterns")
+
+	# Describes definitions of variable in exceptional cases.
+	add_compile_definitions(THEME_EXTENSION_NONE=" ")
+
 	# enable_testing()
 	# add_subdirectory(tests)
 
