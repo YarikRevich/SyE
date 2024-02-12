@@ -1,0 +1,10 @@
+extension:
+  - "cpp"
+  - "cxx"
+  - "hpp"
+  - "hxx"
+types:
+  - name: class
+    color: RED
+  - name: template
+    color: GREEN

@@ -1,9 +1,0 @@
----
-insert:
-  - RED
-  - CYAN
-command:
-  - BLUE
-  - GREY
-effects: WHITE
----

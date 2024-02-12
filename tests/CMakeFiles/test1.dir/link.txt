@@ -1,1 +1,0 @@
-/usr/bin/g++ -std=c++2a -D_XOPEN_SOURCE_EXTENDED -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/test1.dir/buf_test.cpp.o -o ../cmd/test1   -L/Volumes/Files/c/editor/lib  -Wl,-rpath,/Volumes/Files/c/editor/lib ../lib/gtest/libgtest_main.a ../lib/gtest/libgtest.a 
