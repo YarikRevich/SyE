@@ -25,7 +25,7 @@ int Entry::handle() {
         return EXIT_FAILURE;
     };
 
-    std::cout << ConfigLoader::getConfigEntity()->getWidgets().size() << std::endl;
+    // std::cout << ConfigLoader::getConfigEntity()->getWidgets().size() << std::endl;
 
     Tools::startIndefiniteSpinner();
 

@@ -16,7 +16,7 @@ ifeq (,$(wildcard $(HOME)/.sye/config))
 	@mkdir -p $(HOME)/.sye/config
 endif
 ifeq (,$(wildcard $(HOME)/.sye/themes))
-	@mkdir -p $(HOME)/.sye/config
+	@mkdir -p $(HOME)/.sye/themes
 endif
 
 .PHONY: clone-config
@@ -25,7 +25,7 @@ clone-config: ## Clone SyE config directory
 
 .PHONY: clone-theme
 clone-theme: ## Clone SyE theme directory
-	@cp -r ./samples/themes/* $(HOME)/.sye/themes
+	@cp -r ./samples/themes/* $(HOME)/.sye/themes/
 
 .PHONY: prepare
 prepare: ## Install prerequisites

@@ -167,10 +167,24 @@ CMakeFiles/sye.dir/src/internal/io/loader/config/config.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sye.dir/src/internal/io/loader/config/config.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Volumes/Files/c/SyE/src/internal/io/loader/config/config.cpp -o CMakeFiles/sye.dir/src/internal/io/loader/config/config.cpp.s
 
+CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.o: CMakeFiles/sye.dir/flags.make
+CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.o: /Volumes/Files/c/SyE/src/internal/io/loader/config/validator/validator.cpp
+CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.o: CMakeFiles/sye.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.o -MF CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.o.d -o CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.o -c /Volumes/Files/c/SyE/src/internal/io/loader/config/validator/validator.cpp
+
+CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Volumes/Files/c/SyE/src/internal/io/loader/config/validator/validator.cpp > CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.i
+
+CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Volumes/Files/c/SyE/src/internal/io/loader/config/validator/validator.cpp -o CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.s
+
 CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o: CMakeFiles/sye.dir/flags.make
 CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o: /Volumes/Files/c/SyE/src/internal/io/loader/theme/theme.cpp
 CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o: CMakeFiles/sye.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o -MF CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o.d -o CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o -c /Volumes/Files/c/SyE/src/internal/io/loader/theme/theme.cpp
 
 CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.i: cmake_force
@@ -181,10 +195,24 @@ CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Volumes/Files/c/SyE/src/internal/io/loader/theme/theme.cpp -o CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.s
 
+CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.o: CMakeFiles/sye.dir/flags.make
+CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.o: /Volumes/Files/c/SyE/src/internal/io/loader/theme/validator/validator.cpp
+CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.o: CMakeFiles/sye.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.o -MF CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.o.d -o CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.o -c /Volumes/Files/c/SyE/src/internal/io/loader/theme/validator/validator.cpp
+
+CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Volumes/Files/c/SyE/src/internal/io/loader/theme/validator/validator.cpp > CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.i
+
+CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Volumes/Files/c/SyE/src/internal/io/loader/theme/validator/validator.cpp -o CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.s
+
 CMakeFiles/sye.dir/src/internal/signal/signal.cpp.o: CMakeFiles/sye.dir/flags.make
 CMakeFiles/sye.dir/src/internal/signal/signal.cpp.o: /Volumes/Files/c/SyE/src/internal/signal/signal.cpp
 CMakeFiles/sye.dir/src/internal/signal/signal.cpp.o: CMakeFiles/sye.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/sye.dir/src/internal/signal/signal.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/sye.dir/src/internal/signal/signal.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sye.dir/src/internal/signal/signal.cpp.o -MF CMakeFiles/sye.dir/src/internal/signal/signal.cpp.o.d -o CMakeFiles/sye.dir/src/internal/signal/signal.cpp.o -c /Volumes/Files/c/SyE/src/internal/signal/signal.cpp
 
 CMakeFiles/sye.dir/src/internal/signal/signal.cpp.i: cmake_force
@@ -198,7 +226,7 @@ CMakeFiles/sye.dir/src/internal/signal/signal.cpp.s: cmake_force
 CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o: CMakeFiles/sye.dir/flags.make
 CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o: /Volumes/Files/c/SyE/src/internal/logger/logger.cpp
 CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o: CMakeFiles/sye.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o -MF CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o.d -o CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o -c /Volumes/Files/c/SyE/src/internal/logger/logger.cpp
 
 CMakeFiles/sye.dir/src/internal/logger/logger.cpp.i: cmake_force
@@ -212,7 +240,7 @@ CMakeFiles/sye.dir/src/internal/logger/logger.cpp.s: cmake_force
 CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o: CMakeFiles/sye.dir/flags.make
 CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o: /Volumes/Files/c/SyE/src/internal/tools/tools.cpp
 CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o: CMakeFiles/sye.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o -MF CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o.d -o CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o -c /Volumes/Files/c/SyE/src/internal/tools/tools.cpp
 
 CMakeFiles/sye.dir/src/internal/tools/tools.cpp.i: cmake_force
@@ -232,7 +260,9 @@ sye_OBJECTS = \
 "CMakeFiles/sye.dir/src/internal/command/entry/entry.cpp.o" \
 "CMakeFiles/sye.dir/src/internal/io/helper/helper.cpp.o" \
 "CMakeFiles/sye.dir/src/internal/io/loader/config/config.cpp.o" \
+"CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.o" \
 "CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o" \
+"CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.o" \
 "CMakeFiles/sye.dir/src/internal/signal/signal.cpp.o" \
 "CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o" \
 "CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o"
@@ -247,7 +277,9 @@ sye_EXTERNAL_OBJECTS =
 /Volumes/Files/c/SyE/bin/sye: CMakeFiles/sye.dir/src/internal/command/entry/entry.cpp.o
 /Volumes/Files/c/SyE/bin/sye: CMakeFiles/sye.dir/src/internal/io/helper/helper.cpp.o
 /Volumes/Files/c/SyE/bin/sye: CMakeFiles/sye.dir/src/internal/io/loader/config/config.cpp.o
+/Volumes/Files/c/SyE/bin/sye: CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.o
 /Volumes/Files/c/SyE/bin/sye: CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o
+/Volumes/Files/c/SyE/bin/sye: CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.o
 /Volumes/Files/c/SyE/bin/sye: CMakeFiles/sye.dir/src/internal/signal/signal.cpp.o
 /Volumes/Files/c/SyE/bin/sye: CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o
 /Volumes/Files/c/SyE/bin/sye: CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o
@@ -259,7 +291,7 @@ sye_EXTERNAL_OBJECTS =
 /Volumes/Files/c/SyE/bin/sye: /Volumes/Files/c/SyE/lib/boost/macos/arm/libboost_filesystem.a
 /Volumes/Files/c/SyE/bin/sye: /Volumes/Files/c/SyE/lib/boost/macos/arm/libboost_system.a
 /Volumes/Files/c/SyE/bin/sye: CMakeFiles/sye.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable /Volumes/Files/c/SyE/bin/sye"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Volumes/Files/c/SyE/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable /Volumes/Files/c/SyE/bin/sye"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sye.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

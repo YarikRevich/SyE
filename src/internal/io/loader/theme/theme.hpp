@@ -49,14 +49,14 @@ public:
              * 
              * @return retrieved value of theme color definition.
             */
-            std::string getValue();
+            std::vector<int> getValue();
 
             /**
              * Sets value of theme color definition.
              * 
              * @param value - given value of theme color definition.
             */
-            void setValue(std::string value);
+            void setValue(std::vector<int> value);
         private:
             /**
              * Represents name of theme color definition.
@@ -66,7 +66,51 @@ public:
             /**
              * Represents value of theme color definition.
             */
-            std::string value;
+            std::vector<int> value;
+        };
+
+        /**
+         * Represents theme pattern definition entity.
+        */
+        class ThemePattern {
+        public:
+            /**
+             * Retrieves regex of theme pattern definition.
+             * 
+             * @return retrieved regex of theme pattern definition.
+            */
+            std::string getRegex();
+
+            /**
+             * Sets name of theme color definition.
+             * 
+             * @param name - given name of theme color definition.
+            */
+            void setRegex(std::string regex);
+
+            /**
+             * Retrieves color of theme pattern definition.
+             * 
+             * @return retrieved color of theme pattern definition.
+            */
+            std::string getColor();
+
+            /**
+             * Sets color of theme pattern definition.
+             * 
+             * @param value - given color of theme pattern definition.
+            */
+            void setColor(std::string value);
+        private:
+            /**
+             * Represents regex of theme pattern definition.
+            */
+            std::string regex;
+
+            /**
+             * Represents color of theme pattern definition.
+            */
+            std::string color;
         };
 
         /**
@@ -96,6 +140,20 @@ public:
          * @param colors - given theme color definitions.
         */
         void setColors(std::vector<ThemeColor> colors);
+
+        /**
+         * Retrieves theme pattern definitions.
+         * 
+         * @return retrieved theme pattern definitions.
+        */
+        std::vector<ThemePattern> getPatterns();
+
+        /**
+         * Sets theme pattern definitions.
+         * 
+         * @param colors - given theme pattern definitions.
+        */
+        void setPatterns(std::vector<ThemePattern> patterns);
     private:
         /**
          * Represents supported file extensions.
@@ -106,6 +164,11 @@ public:
          * Represents theme color definitions.
         */
         std::vector<ThemeColor> colors;
+
+        /**
+         * Represents theme pattern definitions.
+        */
+        std::vector<ThemePattern> patterns;
     };
 
     /**
@@ -135,7 +198,7 @@ private:
 namespace YAML
 {
     /**
-     * Represents custom convert definition.
+     * Represents custom theme color definition converter.
     */
 	template<>
 	struct convert<ThemeLoader::ThemeEntity::ThemeColor>
@@ -144,9 +207,25 @@ namespace YAML
          * Decodes given raw YAML node to the ThemeColor definition entity.
          * 
          * @param node - given raw YAML node.
-         * @param dst - destination ThemeCOlor definition entity.
+         * @param dst - destination ThemeColor definition entity.
          * @return result of the conversion.
         */
 		static bool decode(const Node& node, ThemeLoader::ThemeEntity::ThemeColor& dst);
+	};
+
+    /**
+     * Represents custom theme pattern definition converter.
+    */
+	template<>
+	struct convert<ThemeLoader::ThemeEntity::ThemePattern>
+	{
+        /**
+         * Decodes given raw YAML node to the ThemePattern definition entity.
+         * 
+         * @param node - given raw YAML node.
+         * @param dst - destination ThemePattern definition entity.
+         * @return result of the conversion.
+        */
+		static bool decode(const Node& node, ThemeLoader::ThemeEntity::ThemePattern& dst);
 	};
 }

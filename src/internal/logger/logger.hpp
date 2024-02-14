@@ -32,6 +32,13 @@ public:
      * @param message - given warning message to be emitted.
     */
     static void InvokeWarning(std::string message);
+
+    /**
+     * Sets logger info message to be emitted immediately.
+     * 
+     * @param message - given info message to be emitted.
+    */
+    static void InvokeInfo(std::string message);
 private:
     static std::string message;
 };

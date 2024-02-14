@@ -6675,6 +6675,8 @@ CMakeFiles/sye.dir/src/internal/io/loader/config/config.cpp.o: /Volumes/Files/c/
   /Volumes/Files/c/SyE/src/internal/io/helper/helper.hpp \
   /Volumes/Files/c/SyE/src/internal/io/loader/config/config.hpp
 
+CMakeFiles/sye.dir/src/internal/io/loader/config/validator/validator.cpp.o: /Volumes/Files/c/SyE/src/internal/io/loader/config/validator/validator.cpp
+
 CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o: /Volumes/Files/c/SyE/src/internal/io/loader/theme/theme.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/Availability.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/AvailabilityInternal.h \
@@ -7777,6 +7779,8 @@ CMakeFiles/sye.dir/src/internal/io/loader/theme/theme.cpp.o: /Volumes/Files/c/Sy
   /Volumes/Files/c/SyE/src/internal/logger/logger.hpp \
   /Volumes/Files/c/SyE/src/internal/io/helper/helper.hpp \
   /Volumes/Files/c/SyE/src/internal/io/loader/theme/theme.hpp
+
+CMakeFiles/sye.dir/src/internal/io/loader/theme/validator/validator.cpp.o: /Volumes/Files/c/SyE/src/internal/io/loader/theme/validator/validator.cpp
 
 CMakeFiles/sye.dir/src/internal/logger/logger.cpp.o: /Volumes/Files/c/SyE/src/internal/logger/logger.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/Availability.h \
@@ -9855,6 +9859,8 @@ CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o: /Volumes/Files/c/SyE/src/inte
 
 /Volumes/Files/c/SyE/src/internal/signal/signal.cpp:
 
+/Volumes/Files/c/SyE/src/internal/io/loader/config/validator/validator.cpp:
+
 /Volumes/Files/c/SyE/src/internal/io/helper/helper.cpp:
 
 /Volumes/Files/c/SyE/src/internal/command/validator/validator.cpp:
@@ -11370,6 +11376,8 @@ CMakeFiles/sye.dir/src/internal/tools/tools.cpp.o: /Volumes/Files/c/SyE/src/inte
 /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/set:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__utility/rel_ops.h:
+
+/Volumes/Files/c/SyE/src/internal/io/loader/theme/validator/validator.cpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__chrono/weekday.h:
 

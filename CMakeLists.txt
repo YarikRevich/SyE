@@ -15,10 +15,14 @@ if (NOT WIN32)
 
 	# Describes pre-defined errors used for functionality validation.
 	add_compile_definitions(CONFIG_FILE_NOT_FOUND_EXCEPTION="Configuration file at the given root directory is not found.")
-	add_compile_definitions(THEME_DIRECTORY_NOT_FOUND_EXCEPTION="Theme configuration files at the given root directory is not found.")
+	add_compile_definitions(THEME_DIRECTORY_NOT_FOUND_EXCEPTION="Theme configuration files at the given root directory are not found.")
 
 	# Describes pre-defined warning messages used for functionality validation.
 	add_compile_definitions(CONFIG_FILE_IDENTATION_WARNING="Make sure to use spaces in your configuration file.")
+	add_compile_definitions(DEFAULT_THEME_USAGE_WARNING="Default theme is used.")
+
+	# Describes pre-defined info messages used for functionality validation.
+	add_compile_definitions(CUSTOM_THEME_SELECTED="Custom theme has been selected.")
 
 	# Describes keys used for configuration file properties.
 	add_compile_definitions(CONFIG_WIDGETS_KEY="widgets")
@@ -53,7 +57,9 @@ if (NOT WIN32)
 
 		src/internal/io/helper/helper.cpp
 		src/internal/io/loader/config/config.cpp
+		src/internal/io/loader/config/validator/validator.cpp
 		src/internal/io/loader/theme/theme.cpp
+		src/internal/io/loader/theme/validator/validator.cpp
 
 		src/internal/signal/signal.cpp
 		src/internal/logger/logger.cpp

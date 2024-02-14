@@ -15,5 +15,9 @@ void Logger::SetError(std::string message) {
 }
 
 void Logger::InvokeWarning(std::string message) {
-    std::cout << message << std::endl;
+    printf("WARNING: %s\n", message.c_str());
+};
+
+void Logger::InvokeInfo(std::string message) {
+    printf("INFO: %s\n", message.c_str());
 };

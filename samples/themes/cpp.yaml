@@ -1,10 +1,13 @@
-extension:
+extensions:
+  - "c"
+  - "cc"
   - "cpp"
   - "cxx"
   - "hpp"
   - "hxx"
-types:
-  - name: class
-    color: RED
-  - name: template
-    color: GREEN
+colors:
+  - name: red
+    value: [100, 120, 133]
+patterns:
+  - regex: ^(class)\s*[a-zA-Z<!~?>]*\s*\{
+    color: red
