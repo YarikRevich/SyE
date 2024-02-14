@@ -26,6 +26,7 @@ int Entry::handle() {
     };
 
     // std::cout << ConfigLoader::getConfigEntity()->getWidgets().size() << std::endl;
+    std::cout << ThemeLoader::getThemeEntity()->getColors()[0].getValue().size() << std::endl;
 
     Tools::startIndefiniteSpinner();
 

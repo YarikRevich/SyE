@@ -30,7 +30,11 @@ if (NOT WIN32)
 	# Describes keys used for theme configuration file properties.
 	add_compile_definitions(THEME_CONFIG_EXTENSIONS_KEY="extensions")
 	add_compile_definitions(THEME_CONFIG_COLORS_KEY="colors")
+	add_compile_definitions(THEME_CONFIG_COLORS_NAME_KEY="name")
+	add_compile_definitions(THEME_CONFIG_COLORS_VALUE_KEY="value")
 	add_compile_definitions(THEME_CONFIG_PATTERNS_KEY="patterns")
+	add_compile_definitions(THEME_CONFIG_PATTERNS_REGEX_KEY="regex")
+	add_compile_definitions(THEME_CONFIG_PATTERNS_COLOR_KEY="color")
 
 	# Describes definitions of variable in exceptional cases.
 	add_compile_definitions(THEME_EXTENSION_NONE=" ")

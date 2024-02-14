@@ -21,8 +21,10 @@ endif
 
 .PHONY: clone-config
 clone-config: ## Clone SyE config directory
+ifeq (,$(wildcard $(HOME)/.sye/themes))
 	@cp -r ./samples/config/config.yaml $(HOME)/.sye/config
-
+endif
+	
 .PHONY: clone-theme
 clone-theme: ## Clone SyE theme directory
 	@cp -r ./samples/themes/* $(HOME)/.sye/themes/

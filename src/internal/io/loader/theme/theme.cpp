@@ -118,22 +118,22 @@ ThemeLoader::ThemeEntity* ThemeLoader::themeEntity = new ThemeLoader::ThemeEntit
 namespace YAML
 {
     bool convert<ThemeLoader::ThemeEntity::ThemeColor>::decode(const Node& node, ThemeLoader::ThemeEntity::ThemeColor& dst) {
-        if (!node.IsSequence() || node.size() != 2){
+        if (!node.IsMap() || node.size() != 2){
 			return false;
         }
 
-        dst.setName(node[0].as<std::string>());
-		dst.setValue(node[1].as<std::vector<int>>());
+        dst.setName(node[THEME_CONFIG_COLORS_NAME_KEY].as<std::string>());
+		dst.setValue(node[THEME_CONFIG_COLORS_VALUE_KEY].as<std::vector<int>>());
 		return true;
     }
 
     bool convert<ThemeLoader::ThemeEntity::ThemePattern>::decode(const Node& node, ThemeLoader::ThemeEntity::ThemePattern& dst) {
-        if (!node.IsSequence() || node.size() != 2){
+        if (!node.IsMap() || node.size() != 2){
 			return false;
         }
 
-        dst.setRegex(node[0].as<std::string>());
-		dst.setColor(node[1].as<std::string>());
+        dst.setRegex(node[THEME_CONFIG_PATTERNS_REGEX_KEY].as<std::string>());
+		dst.setColor(node[THEME_CONFIG_PATTERNS_COLOR_KEY].as<std::string>());
 		return true;
     }
 }
