@@ -8,6 +8,8 @@ extensions:
 colors:
   - name: red
     value: [100, 120, 133]
+effects:
+  background: red
 patterns:
   - regex: ^(class)\s*[a-zA-Z<!~?>]*\s*\{
     color: red

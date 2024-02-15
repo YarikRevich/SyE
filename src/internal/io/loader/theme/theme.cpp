@@ -16,6 +16,14 @@ void ThemeLoader::ThemeEntity::ThemeColor::setValue(std::vector<int> value) {
     this->value = value;
 }
 
+std::string ThemeLoader::ThemeEntity::ThemeEffects::getBackground() {
+    return background;
+}
+
+void ThemeLoader::ThemeEntity::ThemeEffects::setBackground(std::string background) {
+    this->background = background;
+}
+
 std::string ThemeLoader::ThemeEntity::ThemePattern::getRegex() {
     return regex;
 }
@@ -46,6 +54,14 @@ std::vector<ThemeLoader::ThemeEntity::ThemeColor> ThemeLoader::ThemeEntity::getC
 
 void ThemeLoader::ThemeEntity::setColors(std::vector<ThemeLoader::ThemeEntity::ThemeColor> colors) {
     this->colors = colors;
+}
+
+ThemeLoader::ThemeEntity::ThemeEffects ThemeLoader::ThemeEntity::getEffects() {
+    return effects;
+}
+
+void ThemeLoader::ThemeEntity::setEffects(ThemeLoader::ThemeEntity::ThemeEffects effects) {
+    this->effects = effects;
 }
 
 std::vector<ThemeLoader::ThemeEntity::ThemePattern> ThemeLoader::ThemeEntity::getPatterns() {
@@ -97,13 +113,19 @@ int ThemeLoader::process(std::string extension, std::string root) {
             themeEntity->setColors(config[THEME_CONFIG_COLORS_KEY].as<std::vector<ThemeLoader::ThemeEntity::ThemeColor>>());
         }
 
+        if (config[THEME_CONFIG_EFFECTS_KEY].IsDefined()) {
+            themeEntity->setEffects(config[THEME_CONFIG_EFFECTS_KEY].as<ThemeLoader::ThemeEntity::ThemeEffects>());
+        }
+
         if (config[THEME_CONFIG_PATTERNS_KEY].IsDefined()){
             themeEntity->setPatterns(config[THEME_CONFIG_PATTERNS_KEY].as<std::vector<ThemeLoader::ThemeEntity::ThemePattern>>());
         }
 
         Logger::InvokeInfo(CUSTOM_THEME_SELECTED);
-        break;
+        return EXIT_SUCCESS;
     }
+
+    Logger::InvokeWarning(DEFAULT_THEME_USAGE_WARNING);
 
     return EXIT_SUCCESS;
 }
@@ -114,7 +136,6 @@ ThemeLoader::ThemeEntity* ThemeLoader::getThemeEntity() {
 
 ThemeLoader::ThemeEntity* ThemeLoader::themeEntity = new ThemeLoader::ThemeEntity();
 
-
 namespace YAML
 {
     bool convert<ThemeLoader::ThemeEntity::ThemeColor>::decode(const Node& node, ThemeLoader::ThemeEntity::ThemeColor& dst) {
@@ -124,6 +145,17 @@ namespace YAML
 
         dst.setName(node[THEME_CONFIG_COLORS_NAME_KEY].as<std::string>());
 		dst.setValue(node[THEME_CONFIG_COLORS_VALUE_KEY].as<std::vector<int>>());
+		return true;
+    }
+
+    bool convert<ThemeLoader::ThemeEntity::ThemeEffects>::decode(const Node& node, ThemeLoader::ThemeEntity::ThemeEffects& dst) {
+        if (!node.IsMap()){
+			return false;
+        }
+
+    //     add_compile_definitions(THEME_CONFIG_EFFECTS_KEY="effects")
+
+        dst.setBackground(node[THEME_CONFIG_EFFECTS_BACKGROUND_KEY].as<std::string>());
 		return true;
     }
 

@@ -114,6 +114,31 @@ public:
         };
 
         /**
+         * Represents theme effects definition entity.
+        */
+        class ThemeEffects {
+        public:
+            /**
+             * Retrieves background color of theme effects definition.
+             * 
+             * @return retrieved background color of theme effects definition.
+            */
+            std::string getBackground();
+
+            /**
+             * Sets background color of theme effects definition.
+             * 
+             * @param name - given background color of theme effects definition.
+            */
+            void setBackground(std::string background);
+        private:
+            /**
+             * Represents regex of theme pattern definition.
+            */
+            std::string background;
+        };
+
+        /**
          * Retrieves supported file extensions.
          * 
          * @return retrieved supported file extensions.
@@ -142,6 +167,20 @@ public:
         void setColors(std::vector<ThemeColor> colors);
 
         /**
+         * Retrieves theme effects definitions.
+         * 
+         * @return retrieved theme effects definitions.
+        */
+        ThemeEffects getEffects();
+
+        /**
+         * Sets theme effects definitions.
+         * 
+         * @param colors - given theme effects definitions.
+        */
+        void setEffects(ThemeEffects effects);
+
+        /**
          * Retrieves theme pattern definitions.
          * 
          * @return retrieved theme pattern definitions.
@@ -164,6 +203,11 @@ public:
          * Represents theme color definitions.
         */
         std::vector<ThemeColor> colors;
+
+        /**
+         * Represents theme effects definitions.
+        */
+        ThemeEffects effects;
 
         /**
          * Represents theme pattern definitions.
@@ -211,6 +255,22 @@ namespace YAML
          * @return result of the conversion.
         */
 		static bool decode(const Node& node, ThemeLoader::ThemeEntity::ThemeColor& dst);
+	};
+
+    /**
+     * Represents custom theme effects definition converter.
+    */
+	template<>
+	struct convert<ThemeLoader::ThemeEntity::ThemeEffects>
+	{
+        /**
+         * Decodes given raw YAML node to the ThemeEffects definition entity.
+         * 
+         * @param node - given raw YAML node.
+         * @param dst - destination ThemeEffects definition entity.
+         * @return result of the conversion.
+        */
+		static bool decode(const Node& node, ThemeLoader::ThemeEntity::ThemeEffects& dst);
 	};
 
     /**
