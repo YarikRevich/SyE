@@ -11,7 +11,11 @@ std::string Logger::GetError() {
 }
 
 void Logger::SetError(std::string message) {
-    Logger::message = message;
+    std::stringstream ss;
+
+    ss << "ERROR: " << message << std::endl;
+
+    Logger::message = ss.str();
 }
 
 void Logger::InvokeWarning(std::string message) {

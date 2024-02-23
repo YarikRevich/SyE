@@ -10,15 +10,22 @@ if (NOT WIN32)
 
 	# Describes configuration structure properties.
 	add_compile_definitions(CONFIG_ROOT_PATH="~/.sye")
+	add_compile_definitions(CONFIG_FILE_PATH="config")
 	add_compile_definitions(CONFIG_FILE_NAME="config.yaml")
 	add_compile_definitions(THEME_CONFIG_PATH="themes")
 
 	# Describes pre-defined errors used for functionality validation.
 	add_compile_definitions(CONFIG_FILE_NOT_FOUND_EXCEPTION="Configuration file at the given root directory is not found.")
+	add_compile_definitions(CONFIG_FILE_WIDGET_NOT_SUPPORTED_EXCEPTION="Widget in the configuration file seems to be not supported.")
 	add_compile_definitions(THEME_DIRECTORY_NOT_FOUND_EXCEPTION="Theme configuration files at the given root directory are not found.")
+	add_compile_definitions(THEME_FILE_EXTENSIONS_REPEAT_EXCEPTION="Extensions in the theme configuration file seem to be repeated.")
+	add_compile_definitions(THEME_FILE_COLORS_DEFINED_INCORRECTLY_EXCEPTION="Colors in the theme configuration file seem to be defined incorrectly.")
+	add_compile_definitions(THEME_FILE_EFFECTS_USE_INCORRECT_COLORS_EXCEPTION="Effects in the theme configuration file seem to use incorrect colors.")
+	add_compile_definitions(THEME_FILE_PATTERNS_USE_INCORRECT_COLORS_EXCEPTION="Patterns in the theme configuration file seem to use incorrect colors.")
 
 	# Describes pre-defined warning messages used for functionality validation.
 	add_compile_definitions(CONFIG_FILE_IDENTATION_WARNING="Make sure to use spaces in your configuration file.")
+	add_compile_definitions(CONFIG_FILE_WIDGETS_REPEAT_EXCEPTION="Widgets in the configuration file seem to be repeated.")
 	add_compile_definitions(DEFAULT_THEME_USAGE_WARNING="Default theme is used.")
 
 	# Describes pre-defined info messages used for functionality validation.
@@ -40,6 +47,10 @@ if (NOT WIN32)
 
 	# Describes definitions of variable in exceptional cases.
 	add_compile_definitions(THEME_EXTENSION_NONE=" ")
+
+	# Describes definitions of all the supported widgets.
+	add_compile_definitions(WIDGET_TIME="time")
+	add_compile_definitions(WIDGETS_NUM=1)
 
 	# enable_testing()
 	# add_subdirectory(tests)
@@ -63,9 +74,7 @@ if (NOT WIN32)
 
 		src/internal/io/helper/helper.cpp
 		src/internal/io/loader/config/config.cpp
-		src/internal/io/loader/config/validator/validator.cpp
 		src/internal/io/loader/theme/theme.cpp
-		src/internal/io/loader/theme/validator/validator.cpp
 
 		src/internal/signal/signal.cpp
 		src/internal/logger/logger.cpp

@@ -10,7 +10,7 @@ void ConfigLoader::ConfigEntity::setWidgets(std::vector<std::string> widgets) {
 }
 
 int ConfigLoader::process(std::string root) {
-    std::string path = IOHelper::getAbsolutePath(fs::path(root) / fs::path(CONFIG_FILE_NAME));
+    std::string path = IOHelper::getAbsolutePath(fs::path(root) / fs::path(CONFIG_FILE_PATH) / fs::path(CONFIG_FILE_NAME));
     if (!boost::filesystem::exists(path)){
         Logger::SetError(CONFIG_FILE_NOT_FOUND_EXCEPTION);
 
@@ -21,7 +21,19 @@ int ConfigLoader::process(std::string root) {
 
     YAML::Node config = YAML::LoadFile(path.c_str());
     if (config[CONFIG_WIDGETS_KEY].IsDefined()){
-        configEntity->setWidgets(config[CONFIG_WIDGETS_KEY].as<std::vector<std::string>>());
+        auto tempWidgets = config[CONFIG_WIDGETS_KEY].as<std::vector<std::string>>();
+
+        if (ConfigLoaderValidator::validateEnabledWidgetsSupport(tempWidgets)) {
+            if (!ConfigLoaderValidator::validateWidgetsRepeat(tempWidgets)) {
+                Logger::InvokeWarning(CONFIG_FILE_WIDGETS_REPEAT_EXCEPTION);
+            }
+
+            configEntity->setWidgets(tempWidgets);
+        } else {
+            Logger::SetError(CONFIG_FILE_WIDGET_NOT_SUPPORTED_EXCEPTION);
+
+            return EXIT_FAILURE;
+        }
     }
 
     return EXIT_SUCCESS;
@@ -32,3 +44,18 @@ ConfigLoader::ConfigEntity* ConfigLoader::getConfigEntity() {
 };
 
 ConfigLoader::ConfigEntity* ConfigLoader::configEntity = new ConfigLoader::ConfigEntity();
+
+bool ConfigLoaderValidator::validateEnabledWidgetsSupport(std::vector<std::string>& widgets) {
+    for (std::string& widget : widgets) {
+        if (widget != WIDGET_TIME) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool ConfigLoaderValidator::validateWidgetsRepeat(std::vector<std::string>& widgets) {
+    std::set<std::string> tempWidgets(widgets.begin(), widgets.end());
+    return tempWidgets.size() == widgets.size();
+};

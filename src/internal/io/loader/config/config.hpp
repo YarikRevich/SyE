@@ -65,4 +65,28 @@ private:
      * Represents parsed configuration file entity.
     */
     static ConfigEntity* configEntity;
+
+    
+};
+
+/**
+ * Represents configuration files loader validator.
+*/
+class ConfigLoaderValidator {
+public:
+    /**
+     * Checks if the given configuration widgets to be enabled are supported.
+     * 
+     * @param extensions - given configuration widgets to be enabled.
+     * @return result of the validation.
+    */
+    static bool validateEnabledWidgetsSupport(std::vector<std::string>& widgets);
+
+    /**
+     * Checks if the given configuration supported widgets don't repeat.
+     * 
+     * @param extensions - given configuration supported widgets.
+     * @return result of the validation.
+    */
+    static bool validateWidgetsRepeat(std::vector<std::string>& widgets);
 };

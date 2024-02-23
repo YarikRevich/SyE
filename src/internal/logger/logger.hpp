@@ -2,6 +2,7 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
 
 /**
  * Represents common logger for the application(besides the ones in external libs).

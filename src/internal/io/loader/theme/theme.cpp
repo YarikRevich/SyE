@@ -74,7 +74,7 @@ void ThemeLoader::ThemeEntity::setPatterns(std::vector<ThemeLoader::ThemeEntity:
 
 int ThemeLoader::process(std::string extension, std::string root) {
     if (extension == THEME_EXTENSION_NONE) {
-        Logger::InvokeWarning(DEFAULT_THEME_USAGE_WARNING);
+        Logger::InvokeInfo(DEFAULT_THEME_USAGE_WARNING);
 
         return EXIT_SUCCESS;
     }
@@ -103,29 +103,62 @@ int ThemeLoader::process(std::string extension, std::string root) {
                 [&](const std::string& value) { return value == extension;}); iter == std::end(tempExtensions)) {
                 continue;
             }
+
+            if (!ThemeLoaderValidator::validateExtensionsRepeat(tempExtensions)) {
+                Logger::SetError(THEME_FILE_EXTENSIONS_REPEAT_EXCEPTION);
+
+                return EXIT_FAILURE;
+            }
         } else {
             continue;
         }
 
         themeEntity->setExtensions(tempExtensions);
 
+        std::vector<ThemeLoader::ThemeEntity::ThemeColor> tempColors;
+
         if (config[THEME_CONFIG_COLORS_KEY].IsDefined()){
-            themeEntity->setColors(config[THEME_CONFIG_COLORS_KEY].as<std::vector<ThemeLoader::ThemeEntity::ThemeColor>>());
+            tempColors = config[THEME_CONFIG_COLORS_KEY].as<std::vector<ThemeLoader::ThemeEntity::ThemeColor>>();
+
+            if (ThemeLoaderValidator::validateColorValue(tempColors)) {
+                themeEntity->setColors(tempColors);
+            } else {
+                Logger::SetError(THEME_FILE_COLORS_DEFINED_INCORRECTLY_EXCEPTION);
+
+                return EXIT_FAILURE;
+            }
         }
 
         if (config[THEME_CONFIG_EFFECTS_KEY].IsDefined()) {
-            themeEntity->setEffects(config[THEME_CONFIG_EFFECTS_KEY].as<ThemeLoader::ThemeEntity::ThemeEffects>());
+            auto tempEffects = config[THEME_CONFIG_EFFECTS_KEY].as<ThemeLoader::ThemeEntity::ThemeEffects>();
+
+            if (ThemeLoaderValidator::validateEffectColorMatching(tempEffects, tempColors)) {
+                themeEntity->setEffects(tempEffects);
+            } else {
+                Logger::SetError(THEME_FILE_EFFECTS_USE_INCORRECT_COLORS_EXCEPTION);
+
+                return EXIT_FAILURE;
+            }
         }
 
         if (config[THEME_CONFIG_PATTERNS_KEY].IsDefined()){
-            themeEntity->setPatterns(config[THEME_CONFIG_PATTERNS_KEY].as<std::vector<ThemeLoader::ThemeEntity::ThemePattern>>());
+            auto tempPatterns = config[THEME_CONFIG_PATTERNS_KEY].as<std::vector<ThemeLoader::ThemeEntity::ThemePattern>>();
+
+            if (ThemeLoaderValidator::validatePatternColorMatching(tempPatterns, tempColors)) {
+                themeEntity->setPatterns(tempPatterns);   
+            } else {
+                Logger::SetError(THEME_FILE_PATTERNS_USE_INCORRECT_COLORS_EXCEPTION);
+
+                return EXIT_FAILURE;
+            }
         }
 
         Logger::InvokeInfo(CUSTOM_THEME_SELECTED);
+
         return EXIT_SUCCESS;
     }
 
-    Logger::InvokeWarning(DEFAULT_THEME_USAGE_WARNING);
+    Logger::InvokeInfo(DEFAULT_THEME_USAGE_WARNING);
 
     return EXIT_SUCCESS;
 }
@@ -135,6 +168,60 @@ ThemeLoader::ThemeEntity* ThemeLoader::getThemeEntity() {
 };
 
 ThemeLoader::ThemeEntity* ThemeLoader::themeEntity = new ThemeLoader::ThemeEntity();
+
+bool ThemeLoaderValidator::validateExtensionsRepeat(std::vector<std::string>& extensions) {
+    std::set<std::string> tempExtensions(extensions.begin(), extensions.end());
+    return tempExtensions.size() == extensions.size();
+};
+
+bool ThemeLoaderValidator::validateColorValue(std::vector<ThemeLoader::ThemeEntity::ThemeColor>& colors) {
+    for (auto color : colors) {
+        if (color.getValue().size() != 3) {
+            return false;
+        }
+
+        if (color.getValue()[0] < 0 || color.getValue()[0] > 255) {
+            return false;
+        }
+
+        if (color.getValue()[1] < 0 || color.getValue()[1] > 255) {
+            return false;
+        }
+
+        if (color.getValue()[2] < 0 || color.getValue()[2] > 255) {
+            return false;
+        }
+    }
+    return true;
+};
+
+bool ThemeLoaderValidator::validatePatternColorMatching(
+        std::vector<ThemeLoader::ThemeEntity::ThemePattern>& patterns,
+        std::vector<ThemeLoader::ThemeEntity::ThemeColor>& colors) {
+    for (auto pattern : patterns) {
+        if(auto iter = std::find_if(
+            colors.begin(), 
+            colors.end(), 
+            [&](ThemeLoader::ThemeEntity::ThemeColor& value) { return value.getName() == pattern.getColor();}); iter == std::end(colors)) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+bool ThemeLoaderValidator::validateEffectColorMatching(
+        ThemeLoader::ThemeEntity::ThemeEffects& effects,
+        std::vector<ThemeLoader::ThemeEntity::ThemeColor>& colors) {
+    if(auto iter = std::find_if(
+        colors.begin(), 
+        colors.end(), 
+        [&](ThemeLoader::ThemeEntity::ThemeColor& value) { return value.getName() == effects.getBackground();}); iter == std::end(colors)) {
+        return false;
+    }
+
+    return true;
+};
 
 namespace YAML
 {
@@ -153,8 +240,6 @@ namespace YAML
 			return false;
         }
 
-    //     add_compile_definitions(THEME_CONFIG_EFFECTS_KEY="effects")
-
         dst.setBackground(node[THEME_CONFIG_EFFECTS_BACKGROUND_KEY].as<std::string>());
 		return true;
     }
@@ -168,4 +253,4 @@ namespace YAML
 		dst.setColor(node[THEME_CONFIG_PATTERNS_COLOR_KEY].as<std::string>());
 		return true;
     }
-}
+};

@@ -11,6 +11,8 @@ namespace fs = std::experimental::filesystem;
 #endif
 
 #include <string>
+#include <vector>
+#include <set>
 
 #include "../../helper/helper.hpp"
 #include "../../../logger/logger.hpp"
@@ -234,6 +236,52 @@ private:
      * Represents selected parsed theme configuration file entity.
     */
     static ThemeEntity* themeEntity;
+};
+
+/**
+ * Represents theme configuration files loader validator.
+*/
+class ThemeLoaderValidator {
+public:
+    /**
+     * Checks if the given theme supported extensions don't repeat.
+     * 
+     * @param extensions - given theme supported extensions.
+     * @return result of the validation.
+    */
+    static bool validateExtensionsRepeat(std::vector<std::string>& extensions);
+
+    /**
+     * Checks if the given theme color definitions are described correctly.
+     * 
+     * @param value - given theme color definition values.
+     * @return result of the validation.
+    */
+    static bool validateColorValue(std::vector<ThemeLoader::ThemeEntity::ThemeColor>& value);
+
+    /**
+     * Checks if the given theme pattern definitions match specified
+     * color with the available theme color definitions.
+     * 
+     * @param patterns - given theme pattern definitions.
+     * @param color - given theme color definitions.
+     * @return result of the validation.
+    */
+    static bool validatePatternColorMatching(
+        std::vector<ThemeLoader::ThemeEntity::ThemePattern>& patterns,
+        std::vector<ThemeLoader::ThemeEntity::ThemeColor>& colors);
+
+    /**
+     * Checks if the given theme effects definitions match specified
+     * color with the available theme color definitions.
+     * 
+     * @param effects - given theme efects definitions.
+     * @param color - given theme color definitions.
+     * @return result of the validation.
+    */
+    static bool validateEffectColorMatching(
+        ThemeLoader::ThemeEntity::ThemeEffects& effects,
+        std::vector<ThemeLoader::ThemeEntity::ThemeColor>& colors);
 };
 
 /**
