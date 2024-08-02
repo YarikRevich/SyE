@@ -5,6 +5,7 @@
 #include "../../io/loader/config/config.hpp"
 #include "../../io/loader/theme/theme.hpp"
 #include "../../tools/tools.hpp"
+#include "../../core/render/render.hpp"
 
 #include <iostream>
 

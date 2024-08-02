@@ -9,15 +9,8 @@ help:
 
 .PHONY: create-local
 create-local: ## Create SyE local directory
-ifeq (,$(wildcard $(HOME)/.sye))
-	@mkdir -p $(HOME)/.sye
-endif
-ifeq (,$(wildcard $(HOME)/.sye/config))
 	@mkdir -p $(HOME)/.sye/config
-endif
-ifeq (,$(wildcard $(HOME)/.sye/themes))
 	@mkdir -p $(HOME)/.sye/themes
-endif
 
 .PHONY: clone-config
 clone-config: ## Clone SyE config directory
@@ -31,9 +24,7 @@ clone-theme: ## Clone SyE theme directory
 
 .PHONY: prepare
 prepare: ## Install prerequisites
-ifeq (,$(wildcard $(shell pwd)/build))
-	@mkdir $(shell pwd)/build
-endif
+	@mkdir -p $(shell pwd)/build
 
 .PHONY: build
 build: prepare create-local clone-config clone-theme ## Build the project

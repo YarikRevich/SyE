@@ -2,9 +2,9 @@
 
 #include "../../io/helper/helper.hpp"
 
-int Entry::handle() {
-    Signal::init();
+#include <iostream>
 
+int Entry::handle() {
     std::string inputFile = IOHelper::getAbsolutePath(positional->Get());
 
     std::string configRootRaw;
@@ -25,10 +25,14 @@ int Entry::handle() {
         return EXIT_FAILURE;
     };
 
-    // std::cout << ConfigLoader::getConfigEntity()->getWidgets().size() << std::endl;
-    // std::cout << ThemeLoader::getThemeEntity()->getColors()[0].getValue().size() << std::endl;
-
     Tools::startIndefiniteSpinner();
+
+    Signal::init();
+    Render::init();
+
+    Tools::stopIndefiniteSpinner();
+
+    Render::renderWindow();
 
     return EXIT_SUCCESS;
 }

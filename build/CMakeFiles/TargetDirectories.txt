@@ -1,7 +1,0 @@
-/Volumes/Files/c/SyE/build/CMakeFiles/sye.dir
-/Volumes/Files/c/SyE/build/CMakeFiles/edit_cache.dir
-/Volumes/Files/c/SyE/build/CMakeFiles/rebuild_cache.dir
-/Volumes/Files/c/SyE/build/CMakeFiles/list_install_components.dir
-/Volumes/Files/c/SyE/build/CMakeFiles/install.dir
-/Volumes/Files/c/SyE/build/CMakeFiles/install/local.dir
-/Volumes/Files/c/SyE/build/CMakeFiles/install/strip.dir

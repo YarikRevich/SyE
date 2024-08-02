@@ -1,18 +1,25 @@
 #include "signal.hpp"
 
-std::vector<void (*)(int)> Signal::callbacks;
+std::vector<void (*)()> Signal::callbacks;
 
 void Signal::init() {
+    std::atexit(handleExit);
     signal(SIGINT, handleExit);
 }
 
-void Signal::addHandler(void (*callback)(int)) {
+void Signal::addHandler(void (*callback)()) {
     callbacks.push_back(callback);
 }
 
-void Signal::handleExit(int s) {
-    for (void (*value)(int) : callbacks) {
-        value(s);
+void Signal::handleExit() {
+    for (void (*value)() : callbacks) {
+        value();
+    }
+}
+
+void Signal::handleExit(int signal) {
+    for (void (*value)() : callbacks) {
+        value();
     }
 
     exit(1);
