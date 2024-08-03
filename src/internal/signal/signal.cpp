@@ -12,14 +12,14 @@ void Signal::addHandler(void (*callback)()) {
 }
 
 void Signal::handleExit() {
-    for (void (*value)() : callbacks) {
-        value();
+    for (const auto& callback : callbacks) {
+        callback();
     }
 }
 
 void Signal::handleExit(int signal) {
-    for (void (*value)() : callbacks) {
-        value();
+    for (const auto& callback : callbacks) {
+        callback();
     }
 
     exit(1);

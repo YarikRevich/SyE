@@ -72,14 +72,17 @@ add_executable(
 	src/internal/command/help/help.cpp
 	src/internal/command/validator/validator.cpp
 	src/internal/command/entry/entry.cpp
+	src/internal/core/scheduler/scheduler.cpp
+	src/internal/core/scheduler/operations/input/input.cpp
+	src/internal/core/scheduler/operations/render/render.cpp
 	src/internal/io/helper/helper.cpp
 	src/internal/io/swap/swap.cpp
 	src/internal/io/loader/config/config.cpp
 	src/internal/io/loader/theme/theme.cpp
-	src/internal/core/render/render.cpp
 	src/internal/signal/signal.cpp
 	src/internal/logger/logger.cpp
-	src/internal/tools/tools.cpp
+	src/internal/tools/spinner/spinner.cpp
+	src/internal/tools/window/window.cpp
 )
 
 if(APPLE)

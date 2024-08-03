@@ -1,8 +1,5 @@
 #include "entry.hpp"
-
-#include "../../io/helper/helper.hpp"
-
-#include <iostream>
+#include "../../core/scheduler/operations/render/render.hpp"
 
 int Entry::handle() {
     std::string inputFile = IOHelper::getAbsolutePath(positional->Get());
@@ -25,14 +22,16 @@ int Entry::handle() {
         return EXIT_FAILURE;
     };
 
-    Tools::startIndefiniteSpinner();
+    Spinner::startIndefiniteSpinner();
 
     Signal::init();
-    Render::init();
+    Scheduler::init();
 
-    Tools::stopIndefiniteSpinner();
+    Scheduler::addHandler(new Render());
 
-    Render::renderWindow();
+    Spinner::stopIndefiniteSpinner();
+
+    Scheduler::handleExec();
 
     return EXIT_SUCCESS;
 }

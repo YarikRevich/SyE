@@ -5,7 +5,7 @@
  * Entrypoint, to propogate logic to the handler.
 */
 int main(int argc, char **argv) {
-    Handler* handler = new Handler(argc, argv);
+    auto* handler = new Handler(argc, argv);
 
     if (handler->run() != EXIT_SUCCESS) {
         if (Logger::IsErrorExist()) {

@@ -1,11 +1,13 @@
 #pragma once
 
 #include <args/args.hxx>
+
 #include "../../signal/signal.hpp"
 #include "../../io/loader/config/config.hpp"
 #include "../../io/loader/theme/theme.hpp"
-#include "../../tools/tools.hpp"
-#include "../../core/render/render.hpp"
+#include "../../tools/spinner/spinner.hpp"
+#include "../../core/scheduler/scheduler.hpp"
+#include "../../io/helper/helper.hpp"
 
 #include <iostream>
 

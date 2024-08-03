@@ -3,13 +3,16 @@
 #include <cstdio>
 
 #if defined(__linux__) || defined(__APPLE__)
-    #include <unistd.h>
+#include <unistd.h>
 #endif
 
 #include <string>
 #include <thread>
 
-class Tools {
+/**
+ * Represents terminal bash-like spinner.
+ */
+class Spinner {
 public:
     /**
      * Start thread worker to run the indefinite command line spinner.
@@ -28,12 +31,12 @@ private:
     static std::string SPIN_CHARS;
 
     /**
-     * Represents thread worker used to operate spinner. 
+     * Represents thread worker used to operate spinner.
      */
     static std::thread* spinWorker;
 
     /**
-     * Represents state of thread worker used to operate spinner. 
+     * Represents state of thread worker used to operate spinner.
      */
     static std::atomic<bool> spinWorkerActive;
 
