@@ -2,7 +2,7 @@
 #include "../internal/command/handler/handler.hpp"
 
 /**
- * Entrypoint, to propogate logic to the handler.
+ * Entrypoint, to propagate logic to the handler.
 */
 int main(int argc, char **argv) {
     auto* handler = new Handler(argc, argv);

@@ -14,17 +14,17 @@ Render::Render() {
 }
 
 void Render::handleExec() {
-//    wprintw(this->window, "first");
+////    wprintw(this->window, "first");
+////
+////    box(this->window, '*', '*');
+////    touchwin(this->window);
+////    wrefresh(this->window);
 //
-//    box(this->window, '*', '*');
-//    touchwin(this->window);
-//    wrefresh(this->window);
-
-    while (true) {
-        std::string symbol = Window::getSymbolAsChar(window);
-
-        wprintw(this->window, symbol.c_str());
-    }
+//    while (true) {
+//        std::string symbol = Window::getSymbolAsChar(window);
+//
+//        wprintw(this->window, symbol.c_str());
+//    }
 }
 
 void Render::handleExit() {

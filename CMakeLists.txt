@@ -55,6 +55,9 @@ add_compile_definitions(THEME_EXTENSION_NONE=" ")
 add_compile_definitions(WIDGET_TIME="time")
 add_compile_definitions(WIDGETS_NUM=1)
 
+# Describes definitions of different scheduler types
+add_compile_definitions(SCHEDULER_BASIC_AWAIT=500)
+
 # enable_testing()
 # add_subdirectory(tests)
 
@@ -72,6 +75,8 @@ add_executable(
 	src/internal/command/help/help.cpp
 	src/internal/command/validator/validator.cpp
 	src/internal/command/entry/entry.cpp
+	src/internal/core/effects/effects.cpp
+	src/internal/core/effects/init/init.cpp
 	src/internal/core/scheduler/scheduler.cpp
 	src/internal/core/scheduler/operations/input/input.cpp
 	src/internal/core/scheduler/operations/render/render.cpp
@@ -80,6 +85,7 @@ add_executable(
 	src/internal/io/loader/config/config.cpp
 	src/internal/io/loader/theme/theme.cpp
 	src/internal/signal/signal.cpp
+	src/internal/state/state.cpp
 	src/internal/logger/logger.cpp
 	src/internal/tools/spinner/spinner.cpp
 	src/internal/tools/window/window.cpp

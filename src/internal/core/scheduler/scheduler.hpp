@@ -5,6 +5,7 @@
 #include <map>
 #include <mutex>
 #include <atomic>
+#include <chrono>
 
 #include "../../signal/signal.hpp"
 
@@ -43,9 +44,16 @@ public:
 
     /**
      * Starts all the persisted scheduled operations and waits till all of them are completed.
+     *
+     * @return result of the scheduler execution.
      */
-    static void handleExec();
+    static int process();
 private:
+    /**
+     * Starts scheduled operation with delayed pipeline calls.
+     */
+    static void handleExecRaw();
+
     /**
      * Represents collection of registered callbacks.
     */

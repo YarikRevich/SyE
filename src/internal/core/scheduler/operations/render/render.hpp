@@ -4,7 +4,6 @@
 
 #include "../../../scheduler/scheduler.hpp"
 #include "../../../../signal/signal.hpp"
-#include "../../../../tools/window/window.hpp"
 
 /**
  * Represents screen rendering operation to be used by scheduler.

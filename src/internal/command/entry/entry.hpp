@@ -2,12 +2,11 @@
 
 #include <args/args.hxx>
 
-#include "../../signal/signal.hpp"
 #include "../../io/loader/config/config.hpp"
 #include "../../io/loader/theme/theme.hpp"
-#include "../../tools/spinner/spinner.hpp"
-#include "../../core/scheduler/scheduler.hpp"
 #include "../../io/helper/helper.hpp"
+#include "../../core/scheduler/scheduler.hpp"
+#include "../../core/effects/effects.hpp"
 
 #include <iostream>
 
