@@ -10,6 +10,17 @@
 class Effects {
 public:
     /**
+     * Represents effect operation interface.
+     */
+    class Operation {
+    public:
+        /**
+         * Handles operation execution.
+         */
+        virtual void handleExec() = 0;
+    };
+
+    /**
      * Performs processing of all the effects.
      *
      * @return result of the effects execution.

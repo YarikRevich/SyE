@@ -3,6 +3,7 @@
 #include "../../../core/scheduler/operations/input/input.hpp"
 #include "../../../core/scheduler/operations/render/render.hpp"
 #include "../../../signal/signal.hpp"
+#include "../../../state/state.hpp"
 #include "../../../core/scheduler/scheduler.hpp"
 
 #include <iostream>

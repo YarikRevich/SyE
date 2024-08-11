@@ -12,7 +12,7 @@
 /**
  * Responsible for threads allocation and their management.
 */
-class Scheduler {
+class Scheduler : public Signal::Operation {
 public:
     /**
      * Represents scheduler operation interface.
@@ -31,11 +31,6 @@ public:
     };
 
     /**
-     * Initializes scheduler and registers all the operations.
-    */
-    static void init();
-
-    /**
      * Adds new operation to the storage
      *
      * @param operation - given operation to be saved.
@@ -48,6 +43,11 @@ public:
      * @return result of the scheduler execution.
      */
     static int process();
+
+    /**
+     * Handles application exit signal.
+    */
+    void handleExit() override;
 private:
     /**
      * Starts scheduled operation with delayed pipeline calls.
@@ -63,9 +63,4 @@ private:
      * Represents switch used to block scheduler exit.
      */
     static std::atomic<bool> blockExit;
-
-    /**
-     * Handles application exit signal.
-    */
-    static void handleExit();
 };

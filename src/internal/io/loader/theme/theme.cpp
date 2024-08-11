@@ -74,14 +74,14 @@ void ThemeLoader::ThemeEntity::setPatterns(std::vector<ThemeLoader::ThemeEntity:
 
 int ThemeLoader::process(std::string extension, std::string root) {
     if (extension == THEME_EXTENSION_NONE) {
-        Logger::InvokeInfo(DEFAULT_THEME_USAGE_WARNING);
+        Logger::invokeInfo(DEFAULT_THEME_USAGE_WARNING);
 
         return EXIT_SUCCESS;
     }
 
     std::string path = IOHelper::getAbsolutePath(fs::path(root) / fs::path(THEME_CONFIG_PATH));
     if (!boost::filesystem::is_directory(path)){
-        Logger::SetError(THEME_DIRECTORY_NOT_FOUND_EXCEPTION);
+        Logger::setError(THEME_DIRECTORY_NOT_FOUND_EXCEPTION);
 
         return EXIT_FAILURE;
     }
@@ -105,7 +105,7 @@ int ThemeLoader::process(std::string extension, std::string root) {
             }
 
             if (!ThemeLoaderValidator::validateExtensionsRepeat(tempExtensions)) {
-                Logger::SetError(THEME_FILE_EXTENSIONS_REPEAT_EXCEPTION);
+                Logger::setError(THEME_FILE_EXTENSIONS_REPEAT_EXCEPTION);
 
                 return EXIT_FAILURE;
             }
@@ -123,7 +123,7 @@ int ThemeLoader::process(std::string extension, std::string root) {
             if (ThemeLoaderValidator::validateColorValue(tempColors)) {
                 themeEntity->setColors(tempColors);
             } else {
-                Logger::SetError(THEME_FILE_COLORS_DEFINED_INCORRECTLY_EXCEPTION);
+                Logger::setError(THEME_FILE_COLORS_DEFINED_INCORRECTLY_EXCEPTION);
 
                 return EXIT_FAILURE;
             }
@@ -135,7 +135,7 @@ int ThemeLoader::process(std::string extension, std::string root) {
             if (ThemeLoaderValidator::validateEffectColorMatching(tempEffects, tempColors)) {
                 themeEntity->setEffects(tempEffects);
             } else {
-                Logger::SetError(THEME_FILE_EFFECTS_USE_INCORRECT_COLORS_EXCEPTION);
+                Logger::setError(THEME_FILE_EFFECTS_USE_INCORRECT_COLORS_EXCEPTION);
 
                 return EXIT_FAILURE;
             }
@@ -147,18 +147,18 @@ int ThemeLoader::process(std::string extension, std::string root) {
             if (ThemeLoaderValidator::validatePatternColorMatching(tempPatterns, tempColors)) {
                 themeEntity->setPatterns(tempPatterns);   
             } else {
-                Logger::SetError(THEME_FILE_PATTERNS_USE_INCORRECT_COLORS_EXCEPTION);
+                Logger::setError(THEME_FILE_PATTERNS_USE_INCORRECT_COLORS_EXCEPTION);
 
                 return EXIT_FAILURE;
             }
         }
 
-        Logger::InvokeInfo(CUSTOM_THEME_SELECTED);
+        Logger::invokeInfo(CUSTOM_THEME_SELECTED);
 
         return EXIT_SUCCESS;
     }
 
-    Logger::InvokeInfo(DEFAULT_THEME_USAGE_WARNING);
+    Logger::invokeInfo(DEFAULT_THEME_USAGE_WARNING);
 
     return EXIT_SUCCESS;
 }

@@ -12,6 +12,27 @@ namespace fs = std::experimental::filesystem;
 #endif
 
 /**
+ * Describes pre-defined default name of the environment variable used
+ * to represent home path for the used user.
+*/
+#define HOME_ENVIRONMENT_VARIABLE "HOME"
+
+/**
+ * Describes pre-defined home directory regex definition
+*/
+#define HOME_DIRECTORY_SHORT_REGEX "^~/"
+
+/**
+ * Describes pre-defined root directory regex definition
+*/
+#define ROOT_DIRECTORY_SHORT_REGEX "^/"
+
+/**
+ * Describes pre-defined slash symbol
+*/
+#define SLASH_SYMBOL "/"
+
+/**
  * Represents helper used for IO opereations.
 */
 class IOHelper {
@@ -30,5 +51,5 @@ public:
      * @param path - given location of the file.
      * @return given file extension.
     */
-    static std::string getFileExtension(std::string path) noexcept;
+    static std::string getFileExtension(const std::string& path) noexcept;
 };

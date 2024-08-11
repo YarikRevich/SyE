@@ -1,16 +1,16 @@
 #include "logger.hpp"
 
-std::string Logger::message("");
+std::string Logger::message;
 
-bool Logger::IsErrorExist() {
+bool Logger::isErrorExist() {
     return !message.empty();
 }
 
-std::string Logger::GetError() {
+std::string Logger::getError() {
     return message;
 }
 
-void Logger::SetError(std::string message) {
+void Logger::setError(std::string message) {
     std::stringstream ss;
 
     ss << "ERROR: " << message << std::endl;
@@ -18,10 +18,10 @@ void Logger::SetError(std::string message) {
     Logger::message = ss.str();
 }
 
-void Logger::InvokeWarning(std::string message) {
+void Logger::invokeWarning(std::string message) {
     printf("WARNING: %s\n", message.c_str());
 };
 
-void Logger::InvokeInfo(std::string message) {
+void Logger::invokeInfo(std::string message) {
     printf("INFO: %s\n", message.c_str());
 };

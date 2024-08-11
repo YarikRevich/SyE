@@ -4,10 +4,6 @@ std::vector<Scheduler::Operation*> Scheduler::callbacks;
 
 std::atomic<bool> Scheduler::blockExit = false;
 
-void Scheduler::init() {
-    Signal::addHandler(Scheduler::handleExit);
-}
-
 void Scheduler::addHandler(Scheduler::Operation * callback) {
     callbacks.push_back(callback);
 }
