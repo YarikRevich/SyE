@@ -1,19 +1,6 @@
 #include "render.hpp"
 
-Render::Render() {
-    initscr();
-	set_escdelay(FALSE);
-	noecho();
-	scrollok(stdscr, TRUE);
-	keypad(stdscr, TRUE);
-
-    int x, y;
-    getmaxyx(stdscr, y, x);
-
-    this->window = newwin(x, y, 0, 0);
-}
-
-void Render::handleExec() {
+int RenderOperation::handleExec() {
 ////    wprintw(this->window, "first");
 ////
 ////    box(this->window, '*', '*');
@@ -25,19 +12,23 @@ void Render::handleExec() {
 //
 //        wprintw(this->window, symbol.c_str());
 //    }
+
+    return EXIT_SUCCESS;
 }
 
-void Render::handleExit() {
+int RenderOperation::handleExit() {
     endwin();
     delwin(this->window);
+
+    return EXIT_SUCCESS;
 }
-    
-void Render::renderWindow() {
-};
-
-void Render::cleanContent() {
-
-};
+//
+//void Render::renderWindow() {
+//};
+//
+//void Render::cleanContent() {
+//
+//};
 
 // Perform listening to new symbols and rendering in different threads. All the classes should implement 
 //

@@ -15,22 +15,6 @@
 class Scheduler : public Signal::Operation {
 public:
     /**
-     * Represents scheduler operation interface.
-     */
-    class Operation {
-    public:
-        /**
-         * Handles operation execution.
-         */
-        virtual void handleExec() = 0;
-
-        /**
-         * Handles application exit signal.
-         */
-        virtual void handleExit() = 0;
-    };
-
-    /**
      * Adds new operation to the storage
      *
      * @param operation - given operation to be saved.

@@ -10,20 +10,9 @@
 class Signal {
 public:
     /**
-     * Represents signal operation interface.
-     */
-    class Operation {
-    public:
-        /**
-         * Handles application exit signal.
-         */
-        virtual void handleExit() = 0;
-    };
-
-    /**
      * Initializes signal manager.
     */
-    static void init();
+    Signal();
 
     /**
      * Adds signal handler to the callback storage.

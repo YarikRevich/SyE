@@ -76,10 +76,11 @@ add_executable(
 	src/internal/command/validator/validator.cpp
 	src/internal/command/entry/entry.cpp
 	src/internal/core/effects/effects.cpp
-	src/internal/core/effects/init/init.cpp
+	src/internal/core/effects/window/window.cpp
 	src/internal/core/scheduler/scheduler.cpp
-	src/internal/core/scheduler/operations/input/input.cpp
-	src/internal/core/scheduler/operations/render/render.cpp
+    src/internal/core/scheduler/input/input.cpp
+    src/internal/core/scheduler/render/render.cpp
+	src/internal/core/scheduler/widget/widget.cpp
 	src/internal/io/helper/helper.cpp
 	src/internal/io/swap/swap.cpp
 	src/internal/io/loader/config/config.cpp

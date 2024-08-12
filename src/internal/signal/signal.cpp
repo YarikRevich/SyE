@@ -2,7 +2,7 @@
 
 std::vector<void (*)()> Signal::callbacks;
 
-void Signal::init() {
+Signal::Signal() {
     std::atexit(handleExit);
     signal(SIGINT, handleExit);
 }

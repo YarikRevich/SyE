@@ -1,10 +1,12 @@
 #include "./effects.hpp"
-#include "./init/init.hpp"
+#include "./window/window.hpp"
 
 int Effects::process() {
     Spinner::startIndefiniteSpinner();
 
-    if (Init::process() != EXIT_SUCCESS) {
+    WindowEffect* windowEffect = new WindowEffect();
+
+    if (windowEffect->handleExec() != EXIT_SUCCESS) {
         return EXIT_FAILURE;
     };
 

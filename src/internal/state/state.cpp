@@ -1,9 +1,19 @@
 #include "./state.hpp"
 
-Scheduler* State::getScheduler() {
-    return this->scheduler;
+WINDOW* State::window = NULL;
+
+//Scheduler* State::getScheduler() {
+//    return this->scheduler;
+//}
+//
+//void State::setScheduler(Scheduler *scheduler) {
+//    this->scheduler = scheduler;
+//}
+
+WINDOW* State::getWindow() {
+    return State::window;
 }
 
-void State::setScheduler(Scheduler *scheduler) {
-    this->scheduler = scheduler;
+void State::setWindow(WINDOW *value) {
+    State::window = value;
 }

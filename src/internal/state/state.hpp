@@ -2,29 +2,49 @@
 
 #include "../core/scheduler/scheduler.hpp"
 
+#include "ncurses.h"
+
 /**
  * Represents global state manager.
 */
 class State {
 public:
-    /**
-     * Retrieves scheduler instance.
-     *
-     * @return retrieved scheduler instance.
-     */
-    static Scheduler* getScheduler();
+//    /**
+//     * Retrieves scheduler instance.
+//     *
+//     * @return retrieved scheduler instance.
+//     */
+//    static Scheduler* getScheduler();
+//
+//    /**
+//     * Sets scheduler instance.
+//     *
+//     * @param scheduler - scheduler instance to be set .
+//     */
+//    static void setScheduler(Scheduler* scheduler);
 
     /**
-     * Sets scheduler instance.
+     * Retrieves terminal window instance.
      *
-     * @param scheduler - scheduler instance to be set .
+     * @return retrieved terminal window instance.
      */
-    static void setScheduler(Scheduler* scheduler);
+    static WINDOW* getWindow();
+
+    /**
+     * Sets terminal window instance.
+     *
+     * @param value - terminal window to be set.
+     */
+    static void setWindow(WINDOW* value);
 
 private:
+//    /**
+//     * Represents instance of scheduler.
+//     */
+//    Scheduler* scheduler;
 
     /**
-     * Represents instance of scheduler.
-     */
-    Scheduler* scheduler;
+     * Represents terminal instance.
+    */
+    static WINDOW* window;
 };
