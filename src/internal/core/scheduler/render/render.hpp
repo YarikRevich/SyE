@@ -9,15 +9,15 @@
 /**
  * Represents screen rendering operation to be used by scheduler.
 */
-class RenderOperation : public SchedulerOperation, SignalOperation {
+class RenderOperation : public SchedulerOperationWithSignal {
 public:
     /**
-    * @see SchedulerOperation
+    * @see SchedulerOperationWithSignal
     */
     int handleExec() override;
 
     /**
-    * @see SignalOperation
+    * @see SchedulerOperationWithSignal
     */
     int handleExit() override;
 private:

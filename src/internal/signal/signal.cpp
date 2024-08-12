@@ -11,6 +11,10 @@ void Signal::addHandler(void (*callback)()) {
     callbacks.push_back(callback);
 }
 
+void Signal::emitExit() {
+    raise(SIGTERM);
+}
+
 void Signal::handleExit() {
     for (const auto& callback : callbacks) {
         callback();

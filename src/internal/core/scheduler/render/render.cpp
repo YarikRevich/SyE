@@ -17,8 +17,7 @@ int RenderOperation::handleExec() {
 }
 
 int RenderOperation::handleExit() {
-    endwin();
-    delwin(this->window);
+
 
     return EXIT_SUCCESS;
 }

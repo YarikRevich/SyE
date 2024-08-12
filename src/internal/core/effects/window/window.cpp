@@ -17,6 +17,13 @@ int WindowEffect::handleExec() {
     return EXIT_SUCCESS;
 }
 
+int WindowEffect::handleExit() {
+    endwin();
+    delwin(State::getWindow());
+
+    return EXIT_SUCCESS;
+}
+
 //int Init::process() {
 //    Signal::init();
 //

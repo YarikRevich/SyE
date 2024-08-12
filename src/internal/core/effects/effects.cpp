@@ -1,16 +1,32 @@
 #include "./effects.hpp"
 #include "./window/window.hpp"
 
+std::vector<EffectsOperationWithSignal*> Effects::callbacks;
+
+Effects::Effects() {
+    callbacks.push_back(new WindowEffect());
+}
+
 int Effects::process() {
     Spinner::startIndefiniteSpinner();
 
-    WindowEffect* windowEffect = new WindowEffect();
-
-    if (windowEffect->handleExec() != EXIT_SUCCESS) {
-        return EXIT_FAILURE;
-    };
+    for(auto callback : Effects::callbacks) {
+        if (callback->handleExec() != EXIT_SUCCESS) {
+            return EXIT_FAILURE;
+        }
+    }
 
     Spinner::stopIndefiniteSpinner();
+
+    return EXIT_SUCCESS;
+}
+
+int Effects::handleExit() {
+    for(auto callback : Effects::callbacks) {
+        if (callback->handleExit() != EXIT_SUCCESS) {
+            return EXIT_FAILURE;
+        };
+    }
 
     return EXIT_SUCCESS;
 }

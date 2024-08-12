@@ -1,11 +1,13 @@
 #include "scheduler.hpp"
 
-std::vector<Scheduler::Operation*> Scheduler::callbacks;
+std::vector<SchedulerOperationWithSignal*> Scheduler::callbacks;
 
 std::atomic<bool> Scheduler::blockExit = false;
 
-void Scheduler::addHandler(Scheduler::Operation * callback) {
-    callbacks.push_back(callback);
+Scheduler::Scheduler() {
+    callbacks.push_back(new InputOperation());
+    callbacks.push_back(new RenderOperation());
+    callbacks.push_back(new WidgetOperation());
 }
 
 int Scheduler::process() {
@@ -24,16 +26,22 @@ int Scheduler::process() {
 
 void Scheduler::handleExecRaw() {
     for(auto callback : Scheduler::callbacks) {
-        callback->handleExec();
+        if (callback->handleExec() != EXIT_SUCCESS) {
+            Signal::emitExit();
+        }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(SCHEDULER_BASIC_AWAIT));
     }
 }
 
-void Scheduler::handleExit() {
+int Scheduler::handleExit() {
     for(auto callback : Scheduler::callbacks) {
-        callback->handleExit();
+        if (callback->handleExit() != EXIT_SUCCESS) {
+            return EXIT_FAILURE;
+        };
     }
 
     Scheduler::blockExit = true;
+
+    return EXIT_SUCCESS;
 }

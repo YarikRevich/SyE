@@ -1,7 +1,7 @@
 #pragma once
 
+#include <csignal>
 #include <cstdlib>
-
 #include <vector>
 
 /**
@@ -20,6 +20,11 @@ public:
     static void addHandler(void (*)());
 
     /**
+     * Emits sigterm exit signal.
+     */
+    static void emitExit();
+
+    /**
      * Gathers all the exit handlers and manages graceful exit.
     */
     static void handleExit();
@@ -27,7 +32,7 @@ public:
     /**
      * Gathers all the exit handlers and manages graceful exit.
      * 
-     * @param singal - represents received signal.
+     * @param signal - represents received signal.
     */
     static void handleExit(int signal);
 private:

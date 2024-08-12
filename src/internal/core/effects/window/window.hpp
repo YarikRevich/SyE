@@ -9,10 +9,15 @@
 /**
  * Represents effect responsible for terminal window initialization.
 */
-class WindowEffect : public EffectsOperation {
+class WindowEffect : public EffectsOperationWithSignal {
 public:
     /**
-     * @see EffectsOperation
+     * @see EffectsOperationWithSignal
      */
     int handleExec() override;
+
+    /**
+     * @see EffectsOperationWithSignal
+     */
+    int handleExit() override;
 };

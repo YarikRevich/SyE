@@ -7,19 +7,22 @@
 #include <atomic>
 #include <chrono>
 
+#include "./common/common.hpp"
+#include "./render/render.hpp"
+#include "./input/input.hpp"
+#include "./widget/widget.hpp"
 #include "../../signal/signal.hpp"
+#include "../../signal/common/common.hpp"
 
 /**
  * Responsible for threads allocation and their management.
 */
-class Scheduler : public Signal::Operation {
+class Scheduler : public SignalOperation {
 public:
     /**
-     * Adds new operation to the storage
-     *
-     * @param operation - given operation to be saved.
+     * Performs scheduler initialization.
      */
-    static void addHandler(Operation* operation);
+    Scheduler();
 
     /**
      * Starts all the persisted scheduled operations and waits till all of them are completed.
@@ -29,9 +32,9 @@ public:
     static int process();
 
     /**
-     * Handles application exit signal.
+     * @see SignalOperation
     */
-    void handleExit() override;
+    int handleExit() override;
 private:
     /**
      * Starts scheduled operation with delayed pipeline calls.
@@ -41,7 +44,7 @@ private:
     /**
      * Represents collection of registered callbacks.
     */
-    static std::vector<Operation*> callbacks;
+    static std::vector<SchedulerOperationWithSignal*> callbacks;
 
     /**
      * Represents switch used to block scheduler exit.
