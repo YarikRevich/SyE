@@ -21,9 +21,15 @@ int Entry::handle() {
         return EXIT_FAILURE;
     };
 
+    Signal::init();
+
+    Effects::init();
+
     if (Effects::process() != EXIT_SUCCESS) {
         return EXIT_FAILURE;
     }
+
+    Scheduler::init();
 
     if (Scheduler::process() != EXIT_SUCCESS) {
         return EXIT_FAILURE;

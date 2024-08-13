@@ -12,12 +12,12 @@ public:
     /**
      * Initializes signal manager.
     */
-    Signal();
+    static void init();
 
     /**
      * Adds signal handler to the callback storage.
     */
-    static void addHandler(void (*)());
+    static void registerHandler(void (*)());
 
     /**
      * Emits sigterm exit signal.

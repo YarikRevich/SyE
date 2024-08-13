@@ -4,10 +4,12 @@ std::vector<SchedulerOperationWithSignal*> Scheduler::callbacks;
 
 std::atomic<bool> Scheduler::blockExit = false;
 
-Scheduler::Scheduler() {
+void Scheduler::init() {
     callbacks.push_back(new InputOperation());
     callbacks.push_back(new RenderOperation());
     callbacks.push_back(new WidgetOperation());
+
+    Signal::registerHandler(Scheduler);
 }
 
 int Scheduler::process() {
@@ -25,12 +27,14 @@ int Scheduler::process() {
 }
 
 void Scheduler::handleExecRaw() {
-    for(auto callback : Scheduler::callbacks) {
-        if (callback->handleExec() != EXIT_SUCCESS) {
-            Signal::emitExit();
-        }
+    while (true) {
+        for (auto callback: Scheduler::callbacks) {
+            if (callback->handleExec() != EXIT_SUCCESS) {
+                Signal::emitExit();
+            }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(SCHEDULER_BASIC_AWAIT));
+            std::this_thread::sleep_for(std::chrono::milliseconds(SCHEDULER_BASIC_AWAIT));
+        }
     }
 }
 

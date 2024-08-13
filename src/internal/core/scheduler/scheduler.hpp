@@ -22,7 +22,7 @@ public:
     /**
      * Performs scheduler initialization.
      */
-    Scheduler();
+    static void init();
 
     /**
      * Starts all the persisted scheduled operations and waits till all of them are completed.

@@ -2,12 +2,12 @@
 
 std::vector<void (*)()> Signal::callbacks;
 
-Signal::Signal() {
+void Signal::init() {
     std::atexit(handleExit);
     signal(SIGINT, handleExit);
 }
 
-void Signal::addHandler(void (*callback)()) {
+void Signal::registerHandler(void (*callback)()) {
     callbacks.push_back(callback);
 }
 

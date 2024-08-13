@@ -14,7 +14,7 @@ public:
     /**
      * Performs effects initialization.
      */
-    Effects();
+    static void init();
 
     /**
      * Performs processing of all the effects.

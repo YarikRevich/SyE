@@ -3,7 +3,7 @@
 
 std::vector<EffectsOperationWithSignal*> Effects::callbacks;
 
-Effects::Effects() {
+void Effects::init() {
     callbacks.push_back(new WindowEffect());
 }
 
