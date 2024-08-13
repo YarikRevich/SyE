@@ -1,14 +1,14 @@
 #include "signal.hpp"
 
-std::vector<void (*)()> Signal::callbacks;
+std::vector<SignalOperation*> Signal::callbacks;
 
-void Signal::init() {
+Signal::Signal() {
     std::atexit(handleExit);
     signal(SIGINT, handleExit);
 }
 
-void Signal::registerHandler(void (*callback)()) {
-    callbacks.push_back(callback);
+void Signal::registerHandler(SignalOperation* value) {
+    callbacks.push_back(value);
 }
 
 void Signal::emitExit() {
@@ -17,13 +17,17 @@ void Signal::emitExit() {
 
 void Signal::handleExit() {
     for (const auto& callback : callbacks) {
-        callback();
+        if (callback->handleExit() != EXIT_SUCCESS) {
+            return;
+        }
     }
 }
 
 void Signal::handleExit(int signal) {
     for (const auto& callback : callbacks) {
-        callback();
+        if (callback->handleExit() != EXIT_SUCCESS) {
+            return;
+        }
     }
 
     exit(1);

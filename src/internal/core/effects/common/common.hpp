@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../signal/common/common.hpp"
+#include "../../signal/common/common.hpp"
 
 /**
 * Represents effect operation interface.

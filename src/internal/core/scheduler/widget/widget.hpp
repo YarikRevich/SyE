@@ -1,11 +1,10 @@
 #pragma once
 
-#include "ncurses.h"
-
 #include "../common/common.hpp"
-#include "../../../signal/common/common.hpp"
-#include "../../../tools/window/window.hpp"
 #include "../../../state/state.hpp"
+#include "../../../tools/window/window.hpp"
+
+#include "ncurses.h"
 
 /**
  * Represents screen rendering operation to be used by scheduler.

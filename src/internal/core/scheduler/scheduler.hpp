@@ -1,5 +1,8 @@
 #pragma once
 
+#include "./common/common.hpp"
+#include "../signal/common/common.hpp"
+
 #include <thread>
 #include <vector>
 #include <map>
@@ -7,29 +10,22 @@
 #include <atomic>
 #include <chrono>
 
-#include "./common/common.hpp"
-#include "./render/render.hpp"
-#include "./input/input.hpp"
-#include "./widget/widget.hpp"
-#include "../../signal/signal.hpp"
-#include "../../signal/common/common.hpp"
-
 /**
- * Responsible for threads allocation and their management.
+ * Represents manager of scheduled internal processes.
 */
 class Scheduler : public SignalOperation {
 public:
     /**
      * Performs scheduler initialization.
      */
-    static void init();
+    Scheduler();
 
     /**
      * Starts all the persisted scheduled operations and waits till all of them are completed.
      *
      * @return result of the scheduler execution.
      */
-    static int process();
+    int process();
 
     /**
      * @see SignalOperation

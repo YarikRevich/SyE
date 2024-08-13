@@ -1,14 +1,33 @@
 #include "./state.hpp"
 
+Signal* State::signal = NULL;
+Effects* State::effects = NULL;
+Scheduler* State::scheduler = NULL;
 WINDOW* State::window = NULL;
 
-//Scheduler* State::getScheduler() {
-//    return this->scheduler;
-//}
-//
-//void State::setScheduler(Scheduler *scheduler) {
-//    this->scheduler = scheduler;
-//}
+Signal* State::getSignal() {
+    return State::signal;
+}
+
+void State::setSignal(Signal *value) {
+    State::signal = value;
+}
+
+Effects* State::getEffects() {
+    return State::effects;
+}
+
+void State::setEffects(Effects *value) {
+    State::effects = value;
+}
+
+Scheduler* State::getScheduler() {
+    return State::scheduler;
+}
+
+void State::setScheduler(Scheduler* value) {
+    State::scheduler = value;
+}
 
 WINDOW* State::getWindow() {
     return State::window;

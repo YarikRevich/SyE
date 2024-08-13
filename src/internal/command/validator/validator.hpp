@@ -8,10 +8,14 @@
 */
 class Validator {
 public:
+    /**
+     * Performs validation initialization.
+     */
     Validator(args::ArgumentParser*);
 
     /**
      * Handles argument parser validation.
+     *
      * @param exception - given argument parser exception to be handled.
      * @return result code of the operation.
     */
@@ -19,16 +23,21 @@ public:
 
     /**
      * Throws value flag required exception validation.
+     *
      * @param name - name of the value to be validated.
     */
     static void throwValueFlagRequiredException(std::string name);
 
     /**
      * Throws value flag invalid exception validation.
+     *
      * @param name - name of the value to be validated.
     */
     static void throwValueFlagInvalidException(std::string name);
 
 private:
+    /**
+     * Represents argument parser instance.
+     */
     args::ArgumentParser* argumentParser = NULL;
 };

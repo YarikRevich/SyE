@@ -14,10 +14,18 @@ using namespace std;
 */
 class Handler {
 public:
+    /**
+     * Performs handle initialization.
+     *
+     * @param argc - amount of the given arguments.
+     * @param argv - given arguments.
+     */
     Handler(int argc, char **argv);
 
     /**
-     * Starts command handler execution. 
+     * Starts command handler execution.
+     *
+     * @return result of handler execution.
     */
     int run();
 

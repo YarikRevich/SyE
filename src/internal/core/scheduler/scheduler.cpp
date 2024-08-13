@@ -1,15 +1,16 @@
-#include "scheduler.hpp"
+#include "./scheduler.hpp"
+#include "./render/render.hpp"
+#include "./input/input.hpp"
+#include "./widget/widget.hpp"
 
 std::vector<SchedulerOperationWithSignal*> Scheduler::callbacks;
 
 std::atomic<bool> Scheduler::blockExit = false;
 
-void Scheduler::init() {
+Scheduler::Scheduler() {
     callbacks.push_back(new InputOperation());
     callbacks.push_back(new RenderOperation());
     callbacks.push_back(new WidgetOperation());
-
-    Signal::registerHandler(Scheduler);
 }
 
 int Scheduler::process() {

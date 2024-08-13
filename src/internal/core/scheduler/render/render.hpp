@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../common/common.hpp"
-#include "../../../signal/common/common.hpp"
+#include "../../signal/common/common.hpp"
 
 #include "ncurses.h"
 #include <iostream>

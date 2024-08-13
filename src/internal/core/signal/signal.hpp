@@ -1,5 +1,8 @@
 #pragma once
 
+#include "./common/common.hpp"
+#include "../../logger/logger.hpp"
+
 #include <csignal>
 #include <cstdlib>
 #include <vector>
@@ -12,12 +15,14 @@ public:
     /**
      * Initializes signal manager.
     */
-    static void init();
+    Signal();
 
     /**
      * Adds signal handler to the callback storage.
+     *
+     * @param value - handler to be registered.
     */
-    static void registerHandler(void (*)());
+    void registerHandler(SignalOperation* value);
 
     /**
      * Emits sigterm exit signal.
@@ -39,5 +44,5 @@ private:
     /**
      * Represents collection of registered callbacks.
     */
-    static std::vector<void (*)()> callbacks;
+    static std::vector<SignalOperation*> callbacks;
 };

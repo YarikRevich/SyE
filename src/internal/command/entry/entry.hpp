@@ -7,6 +7,7 @@
 #include "../../io/helper/helper.hpp"
 #include "../../core/scheduler/scheduler.hpp"
 #include "../../core/effects/effects.hpp"
+#include "../../state/state.hpp"
 
 #include <iostream>
 
@@ -21,6 +22,7 @@ public:
 
     /**
      * Handles entry activation operation.
+     *
      * @return result of entry handler execution.
     */
     int handle();

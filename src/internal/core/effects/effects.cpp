@@ -1,9 +1,7 @@
 #include "./effects.hpp"
 #include "./window/window.hpp"
 
-std::vector<EffectsOperationWithSignal*> Effects::callbacks;
-
-void Effects::init() {
+Effects::Effects() {
     callbacks.push_back(new WindowEffect());
 }
 

@@ -1,4 +1,4 @@
-#include "input.hpp"
+#include "./input.hpp"
 
 int InputOperation::handleExec() {
     std::string symbol = Window::getSymbolAsChar(State::getWindow());
