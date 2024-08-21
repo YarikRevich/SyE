@@ -33,9 +33,16 @@ public:
     int handleExit() override;
 private:
     /**
-     * Starts scheduled operation with delayed pipeline calls.
+     * Handles main thread pipeline execution.
      */
-    static void handleExecRaw();
+    static void handleExecMain();
+
+    /**
+     * Handles thread task execution.
+     *
+     * @param callback - given scheduler operation handler.
+     */
+    static void handleExecTask(SchedulerOperation* callback);
 
     /**
      * Represents collection of registered callbacks.

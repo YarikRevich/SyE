@@ -1,25 +1,29 @@
 #include "./window.hpp"
 
 int WindowEffect::handleExec() {
+    setlocale(LC_ALL, "uk_UA.UTF-8");
     initscr();
+    cbreak();
     set_escdelay(FALSE);
+    start_color();
     noecho();
-    scrollok(stdscr, TRUE);
-    keypad(stdscr, TRUE);
 
     int x, y;
     getmaxyx(stdscr, y, x);
 
-    auto window = newwin(x, y, 0, 0);
+    auto window = newwin(y, x, 0, 0);
 
-    State::setWindow(window);
+    scrollok(window, TRUE);
+    keypad(window, TRUE);
+
+    State::getWindowState()->setWindow(window);
 
     return EXIT_SUCCESS;
 }
 
 int WindowEffect::handleExit() {
     endwin();
-    delwin(State::getWindow());
+    delwin(State::getWindowState()->getWindow());
 
     return EXIT_SUCCESS;
 }

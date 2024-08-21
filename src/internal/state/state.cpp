@@ -3,11 +3,10 @@
 Signal* State::signal = NULL;
 Effects* State::effects = NULL;
 Scheduler* State::scheduler = NULL;
-WINDOW* State::window = NULL;
 
-Signal* State::getSignal() {
-    return State::signal;
-}
+InputState* State::inputState = new InputState();
+WindowState* State::windowState = new WindowState();
+FileState* State::fileState = new FileState();
 
 void State::setSignal(Signal *value) {
     State::signal = value;
@@ -29,10 +28,14 @@ void State::setScheduler(Scheduler* value) {
     State::scheduler = value;
 }
 
-WINDOW* State::getWindow() {
-    return State::window;
+InputState *State::getInputState() {
+    return State::inputState;
 }
 
-void State::setWindow(WINDOW *value) {
-    State::window = value;
+WindowState *State::getWindowState() {
+    return State::windowState;
+}
+
+FileState *State::getFileState() {
+    return State::fileState;
 }

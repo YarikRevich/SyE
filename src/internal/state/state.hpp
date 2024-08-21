@@ -3,21 +3,15 @@
 #include "../core/signal/signal.hpp"
 #include "../core/effects/effects.hpp"
 #include "../core/scheduler/scheduler.hpp"
-
-#include "ncurses.h"
+#include "./file/file.hpp"
+#include "./input/input.hpp"
+#include "./window/window.hpp"
 
 /**
  * Represents global state manager.
 */
 class State {
 public:
-    /**
-     * Retrieves signal instance.
-     *
-     * @return retrieved signal instance.
-     */
-    static Signal* getSignal();
-
     /**
      * Sets signal instance.
      *
@@ -54,19 +48,25 @@ public:
     static void setScheduler(Scheduler* value);
 
     /**
-     * Retrieves terminal window instance.
+     * Retrieves input state instance.
      *
-     * @return retrieved terminal window instance.
+     * @return retrieved input state instance.
      */
-    static WINDOW* getWindow();
+    static InputState* getInputState();
 
     /**
-     * Sets terminal window instance.
+     * Retrieves window state instance.
      *
-     * @param value - terminal window to be set.
+     * @return retrieved window state instance.
      */
-    static void setWindow(WINDOW* value);
+    static WindowState* getWindowState();
 
+    /**
+     * Retrieves file state instance.
+     *
+     * @return retrieved file state instance.
+     */
+    static FileState* getFileState();
 private:
     /**
      * Represents instance of signal.
@@ -84,7 +84,17 @@ private:
     static Scheduler* scheduler;
 
     /**
-     * Represents terminal instance.
+     * Represents input state instance.
     */
-    static WINDOW* window;
+    static InputState* inputState;
+
+    /**
+     * Represents window state instance.
+    */
+    static WindowState* windowState;
+
+    /**
+     * Represents file state instance.
+     */
+    static FileState* fileState;
 };

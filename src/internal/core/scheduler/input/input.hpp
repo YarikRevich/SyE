@@ -8,6 +8,11 @@
 #include "ncurses.h"
 
 /**
+ * Represents all the forbidden symbols.
+ */
+const wchar_t FORBIDDEN_SYMBOLS[] = { 401 };
+
+/**
  * Represents screen rendering operation to be used by scheduler.
 */
 class InputOperation : public SchedulerOperationWithSignal {

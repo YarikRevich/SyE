@@ -56,7 +56,7 @@ add_compile_definitions(WIDGET_TIME="time")
 add_compile_definitions(WIDGETS_NUM=1)
 
 # Describes definitions of different scheduler types
-add_compile_definitions(SCHEDULER_BASIC_AWAIT=500)
+add_compile_definitions(SCHEDULER_BASIC_AWAIT=20)
 
 # enable_testing()
 # add_subdirectory(tests)
@@ -71,6 +71,9 @@ link_directories(
 add_executable(
 	sye 
 	src/cmd/main.cpp
+	src/internal/state/file/file.cpp
+	src/internal/state/window/window.cpp
+	src/internal/state/input/input.cpp
 	src/internal/state/state.cpp
 	src/internal/command/handler/handler.cpp
 	src/internal/command/help/help.cpp
@@ -87,7 +90,6 @@ add_executable(
 	src/internal/io/loader/config/config.cpp
 	src/internal/io/loader/theme/theme.cpp
     src/internal/core/signal/signal.cpp
-	src/internal/state/history/history.cpp
 	src/internal/logger/logger.cpp
 	src/internal/tools/spinner/spinner.cpp
 	src/internal/tools/window/window.cpp

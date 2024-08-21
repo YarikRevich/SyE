@@ -14,7 +14,7 @@ Scheduler::Scheduler() {
 }
 
 int Scheduler::process() {
-    auto* operation = new std::thread(Scheduler::handleExecRaw);
+    auto* operation = new std::thread(Scheduler::handleExecMain);
 
     operation->detach();
 
@@ -27,15 +27,21 @@ int Scheduler::process() {
     return EXIT_SUCCESS;
 }
 
-void Scheduler::handleExecRaw() {
-    while (true) {
-        for (auto callback: Scheduler::callbacks) {
-            if (callback->handleExec() != EXIT_SUCCESS) {
-                Signal::emitExit();
-            }
+void Scheduler::handleExecMain() {
+    for (auto callback: Scheduler::callbacks) {
+        auto* operation = new std::thread(Scheduler::handleExecTask, callback);
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(SCHEDULER_BASIC_AWAIT));
+        operation->detach();
+    }
+}
+
+void Scheduler::handleExecTask(SchedulerOperation* callback) {
+    while (true) {
+        if (callback->handleExec() != EXIT_SUCCESS) {
+            Signal::emitExit();
         }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(SCHEDULER_BASIC_AWAIT));
     }
 }
 

@@ -16,5 +16,5 @@ public:
      * @param window - given active application window.
      * @return retrieved symbol as char.
     */
-    static std::string getSymbolAsChar(WINDOW* window);
+    static wchar_t* getSymbolAsChar(WINDOW* window);
 };
