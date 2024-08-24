@@ -6,7 +6,7 @@ Scheduler* State::scheduler = NULL;
 
 InputState* State::inputState = new InputState();
 WindowState* State::windowState = new WindowState();
-FileState* State::fileState = new FileState();
+EntryState* State::entryState = new EntryState();
 
 void State::setSignal(Signal *value) {
     State::signal = value;
@@ -36,6 +36,6 @@ WindowState *State::getWindowState() {
     return State::windowState;
 }
 
-FileState *State::getFileState() {
-    return State::fileState;
+EntryState *State::getEntryState() {
+    return State::entryState;
 }

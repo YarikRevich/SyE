@@ -33,7 +33,7 @@ namespace fs = std::experimental::filesystem;
 #define SLASH_SYMBOL "/"
 
 /**
- * Represents helper used for IO opereations.
+ * Represents helper used for IO operations.
 */
 class IOHelper {
 public:

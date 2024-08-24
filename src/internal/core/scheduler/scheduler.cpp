@@ -2,6 +2,7 @@
 #include "./render/render.hpp"
 #include "./input/input.hpp"
 #include "./widget/widget.hpp"
+#include "./swap/swap.hpp"
 
 std::vector<SchedulerOperationWithSignal*> Scheduler::callbacks;
 
@@ -11,6 +12,7 @@ Scheduler::Scheduler() {
     callbacks.push_back(new InputOperation());
     callbacks.push_back(new RenderOperation());
     callbacks.push_back(new WidgetOperation());
+    callbacks.push_back(new SwapOperation());
 }
 
 int Scheduler::process() {

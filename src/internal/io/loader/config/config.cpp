@@ -1,5 +1,4 @@
 #include "config.hpp"
-#include <iostream>
 
 std::vector<std::string> ConfigLoader::ConfigEntity::getWidgets() {
     return widgets;
@@ -9,8 +8,9 @@ void ConfigLoader::ConfigEntity::setWidgets(std::vector<std::string> widgets) {
     this->widgets = widgets;
 }
 
-int ConfigLoader::process(std::string root) {
-    std::string path = IOHelper::getAbsolutePath(fs::path(root) / fs::path(CONFIG_FILE_PATH) / fs::path(CONFIG_FILE_NAME));
+int ConfigLoader::process() {
+    std::string path = IOHelper::getAbsolutePath(
+            fs::path(State::getEntryState()->getConfigRoot()) / fs::path(CONFIG_FILE_PATH) / fs::path(CONFIG_FILE_NAME));
     if (!boost::filesystem::exists(path)){
         Logger::setError(CONFIG_FILE_NOT_FOUND_EXCEPTION);
 

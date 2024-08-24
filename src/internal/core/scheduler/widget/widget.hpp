@@ -2,7 +2,6 @@
 
 #include "../common/common.hpp"
 #include "../../../state/state.hpp"
-#include "../../../tools/window/window.hpp"
 
 #include "ncurses.h"
 

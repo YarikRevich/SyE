@@ -72,14 +72,14 @@ void ThemeLoader::ThemeEntity::setPatterns(std::vector<ThemeLoader::ThemeEntity:
     this->patterns = patterns;
 }
 
-int ThemeLoader::process(std::string extension, std::string root) {
-    if (extension == THEME_EXTENSION_NONE) {
+int ThemeLoader::process() {
+    if (State::getEntryState()->getInputFileExtension() == THEME_EXTENSION_NONE) {
         Logger::invokeInfo(DEFAULT_THEME_USAGE_WARNING);
 
         return EXIT_SUCCESS;
     }
 
-    std::string path = IOHelper::getAbsolutePath(fs::path(root) / fs::path(THEME_CONFIG_PATH));
+    std::string path = IOHelper::getAbsolutePath(fs::path(State::getEntryState()->getConfigRoot()) / fs::path(THEME_CONFIG_PATH));
     if (!boost::filesystem::is_directory(path)){
         Logger::setError(THEME_DIRECTORY_NOT_FOUND_EXCEPTION);
 
@@ -100,7 +100,7 @@ int ThemeLoader::process(std::string extension, std::string root) {
             if(auto iter = std::find_if(
                 tempExtensions.begin(), 
                 tempExtensions.end(), 
-                [&](const std::string& value) { return value == extension;}); iter == std::end(tempExtensions)) {
+                [&](const std::string& value) { return value == State::getEntryState()->getInputFileExtension();}); iter == std::end(tempExtensions)) {
                 continue;
             }
 

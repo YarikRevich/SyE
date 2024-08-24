@@ -58,6 +58,9 @@ add_compile_definitions(WIDGETS_NUM=1)
 # Describes definitions of different scheduler types
 add_compile_definitions(SCHEDULER_BASIC_AWAIT=20)
 
+# Describes definitions of keymaps
+add_compile_definitions(BACKSPACE_KEY=127)
+
 # enable_testing()
 # add_subdirectory(tests)
 
@@ -71,7 +74,7 @@ link_directories(
 add_executable(
 	sye 
 	src/cmd/main.cpp
-	src/internal/state/file/file.cpp
+	src/internal/state/entry/entry.cpp
 	src/internal/state/window/window.cpp
 	src/internal/state/input/input.cpp
 	src/internal/state/state.cpp
@@ -81,10 +84,14 @@ add_executable(
 	src/internal/command/entry/entry.cpp
 	src/internal/core/effects/effects.cpp
 	src/internal/core/effects/window/window.cpp
+	src/internal/core/effects/swap/swap.cpp
+	src/internal/core/effects/loader/loader.cpp
     src/internal/core/scheduler/input/input.cpp
+	src/internal/core/scheduler/input/constants/constants.cpp
 	src/internal/io/helper/helper.cpp
 	src/internal/core/scheduler/scheduler.cpp
     src/internal/core/scheduler/render/render.cpp
+	src/internal/core/scheduler/swap/swap.cpp
 	src/internal/core/scheduler/widget/widget.cpp
 	src/internal/io/swap/swap.cpp
 	src/internal/io/loader/config/config.cpp
@@ -92,7 +99,6 @@ add_executable(
     src/internal/core/signal/signal.cpp
 	src/internal/logger/logger.cpp
 	src/internal/tools/spinner/spinner.cpp
-	src/internal/tools/window/window.cpp
 )
 
 if(APPLE)
@@ -101,6 +107,7 @@ if(APPLE)
 			sye 
 			${CMAKE_SOURCE_DIR}/lib/ncursesw/macos/arm/libncursesw.a
 			${CMAKE_SOURCE_DIR}/lib/yaml-cpp/macos/arm/libyaml-cpp.a
+			${CMAKE_SOURCE_DIR}/lib/jsoncpp/macos/arm/libjsoncpp.a
 			${CMAKE_SOURCE_DIR}/lib/gtest/macos/arm/libgtest_main.a
 			${CMAKE_SOURCE_DIR}/lib/gtest/macos/arm/libgtest.a
 			${CMAKE_SOURCE_DIR}/lib/boost/macos/arm/libboost_filesystem.a

@@ -1,8 +1,12 @@
 #include "./effects.hpp"
+#include "./loader/loader.hpp"
 #include "./window/window.hpp"
+#include "./swap/swap.hpp"
 
 Effects::Effects() {
+    callbacks.push_back(new LoaderEffect());
     callbacks.push_back(new WindowEffect());
+    callbacks.push_back(new SwapEffect());
 }
 
 int Effects::process() {

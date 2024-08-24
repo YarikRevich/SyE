@@ -15,6 +15,7 @@ namespace fs = std::experimental::filesystem;
 
 #include "../../helper/helper.hpp"
 #include "../../../logger/logger.hpp"
+#include "../../../state/state.hpp"
 
 /**
  * Represents loader of the configuration file.
@@ -48,11 +49,10 @@ public:
 
     /**
      * Loads configuration file at the given location.
-     * 
-     * @param root - given configuration files location root.
+     *
      * @return result of the configuration loader execution.
     */
-    static int process(std::string root);
+    static int process();
 
     /**
      * Retrieves parsed configuration file entity.

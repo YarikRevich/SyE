@@ -1,16 +1,14 @@
 #pragma once
 
 #include "../common/common.hpp"
-#include "../../signal/common/common.hpp"
 #include "../../../state/state.hpp"
-#include "./constants/constants.hpp"
 
 #include "ncurses.h"
 
 /**
- * Represents screen rendering operation to be used by scheduler.
+ * Represents swap operation to be used by scheduler.
 */
-class InputOperation : public SchedulerOperationWithSignal {
+class SwapOperation : public SchedulerOperationWithSignal {
 public:
     /**
     * @see SchedulerOperationWithSignal

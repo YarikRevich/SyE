@@ -29,17 +29,22 @@ int InputOperation::handleExec() {
 //
 
 
-    wchar_t ch;
+    wchar_t symbol;
 
-    while ((ch = (wchar_t)wgetch(window)) != 'q') {  // Press 'q' to quit
-        if (ch != 410) {
-            if (ch == KEY_BACKSPACE) {
-                waddch(window, KEY_BACKSPACE);
-            }
-//            printw("Key code: %d, Character: %c\n", ch, ch);
-            waddch(window, ch);
+    while (true) {
+        symbol = (wchar_t)wgetch(window);
+
+        if(std::find(FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
+
+
+            waddch(window, symbol);
             wrefresh(window);
+
+            std::cout << symbol << std::endl;
+
+            // TODO: perform further filtering.
         }
+
 //        switch (ch) {
 //            case KEY_UP:
 //                printw("Up arrow pressed\n");
@@ -61,8 +66,6 @@ int InputOperation::handleExec() {
 //    mvwaddwstr(window, 10, 10, (const wchar_t *)ch);
 
 //    mvwaddw(window, symbol);
-
-//    (window, );
 
 //    wprintw(State::getWindow(), std::to_string(ch).c_str());
 

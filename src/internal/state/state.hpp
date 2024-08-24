@@ -3,7 +3,7 @@
 #include "../core/signal/signal.hpp"
 #include "../core/effects/effects.hpp"
 #include "../core/scheduler/scheduler.hpp"
-#include "./file/file.hpp"
+#include "./entry/entry.hpp"
 #include "./input/input.hpp"
 #include "./window/window.hpp"
 
@@ -62,11 +62,11 @@ public:
     static WindowState* getWindowState();
 
     /**
-     * Retrieves file state instance.
+     * Retrieves entry state instance.
      *
-     * @return retrieved file state instance.
+     * @return retrieved entry state instance.
      */
-    static FileState* getFileState();
+    static EntryState* getEntryState();
 private:
     /**
      * Represents instance of signal.
@@ -94,7 +94,7 @@ private:
     static WindowState* windowState;
 
     /**
-     * Represents file state instance.
+     * Represents entry state instance.
      */
-    static FileState* fileState;
+    static EntryState* entryState;
 };

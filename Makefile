@@ -11,6 +11,7 @@ help:
 create-local: ## Create SyE local directory
 	@mkdir -p $(HOME)/.sye/config
 	@mkdir -p $(HOME)/.sye/themes
+	@mkdir -p $(HOME)/.sye/swap
 
 .PHONY: clone-config
 clone-config: ## Clone SyE config directory

@@ -7,7 +7,15 @@
  */
 class InputState {
 public:
-    class
+    /**
+     * Represents input symbol metadata.
+     */
+    class Symbol {
+    public:
+
+    private:
+
+    };
 
     /**
      * Represents current cursor position.
@@ -67,7 +75,10 @@ public:
      */
     void setCurrentPosition(Position* value);
 private:
-//    std::vector<wchar_t>
+    /**
+     * Represents all the
+     */
+    std::vector<Symbol*> symbols;
 
     /**
      * Represents current cursor position.

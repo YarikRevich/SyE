@@ -3,6 +3,8 @@
 int Entry::handle() {
     std::string inputFile = IOHelper::getAbsolutePath(positional->Get());
 
+    State::getEntryState()->setInputFile(inputFile);
+
     std::string configRootRaw;
 
     if (configRoot->Matched()) {
@@ -11,15 +13,9 @@ int Entry::handle() {
         configRootRaw = CONFIG_ROOT_PATH;
     }
 
-    if (ConfigLoader::process(configRootRaw) != EXIT_SUCCESS) {
-        return EXIT_FAILURE;
-    };
+    State::getEntryState()->setConfigRoot(configRootRaw);
 
-    std::string inputFileExtension = IOHelper::getFileExtension(inputFile);
-    
-    if (ThemeLoader::process(inputFileExtension, configRootRaw) != EXIT_SUCCESS) {
-        return EXIT_FAILURE;
-    };
+    State::getEntryState()->setInputFileExtension(IOHelper::getFileExtension(inputFile));
 
     auto effects = State::getEffects();
 

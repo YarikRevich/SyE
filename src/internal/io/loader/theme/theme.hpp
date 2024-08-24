@@ -16,6 +16,7 @@ namespace fs = std::experimental::filesystem;
 
 #include "../../helper/helper.hpp"
 #include "../../../logger/logger.hpp"
+#include "../../../state/state.hpp"
 
 /**
  * Represents loader of the theme configuration files.
@@ -219,11 +220,10 @@ public:
 
     /**
      * Loads configuration files at the given location.
-     * 
-     * @param root - given configuration files location root.
+     *
      * @return result of the configuration loader execution.
     */
-    static int process(std::string extension, std::string root);
+    static int process();
 
     /**
      * Retrieves selected parsed theme configuration file entity.
