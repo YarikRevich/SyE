@@ -15,8 +15,6 @@ int Entry::handle() {
 
     State::getEntryState()->setConfigRoot(configRootRaw);
 
-    State::getEntryState()->setInputFileExtension(IOHelper::getFileExtension(inputFile));
-
     auto effects = State::getEffects();
 
     if (effects->process() != EXIT_SUCCESS) {

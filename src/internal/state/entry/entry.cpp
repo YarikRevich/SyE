@@ -23,3 +23,11 @@ std::string EntryState::getInputFileExtension() {
 void EntryState::setInputFileExtension(std::string value) {
     this->inputFileExtension = value;
 }
+
+std::string EntryState::getInputFileContentHash() {
+    return this->inputFileContentHash;
+}
+
+void EntryState::setInputFileContentHash(std::string value) {
+    this->inputFileContentHash = value;
+}

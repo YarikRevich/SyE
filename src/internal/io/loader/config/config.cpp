@@ -11,7 +11,8 @@ void ConfigLoader::ConfigEntity::setWidgets(std::vector<std::string> widgets) {
 int ConfigLoader::process() {
     std::string path = IOHelper::getAbsolutePath(
             fs::path(State::getEntryState()->getConfigRoot()) / fs::path(CONFIG_FILE_PATH) / fs::path(CONFIG_FILE_NAME));
-    if (!boost::filesystem::exists(path)){
+
+    if (!IOHelper::getFileExists(path)){
         Logger::setError(CONFIG_FILE_NOT_FOUND_EXCEPTION);
 
         return EXIT_FAILURE;

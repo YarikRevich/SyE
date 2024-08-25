@@ -48,6 +48,20 @@ public:
      * @param value - input file extension.
      */
     void setInputFileExtension(std::string value);
+
+    /**
+     * Retrieves input file content hash.
+     *
+     * @return retrieved input file content hash.
+     */
+    std::string getInputFileContentHash();
+
+    /**
+     * Sets input file content hash.
+     *
+     * @param value - input file content hash.
+     */
+    void setInputFileContentHash(std::string value);
 private:
     /**
      * Represents input file path.
@@ -63,4 +77,9 @@ private:
      * Represents input file extension.
      */
     std::string inputFileExtension;
+
+    /**
+     * Represents input file content hash.
+     */
+    std::string inputFileContentHash = DEFAULT_INPUT_FILE_HASH;
 };

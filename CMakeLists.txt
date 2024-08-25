@@ -10,6 +10,9 @@ set(CMAKE_CXX_FLAGS "-std=c++17 -D_XOPEN_SOURCE_EXTENDED -DBOOST_NO_CXX11_SCOPED
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 message("Make build output path is /bin")
 
+# Describes input file properties.
+add_compile_definitions(DEFAULT_INPUT_FILE_HASH="0")
+
 # Describes configuration structure properties.
 add_compile_definitions(CONFIG_ROOT_PATH="~/.sye")
 add_compile_definitions(CONFIG_FILE_PATH="config")
@@ -85,6 +88,7 @@ add_executable(
 	src/internal/core/effects/effects.cpp
 	src/internal/core/effects/window/window.cpp
 	src/internal/core/effects/swap/swap.cpp
+	src/internal/core/effects/input/input.cpp
 	src/internal/core/effects/loader/loader.cpp
     src/internal/core/scheduler/input/input.cpp
 	src/internal/core/scheduler/input/constants/constants.cpp
@@ -107,9 +111,12 @@ if(APPLE)
 			sye 
 			${CMAKE_SOURCE_DIR}/lib/ncursesw/macos/arm/libncursesw.a
 			${CMAKE_SOURCE_DIR}/lib/yaml-cpp/macos/arm/libyaml-cpp.a
+			${CMAKE_SOURCE_DIR}/lib/openssl/macos/arm/libssl.a
+			${CMAKE_SOURCE_DIR}/lib/openssl/macos/arm/libcrypto.a
 			${CMAKE_SOURCE_DIR}/lib/jsoncpp/macos/arm/libjsoncpp.a
 			${CMAKE_SOURCE_DIR}/lib/gtest/macos/arm/libgtest_main.a
 			${CMAKE_SOURCE_DIR}/lib/gtest/macos/arm/libgtest.a
+			${CMAKE_SOURCE_DIR}/lib/boost/macos/arm/libboost_iostreams.a
 			${CMAKE_SOURCE_DIR}/lib/boost/macos/arm/libboost_filesystem.a
 			${CMAKE_SOURCE_DIR}/lib/boost/macos/arm/libboost_system.a
 		)
