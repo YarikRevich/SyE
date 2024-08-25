@@ -1,5 +1,7 @@
 #include "./input.hpp"
 
+#include <iostream>
+
 int InputEffect::handleExec() {
     auto inputFile = State::getEntryState()->getInputFile();
 
