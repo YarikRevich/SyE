@@ -1,5 +1,6 @@
 #pragma once
 
+#include "./common/common.hpp"
 #include "../common/common.hpp"
 #include "../../../state/state.hpp"
 
@@ -11,6 +12,11 @@
 class WidgetOperation : public SchedulerOperationWithSignal {
 public:
     /**
+     * Performs widget operation initialization.
+     */
+    WidgetOperation();
+
+    /**
     * @see SchedulerOperationWithSignal
     */
     int handleExec() override;
@@ -19,4 +25,9 @@ public:
     * @see SchedulerOperationWithSignal
     */
     int handleExit() override;
+private:
+    /**
+     * Represents collection of registered callbacks.
+    */
+    static std::vector<WidgetProcessingOperationWithSignal*> callbacks;
 };

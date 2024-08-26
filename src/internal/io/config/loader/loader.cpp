@@ -18,7 +18,7 @@ int ConfigLoader::process() {
         return EXIT_FAILURE;
     }
 
-    Logger::invokeWarning(CONFIG_FILE_IDENTATION_WARNING);
+    Logger::invokeWarning(CONFIG_FILE_INDENTATION_WARNING);
 
     ConfigLoader::configEntity = new ConfigLoader::ConfigEntity();
 

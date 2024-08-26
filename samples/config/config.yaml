@@ -1,2 +1,3 @@
+# Represents all the widgets, which should be activated(currently supported only "time")
 widgets:
   - "time"

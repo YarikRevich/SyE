@@ -2,7 +2,7 @@
 #include "../internal/command/handler/handler.hpp"
 
 /**
- * Performs initialization of basic components.
+ * Performs initialization of essential components.
  */
 void init() {
     auto signal = new Signal();
