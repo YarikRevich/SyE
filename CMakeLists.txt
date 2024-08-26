@@ -83,6 +83,7 @@ add_compile_definitions(BACKSPACE_KEY=127)
 include_directories(
 	"include/"
 )
+
 link_directories(
 	"lib/"
 )
@@ -93,6 +94,8 @@ add_executable(
 	src/internal/state/entry/entry.cpp
 	src/internal/state/window/window.cpp
 	src/internal/state/input/input.cpp
+	src/internal/state/widget/time/time.cpp
+	src/internal/state/widget/widget.cpp
 	src/internal/state/state.cpp
 	src/internal/command/handler/handler.cpp
 	src/internal/command/help/help.cpp

@@ -35,7 +35,6 @@ int InputOperation::handleExec() {
         symbol = (wchar_t)wgetch(window);
 
         if(std::find(FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
-
             waddch(window, symbol);
             wrefresh(window);
 

@@ -2,25 +2,6 @@
 
 #include "../loader/loader.hpp"
 
-//extensions:
-//- "c"
-//- "cc"
-//- "cpp"
-//- "cxx"
-//- "hpp"
-//- "hxx"
-//colors:
-//- name: red
-//        value: [100, 120, 133]
-//- name: blue
-//        value: [ 23, 52, 190 ]
-//effects:
-//background: red
-//        patterns:
-//- regex: ^(class)\s*[a-zA-Z<!~?>]*\s*\{
-//color: blue
-
-
 /**
  * Represents helper used for theme operations.
 */

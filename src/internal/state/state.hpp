@@ -6,6 +6,7 @@
 #include "./entry/entry.hpp"
 #include "./input/input.hpp"
 #include "./window/window.hpp"
+#include "./widget/widget.hpp"
 
 /**
  * Represents global state manager.
@@ -67,6 +68,13 @@ public:
      * @return retrieved entry state instance.
      */
     static EntryState* getEntryState();
+
+    /**
+     * Retrieves widget state instance.
+     *
+     * @return retrieved widget state instance.
+     */
+    static WidgetState* getWidgetState();
 private:
     /**
      * Represents instance of signal.
@@ -97,4 +105,9 @@ private:
      * Represents entry state instance.
      */
     static EntryState* entryState;
+
+    /**
+     * Represents widget state instance.
+     */
+    static WidgetState* widgetState;
 };

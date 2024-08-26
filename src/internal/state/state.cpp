@@ -7,6 +7,7 @@ Scheduler* State::scheduler = NULL;
 InputState* State::inputState = new InputState();
 WindowState* State::windowState = new WindowState();
 EntryState* State::entryState = new EntryState();
+WidgetState* State::widgetState = new WidgetState();
 
 void State::setSignal(Signal *value) {
     State::signal = value;
@@ -38,4 +39,8 @@ WindowState *State::getWindowState() {
 
 EntryState *State::getEntryState() {
     return State::entryState;
+}
+
+WidgetState *State::getWidgetState() {
+    return State::widgetState;
 }
