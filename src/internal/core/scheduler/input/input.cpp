@@ -36,11 +36,10 @@ int InputOperation::handleExec() {
 
         if(std::find(FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
 
-
             waddch(window, symbol);
             wrefresh(window);
 
-            std::cout << symbol << std::endl;
+//            std::cout << symbol << std::endl;
 
             // TODO: perform further filtering.
         }

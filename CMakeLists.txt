@@ -47,6 +47,7 @@ add_compile_definitions(THEME_CONFIG_COLORS_NAME_KEY="name")
 add_compile_definitions(THEME_CONFIG_COLORS_VALUE_KEY="value")
 add_compile_definitions(THEME_CONFIG_EFFECTS_KEY="effects")
 add_compile_definitions(THEME_CONFIG_EFFECTS_BACKGROUND_KEY="background")
+add_compile_definitions(THEME_CONFIG_EFFECTS_FONT_KEY="font")
 add_compile_definitions(THEME_CONFIG_PATTERNS_KEY="patterns")
 add_compile_definitions(THEME_CONFIG_PATTERNS_REGEX_KEY="regex")
 add_compile_definitions(THEME_CONFIG_PATTERNS_COLOR_KEY="color")
@@ -57,6 +58,11 @@ add_compile_definitions(THEME_EXTENSION_NONE=" ")
 # Describes definitions of all the supported widgets.
 add_compile_definitions(WIDGET_TIME="time")
 add_compile_definitions(WIDGETS_NUM=1)
+
+# Describes definitions of all the used color themes.
+add_compile_definitions(BACKGROUND_COLOR=1)
+add_compile_definitions(FONT_COLOR=2)
+add_compile_definitions(SELECTED_THEME=1)
 
 # Describes definitions of different scheduler types
 add_compile_definitions(SCHEDULER_BASIC_AWAIT=20)
@@ -98,8 +104,10 @@ add_executable(
 	src/internal/core/scheduler/swap/swap.cpp
 	src/internal/core/scheduler/widget/widget.cpp
 	src/internal/io/swap/swap.cpp
-	src/internal/io/loader/config/config.cpp
-	src/internal/io/loader/theme/theme.cpp
+	src/internal/io/config/helper/helper.cpp
+	src/internal/io/config/loader/loader.cpp
+	src/internal/io/theme/helper/helper.cpp
+	src/internal/io/theme/loader/loader.cpp
     src/internal/core/signal/signal.cpp
 	src/internal/logger/logger.cpp
 	src/internal/tools/spinner/spinner.cpp

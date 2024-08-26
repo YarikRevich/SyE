@@ -1,4 +1,4 @@
-#include "config.hpp"
+#include "./loader.hpp"
 
 std::vector<std::string> ConfigLoader::ConfigEntity::getWidgets() {
     return widgets;
@@ -20,7 +20,9 @@ int ConfigLoader::process() {
 
     Logger::invokeWarning(CONFIG_FILE_IDENTATION_WARNING);
 
-    YAML::Node config = YAML::LoadFile(path.c_str());
+    ConfigLoader::configEntity = new ConfigLoader::ConfigEntity();
+
+    YAML::Node config = YAML::LoadFile(path);
     if (config[CONFIG_WIDGETS_KEY].IsDefined()){
         auto tempWidgets = config[CONFIG_WIDGETS_KEY].as<std::vector<std::string>>();
 
@@ -44,7 +46,7 @@ ConfigLoader::ConfigEntity* ConfigLoader::getConfigEntity() {
     return configEntity;
 };
 
-ConfigLoader::ConfigEntity* ConfigLoader::configEntity = new ConfigLoader::ConfigEntity();
+ConfigLoader::ConfigEntity* ConfigLoader::configEntity = NULL;
 
 bool ConfigLoaderValidator::validateEnabledWidgetsSupport(std::vector<std::string>& widgets) {
     for (std::string& widget : widgets) {

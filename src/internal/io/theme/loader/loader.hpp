@@ -134,11 +134,30 @@ public:
              * @param name - given background color of theme effects definition.
             */
             void setBackground(std::string background);
+
+            /**
+             * Retrieves font color of theme effects definition.
+             *
+             * @return retrieved font color of theme effects definition.
+            */
+            std::string getFont();
+
+            /**
+             * Sets font color of theme effects definition.
+             *
+             * @param name - given font color of theme effects definition.
+            */
+            void setFont(std::string font);
         private:
             /**
-             * Represents regex of theme pattern definition.
+             * Represents background color value.
             */
             std::string background;
+
+            /**
+             * Represents font color value.
+            */
+            std::string font;
         };
 
         /**

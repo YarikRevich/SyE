@@ -1,4 +1,4 @@
-#include "theme.hpp"
+#include "./loader.hpp"
 
 std::string ThemeLoader::ThemeEntity::ThemeColor::getName() {
     return name;
@@ -22,6 +22,14 @@ std::string ThemeLoader::ThemeEntity::ThemeEffects::getBackground() {
 
 void ThemeLoader::ThemeEntity::ThemeEffects::setBackground(std::string background) {
     this->background = background;
+}
+
+std::string ThemeLoader::ThemeEntity::ThemeEffects::getFont() {
+    return font;
+}
+
+void ThemeLoader::ThemeEntity::ThemeEffects::setFont(std::string font) {
+    this->font = font;
 }
 
 std::string ThemeLoader::ThemeEntity::ThemePattern::getRegex() {
@@ -113,6 +121,8 @@ int ThemeLoader::process() {
             continue;
         }
 
+        ThemeLoader::themeEntity = new ThemeLoader::ThemeEntity();
+
         themeEntity->setExtensions(tempExtensions);
 
         std::vector<ThemeLoader::ThemeEntity::ThemeColor> tempColors;
@@ -167,7 +177,7 @@ ThemeLoader::ThemeEntity* ThemeLoader::getThemeEntity() {
     return themeEntity;
 };
 
-ThemeLoader::ThemeEntity* ThemeLoader::themeEntity = new ThemeLoader::ThemeEntity();
+ThemeLoader::ThemeEntity* ThemeLoader::themeEntity = NULL;
 
 bool ThemeLoaderValidator::validateExtensionsRepeat(std::vector<std::string>& extensions) {
     std::set<std::string> tempExtensions(extensions.begin(), extensions.end());
@@ -216,7 +226,9 @@ bool ThemeLoaderValidator::validateEffectColorMatching(
     if(auto iter = std::find_if(
         colors.begin(), 
         colors.end(), 
-        [&](ThemeLoader::ThemeEntity::ThemeColor& value) { return value.getName() == effects.getBackground();}); iter == std::end(colors)) {
+        [&](ThemeLoader::ThemeEntity::ThemeColor& value) {
+            return value.getName() == effects.getBackground() ||
+            value.getName() == effects.getFont();}); iter == std::end(colors)) {
         return false;
     }
 
@@ -241,6 +253,7 @@ namespace YAML
         }
 
         dst.setBackground(node[THEME_CONFIG_EFFECTS_BACKGROUND_KEY].as<std::string>());
+        dst.setFont(node[THEME_CONFIG_EFFECTS_FONT_KEY].as<std::string>());
 		return true;
     }
 

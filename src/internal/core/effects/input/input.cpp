@@ -15,6 +15,5 @@ int InputEffect::handleExec() {
 }
 
 int InputEffect::handleExit() {
-
     return EXIT_SUCCESS;
 }

@@ -3,8 +3,8 @@
 #include "../common/common.hpp"
 #include "../../../state/state.hpp"
 #include "../../../io/helper/helper.hpp"
-#include "../../../io/loader/config/config.hpp"
-#include "../../../io/loader/theme/theme.hpp"
+#include "../../../io/config/loader/loader.hpp"
+#include "../../../io/theme/loader/loader.hpp"
 
 /**
  * Represents effect responsible for config loader initialization.

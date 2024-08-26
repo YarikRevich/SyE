@@ -1,3 +1,4 @@
+# Represents all file extensions supported by the corresponding theme.
 extensions:
   - "c"
   - "cc"
@@ -5,11 +6,26 @@ extensions:
   - "cxx"
   - "hpp"
   - "hxx"
+
+# Represents all the color definitions used by the corresponding theme.
 colors:
-  - name: red
-    value: [100, 120, 133]
+  - name: red  # Represents color definition name used afterward by other sections.
+    value: [ 255, 190, 133 ] # Represents color definition value, which defines color using RGB.
+  - name: blue
+    value: [ 255, 30, 190 ]
+  - name: green
+    value: [ 53, 237, 12 ]
+
+# Represents all the theme effects used by the application.
 effects:
+
+  # Represents background effect(background color), which uses color defined earlier.
   background: red
+
+  # Represents font effect(font color), which uses color definition defined earlier.
+  font: blue
+
+# Represents all the programming language based patterns and certain color definition assigned to it.
 patterns:
-  - regex: ^(class)\s*[a-zA-Z<!~?>]*\s*\{
-    color: red
+  - regex: ^(class)\s*[a-zA-Z<!~?>]*\s*\{ # Represents programming language pattern defined using regex expression.
+    color: green # Represents certain color definition used for this exact pattern
