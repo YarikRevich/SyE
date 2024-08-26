@@ -158,5 +158,3 @@ elseif(UNIX)
 		${CMAKE_SOURCE_DIR}/lib/boost/linux/libboost_system.a
 	)
 endif()
-
-install(TARGETS sye DESTINATION /usr/local/bin)
