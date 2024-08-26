@@ -1,120 +1,160 @@
-if (NOT WIN32)
-	cmake_minimum_required(VERSION 3.16)
-	project(editor VERSION 0.0.1 LANGUAGES C CXX)
-	include(CTest)
+if (WIN32)
+	message(FATAL_ERROR "Windows is not supported")
+endif()
 
-	set(CMAKE_CXX_COMPILER /usr/bin/g++)
-	set(CMAKE_CXX_FLAGS "-std=c++2a -D_XOPEN_SOURCE_EXTENDED")
-	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/cmd)
-	message("Make build output path is /cmd")
+cmake_minimum_required(VERSION 3.16)
+project(editor VERSION 0.0.1 LANGUAGES C CXX)
+# include(CTest)
+set(CMAKE_CXX_COMPILER /usr/bin/g++)
+set(CMAKE_CXX_FLAGS "-std=c++17 -D_XOPEN_SOURCE_EXTENDED -DBOOST_NO_CXX11_SCOPED_ENUMS")
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+message("Make build output path is /bin")
 
-	enable_testing()
-	add_subdirectory(tests)
+# Describes input file properties.
+add_compile_definitions(DEFAULT_INPUT_FILE_HASH="0")
 
+# Describes configuration structure properties.
+add_compile_definitions(CONFIG_ROOT_PATH="~/.sye")
+add_compile_definitions(CONFIG_FILE_PATH="config")
+add_compile_definitions(CONFIG_FILE_NAME="config.yaml")
+add_compile_definitions(THEME_CONFIG_PATH="themes")
+add_compile_definitions(SWAP_FILES_PATH="swap")
 
-	if (APPLE)
-		include_directories("/usr/local/opt/ncurses/include")
-		link_directories("/usr/local/opt/ncurses/lib")
+# Describes pre-defined errors used for functionality validation.
+add_compile_definitions(
+		CONFIG_FILE_NOT_FOUND_EXCEPTION="Configuration file at the given root directory is not found.")
+add_compile_definitions(
+		CONFIG_FILE_WIDGET_NOT_SUPPORTED_EXCEPTION="Widget in the configuration file seems to be not supported.")
+add_compile_definitions(
+		THEME_DIRECTORY_NOT_FOUND_EXCEPTION="Theme configuration files at the given root directory are not found.")
+add_compile_definitions(
+		THEME_FILE_EXTENSIONS_REPEAT_EXCEPTION="Extensions in the theme configuration file seem to be repeated.")
+add_compile_definitions(
+		THEME_FILE_COLORS_DEFINED_INCORRECTLY_EXCEPTION="Colors in the theme configuration file seem to be defined incorrectly.")
+add_compile_definitions(
+		THEME_FILE_EFFECTS_USE_INCORRECT_COLORS_EXCEPTION="Effects in the theme configuration file seem to use incorrect colors.")
+add_compile_definitions(
+		THEME_FILE_PATTERNS_USE_INCORRECT_COLORS_EXCEPTION="Patterns in the theme configuration file seem to use incorrect colors.")
+
+# Describes pre-defined warning messages used for functionality validation.
+add_compile_definitions(CONFIG_FILE_INDENTATION_WARNING="Make sure to use spaces in your configuration file.")
+add_compile_definitions(CONFIG_FILE_WIDGETS_REPEAT_EXCEPTION="Widgets in the configuration file seem to be repeated.")
+add_compile_definitions(DEFAULT_THEME_USAGE_WARNING="Default theme is used.")
+
+# Describes pre-defined info messages used for functionality validation.
+add_compile_definitions(CUSTOM_THEME_SELECTED="Custom theme has been selected.")
+
+# Describes keys used for configuration file properties.
+add_compile_definitions(CONFIG_WIDGETS_KEY="widgets")
+
+# Describes keys used for theme configuration file properties.
+add_compile_definitions(THEME_CONFIG_EXTENSIONS_KEY="extensions")
+add_compile_definitions(THEME_CONFIG_COLORS_KEY="colors")
+add_compile_definitions(THEME_CONFIG_COLORS_NAME_KEY="name")
+add_compile_definitions(THEME_CONFIG_COLORS_VALUE_KEY="value")
+add_compile_definitions(THEME_CONFIG_EFFECTS_KEY="effects")
+add_compile_definitions(THEME_CONFIG_EFFECTS_BACKGROUND_KEY="background")
+add_compile_definitions(THEME_CONFIG_EFFECTS_FONT_KEY="font")
+add_compile_definitions(THEME_CONFIG_PATTERNS_KEY="patterns")
+add_compile_definitions(THEME_CONFIG_PATTERNS_REGEX_KEY="regex")
+add_compile_definitions(THEME_CONFIG_PATTERNS_COLOR_KEY="color")
+
+# Describes definitions of variable in exceptional cases.
+add_compile_definitions(THEME_EXTENSION_NONE=" ")
+
+# Describes definitions of all the supported widgets.
+add_compile_definitions(WIDGET_TIME="time")
+add_compile_definitions(WIDGETS_NUM=1)
+
+# Describes definitions of all the used color themes.
+add_compile_definitions(BACKGROUND_COLOR=1)
+add_compile_definitions(FONT_COLOR=2)
+add_compile_definitions(SELECTED_THEME=1)
+
+# Describes definitions of different scheduler types
+add_compile_definitions(SCHEDULER_BASIC_AWAIT=20)
+
+# Describes definitions of keymaps
+add_compile_definitions(BACKSPACE_KEY=127)
+
+# enable_testing()
+# add_subdirectory(tests)
+
+include_directories(
+	"include/"
+)
+link_directories(
+	"lib/"
+)
+
+add_executable(
+	sye 
+	src/cmd/main.cpp
+	src/internal/state/entry/entry.cpp
+	src/internal/state/window/window.cpp
+	src/internal/state/input/input.cpp
+	src/internal/state/state.cpp
+	src/internal/command/handler/handler.cpp
+	src/internal/command/help/help.cpp
+	src/internal/command/validator/validator.cpp
+	src/internal/command/entry/entry.cpp
+	src/internal/core/effects/effects.cpp
+	src/internal/core/effects/window/window.cpp
+	src/internal/core/effects/swap/swap.cpp
+	src/internal/core/effects/input/input.cpp
+	src/internal/core/effects/loader/loader.cpp
+    src/internal/core/scheduler/input/input.cpp
+	src/internal/core/scheduler/input/constants/constants.cpp
+	src/internal/io/helper/helper.cpp
+	src/internal/core/scheduler/scheduler.cpp
+    src/internal/core/scheduler/render/render.cpp
+	src/internal/core/scheduler/swap/swap.cpp
+	src/internal/core/scheduler/widget/time/time.cpp
+	src/internal/core/scheduler/widget/widget.cpp
+	src/internal/io/swap/swap.cpp
+	src/internal/io/config/helper/helper.cpp
+	src/internal/io/config/loader/loader.cpp
+	src/internal/io/theme/helper/helper.cpp
+	src/internal/io/theme/loader/loader.cpp
+    src/internal/core/signal/signal.cpp
+	src/internal/logger/logger.cpp
+	src/internal/tools/spinner/spinner.cpp
+)
+
+if(APPLE)
+	if (${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL "arm64")
+		target_link_libraries(
+			sye 
+			${CMAKE_SOURCE_DIR}/lib/ncursesw/macos/arm/libncursesw.a
+			${CMAKE_SOURCE_DIR}/lib/yaml-cpp/macos/arm/libyaml-cpp.a
+			${CMAKE_SOURCE_DIR}/lib/openssl/macos/arm/libssl.a
+			${CMAKE_SOURCE_DIR}/lib/openssl/macos/arm/libcrypto.a
+			${CMAKE_SOURCE_DIR}/lib/jsoncpp/macos/arm/libjsoncpp.a
+			${CMAKE_SOURCE_DIR}/lib/gtest/macos/arm/libgtest_main.a
+			${CMAKE_SOURCE_DIR}/lib/gtest/macos/arm/libgtest.a
+			${CMAKE_SOURCE_DIR}/lib/boost/macos/arm/libboost_iostreams.a
+			${CMAKE_SOURCE_DIR}/lib/boost/macos/arm/libboost_filesystem.a
+			${CMAKE_SOURCE_DIR}/lib/boost/macos/arm/libboost_system.a
+		)
+	else()
+		target_link_libraries(
+			sye 
+			${CMAKE_SOURCE_DIR}/lib/ncursesw/macos/x86/libncursesw.a
+			${CMAKE_SOURCE_DIR}/lib/yaml-cpp/macos/x86/libyaml-cpp.a
+			${CMAKE_SOURCE_DIR}/lib/gtest/macos/x86/libgtest_main.a
+			${CMAKE_SOURCE_DIR}/lib/gtest/macos/x86/libgtest.a
+			${CMAKE_SOURCE_DIR}/lib/boost/macos/x86/libboost_filesystem.a
+			${CMAKE_SOURCE_DIR}/lib/boost/macos/x86/libboost_system.a
+		)
 	endif()
-
-	include_directories("include/")
-	link_directories("lib/")
-
-	add_executable(
-		sye 
-		cmd/main.cpp
-		internal/loop/loop.cpp
-		internal/loop/helper/helper.cpp
-		internal/loop/processors/processors.cpp
-		internal/loop/initialisers/initialisers.cpp
-		
-		internal/keys/keys.cpp 
-
-		internal/margin/margin.cpp 
-
-		internal/commands/w/w.cpp 
-		internal/commands/z/z.cpp
-		internal/commands/helper/helper.cpp
-		internal/commands/search/search.cpp 
-		internal/commands/applicator/applicator.cpp
-		
-		internal/bufs/bufs.cpp 
-
-		internal/states/common/common.cpp 
-		internal/states/common/helper/helper.cpp
-		internal/states/insert/insert.cpp 
-		internal/states/search/search.cpp 
-		internal/states/command/command.cpp 
-		internal/editor_status/editor_status.cpp 
-
-		internal/history/history.cpp 
-
-		internal/position/win_resizer/win_resizer.cpp
-		internal/position/position.cpp 
-
-
-		internal/term_flags/term_flags.cpp 
-
-		internal/files/helper/helper.cpp 
-		internal/files/exec/exec.cpp 
-		internal/files/configs/helper/helper.cpp 
-		internal/files/configs/syntax_config/syntax_config.cpp 
-		internal/files/configs/theme_config/theme_config.cpp 
-		internal/files/configs/widgets/widgets.cpp 
-		internal/files/log/log.cpp 
-
-		internal/render/render.cpp 
-	
-		internal/highlighter/highlighter.cpp 
-		internal/colors/command/command.cpp  
-		internal/colors/effects/effects.cpp 
-		internal/colors/font/font.cpp 
-		internal/colors/insert/insert.cpp
-		internal/colors/colors.cpp 
-
-		internal/widgets/time/time.cpp
-	)
-
+elseif(UNIX)
 	target_link_libraries(
 		sye 
-		ncursesw
-
-		${CMAKE_SOURCE_DIR}/lib/yaml-cpp/libyaml-cpp.0.6.3.so
-		${CMAKE_SOURCE_DIR}/lib/gtest/libgtest_main.a
-		${CMAKE_SOURCE_DIR}/lib/gtest/libgtest.a
-		${CMAKE_SOURCE_DIR}/lib/boost/libboost_filesystem.a
-		${CMAKE_SOURCE_DIR}/lib/boost/libboost_system.a
+		stdc++fs
+		${CMAKE_SOURCE_DIR}/lib/yaml-cpp/linux/libyaml-cpp.0.6.3.so
+		${CMAKE_SOURCE_DIR}/lib/gtest/linux/libgtest_main.a
+		${CMAKE_SOURCE_DIR}/lib/gtest/linux/libgtest.a
+		${CMAKE_SOURCE_DIR}/lib/boost/linux/libboost_filesystem.a
+		${CMAKE_SOURCE_DIR}/lib/boost/linux/libboost_system.a
 	)
-
-	if(NOT APPLE)
-		target_link_libraries(sye ncursesw stdc++fs)
-	else()
-	    target_link_libraries(sye ncursesw)
-	endif()
-	if (NOT EXISTS /usr/local/etc/sye)
-		file(MAKE_DIRECTORY /usr/local/etc/sye)	
-		message("Created directory for configs")
-	endif()
-	if (NOT EXISTS /usr/local/etc/sye/syntax)
-		file(MAKE_DIRECTORY /usr/local/etc/sye/syntax)
-		message("Created directory for syntax configs")
-	endif()
-	if (NOT EXISTS /usr/local/etc/sye/theme)
-		file(MAKE_DIRECTORY /usr/local/etc/sye/theme)
-		message("Created directory for theme configs")
-	endif()
-	if (NOT EXISTS /usr/local/etc/sye/widgets)
-		file(MAKE_DIRECTORY /usr/local/etc/sye/widgets)
-		message("Created directory for widgets config")
-	endif()
-	file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/configs/syntax_configs/. DESTINATION /usr/local/etc/sye/syntax)
-	message("Copied syntax configs to /usr/local/etc/sye/syntax directory")
-	file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/configs/theme_configs/. DESTINATION /usr/local/etc/sye/theme)
-	message("Copied theme configs to /usr/local/etc/sye/theme directory")
-	file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/configs/widgets/. DESTINATION /usr/local/etc/sye/widgets)
-	message("Copied theme configs to /usr/local/etc/sye/theme directory")
-
-	install(TARGETS sye DESTINATION /usr/local/bin)
-else()
-	message("You mustn't use the worst os in the world to install this perfect editor")
 endif()

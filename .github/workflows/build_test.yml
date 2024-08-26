@@ -1,26 +1,26 @@
-name: BuildTest
-
-env:
-  AUTHOR: YarikRevich
-
-permissions: read-all
-
-on:
-  push:
-    branches:
-      - master
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Clones master branch
-        uses: actions/checkout@v2
-
-      - name: Create build dir
-        run: mkdir tmp
-      - name: Build project
-        run: |
-          cd tmp
-          cmake ..
-          make
+#name: BuildTest
+#
+#env:
+#  AUTHOR: YarikRevich
+#
+#permissions: read-all
+#
+#on:
+#  push:
+#    branches:
+#      - master
+#jobs:
+#  test:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Clones master branch
+#        uses: actions/checkout@v2
+#
+#      - name: Create build dir
+#        run: mkdir tmp
+#      - name: Build project
+#        run: |
+#          cd tmp
+#          cmake ..
+#          make

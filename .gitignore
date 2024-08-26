@@ -1,10 +1,8 @@
-docs/roadmap.md
-tmp/
-vendor/
-cmd/*
-!cmd/main.cpp
+# Build files
+build/
+bin/
 
-#Ignore hidden files
+# Hidden files
 .ignore_deps
 .vscode
 .dockerignore
