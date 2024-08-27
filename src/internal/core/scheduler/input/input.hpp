@@ -6,6 +6,7 @@
 #include "./constants/constants.hpp"
 
 #include "ncurses.h"
+#include <cwchar>
 
 /**
  * Represents screen rendering operation to be used by scheduler.

@@ -27,18 +27,35 @@ int InputOperation::handleExec() {
 //    }
 //
 //
-
-
-    wchar_t symbol;
+    wint_t symbol;
 
     while (true) {
-        symbol = (wchar_t)wgetch(window);
+        wget_wch(window, &symbol);
 
         if(std::find(FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
-            mvwaddch(window, 10, 10, symbol);
+
+
+
+            mvwprintw(window, 10, 10, "%lc", symbol);
+
+
+//            wchar_t wch[2];
+//
+//            wch[0] = symbol;
+//            wch[1] = L'\0';
+
+//            mvwaddwstr(window, 10, counter, wch);
+//            mvwinwstr(window, 10, 10, wch);
+
+//            mvwaddch(window, 10, counter, symbol);
 
 //            waddch(window, symbol);
+
             wrefresh(window);
+
+//            wclear(window);
+
+//            wmove(window, 10, counter);
 
 //            std::cout << symbol << std::endl;
 
