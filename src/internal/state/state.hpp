@@ -7,6 +7,7 @@
 #include "./input/input.hpp"
 #include "./window/window.hpp"
 #include "./widget/widget.hpp"
+#include "./swap/swap.hpp"
 
 /**
  * Represents global state manager.
@@ -75,6 +76,13 @@ public:
      * @return retrieved widget state instance.
      */
     static WidgetState* getWidgetState();
+
+    /**
+    * Retrieves swap state instance.
+    *
+    * @return retrieved swap state instance.
+    */
+    static SwapState* getSwapState();
 private:
     /**
      * Represents instance of signal.
@@ -110,4 +118,9 @@ private:
      * Represents widget state instance.
      */
     static WidgetState* widgetState;
+
+    /**
+     * Represents swap state instance.
+     */
+    static SwapState* swapState;
 };

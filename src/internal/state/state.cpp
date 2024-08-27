@@ -8,6 +8,7 @@ InputState* State::inputState = new InputState();
 WindowState* State::windowState = new WindowState();
 EntryState* State::entryState = new EntryState();
 WidgetState* State::widgetState = new WidgetState();
+SwapState* State::swapState = new SwapState();
 
 void State::setSignal(Signal *value) {
     State::signal = value;
@@ -43,4 +44,8 @@ EntryState *State::getEntryState() {
 
 WidgetState *State::getWidgetState() {
     return State::widgetState;
+}
+
+SwapState *State::getSwapState() {
+    return State::swapState;
 }

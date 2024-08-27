@@ -96,6 +96,7 @@ add_executable(
 	src/internal/state/input/input.cpp
 	src/internal/state/widget/time/time.cpp
 	src/internal/state/widget/widget.cpp
+	src/internal/state/swap/swap.cpp
 	src/internal/state/state.cpp
 	src/internal/command/handler/handler.cpp
 	src/internal/command/help/help.cpp
