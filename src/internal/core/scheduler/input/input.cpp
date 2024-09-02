@@ -5,13 +5,6 @@ int InputOperation::handleExec() {
 
 //    wchar_t* symbol = Window::getSymbolAsChar(window);
 
-
-
-
-
-
-
-
 //    wchar_t* ch = (wchar_t*)unctrl(wgetch(window));
 //
 //    waddch(window, *ch);
@@ -27,40 +20,37 @@ int InputOperation::handleExec() {
 //    }
 //
 //
+
+
+
+
+
+
+
     wint_t symbol;
 
-    while (true) {
-        wget_wch(window, &symbol);
+    wget_wch(window, &symbol);
 
-        if(std::find(FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
+    if(std::find(
+            FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
+        mvwprintw(window, 10, 10, "%lc", symbol);
+
+        wrefresh(window);
+    }
 
 
 
-            mvwprintw(window, 10, 10, "%lc", symbol);
 
 
-//            wchar_t wch[2];
-//
-//            wch[0] = symbol;
-//            wch[1] = L'\0';
 
-//            mvwaddwstr(window, 10, counter, wch);
-//            mvwinwstr(window, 10, 10, wch);
 
-//            mvwaddch(window, 10, counter, symbol);
 
-//            waddch(window, symbol);
 
-            wrefresh(window);
 
-//            wclear(window);
 
-//            wmove(window, 10, counter);
 
-//            std::cout << symbol << std::endl;
 
-            // TODO: perform further filtering.
-        }
+
 
 //        switch (ch) {
 //            case KEY_UP:
@@ -73,7 +63,6 @@ int InputOperation::handleExec() {
 //                printw("Key code: %d, Character: %c\n", ch, ch);
 //                break;
 //        }
-    }
 
 
 //    std::cout << ch << std::endl;

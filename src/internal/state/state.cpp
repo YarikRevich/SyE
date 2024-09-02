@@ -1,33 +1,14 @@
 #include "./state.hpp"
 
-Signal* State::signal = NULL;
-Effects* State::effects = NULL;
-Scheduler* State::scheduler = NULL;
-
+GlobalState* State::globalState = new GlobalState();
 InputState* State::inputState = new InputState();
 WindowState* State::windowState = new WindowState();
 EntryState* State::entryState = new EntryState();
 WidgetState* State::widgetState = new WidgetState();
 SwapState* State::swapState = new SwapState();
 
-void State::setSignal(Signal *value) {
-    State::signal = value;
-}
-
-Effects* State::getEffects() {
-    return State::effects;
-}
-
-void State::setEffects(Effects *value) {
-    State::effects = value;
-}
-
-Scheduler* State::getScheduler() {
-    return State::scheduler;
-}
-
-void State::setScheduler(Scheduler* value) {
-    State::scheduler = value;
+GlobalState *State::getGlobalState() {
+    return State::globalState;
 }
 
 InputState *State::getInputState() {

@@ -1,10 +1,15 @@
 #include "signal.hpp"
+#include "../../state/state.hpp"
+#include "../../state/global/global.hpp"
+
+#include "ncurses.h"
 
 std::vector<SignalOperation*> Signal::callbacks;
 
 Signal::Signal() {
     std::atexit(handleExit);
     signal(SIGINT, handleExit);
+    signal(SIGWINCH, handleResize);
 }
 
 void Signal::registerHandler(SignalOperation* value) {
@@ -31,4 +36,10 @@ void Signal::handleExit(int signal) {
     }
 
     exit(1);
+}
+
+void Signal::handleResize(int signal) {
+
+
+    State::getGlobalState()->getEvents()->push(GlobalState::Event::RESIZE);
 }

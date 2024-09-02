@@ -5,9 +5,9 @@
 #include "../../../io/helper/helper.hpp"
 
 /**
- * Represents effect responsible for input file properties initialization.
+ * Represents effect responsible for file content initialization.
 */
-class InputEffect : public EffectsOperationWithSignal {
+class ContentEffect : public EffectsOperationWithSignal {
 public:
     /**
      * @see EffectsOperationWithSignal

@@ -26,3 +26,6 @@ private:
     */
     WINDOW* window;
 };
+
+// TODO: create one more buffer(window chunk), which would be of size of the terminal window and will represent some
+// TODO: part of the general file buffer.

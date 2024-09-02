@@ -24,11 +24,11 @@ void InputState::Position::setY(int value) {
     this->y = value;
 }
 
-InputState::Position *InputState::getCurrentPosition() {
+InputState::Position *InputState::getCurrentCursorPosition() {
     return this->currentPosition;
 }
 
-void InputState::setCurrentPosition(InputState::Position *value) {
+void InputState::setCurrentCursorPosition(InputState::Position *value) {
     this->currentPosition = value;
 }
 

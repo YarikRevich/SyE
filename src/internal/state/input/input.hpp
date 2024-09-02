@@ -46,8 +46,6 @@ public:
          */
         void setValue(wint_t value);
     private:
-
-
         /**
          * Represents raw symbol value.
          */
@@ -55,7 +53,7 @@ public:
     };
 
     /**
-     * Represents current cursor position.
+     * Represents mutable position.
      */
     class Position {
     public:
@@ -99,18 +97,18 @@ public:
     };
 
     /**
-     * Retrieves current position.
+     * Retrieves current cursor position.
      *
-     * @return retrieved current position.
+     * @return retrieved current cursor position.
      */
-    Position* getCurrentPosition();
+    Position* getCurrentCursorPosition();
 
     /**
      * Sets current cursor position.
      *
      * @param value - current cursor position.
      */
-    void setCurrentPosition(Position* value);
+    void setCurrentCursorPosition(Position* value);
 
     /**
      * Retrieves current editor mode.

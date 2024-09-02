@@ -15,6 +15,7 @@ int WindowEffect::handleExec() {
 
     State::getWindowState()->setWindow(window);
 
+    nodelay(window, TRUE);
     scrollok(window, TRUE);
     keypad(window, TRUE);
 
@@ -39,6 +40,8 @@ int WindowEffect::handleExec() {
             wbkgd(window, COLOR_PAIR(SELECTED_THEME));
         }
     }
+
+    // TODO: fill all the background with some sort of color.
 
     return EXIT_SUCCESS;
 }

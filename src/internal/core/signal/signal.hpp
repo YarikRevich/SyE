@@ -40,6 +40,13 @@ public:
      * @param signal - represents received signal.
     */
     static void handleExit(int signal);
+
+    /**
+     * Manages application window resize.
+     *
+     * @param signal - represents received signal.
+    */
+    static void handleResize(int signal);
 private:
     /**
      * Represents collection of registered callbacks.
