@@ -63,7 +63,7 @@ add_compile_definitions(THEME_CONFIG_PATTERNS_COLOR_KEY="color")
 add_compile_definitions(THEME_EXTENSION_NONE=" ")
 
 # Describes definitions of events managements.
-add_compile_definitions(EVENT_BATCH_SIZE=2)
+add_compile_definitions(EVENT_BATCH_SIZE=1)
 
 # Describes definitions of all the supported widgets.
 add_compile_definitions(WIDGET_TIME="time")
@@ -77,7 +77,8 @@ add_compile_definitions(SELECTED_THEME=1)
 # Describes definitions of different scheduler types
 add_compile_definitions(SCHEDULER_PRIORITY_1=5)
 add_compile_definitions(SCHEDULER_PRIORITY_2=20)
-add_compile_definitions(SCHEDULER_PRIORITY_3=1000)
+add_compile_definitions(SCHEDULER_PRIORITY_3=500)
+add_compile_definitions(SCHEDULER_PRIORITY_4=1000)
 
 # Describes definitions of keymaps
 add_compile_definitions(BACKSPACE_KEY=127)
@@ -98,6 +99,7 @@ add_executable(
 	src/cmd/main.cpp
 	src/internal/state/global/global.cpp
 	src/internal/state/entry/entry.cpp
+	src/internal/state/event/event.cpp
 	src/internal/state/window/window.cpp
 	src/internal/state/input/input.cpp
 	src/internal/state/widget/time/time.cpp

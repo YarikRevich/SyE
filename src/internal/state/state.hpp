@@ -2,6 +2,7 @@
 
 #include "./entry/entry.hpp"
 #include "./global/global.hpp"
+#include "./event/event.hpp"
 #include "./input/input.hpp"
 #include "./window/window.hpp"
 #include "./widget/widget.hpp"
@@ -18,6 +19,13 @@ public:
      * @return retrieved global state instance.
      */
     static GlobalState* getGlobalState();
+
+    /**
+     * Retrieves event state instance.
+     *
+     * @return retrieved event state instance.
+     */
+    static EventState* getEventState();
 
     /**
      * Retrieves input state instance.
@@ -58,6 +66,11 @@ private:
      * Represents global state instance.
     */
     static GlobalState* globalState;
+
+    /**
+     * Represents event state instance.
+    */
+    static EventState* eventState;
 
     /**
      * Represents input state instance.

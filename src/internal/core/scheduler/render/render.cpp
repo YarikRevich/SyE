@@ -1,5 +1,9 @@
 #include "render.hpp"
 
+int RenderOperation::getPriority() {
+    return SCHEDULER_PRIORITY_2;
+};
+
 int RenderOperation::handleExec() {
 ////    wprintw(this->window, "first");
 ////

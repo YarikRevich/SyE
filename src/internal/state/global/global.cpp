@@ -19,7 +19,3 @@ Scheduler* GlobalState::getScheduler() {
 void GlobalState::setScheduler(Scheduler* value) {
     this->scheduler = value;
 }
-
-std::queue<GlobalState::Event>* GlobalState::getEvents() {
-    return &this->events;
-}

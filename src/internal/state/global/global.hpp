@@ -12,16 +12,6 @@
 class GlobalState {
 public:
     /**
-     * Represents all the available application events.
-     */
-    enum Event {
-        /**
-         * Represents resize event, pushed by system signal.
-         */
-        RESIZE,
-    };
-
-    /**
      * Sets signal instance.
      *
      * @param value - signal instance to be set .
@@ -55,13 +45,6 @@ public:
      * @param value - scheduler instance to be set .
      */
     void setScheduler(Scheduler* value);
-
-    /**
-     * Retrieves application events queue.
-     *
-     * @return retrieved application events queue.
-     */
-    std::queue<Event>* getEvents();
 private:
     /**
      * Represents instance of signal.
@@ -77,9 +60,4 @@ private:
      * Represents instance of scheduler.
      */
     Scheduler* scheduler;
-
-    /**
-     * Represents a queue of application events.
-     */
-    std::queue<Event> events;
 };

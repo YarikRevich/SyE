@@ -14,6 +14,11 @@
 class InputOperation : public SchedulerOperationWithSignal {
 public:
     /**
+     * @see SchedulerOperationWithSignal
+     */
+    int getPriority() override;
+
+    /**
     * @see SchedulerOperationWithSignal
     */
     int handleExec() override;

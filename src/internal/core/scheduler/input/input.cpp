@@ -1,5 +1,9 @@
 #include "./input.hpp"
 
+int InputOperation::getPriority() {
+    return SCHEDULER_PRIORITY_2;
+};
+
 int InputOperation::handleExec() {
     auto window = State::getWindowState()->getWindow();
 

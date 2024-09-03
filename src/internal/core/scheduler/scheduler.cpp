@@ -45,7 +45,7 @@ void Scheduler::handleExecTask(SchedulerOperation* callback) {
             Signal::emitExit();
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(SCHEDULER_PRIORITY_2));
+        std::this_thread::sleep_for(std::chrono::milliseconds(callback->getPriority()));
     }
 }
 

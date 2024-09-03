@@ -1,19 +1,20 @@
 #include "./event.hpp"
 
-
+int EventOperation::getPriority() {
+    return SCHEDULER_PRIORITY_3;
+};
 
 int EventOperation::handleExec() {
-    auto queue = State::getGlobalState()->getEvents();
+    auto queue = State::getEventState()->getEvents();
 
     while (!queue->empty()) {
         auto event = queue->front();
 
         switch (event) {
-            case GlobalState::RESIZE:
+            case EventState::Type::RESIZE:
                 auto window = State::getWindowState()->getWindow();
 
                 wclear(window);
-
                 wrefresh(window);
 
                 auto windowSize = Window::getCurrentWindowSize();
@@ -25,7 +26,7 @@ int EventOperation::handleExec() {
                 break;
         }
 
-        queue->pop();
+        queue->pop_front();
     }
 
     return EXIT_SUCCESS;

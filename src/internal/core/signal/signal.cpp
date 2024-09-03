@@ -1,6 +1,6 @@
 #include "signal.hpp"
 #include "../../state/state.hpp"
-#include "../../state/global/global.hpp"
+#include "../../state/event/event.hpp"
 
 #include "ncurses.h"
 
@@ -39,7 +39,5 @@ void Signal::handleExit(int signal) {
 }
 
 void Signal::handleResize(int signal) {
-
-
-    State::getGlobalState()->getEvents()->push(GlobalState::Event::RESIZE);
+    State::getEventState()->addEvent(EventState::Type::RESIZE);
 }
