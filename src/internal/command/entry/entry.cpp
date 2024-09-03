@@ -15,13 +15,13 @@ int Entry::handle() {
 
     State::getEntryState()->setConfigRoot(configRootRaw);
 
-    auto effects = State::getEffects();
+    auto effects = State::getGlobalState()->getEffects();
 
     if (effects->process() != EXIT_SUCCESS) {
         return EXIT_FAILURE;
     }
 
-    auto scheduler = State::getScheduler();
+    auto scheduler = State::getGlobalState()->getScheduler();
 
     if (scheduler->process() != EXIT_SUCCESS) {
         return EXIT_FAILURE;

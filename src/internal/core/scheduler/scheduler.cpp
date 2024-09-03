@@ -1,4 +1,5 @@
 #include "./scheduler.hpp"
+#include "./event/event.hpp"
 #include "./render/render.hpp"
 #include "./input/input.hpp"
 #include "./widget/widget.hpp"
@@ -10,6 +11,7 @@ std::atomic<bool> Scheduler::blockExit = false;
 
 Scheduler::Scheduler() {
     callbacks.push_back(new InputOperation());
+    callbacks.push_back(new EventOperation());
     callbacks.push_back(new RenderOperation());
     callbacks.push_back(new WidgetOperation());
     callbacks.push_back(new SwapOperation());
@@ -43,7 +45,7 @@ void Scheduler::handleExecTask(SchedulerOperation* callback) {
             Signal::emitExit();
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(SCHEDULER_BASIC_AWAIT));
+        std::this_thread::sleep_for(std::chrono::milliseconds(callback->getPriority()));
     }
 }
 

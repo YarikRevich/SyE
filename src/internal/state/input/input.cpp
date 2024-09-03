@@ -1,5 +1,13 @@
 #include "./input.hpp"
 
+wint_t InputState::Symbol::getValue() {
+    return this->value;
+}
+
+void InputState::Symbol::setValue(wint_t value) {
+    this->value = value;
+}
+
 int InputState::Position::getX() {
     return this->x;
 }
@@ -16,10 +24,18 @@ void InputState::Position::setY(int value) {
     this->y = value;
 }
 
-InputState::Position *InputState::getCurrentPosition() {
+InputState::Position *InputState::getCurrentCursorPosition() {
     return this->currentPosition;
 }
 
-void InputState::setCurrentPosition(InputState::Position *value) {
+void InputState::setCurrentCursorPosition(InputState::Position *value) {
     this->currentPosition = value;
+}
+
+InputState::Mode InputState::getCurrentMode() {
+    return this->currentMode;
+}
+
+void InputState::setCurrentMode(InputState::Mode value) {
+    this->currentMode = value;
 }

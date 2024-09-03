@@ -13,9 +13,9 @@ void init() {
     auto scheduler = new Scheduler();
     signal->registerHandler(scheduler);
 
-    State::setSignal(signal);
-    State::setEffects(effects);
-    State::setScheduler(scheduler);
+    State::getGlobalState()->setSignal(signal);
+    State::getGlobalState()->setEffects(effects);
+    State::getGlobalState()->setScheduler(scheduler);
 }
 
 /**

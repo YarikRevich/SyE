@@ -1,16 +1,13 @@
 #include "./input.hpp"
 
+int InputOperation::getPriority() {
+    return SCHEDULER_PRIORITY_2;
+};
+
 int InputOperation::handleExec() {
     auto window = State::getWindowState()->getWindow();
 
 //    wchar_t* symbol = Window::getSymbolAsChar(window);
-
-
-
-
-
-
-
 
 //    wchar_t* ch = (wchar_t*)unctrl(wgetch(window));
 //
@@ -29,19 +26,35 @@ int InputOperation::handleExec() {
 //
 
 
-    wchar_t symbol;
 
-    while (true) {
-        symbol = (wchar_t)wgetch(window);
 
-        if(std::find(FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
-            waddch(window, symbol);
-            wrefresh(window);
 
-//            std::cout << symbol << std::endl;
 
-            // TODO: perform further filtering.
-        }
+
+    wint_t symbol;
+
+    wget_wch(window, &symbol);
+
+    if(std::find(
+            FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
+        mvwprintw(window, 10, 10, "%lc", symbol);
+
+        wrefresh(window);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //        switch (ch) {
 //            case KEY_UP:
@@ -54,7 +67,6 @@ int InputOperation::handleExec() {
 //                printw("Key code: %d, Character: %c\n", ch, ch);
 //                break;
 //        }
-    }
 
 
 //    std::cout << ch << std::endl;

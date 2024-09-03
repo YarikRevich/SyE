@@ -62,6 +62,9 @@ add_compile_definitions(THEME_CONFIG_PATTERNS_COLOR_KEY="color")
 # Describes definitions of variable in exceptional cases.
 add_compile_definitions(THEME_EXTENSION_NONE=" ")
 
+# Describes definitions of events managements.
+add_compile_definitions(EVENT_BATCH_SIZE=1)
+
 # Describes definitions of all the supported widgets.
 add_compile_definitions(WIDGET_TIME="time")
 add_compile_definitions(WIDGETS_NUM=1)
@@ -72,7 +75,10 @@ add_compile_definitions(FONT_COLOR=2)
 add_compile_definitions(SELECTED_THEME=1)
 
 # Describes definitions of different scheduler types
-add_compile_definitions(SCHEDULER_BASIC_AWAIT=20)
+add_compile_definitions(SCHEDULER_PRIORITY_1=5)
+add_compile_definitions(SCHEDULER_PRIORITY_2=20)
+add_compile_definitions(SCHEDULER_PRIORITY_3=500)
+add_compile_definitions(SCHEDULER_PRIORITY_4=1000)
 
 # Describes definitions of keymaps
 add_compile_definitions(BACKSPACE_KEY=127)
@@ -91,11 +97,14 @@ link_directories(
 add_executable(
 	sye 
 	src/cmd/main.cpp
+	src/internal/state/global/global.cpp
 	src/internal/state/entry/entry.cpp
+	src/internal/state/event/event.cpp
 	src/internal/state/window/window.cpp
 	src/internal/state/input/input.cpp
 	src/internal/state/widget/time/time.cpp
 	src/internal/state/widget/widget.cpp
+	src/internal/state/swap/swap.cpp
 	src/internal/state/state.cpp
 	src/internal/command/handler/handler.cpp
 	src/internal/command/help/help.cpp
@@ -105,12 +114,14 @@ add_executable(
 	src/internal/core/effects/window/window.cpp
 	src/internal/core/effects/swap/swap.cpp
 	src/internal/core/effects/input/input.cpp
+	src/internal/core/effects/content/content.cpp
 	src/internal/core/effects/loader/loader.cpp
     src/internal/core/scheduler/input/input.cpp
 	src/internal/core/scheduler/input/constants/constants.cpp
 	src/internal/io/helper/helper.cpp
 	src/internal/core/scheduler/scheduler.cpp
     src/internal/core/scheduler/render/render.cpp
+	src/internal/core/scheduler/event/event.cpp
 	src/internal/core/scheduler/swap/swap.cpp
 	src/internal/core/scheduler/widget/time/time.cpp
 	src/internal/core/scheduler/widget/widget.cpp
@@ -122,6 +133,7 @@ add_executable(
     src/internal/core/signal/signal.cpp
 	src/internal/logger/logger.cpp
 	src/internal/tools/spinner/spinner.cpp
+	src/internal/tools/window/window.cpp
 )
 
 if(APPLE)

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../core/signal/signal.hpp"
-#include "../core/effects/effects.hpp"
-#include "../core/scheduler/scheduler.hpp"
 #include "./entry/entry.hpp"
+#include "./global/global.hpp"
+#include "./event/event.hpp"
 #include "./input/input.hpp"
 #include "./window/window.hpp"
 #include "./widget/widget.hpp"
+#include "./swap/swap.hpp"
 
 /**
  * Represents global state manager.
@@ -14,39 +14,18 @@
 class State {
 public:
     /**
-     * Sets signal instance.
+     * Retrieves global state instance.
      *
-     * @param value - signal instance to be set .
+     * @return retrieved global state instance.
      */
-    static void setSignal(Signal* value);
+    static GlobalState* getGlobalState();
 
     /**
-     * Retrieves effects instance.
+     * Retrieves event state instance.
      *
-     * @return retrieved effects instance.
+     * @return retrieved event state instance.
      */
-    static Effects* getEffects();
-
-    /**
-     * Sets effects instance.
-     *
-     * @param value - effects instance to be set .
-     */
-    static void setEffects(Effects* value);
-
-    /**
-     * Retrieves scheduler instance.
-     *
-     * @return retrieved scheduler instance.
-     */
-    static Scheduler* getScheduler();
-
-    /**
-     * Sets scheduler instance.
-     *
-     * @param value - scheduler instance to be set .
-     */
-    static void setScheduler(Scheduler* value);
+    static EventState* getEventState();
 
     /**
      * Retrieves input state instance.
@@ -75,21 +54,23 @@ public:
      * @return retrieved widget state instance.
      */
     static WidgetState* getWidgetState();
+
+    /**
+    * Retrieves swap state instance.
+    *
+    * @return retrieved swap state instance.
+    */
+    static SwapState* getSwapState();
 private:
     /**
-     * Represents instance of signal.
-     */
-    static Signal* signal;
+     * Represents global state instance.
+    */
+    static GlobalState* globalState;
 
     /**
-     * Represents instance of effects.
-     */
-    static Effects* effects;
-
-    /**
-     * Represents instance of scheduler.
-     */
-    static Scheduler* scheduler;
+     * Represents event state instance.
+    */
+    static EventState* eventState;
 
     /**
      * Represents input state instance.
@@ -110,4 +91,9 @@ private:
      * Represents widget state instance.
      */
     static WidgetState* widgetState;
+
+    /**
+     * Represents swap state instance.
+     */
+    static SwapState* swapState;
 };

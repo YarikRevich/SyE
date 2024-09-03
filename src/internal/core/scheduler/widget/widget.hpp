@@ -17,6 +17,11 @@ public:
     WidgetOperation();
 
     /**
+     * @see SchedulerOperationWithSignal
+     */
+    int getPriority() override;
+
+    /**
     * @see SchedulerOperationWithSignal
     */
     int handleExec() override;

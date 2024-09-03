@@ -8,6 +8,13 @@
 class SchedulerOperation {
 public:
     /**
+     * Returns óperation priority.
+     *
+     * @return retrieved operation priority.
+     */
+    virtual int getPriority() = 0;
+
+    /**
      * Handles operation execution.
      *
      * @return result of the operation execution.

@@ -1,17 +1,17 @@
 #pragma once
 
 #include "../common/common.hpp"
-#include "../../signal/common/common.hpp"
 #include "../../../state/state.hpp"
-#include "./constants/constants.hpp"
+#include "../../../state/event/event.hpp"
+#include "../../signal/common/common.hpp"
+#include "../../../tools/window/window.hpp"
 
 #include "ncurses.h"
-#include <cwchar>
 
 /**
- * Represents screen rendering operation to be used by scheduler.
+ * Represents event processing operation to be used by scheduler.
 */
-class InputOperation : public SchedulerOperationWithSignal {
+class EventOperation : public SchedulerOperationWithSignal {
 public:
     /**
      * @see SchedulerOperationWithSignal
