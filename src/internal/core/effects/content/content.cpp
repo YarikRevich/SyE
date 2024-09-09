@@ -8,19 +8,12 @@ int ContentEffect::handleExec() {
         std::wstring data((std::istreambuf_iterator<wchar_t>(stream)),
                          std::istreambuf_iterator<wchar_t>());
 
-
+        for (wchar_t value : data)
+        {
+            State::getInputState()->getGeneralSymbolsBuffer()->push_back(
+                    new InputState::Symbol(value));
+        }
     }
-
-//    State::getEntryState()->getInputFile();
-
-//    std::string path = IOHelper::getAbsolutePath(
-//            fs::path(State::getEntryState()->getConfigRoot()) / fs::path(CONFIG_FILE_PATH) / fs::path(CONFIG_FILE_NAME));
-//
-//    if (!IOHelper::getFileExists(path)){
-//        Logger::setError(CONFIG_FILE_NOT_FOUND_EXCEPTION);
-//
-//        return EXIT_FAILURE;
-//    }
 
     return EXIT_SUCCESS;
 }

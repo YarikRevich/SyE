@@ -1,11 +1,12 @@
 #include "./swap.hpp"
 
 int SwapEffect::handleExec() {
-    std::string path = IOHelper::getAbsolutePath(fs::path(State::getEntryState()->getConfigRoot()) / fs::path(THEME_CONFIG_PATH));
+    std::string path = IOHelper::getAbsolutePath(
+            fs::path(State::getEntryState()->getConfigRoot()) / fs::path(THEME_CONFIG_PATH));
 
     if (IOHelper::getFileExists(path)) {
         std::ifstream ifs("mysuperfile.txt");
-        std::string data(std::istreambuf_iterator<char>(ifs),
+        std::string data((std::istreambuf_iterator<char>(ifs)),
                          std::istreambuf_iterator<char>());
     }
 //    if (!boost::filesystem::is_directory(path)){

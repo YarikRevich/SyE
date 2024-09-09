@@ -22,6 +22,8 @@ int EventOperation::handleExec() {
                 if (windowSize != NULL) {
                     // calling this macro lots of times with a short delay can cause segmentation fault.
                     resize_term(windowSize->getY(), windowSize->getX());
+
+                    State::getWindowState()->setCurrentWindowSize(windowSize);
                 }
 
                 break;

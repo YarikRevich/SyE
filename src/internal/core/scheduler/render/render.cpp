@@ -5,6 +5,16 @@ int RenderOperation::getPriority() {
 };
 
 int RenderOperation::handleExec() {
+    auto window = State::getWindowState()->getWindow();
+
+    auto generalSymbolsBuffer = State::getInputState()->getGeneralSymbolsBuffer();
+
+    for (int i = 0; i < generalSymbolsBuffer->size(); i++) {
+//        wprintw(window, "%lc", generalSymbolsBuffer->at(i)->getValue());
+    }
+
+    wrefresh(window);
+
 ////    wprintw(this->window, "first");
 ////
 ////    box(this->window, '*', '*');

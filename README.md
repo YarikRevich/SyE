@@ -24,4 +24,6 @@ make build
 
 After the execution of command given above the executable will be generated and placed into **bin** folder in the root directory of the project.
 
+> It's recommended to use **xterm-256color** for correct colors processing(related to **X Window System**) 
+
 ## Use cases

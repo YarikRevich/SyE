@@ -6,78 +6,48 @@ int InputOperation::getPriority() {
 
 int InputOperation::handleExec() {
     auto window = State::getWindowState()->getWindow();
-
-//    wchar_t* symbol = Window::getSymbolAsChar(window);
-
-//    wchar_t* ch = (wchar_t*)unctrl(wgetch(window));
-//
-//    waddch(window, *ch);
-//
-//    wrefresh(window);
-//
-
-//    const char *printable = unctrl(wgetch(window));  // Get printable version
-//
-//    // Print each character of the string using waddch
-//    for (int i = 0; printable[i] != '\0'; i++) {
-//        waddch(window, printable[i]);
-//    }
-//
-//
-
-
-
-
-
-
+    auto currentMode = State::getInputState()->getCurrentMode();
 
     wint_t symbol;
 
     wget_wch(window, &symbol);
 
-    if(std::find(
+    if (std::find(
             FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
-        mvwprintw(window, 10, 10, "%lc", symbol);
+        switch (currentMode) {
+            case InputState::Mode::VIEW:
+                if (symbol == COMMAND_KEY) {
+                    State::getInputState()->setCurrentMode(InputState::Mode::COMMAND);
+                }
 
-        wrefresh(window);
+                break;
+            case InputState::Mode::INSERT:
+                WindowState::Point* currentWindowSize;
+                InputState::Position* currentCursorPosition;
+
+                switch (symbol) {
+                    case MOVE_UP_KEY:
+                        currentWindowSize = State::getWindowState()->getCurrentWindowSize();
+                        currentCursorPosition = State::getInputState()->getCurrentCursorPosition();
+
+                        State::getInputState()->setCurrentCursorPosition()
+
+                        break;
+                    case MOVE_DOWN_KEY:
+                        break;
+                    case MOVE_LEFT_KEY:
+                        break;
+                    case MOVE_RIGHT_KEY:
+                        break;
+                }
+
+                break;
+            case InputState::Mode::COMMAND:
+                currentWindowSize = State::getWindowState()->getCurrentWindowSize();
+
+                break;
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        switch (ch) {
-//            case KEY_UP:
-//                printw("Up arrow pressed\n");
-//                break;
-//            case KEY_DOWN:
-//                printw("Down arrow pressed\n");
-//                break;
-//            default:
-//                printw("Key code: %d, Character: %c\n", ch, ch);
-//                break;
-//        }
-
-
-//    std::cout << ch << std::endl;
-
-//    counter += 2;
-
-//    mvwaddwstr(window, 10, 10, (const wchar_t *)ch);
-
-//    mvwaddw(window, symbol);
-
-//    wprintw(State::getWindow(), std::to_string(ch).c_str());
 
     return EXIT_SUCCESS;
 }

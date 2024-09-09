@@ -33,6 +33,13 @@ public:
     class Symbol {
     public:
         /**
+         * Sets provided symbol value.
+         *
+         * @param value - given symbol value.
+         */
+        Symbol(wint_t value);
+
+        /**
          * Retrieves raw symbol value.
          *
          * @return retrieved raw symbol value.
@@ -123,11 +130,18 @@ public:
      * @param value - current editor mode.
      */
     void setCurrentMode(Mode value);
+
+    /**
+     * Retrieves general symbols buffer.
+     *
+     * @return retrieved general symbols buffer.
+     */
+    std::vector<Symbol*>* getGeneralSymbolsBuffer();
 private:
     /**
-     * Represents all the
+     * Represents general symbols buffer.
      */
-    std::vector<Symbol*> symbols;
+    std::vector<Symbol*> generalSymbolsBuffer;
 
     /**
      * Represents current cursor position.
@@ -137,7 +151,7 @@ private:
     /**
      * Represents current editor mode.
      */
-    Mode currentMode;
+    Mode currentMode = Mode::VIEW;
 };
 
 // TODO: create position to symbol map for all the recorded symbols.

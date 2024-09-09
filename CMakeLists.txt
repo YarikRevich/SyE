@@ -74,17 +74,23 @@ add_compile_definitions(BACKGROUND_COLOR=1)
 add_compile_definitions(FONT_COLOR=2)
 add_compile_definitions(SELECTED_THEME=1)
 
-# Describes definitions of different scheduler types
+# Describes definitions of different scheduler types.
 add_compile_definitions(SCHEDULER_PRIORITY_1=5)
 add_compile_definitions(SCHEDULER_PRIORITY_2=20)
-add_compile_definitions(SCHEDULER_PRIORITY_3=500)
-add_compile_definitions(SCHEDULER_PRIORITY_4=1000)
+add_compile_definitions(SCHEDULER_PRIORITY_3=1000)
+add_compile_definitions(SCHEDULER_PRIORITY_4=1500)
 
-# Describes definitions of keymaps
+# Describes definitions of keymaps.
 add_compile_definitions(BACKSPACE_KEY=127)
+add_compile_definitions(COMMAND_KEY=58)
+add_compile_definitions(MOVE_UP_KEY=72)
+add_compile_definitions(MOVE_DOWN_KEY=80)
+add_compile_definitions(MOVE_LEFT_KEY=75)
+add_compile_definitions(MOVE_RIGHT_KEY=77)
 
-# enable_testing()
-# add_subdirectory(tests)
+# Describes application tests configuration.
+enable_testing()
+add_subdirectory(tests)
 
 include_directories(
 	"include/"

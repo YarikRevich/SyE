@@ -1,8 +1,6 @@
 #include "./window.hpp"
 
-Window::Point::Point(int x, int y) {
-    this->x = x;
-    this->y = y;
+Window::Point::Point(int x, int y) : x{x}, y{y} {
 }
 
 int Window::Point::getX() {

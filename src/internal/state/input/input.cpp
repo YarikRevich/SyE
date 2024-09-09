@@ -1,5 +1,8 @@
 #include "./input.hpp"
 
+InputState::Symbol::Symbol(wint_t value) : value{value} {
+}
+
 wint_t InputState::Symbol::getValue() {
     return this->value;
 }
@@ -38,4 +41,8 @@ InputState::Mode InputState::getCurrentMode() {
 
 void InputState::setCurrentMode(InputState::Mode value) {
     this->currentMode = value;
+}
+
+std::vector<InputState::Symbol*>* InputState::getGeneralSymbolsBuffer() {
+    return &this->generalSymbolsBuffer;
 }
