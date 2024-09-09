@@ -3,6 +3,7 @@
 #include "../common/common.hpp"
 #include "../../../state/state.hpp"
 #include "../../../io/helper/helper.hpp"
+#include "../../../tools/window/window.hpp"
 
 /**
  * Represents effect responsible for file content initialization.

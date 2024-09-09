@@ -12,7 +12,8 @@ public:
      */
     enum Type {
         /**
-         * Represents resize event type, pushed by system signal.
+         * Represents resize event type, pushed by system signal. Resize signal is also thrown during application
+         * startup.
          */
         RESIZE,
     };

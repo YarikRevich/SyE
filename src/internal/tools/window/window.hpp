@@ -16,5 +16,13 @@ public:
      *
      * @return retrieved current terminal window size.
     */
-    static WindowState::Point* getCurrentWindowSize();
+    static Point* getCurrentWindowSize();
+
+    /**
+     * Calculates window max symbol amount.
+     *
+     * @param value - current window size.
+     * @return calculated window max symbol amount.
+     */
+    static int getWindowMaxSymbolAmount(Point* value);
 };

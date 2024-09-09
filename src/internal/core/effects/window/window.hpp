@@ -2,6 +2,7 @@
 
 #include "../common/common.hpp"
 #include "../../../state/state.hpp"
+#include "../../../tools/window/window.hpp"
 #include "../../../io/theme/helper/helper.hpp"
 
 #include "ncurses.h"

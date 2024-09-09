@@ -1,22 +1,15 @@
 #include "./window.hpp"
 
-Window::Point::Point(int x, int y) : x{x}, y{y} {
-}
-
-int Window::Point::getX() {
-    return this->x;
-}
-
-int Window::Point::getY() {
-    return this->y;
-}
-
-Window::Point* Window::getCurrentWindowSize() {
+Point* Window::getCurrentWindowSize() {
     struct winsize size;
 
     if (ioctl(0, TIOCGWINSZ, (char *) &size) < 0) {
         return NULL;
     }
 
-    return new Window::Point(size.ws_col, size.ws_row);
+    return new Point(size.ws_col, size.ws_row);
+}
+
+int Window::getWindowMaxSymbolAmount(Point *value) {
+    return value->getY() * value->getX();
 }

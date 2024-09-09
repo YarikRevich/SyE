@@ -1,4 +1,4 @@
-#include "./constants.hpp"
+#include "./common.hpp"
 
 std::vector<int> FORBIDDEN_SYMBOLS = { 0, 410 };
 

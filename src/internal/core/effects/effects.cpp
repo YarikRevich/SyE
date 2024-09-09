@@ -8,8 +8,8 @@
 Effects::Effects() {
     callbacks.push_back(new InputEffect());
     callbacks.push_back(new LoaderEffect());
-    callbacks.push_back(new ContentEffect());
     callbacks.push_back(new WindowEffect());
+    callbacks.push_back(new ContentEffect());
     callbacks.push_back(new SwapEffect());
 }
 

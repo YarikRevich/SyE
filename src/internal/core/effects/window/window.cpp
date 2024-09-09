@@ -41,7 +41,7 @@ int WindowEffect::handleExec() {
         }
     }
 
-    // TODO: fill all the background with some sort of color.
+    State::getWindowState()->setCurrentWindowSize(Window::getCurrentWindowSize());
 
     return EXIT_SUCCESS;
 }

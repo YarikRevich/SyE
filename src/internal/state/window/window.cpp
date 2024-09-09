@@ -8,10 +8,10 @@ void WindowState::setWindow(WINDOW *value) {
     this->window = value;
 }
 
-WindowState::Point *WindowState::getCurrentWindowSize() {
+Point *WindowState::getCurrentWindowSize() {
     return this->currentWindowSize;
 }
 
-void WindowState::setCurrentWindowSize(WindowState::Point *value) {
+void WindowState::setCurrentWindowSize(Point *value) {
     this->currentWindowSize = value;
 }

@@ -11,28 +11,20 @@ void InputState::Symbol::setValue(wint_t value) {
     this->value = value;
 }
 
-int InputState::Position::getX() {
-    return this->x;
+int InputState::getCurrentCursorShift() {
+    return this->currentCursorShift;
 }
 
-void InputState::Position::setX(int value) {
-    this->x = value;
+void InputState::setCurrentCursorShift(int value) {
+    this->currentCursorShift = value;
 }
 
-int InputState::Position::getY() {
-    return this->y;
+Point *InputState::getCurrentCursorPosition() {
+    return this->currentCursorPosition;
 }
 
-void InputState::Position::setY(int value) {
-    this->y = value;
-}
-
-InputState::Position *InputState::getCurrentCursorPosition() {
-    return this->currentPosition;
-}
-
-void InputState::setCurrentCursorPosition(InputState::Position *value) {
-    this->currentPosition = value;
+void InputState::setCurrentCursorPosition(Point *value) {
+    this->currentCursorPosition = value;
 }
 
 InputState::Mode InputState::getCurrentMode() {
@@ -45,4 +37,8 @@ void InputState::setCurrentMode(InputState::Mode value) {
 
 std::vector<InputState::Symbol*>* InputState::getGeneralSymbolsBuffer() {
     return &this->generalSymbolsBuffer;
+}
+
+std::vector<InputState::Symbol*>* InputState::getCommandSymbolsBuffer() {
+    return &this->commandSymbolsBuffer;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../common/common.hpp"
+
 #include <vector>
 
 /**
@@ -37,7 +39,7 @@ public:
          *
          * @param value - given symbol value.
          */
-        Symbol(wint_t value);
+        explicit Symbol(wint_t value);
 
         /**
          * Retrieves raw symbol value.
@@ -60,62 +62,32 @@ public:
     };
 
     /**
-     * Represents mutable position.
+     * Retrieves current cursor shift.
+     *
+     * @return retrieved current cursor shift.
      */
-    class Position {
-    public:
-        /**
-         * Retrieves current column position.
-         *
-         * @return retrieved current column position.
-         */
-        int getX();
+    int getCurrentCursorShift();
 
-        /**
-         * Sets current column position.
-         *
-         * @param value - current column position.
-         */
-        void setX(int value);
-
-        /**
-         * Retrieves current line position.
-         *
-         * @return retrieved current line position.
-         */
-        int getY();
-
-        /**
-         * Sets current line position.
-         *
-         * @param value - current line position.
-         */
-        void setY(int value);
-    private:
-        /**
-         * Represents current column position.
-         */
-        int x;
-
-        /**
-         * Represents current line position.
-         */
-        int y;
-    };
+    /**
+     * Sets current cursor shift.
+     *
+     * @param value - current cursor shift.
+     */
+    void setCurrentCursorShift(int value);
 
     /**
      * Retrieves current cursor position.
      *
      * @return retrieved current cursor position.
      */
-    Position* getCurrentCursorPosition();
+    Point* getCurrentCursorPosition();
 
     /**
      * Sets current cursor position.
      *
      * @param value - current cursor position.
      */
-    void setCurrentCursorPosition(Position* value);
+    void setCurrentCursorPosition(Point* value);
 
     /**
      * Retrieves current editor mode.
@@ -137,6 +109,13 @@ public:
      * @return retrieved general symbols buffer.
      */
     std::vector<Symbol*>* getGeneralSymbolsBuffer();
+
+    /**
+     * Retrieves command symbols buffer.
+     *
+     * @return retrieved command symbols buffer.
+     */
+    std::vector<Symbol*>* getCommandSymbolsBuffer();
 private:
     /**
      * Represents general symbols buffer.
@@ -144,9 +123,19 @@ private:
     std::vector<Symbol*> generalSymbolsBuffer;
 
     /**
+     * Represents command symbols buffer.
+     */
+    std::vector<Symbol*> commandSymbolsBuffer;
+
+    /**
      * Represents current cursor position.
      */
-    Position* currentPosition;
+    Point* currentCursorPosition;
+
+    /**
+     * Represents current cursor shift.
+     */
+    int currentCursorShift;
 
     /**
      * Represents current editor mode.

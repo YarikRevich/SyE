@@ -103,6 +103,7 @@ link_directories(
 add_executable(
 	sye 
 	src/cmd/main.cpp
+	src/internal/state/common/common.cpp
 	src/internal/state/global/global.cpp
 	src/internal/state/entry/entry.cpp
 	src/internal/state/event/event.cpp
@@ -123,9 +124,10 @@ add_executable(
 	src/internal/core/effects/content/content.cpp
 	src/internal/core/effects/loader/loader.cpp
     src/internal/core/scheduler/input/input.cpp
-	src/internal/core/scheduler/input/constants/constants.cpp
+	src/internal/core/scheduler/input/common/common.cpp
 	src/internal/io/helper/helper.cpp
 	src/internal/core/scheduler/scheduler.cpp
+	src/internal/core/scheduler/cleaner/cleaner.cpp
     src/internal/core/scheduler/render/render.cpp
 	src/internal/core/scheduler/event/event.cpp
 	src/internal/core/scheduler/swap/swap.cpp

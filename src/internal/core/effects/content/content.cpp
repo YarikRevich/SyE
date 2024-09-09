@@ -13,6 +13,19 @@ int ContentEffect::handleExec() {
             State::getInputState()->getGeneralSymbolsBuffer()->push_back(
                     new InputState::Symbol(value));
         }
+
+        auto currentWindowSize = State::getWindowState()->getCurrentWindowSize();
+
+        auto windowMaxSymbolAmount = Window::getWindowMaxSymbolAmount(currentWindowSize);
+
+        auto currentCursorShift =
+                (int)State::getInputState()->getGeneralSymbolsBuffer()->size() / windowMaxSymbolAmount;
+
+        if (currentCursorShift == 0) {
+            currentCursorShift = 1;
+        }
+
+        State::getInputState()->setCurrentCursorShift(currentCursorShift);
     }
 
     return EXIT_SUCCESS;

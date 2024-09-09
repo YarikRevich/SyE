@@ -14,23 +14,31 @@ int InputOperation::handleExec() {
 
     if (std::find(
             FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
+        Point* currentWindowSize;
+
         switch (currentMode) {
             case InputState::Mode::VIEW:
+                currentWindowSize = State::getWindowState()->getCurrentWindowSize();
+
+                wprintw(window, "x - %d; y - %d %d\n", currentWindowSize->getX(), currentWindowSize->getY(), State::getInputState()->getCurrentCursorShift());
+
+                wrefresh(window);
+
                 if (symbol == COMMAND_KEY) {
                     State::getInputState()->setCurrentMode(InputState::Mode::COMMAND);
                 }
 
                 break;
             case InputState::Mode::INSERT:
-                WindowState::Point* currentWindowSize;
-                InputState::Position* currentCursorPosition;
+//                Point* currentWindowSize;
+                Point* currentCursorPosition;
 
                 switch (symbol) {
                     case MOVE_UP_KEY:
                         currentWindowSize = State::getWindowState()->getCurrentWindowSize();
                         currentCursorPosition = State::getInputState()->getCurrentCursorPosition();
 
-                        State::getInputState()->setCurrentCursorPosition()
+//                        State::getInputState()->setCurrentCursorPosition()
 
                         break;
                     case MOVE_DOWN_KEY:
