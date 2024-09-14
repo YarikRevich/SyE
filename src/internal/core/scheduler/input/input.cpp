@@ -1,5 +1,17 @@
 #include "./input.hpp"
 
+#include "./mode/command/command.hpp"
+#include "./mode/insert/insert.hpp"
+#include "./mode/view/view.hpp"
+
+std::vector<InputMode*> InputOperation::modes;
+
+InputOperation::InputOperation() {
+    modes.push_back(new InputCommand());
+    modes.push_back(new InputInsert());
+    modes.push_back(new InputView());
+};
+
 int InputOperation::getPriority() {
     return SCHEDULER_PRIORITY_2;
 };
@@ -14,46 +26,14 @@ int InputOperation::handleExec() {
 
     if (std::find(
             FORBIDDEN_SYMBOLS.begin(), FORBIDDEN_SYMBOLS.end(), symbol) == FORBIDDEN_SYMBOLS.end()) {
-        Point* currentWindowSize;
+        State::getInputState()->setLatestSymbol(new InputState::Symbol(symbol));
 
-        switch (currentMode) {
-            case InputState::Mode::VIEW:
-                currentWindowSize = State::getWindowState()->getCurrentWindowSize();
-
-                wprintw(window, "x - %d; y - %d %d\n", currentWindowSize->getX(), currentWindowSize->getY(), State::getInputState()->getCurrentCursorShift());
-
-                wrefresh(window);
-
-                if (symbol == COMMAND_KEY) {
-                    State::getInputState()->setCurrentMode(InputState::Mode::COMMAND);
-                }
-
-                break;
-            case InputState::Mode::INSERT:
-//                Point* currentWindowSize;
-                Point* currentCursorPosition;
-
-                switch (symbol) {
-                    case MOVE_UP_KEY:
-                        currentWindowSize = State::getWindowState()->getCurrentWindowSize();
-                        currentCursorPosition = State::getInputState()->getCurrentCursorPosition();
-
-//                        State::getInputState()->setCurrentCursorPosition()
-
-                        break;
-                    case MOVE_DOWN_KEY:
-                        break;
-                    case MOVE_LEFT_KEY:
-                        break;
-                    case MOVE_RIGHT_KEY:
-                        break;
-                }
-
-                break;
-            case InputState::Mode::COMMAND:
-                currentWindowSize = State::getWindowState()->getCurrentWindowSize();
-
-                break;
+        for (auto mode : modes) {
+            if (mode->getType() == currentMode) {
+                if (mode->handleExec() != EXIT_SUCCESS) {
+                    return EXIT_FAILURE;
+                };
+            }
         }
     }
 

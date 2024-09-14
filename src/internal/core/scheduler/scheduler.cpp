@@ -1,9 +1,10 @@
 #include "./scheduler.hpp"
-#include "./event/event.hpp"
-#include "./render/render.hpp"
-#include "./input/input.hpp"
-#include "./widget/widget.hpp"
 #include "./swap/swap.hpp"
+#include "./event/event.hpp"
+#include "./input/input.hpp"
+#include "./render/render.hpp"
+#include "./widget/widget.hpp"
+#include "./cleaner/cleaner.hpp"
 
 std::vector<SchedulerOperationWithSignal*> Scheduler::callbacks;
 
@@ -15,6 +16,7 @@ Scheduler::Scheduler() {
     callbacks.push_back(new RenderOperation());
     callbacks.push_back(new WidgetOperation());
     callbacks.push_back(new SwapOperation());
+    callbacks.push_back(new CleanerOperation());
 }
 
 int Scheduler::process() {

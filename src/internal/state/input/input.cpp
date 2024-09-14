@@ -11,6 +11,14 @@ void InputState::Symbol::setValue(wint_t value) {
     this->value = value;
 }
 
+InputState::Symbol* InputState::getLatestSymbol() {
+    return this->latestSymbol;
+}
+
+void InputState::setLatestSymbol(InputState::Symbol* value) {
+    this->latestSymbol = value;
+}
+
 int InputState::getCurrentCursorShift() {
     return this->currentCursorShift;
 }

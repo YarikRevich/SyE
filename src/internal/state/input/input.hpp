@@ -62,6 +62,29 @@ public:
     };
 
     /**
+     * Represents input buffer implementation.
+     */
+    class Buffer {
+    public:
+
+    private:
+    };
+
+    /**
+     * Retrieves latest provided symbol.
+     *
+     * @return retrieved latest provided symbol.
+     */
+    Symbol* getLatestSymbol();
+
+    /**
+     * Sets latest provided symbol.
+     *
+     * @param value - latest provided symbol.
+     */
+    void setLatestSymbol(Symbol* value);
+
+    /**
      * Retrieves current cursor shift.
      *
      * @return retrieved current cursor shift.
@@ -117,6 +140,11 @@ public:
      */
     std::vector<Symbol*>* getCommandSymbolsBuffer();
 private:
+    /**
+     * Represents latest provided symbol.
+     */
+    Symbol* latestSymbol;
+
     /**
      * Represents general symbols buffer.
      */

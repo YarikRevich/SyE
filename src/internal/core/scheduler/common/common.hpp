@@ -8,7 +8,7 @@
 class SchedulerOperation {
 public:
     /**
-     * Returns óperation priority.
+     * Returns operation priority.
      *
      * @return retrieved operation priority.
      */

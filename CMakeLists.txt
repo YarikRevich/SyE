@@ -79,14 +79,21 @@ add_compile_definitions(SCHEDULER_PRIORITY_1=5)
 add_compile_definitions(SCHEDULER_PRIORITY_2=20)
 add_compile_definitions(SCHEDULER_PRIORITY_3=1000)
 add_compile_definitions(SCHEDULER_PRIORITY_4=1500)
+add_compile_definitions(SCHEDULER_PRIORITY_5=5000)
 
 # Describes definitions of keymaps.
+add_compile_definitions(ENTER_KEY=10)
 add_compile_definitions(BACKSPACE_KEY=127)
 add_compile_definitions(COMMAND_KEY=58)
 add_compile_definitions(MOVE_UP_KEY=72)
 add_compile_definitions(MOVE_DOWN_KEY=80)
 add_compile_definitions(MOVE_LEFT_KEY=75)
 add_compile_definitions(MOVE_RIGHT_KEY=77)
+
+# Describes definitions of available commands.
+add_compile_definitions(UNDO_COMMAND=117)
+add_compile_definitions(SEARCH_COMMAND=115)
+add_compile_definitions(INSERT_COMMAND=105)
 
 # Describes application tests configuration.
 enable_testing()
@@ -123,9 +130,12 @@ add_executable(
 	src/internal/core/effects/input/input.cpp
 	src/internal/core/effects/content/content.cpp
 	src/internal/core/effects/loader/loader.cpp
+	src/internal/io/helper/helper.cpp
     src/internal/core/scheduler/input/input.cpp
 	src/internal/core/scheduler/input/common/common.cpp
-	src/internal/io/helper/helper.cpp
+	src/internal/core/scheduler/input/mode/command/command.cpp
+	src/internal/core/scheduler/input/mode/insert/insert.cpp
+	src/internal/core/scheduler/input/mode/view/view.cpp
 	src/internal/core/scheduler/scheduler.cpp
 	src/internal/core/scheduler/cleaner/cleaner.cpp
     src/internal/core/scheduler/render/render.cpp

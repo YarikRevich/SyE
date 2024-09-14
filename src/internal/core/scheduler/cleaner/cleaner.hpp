@@ -2,6 +2,8 @@
 
 #include "../common/common.hpp"
 
+#include <cstdlib>
+
 /**
  * Represents buffer cleaning operation to be used by scheduler.
 */
